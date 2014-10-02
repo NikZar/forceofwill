@@ -1,0 +1,73 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../elements/fow-open-sans/open-sans.html">
+
+<polymer-element name="fow-app" attributes="toast">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 100%;
+        font-family: Open Sans;
+      }
+
+      .loginButton{
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 2.0em;
+      }
+
+      .header{
+        width: 320px;
+      }
+
+      .splashtext{
+        font-size: 3.0em;
+        font-weight: lighter;
+      }
+
+    </style>
+
+    <paper-toast 
+      id="toast" 
+      text="There was a problem loading data.">
+    </paper-toast>
+
+    <fow-login user="{{user}}"
+      class="loginButton"
+      toast="{{$.toast}}">
+    </fow-login>
+    
+    <div 
+      layout vertical center>
+      <img 
+        class="header" 
+        src="../../images/fow.svg">
+      </img>
+      <div class="splashtext">
+        {{text}}
+      </div>
+    </div>
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer("fow-app",{
+        // define element prototype here
+        text: "Please log in with facebook",
+
+        userChanged: function(){
+          if(this.user){
+            this.text = "Thank you for loggin in "+this.user;
+          }
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>
