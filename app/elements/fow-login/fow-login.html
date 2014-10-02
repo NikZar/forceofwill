@@ -1,0 +1,30 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/facebook-login/facebook-login.html">
+
+<polymer-element name="fow-login" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <facebook-login on-facebook-signin-success="{{loginSuccess}}" appID="568442163257885">
+    </facebook-login>
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer("fow-login",{
+        // define element prototype here
+        loginSuccess: function(event){
+          console.log("success");
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>
