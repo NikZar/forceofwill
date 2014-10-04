@@ -19,73 +19,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <script src="../bower_components/polymer/polymer.js"></script>
 <!--<link rel="import" href="../polymer-dev/polymer.html">--> 
-
-<polymer-element name="yo-list" attributes="" assetpath="yo-list/">
-  <template>
-    <style>:host{display:block}</style>
-    <ul>
-      <template id="greeting" repeat="{{ item in items }}">
-        <li>{{ item }}</li>
-      </template>
-    </ul>
-  </template>
-  <script>(function(){"use strict";Polymer("yo-list",{ready:function(){this.items=["HTML5 Boilerplate","Web Component Polyfills","Core Elements","Paper Elements","Polymer"]}})})();</script>
-</polymer-element>
-</div><div hidden>
-
-<polymer-element name="yo-greeting" attributes="" assetpath="yo-greeting/">
-  <template>
-    <style>:host{display:block}</style>
-    <h1>{{ greeting }}, {{ greeting }}!</h1>
-    <span>Update text to change the greeting.</span>
-    <input type="text" value="{{ greeting }}">
-  </template>
-  <script>(function(){"use strict";Polymer("yo-greeting",{greeting:"'Allo"})})();</script>
-</polymer-element>
-</div><div hidden>
-
-
-<!--
-Element for including the Facebook Login button into your site.
-After including the button the FB object is at a global scope and
-can be used for API calls.
-
-##### Example
-
-    <facebook-login appID="123456789"></facebook-login>
-
-@element facebook-login
-@blurb Element that includes the Facebook Login button into your site and enables Graph API calls.
-@status alpha
-@homepage http://davidwittenbrink.github.io/facebook-login
--->
-<polymer-element name="facebook-login" attributes="appID cookie version scopes buttonText graphURL graphResponse autoAPICall graphParams" assetpath="../bower_components/facebook-login/">
-
-  <template>
-    <style>:host{display:inline-block}</style>
-    <div id="fb-login-container">
-        <fb:login-button scope="{{FB_APP_SCOPES}}" onlogin="FB.customCheckLoginState();" data-auto-logout-link="true">
-        {{ buttonText }}
-        </fb:login-button>
-    </div>
-  </template>
-
-  <script>(function(){function statusChangeCallback(response){if(response.status==="connected"){handler.fire("facebook-signin-success",{response:response})}else if(response.status==="not_authorized"){handler.fire("facebook-signin-not-authorized",{response:response})}else{console.log("User not logged into Facebook")}}var FB_APP_ID="";var FB_APP_COOKIE="";var FB_APP_VERSION="";var FB_APP_XFBML;var handler;Polymer("facebook-login",{appID:"",cookie:true,version:"v2.0",scopes:"public_profile",buttonText:"",graphURL:"",graphResponse:null,graphParams:{},graphMethod:"get",autoAPICall:false,go:function(params,method){if(!this.graphURL)console.error("No URL specified. Specify the graph API URL using the graphURL attribute.");FB.api(this.graphURL,this.graphMethod,this.graphParams,function(response){this.graphResponse=response;handler.fire("graph-api-response",{response:response})})},ready:function(){if(!this.appID){console.error("Missing attribute appID for Facebook Login Button");return}handler=this;FB_APP_ID=this.appID;FB_APP_COOKIE=this.cookie;FB_APP_XFBML=this.xfbml;FB_APP_VERSION=this.version;handler.FB_APP_SCOPES=this.scopes.split(" ").join(",");var container=this.$["fb-login-container"];window.fbAsyncInit=function(){FB.init({appId:FB_APP_ID,cookie:FB_APP_COOKIE,xfbml:FB_APP_XFBML,version:FB_APP_VERSION});FB.getLoginStatus(function(response){statusChangeCallback(response)});FB.XFBML.parse(container);FB.customCheckLoginState=function(){FB.getLoginStatus(function(response){statusChangeCallback(response)})}};if(typeof FB=="undefined"){(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="//connect.facebook.net/en_US/sdk.js";fjs.parentNode.insertBefore(js,fjs)})(document,"script","facebook-jssdk")}},graphURLChanged:function(){if(this.autoAPICall)this.go()},graphParamsChanged:function(){if(this.autoAPICall)this.go()}})})();</script>
-
-</polymer-element>
-
-
-<polymer-element name="fow-login" attributes="toast user userPhoto" assetpath="fow-login/">
-  <template>
-    <style>:host{display:block}</style>
-
-    <facebook-login id="facebook" graphurl="me" autoapicall="false" on-graph-api-response="{{apiHandler}}" on-facebook-signin-success="{{loginSuccess}}" on-facebook-signin-not-authorized="{{loginFail}}" appid="568442163257885">
-    </facebook-login>
-
-  </template>
-  <script>(function(){"use strict";Polymer("fow-login",{user:null,userPhoto:null,loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
-</polymer-element>
-</div><div hidden>
 <!--
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -740,6 +673,103 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css">
 
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+@group Polymer Core Elements
+
+The `core-ajax` element exposes `XMLHttpRequest` functionality.
+
+    <core-ajax
+        auto
+        url="http://gdata.youtube.com/feeds/api/videos/"
+        params='{"alt":"json", "q":"chrome"}'
+        handleAs="json"
+        on-core-response="{{handleResponse}}"></core-ajax>
+
+With `auto` set to `true`, the element performs a request whenever
+its `url` or `params` properties are changed.
+
+Note: The `params` attribute must be double quoted JSON.
+
+You can trigger a request explicitly by calling `go` on the
+element.
+
+@element core-ajax
+@status beta
+@homepage github.io
+-->
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!--
+/**
+ * @group Polymer Core Elements
+ *
+ * core-xhr can be used to perform XMLHttpRequests.
+ *
+ *     <core-xhr id="xhr"></core-xhr>
+ *     ...
+ *     this.$.xhr.request({url: url, params: params, callback: callback});
+ *
+ * @element core-xhr
+ */
+-->
+
+
+
+<polymer-element name="core-xhr" hidden assetpath="../bower_components/core-ajax/">
+
+  <script>Polymer("core-xhr",{request:function(options){var xhr=new XMLHttpRequest;var url=options.url;var method=options.method||"GET";var async=!options.sync;var params=this.toQueryString(options.params);if(params&&method=="GET"){url+=(url.indexOf("?")>0?"&":"?")+params}var xhrParams=this.isBodyMethod(method)?options.body||params:null;xhr.open(method,url,async);if(options.responseType){xhr.responseType=options.responseType}if(options.withCredentials){xhr.withCredentials=true}this.makeReadyStateHandler(xhr,options.callback);this.setRequestHeaders(xhr,options.headers);xhr.send(xhrParams);if(!async){xhr.onreadystatechange(xhr)}return xhr},toQueryString:function(params){var r=[];for(var n in params){var v=params[n];n=encodeURIComponent(n);r.push(v==null?n:n+"="+encodeURIComponent(v))}return r.join("&")},isBodyMethod:function(method){return this.bodyMethods[(method||"").toUpperCase()]},bodyMethods:{POST:1,PUT:1,DELETE:1},makeReadyStateHandler:function(xhr,callback){xhr.onreadystatechange=function(){if(xhr.readyState==4){callback&&callback.call(null,xhr.response,xhr)}}},setRequestHeaders:function(xhr,headers){if(headers){for(var name in headers){xhr.setRequestHeader(name,headers[name])}}}});</script>
+  
+</polymer-element>
+
+<polymer-element name="core-ajax" hidden attributes="url handleAs auto params response error method headers body contentType withCredentials" assetpath="../bower_components/core-ajax/">
+<script>Polymer("core-ajax",{url:"",handleAs:"",auto:false,params:"",response:null,error:null,method:"",headers:null,body:null,contentType:"application/x-www-form-urlencoded",withCredentials:false,xhrArgs:null,ready:function(){this.xhr=document.createElement("core-xhr")},receive:function(response,xhr){if(this.isSuccess(xhr)){this.processResponse(xhr)}else{this.processError(xhr)}this.complete(xhr)},isSuccess:function(xhr){var status=xhr.status||0;return!status||status>=200&&status<300},processResponse:function(xhr){var response=this.evalResponse(xhr);if(xhr===this.activeRequest){this.response=response}this.fire("core-response",{response:response,xhr:xhr})},processError:function(xhr){var response=xhr.status+": "+xhr.responseText;if(xhr===this.activeRequest){this.error=response}this.fire("core-error",{response:response,xhr:xhr})},complete:function(xhr){this.fire("core-complete",{response:xhr.status,xhr:xhr})},evalResponse:function(xhr){return this[(this.handleAs||"text")+"Handler"](xhr)},xmlHandler:function(xhr){return xhr.responseXML},textHandler:function(xhr){return xhr.responseText},jsonHandler:function(xhr){var r=xhr.responseText;try{return JSON.parse(r)}catch(x){console.warn("core-ajax caught an exception trying to parse response as JSON:");console.warn("url:",this.url);console.warn(x);return r}},documentHandler:function(xhr){return xhr.response},blobHandler:function(xhr){return xhr.response},arraybufferHandler:function(xhr){return xhr.response},urlChanged:function(){if(!this.handleAs){var ext=String(this.url).split(".").pop();switch(ext){case"json":this.handleAs="json";break}}this.autoGo()},paramsChanged:function(){this.autoGo()},autoChanged:function(){this.autoGo()},autoGo:function(){if(this.auto){this.goJob=this.job(this.goJob,this.go,0)}},go:function(){var args=this.xhrArgs||{};args.body=this.body||args.body;args.params=this.params||args.params;if(args.params&&typeof args.params=="string"){args.params=JSON.parse(args.params)}args.headers=this.headers||args.headers||{};if(args.headers&&typeof args.headers=="string"){args.headers=JSON.parse(args.headers)}var hasContentType=Object.keys(args.headers).some(function(header){return header.toLowerCase()==="content-type"});if(!hasContentType&&this.contentType){args.headers["Content-Type"]=this.contentType}if(this.handleAs==="arraybuffer"||this.handleAs==="blob"||this.handleAs==="document"){args.responseType=this.handleAs}args.withCredentials=this.withCredentials;args.callback=this.receive.bind(this);args.url=this.url;args.method=this.method;this.response=this.error=null;this.activeRequest=args.url&&this.xhr.request(args);return this.activeRequest}});</script>
+</polymer-element>
+
+
+<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType" assetpath="fow-rest-service/">
+  <template>
+    <style>:host{display:block}</style>
+
+    <core-ajax id="ajax" auto="{{auto}}" on-core-error="{{errorHandler}}" on-core-response="{{elementsLoaded}}" response="{{fditems}}" handleas="json" method="{{method}}" params="{{params}}" body="{{body}}" contenttype="{{contentType}}">
+    </core-ajax>
+
+  </template>
+  <script>(function(){"use strict";Polymer("fow-rest-service",{apiurl:"localhost:9000/",created:function(){this.items=[]},reloadUrl:function(){if(this.ssl!=undefined&&this.apiurl&&this.fdtype){this.$.ajax.url="http://"+this.apiurl+this.type+"/"}}})})();</script>
+</polymer-element>
+
+
+<polymer-element name="fow-card-list" attributes="" assetpath="fow-card-list/">
+  <template>
+    <style>:host{display:block}</style>
+
+    <fow-rest-service type="cards" items="{{cards}}"></fow-rest-service>
+
+    <template repeat="{{card in cards}}">
+      <div>{{JSON.stryngify(card)}}</div>
+    </template>
+
+
+  </template>
+  <script>(function(){"use strict";Polymer("fow-card-list",{})})();</script>
+</polymer-element>
+
+
 <polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
   <template>
     <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:20px;right:25px;font-size:2em}.header{width:320px;position:absolute;top:60px;left:50%;margin-left:-160px}.splashtext{font-size:3em;font-weight:lighter;text-align:center}.roundedImage{border-radius:50%;border:1px solid #fff}</style>
@@ -767,11 +797,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           {{text}}
         </div>
 
-
       <div>
     </div>
+
+    <fow-card-list></fow-card-list>
 
   </div></div></template>
   <script>(function(){"use strict";Polymer("fow-app",{text:"Please log in with facebook",userChanged:function(){if(this.user){this.text="Thank you for loggin in "+this.user.first_name+" "+this.user.last_name}}})})();</script>
 </polymer-element>
-</div><div hidden>undefined</div>
+</div>

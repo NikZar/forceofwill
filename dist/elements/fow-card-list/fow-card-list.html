@@ -1,0 +1,30 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
+
+<polymer-element name="fow-card-list" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <fow-rest-service type="cards" items="{{cards}}"></fow-rest-service>
+
+    <template repeat="{{card in cards}}">
+      <div>{{JSON.stryngify(card)}}</div>
+    </template>
+
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>
