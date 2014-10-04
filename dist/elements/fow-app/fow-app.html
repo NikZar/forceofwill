@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
-<link rel="import" href="../../elements/fow-open-sans/open-sans.html">
+<link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
 
 <polymer-element name="fow-app" attributes="toast">
   <template>
@@ -21,11 +21,21 @@
 
       .header{
         width: 320px;
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        margin-left: -160px;
       }
 
       .splashtext{
         font-size: 3.0em;
         font-weight: lighter;
+        text-align: center;
+      }
+
+      .roundedImage{
+        border-radius: 50%;
+        border: 1px solid #fff;
       }
 
     </style>
@@ -35,20 +45,33 @@
       text="There was a problem loading data.">
     </paper-toast>
 
-    <fow-login user="{{user}}"
+    <fow-login user="{{user}}" userPhoto="{{userPhoto}}"
       class="loginButton"
       toast="{{$.toast}}">
     </fow-login>
+
+    <img 
+      class="header" 
+      src="../../images/fow.svg">
+    </img>
     
-    <div 
-      layout vertical center>
-      <img 
-        class="header" 
-        src="../../images/fow.svg">
-      </img>
-      <div class="splashtext">
-        {{text}}
-      </div>
+    <div layout horizontal center center-justified fit>
+      <div layout vertical center>
+
+        <template if="{{userPhoto}}">
+          
+          <img class="roundedImage"
+          src="{{userPhoto.url}}">
+          </img>
+          
+        </template>
+
+        <div class="splashtext">
+          {{text}}
+        </div>
+
+
+      <div>
     </div>
 
   </template>
@@ -62,7 +85,7 @@
 
         userChanged: function(){
           if(this.user){
-            this.text = "Thank you for loggin in "+this.user;
+            this.text = "Thank you for loggin in "+this.user.first_name+" "+this.user.last_name;
           }
         }
 

@@ -1,0 +1,777 @@
+<div hidden><!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<style shim-shadowdom="">html /deep/ [layout][horizontal],html /deep/ [layout][vertical]{display:-ms-flexbox;display:-webkit-flex;display:flex}html /deep/ [layout][horizontal][inline],html /deep/ [layout][vertical][inline]{display:-ms-inline-flexbox;display:-webkit-inline-flex;display:inline-flex}html /deep/ [layout][horizontal]{-ms-flex-direction:row;-webkit-flex-direction:row;flex-direction:row}html /deep/ [layout][horizontal][reverse]{-ms-flex-direction:row-reverse;-webkit-flex-direction:row-reverse;flex-direction:row-reverse}html /deep/ [layout][vertical]{-ms-flex-direction:column;-webkit-flex-direction:column;flex-direction:column}html /deep/ [layout][vertical][reverse]{-ms-flex-direction:column-reverse;-webkit-flex-direction:column-reverse;flex-direction:column-reverse}html /deep/ [layout][wrap]{-ms-flex-wrap:wrap;-webkit-flex-wrap:wrap;flex-wrap:wrap}html /deep/ [layout][wrap-reverse]{-ms-flex-wrap:wrap-reverse;-webkit-flex-wrap:wrap-reverse;flex-wrap:wrap-reverse}html /deep/ [flex]{-ms-flex:1 1 0;-webkit-flex:1;flex:1;-webkit-flex-basis:0;flex-basis:0}html /deep/ [vertical][layout]>[flex][auto-vertical],html /deep/ [vertical][layout]::shadow [flex][auto-vertical]{-ms-flex:1 1 auto;-webkit-flex-basis:auto;flex-basis:auto}html /deep/ [flex][auto]{-ms-flex:1 1 auto;-webkit-flex-basis:auto;flex-basis:auto}html /deep/ [flex][none]{-ms-flex:none;-webkit-flex:none;flex:none}html /deep/ [flex][one]{-ms-flex:1;-webkit-flex:1;flex:1}html /deep/ [flex][two]{-ms-flex:2;-webkit-flex:2;flex:2}html /deep/ [flex][three]{-ms-flex:3;-webkit-flex:3;flex:3}html /deep/ [flex][four]{-ms-flex:4;-webkit-flex:4;flex:4}html /deep/ [flex][five]{-ms-flex:5;-webkit-flex:5;flex:5}html /deep/ [flex][six]{-ms-flex:6;-webkit-flex:6;flex:6}html /deep/ [flex][seven]{-ms-flex:7;-webkit-flex:7;flex:7}html /deep/ [flex][eight]{-ms-flex:8;-webkit-flex:8;flex:8}html /deep/ [flex][nine]{-ms-flex:9;-webkit-flex:9;flex:9}html /deep/ [flex][ten]{-ms-flex:10;-webkit-flex:10;flex:10}html /deep/ [flex][eleven]{-ms-flex:11;-webkit-flex:11;flex:11}html /deep/ [flex][twelve]{-ms-flex:12;-webkit-flex:12;flex:12}html /deep/ [layout][start]{-ms-flex-align:start;-webkit-align-items:flex-start;align-items:flex-start}html /deep/ [layout][center],html /deep/ [layout][center-center]{-ms-flex-align:center;-webkit-align-items:center;align-items:center}html /deep/ [layout][end]{-ms-flex-align:end;-webkit-align-items:flex-end;align-items:flex-end}html /deep/ [layout][start-justified]{-ms-flex-pack:start;-webkit-justify-content:flex-start;justify-content:flex-start}html /deep/ [layout][center-justified],html /deep/ [layout][center-center]{-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center}html /deep/ [layout][end-justified]{-ms-flex-pack:end;-webkit-justify-content:flex-end;justify-content:flex-end}html /deep/ [layout][around-justified]{-ms-flex-pack:distribute;-webkit-justify-content:space-around;justify-content:space-around}html /deep/ [layout][justified]{-ms-flex-pack:justify;-webkit-justify-content:space-between;justify-content:space-between}html /deep/ [self-start]{-ms-align-self:flex-start;-webkit-align-self:flex-start;align-self:flex-start}html /deep/ [self-center]{-ms-align-self:center;-webkit-align-self:center;align-self:center}html /deep/ [self-end]{-ms-align-self:flex-end;-webkit-align-self:flex-end;align-self:flex-end}html /deep/ [self-stretch]{-ms-align-self:stretch;-webkit-align-self:stretch;align-self:stretch}html /deep/ [block]{display:block}html /deep/ [hidden]{display:none!important}html /deep/ [relative]{position:relative}html /deep/ [fit]{position:absolute;top:0;right:0;bottom:0;left:0}body[fullbleed]{margin:0;height:100vh}html /deep/ [segment],html /deep/ segment{display:block;position:relative;-webkit-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;margin:1em .5em;padding:1em;background-color:#fff;-webkit-box-shadow:0 0 0 1px rgba(0,0,0,.1);box-shadow:0 0 0 1px rgba(0,0,0,.1);border-radius:5px}</style>
+
+<script src="../bower_components/polymer/polymer.js"></script>
+<!--<link rel="import" href="../polymer-dev/polymer.html">--> 
+
+<polymer-element name="yo-list" attributes="" assetpath="yo-list/">
+  <template>
+    <style>:host{display:block}</style>
+    <ul>
+      <template id="greeting" repeat="{{ item in items }}">
+        <li>{{ item }}</li>
+      </template>
+    </ul>
+  </template>
+  <script>(function(){"use strict";Polymer("yo-list",{ready:function(){this.items=["HTML5 Boilerplate","Web Component Polyfills","Core Elements","Paper Elements","Polymer"]}})})();</script>
+</polymer-element>
+</div><div hidden>
+
+<polymer-element name="yo-greeting" attributes="" assetpath="yo-greeting/">
+  <template>
+    <style>:host{display:block}</style>
+    <h1>{{ greeting }}, {{ greeting }}!</h1>
+    <span>Update text to change the greeting.</span>
+    <input type="text" value="{{ greeting }}">
+  </template>
+  <script>(function(){"use strict";Polymer("yo-greeting",{greeting:"'Allo"})})();</script>
+</polymer-element>
+</div><div hidden>
+
+
+<!--
+Element for including the Facebook Login button into your site.
+After including the button the FB object is at a global scope and
+can be used for API calls.
+
+##### Example
+
+    <facebook-login appID="123456789"></facebook-login>
+
+@element facebook-login
+@blurb Element that includes the Facebook Login button into your site and enables Graph API calls.
+@status alpha
+@homepage http://davidwittenbrink.github.io/facebook-login
+-->
+<polymer-element name="facebook-login" attributes="appID cookie version scopes buttonText graphURL graphResponse autoAPICall graphParams" assetpath="../bower_components/facebook-login/">
+
+  <template>
+    <style>:host{display:inline-block}</style>
+    <div id="fb-login-container">
+        <fb:login-button scope="{{FB_APP_SCOPES}}" onlogin="FB.customCheckLoginState();" data-auto-logout-link="true">
+        {{ buttonText }}
+        </fb:login-button>
+    </div>
+  </template>
+
+  <script>(function(){function statusChangeCallback(response){if(response.status==="connected"){handler.fire("facebook-signin-success",{response:response})}else if(response.status==="not_authorized"){handler.fire("facebook-signin-not-authorized",{response:response})}else{console.log("User not logged into Facebook")}}var FB_APP_ID="";var FB_APP_COOKIE="";var FB_APP_VERSION="";var FB_APP_XFBML;var handler;Polymer("facebook-login",{appID:"",cookie:true,version:"v2.0",scopes:"public_profile",buttonText:"",graphURL:"",graphResponse:null,graphParams:{},graphMethod:"get",autoAPICall:false,go:function(params,method){if(!this.graphURL)console.error("No URL specified. Specify the graph API URL using the graphURL attribute.");FB.api(this.graphURL,this.graphMethod,this.graphParams,function(response){this.graphResponse=response;handler.fire("graph-api-response",{response:response})})},ready:function(){if(!this.appID){console.error("Missing attribute appID for Facebook Login Button");return}handler=this;FB_APP_ID=this.appID;FB_APP_COOKIE=this.cookie;FB_APP_XFBML=this.xfbml;FB_APP_VERSION=this.version;handler.FB_APP_SCOPES=this.scopes.split(" ").join(",");var container=this.$["fb-login-container"];window.fbAsyncInit=function(){FB.init({appId:FB_APP_ID,cookie:FB_APP_COOKIE,xfbml:FB_APP_XFBML,version:FB_APP_VERSION});FB.getLoginStatus(function(response){statusChangeCallback(response)});FB.XFBML.parse(container);FB.customCheckLoginState=function(){FB.getLoginStatus(function(response){statusChangeCallback(response)})}};if(typeof FB=="undefined"){(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="//connect.facebook.net/en_US/sdk.js";fjs.parentNode.insertBefore(js,fjs)})(document,"script","facebook-jssdk")}},graphURLChanged:function(){if(this.autoAPICall)this.go()},graphParamsChanged:function(){if(this.autoAPICall)this.go()}})})();</script>
+
+</polymer-element>
+
+
+<polymer-element name="fow-login" attributes="toast user userPhoto" assetpath="fow-login/">
+  <template>
+    <style>:host{display:block}</style>
+
+    <facebook-login id="facebook" graphurl="me" autoapicall="false" on-graph-api-response="{{apiHandler}}" on-facebook-signin-success="{{loginSuccess}}" on-facebook-signin-not-authorized="{{loginFail}}" appid="568442163257885">
+    </facebook-login>
+
+  </template>
+  <script>(function(){"use strict";Polymer("fow-login",{user:null,userPhoto:null,loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
+</polymer-element>
+</div><div hidden>
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!--
+
+The `core-icon` element displays an icon. By default an icon renders as a 24px square.
+
+Example using src:
+
+    <core-icon src="star.png"></core-icon>
+
+Example setting size to 32px x 32px:
+
+    <core-icon class="big" src="big_star.png"></core-icon>
+
+    <style>
+      .big {
+        height: 32px;
+        width: 32px;
+      }
+    </style>
+
+The core elements include several sets of icons. 
+To use the default set of icons, import  `core-icons.html` and use the `icon` attribute to specify an icon:
+
+    &lt;!-- import default iconset and core-icon --&gt;
+    <link rel="import" href="/components/core-icons/core-icons.html">
+
+    <core-icon icon="menu"></core-icon>
+    
+To use a different built-in set of icons, import  `core-icons/<iconset>-icons.html`, and
+specify the icon as `<iconset>:<icon>`. For example:
+
+    &lt;!-- import communication iconset and core-icon --&gt;
+    <link rel="import" href="/components/core-icons/communication-icons.html">
+
+    <core-icon icon="communication:email"></core-icon>
+    
+You can also create custom icon sets of bitmap or SVG icons. 
+
+Example of using an icon named `cherry` from a custom iconset with the ID `fruit`:
+
+    <core-icon icon="fruit:cherry"></core-icon>
+
+See [core-iconset](#core-iconset) and [core-iconset-svg](#core-iconset-svg) for more information about
+how to create a custom iconset.
+
+See [core-icons](http://www.polymer-project.org/components/core-icons/demo.html) for the default set of icons.
+
+@group Polymer Core Elements
+@element core-icon
+@homepage polymer.github.io
+-->
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+/**
+ * @group Polymer Core Elements
+ *
+ * The `core-iconset` element allows users to define their own icon sets. 
+ * The `src` property specifies the url of the icon image. Multiple icons may
+ * be included in this image and they may be organized into rows.
+ * The `icons` property is a space separated list of names corresponding to the
+ * icons. The names must be ordered as the icons are ordered in the icon image.
+ * Icons are expected to be square and are the size specified by the `iconSize`
+ * property. The `width` property corresponds to the width of the icon image 
+ * and must be specified if icons are arranged into multiple rows in the image.
+ *
+ * All `core-iconset` elements are available for use by other `core-iconset`
+ * elements via a database keyed by id. Typically, an element author that wants
+ * to support a set of custom icons uses a `core-iconset` to retrieve 
+ * and use another, user-defined iconset.
+ *
+ * Example:
+ *
+ *     <core-iconset id="my-icons" src="my-icons.png" width="96" iconSize="24"
+ *         icons="location place starta stopb bus car train walk">
+ *     </core-iconset>
+ *
+ * This will automatically register the icon set "my-icons" to the iconset
+ * database.  To use these icons from within another element, make a 
+ * `core-iconset` element and call the `byId` method to retrieve a
+ * given iconset. To apply a particular icon to an element, use the 
+ * `applyIcon` method. For example:
+ *
+ *     iconset.applyIcon(iconNode, 'car');
+ *
+ * Themed icon sets are also supported. The `core-iconset` can contain child
+ * `property` elements that specify a theme with an offsetX and offsetY of the
+ * theme within the icon resource. For example.
+ *
+ *     <core-iconset id="my-icons" src="my-icons.png" width="96" iconSize="24"
+ *         icons="location place starta stopb bus car train walk">
+ *       <property theme="special" offsetX="256" offsetY="24"></property>
+ *     </core-iconset>
+ *
+ * Then a themed icon can be applied like this:
+ *
+ *     iconset.applyIcon(iconNode, 'car', 'special');
+ *
+ * @element core-iconset
+ * @extends core-meta
+ * @homepage github.io
+ */
+-->
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+`core-meta` provides a method of constructing a self-organizing database.
+It is useful to collate element meta-data for things like catalogs and for 
+designer.
+
+Example, an element folder has a `metadata.html` file in it, that contains a 
+`core-meta`, something like this:
+
+    <core-meta id="my-element" label="My Element">
+      <property name="color" value="blue"></property>
+    </core-meta>
+
+An application can import as many of these files as it wants, and then use 
+`core-meta` again to access the collected data.
+
+    <script>
+      var meta = document.createElement('core-meta');
+      console.log(meta.list); // dump a list of all meta-data elements that have been created
+    </script>
+
+Use `byId(id)` to retrive a specific core-meta.
+
+    <script>
+      var meta = document.createElement('core-meta');
+      console.log(meta.byId('my-element'));
+    </script>
+
+By default all meta-data are stored in a single databse.  If your meta-data 
+have different types and want them to be stored separately, use `type` to 
+differentiate them.
+
+Example:
+
+    <core-meta id="x-foo" type="xElt"></core-meta>
+    <core-meta id="x-bar" type="xElt"></core-meta>
+    <core-meta id="y-bar" type="yElt"></core-meta>
+
+    <script>
+      var meta = document.createElement('core-meta');
+      meta.type = 'xElt';
+      console.log(meta.list);
+    </script>
+
+@group Polymer Core Elements
+@element core-meta
+@homepage github.io
+-->
+
+
+
+<polymer-element name="core-meta" attributes="label type" hidden assetpath="../bower_components/core-meta/">
+<script>(function(){var SKIP_ID="meta";var metaData={},metaArray={};Polymer("core-meta",{type:"default",alwaysPrepare:true,ready:function(){this.register(this.id)},get metaArray(){var t=this.type;if(!metaArray[t]){metaArray[t]=[]}return metaArray[t]},get metaData(){var t=this.type;if(!metaData[t]){metaData[t]={}}return metaData[t]},register:function(id,old){if(id&&id!==SKIP_ID){this.unregister(this,old);this.metaData[id]=this;this.metaArray.push(this)}},unregister:function(meta,id){delete this.metaData[id||meta.id];var i=this.metaArray.indexOf(meta);if(i>=0){this.metaArray.splice(i,1)}},get list(){return this.metaArray},byId:function(id){return this.metaData[id]}})})();</script>
+</polymer-element>
+
+
+<polymer-element name="core-iconset" extends="core-meta" attributes="src width icons iconSize" assetpath="../bower_components/core-iconset/">
+  
+  <script>Polymer("core-iconset",{src:"",width:0,icons:"",iconSize:24,offsetX:0,offsetY:0,type:"iconset",created:function(){this.iconMap={};this.iconNames=[];this.themes={}},ready:function(){if(this.src&&this.ownerDocument!==document){this.src=this.resolvePath(this.src,this.ownerDocument.baseURI)}this.super();this.updateThemes()},iconsChanged:function(){var ox=this.offsetX;var oy=this.offsetY;this.icons&&this.icons.split(/\s+/g).forEach(function(name,i){this.iconNames.push(name);this.iconMap[name]={offsetX:ox,offsetY:oy};if(ox+this.iconSize<this.width){ox+=this.iconSize}else{ox=this.offsetX;oy+=this.iconSize}},this)},updateThemes:function(){var ts=this.querySelectorAll("property[theme]");ts&&ts.array().forEach(function(t){this.themes[t.getAttribute("theme")]={offsetX:parseInt(t.getAttribute("offsetX"))||0,offsetY:parseInt(t.getAttribute("offsetY"))||0}},this)},getOffset:function(icon,theme){var i=this.iconMap[icon];if(!i){var n=this.iconNames[Number(icon)];i=this.iconMap[n]}var t=this.themes[theme];if(i&&t){return{offsetX:i.offsetX+t.offsetX,offsetY:i.offsetY+t.offsetY}}return i},applyIcon:function(element,icon,scale){var offset=this.getOffset(icon);scale=scale||1;if(element&&offset){var icon=element._icon||document.createElement("div");var style=icon.style;style.backgroundImage="url("+this.src+")";style.backgroundPosition=-offset.offsetX*scale+"px"+" "+(-offset.offsetY*scale+"px");style.backgroundSize=scale===1?"auto":this.width*scale+"px";if(icon.parentNode!==element){element.appendChild(icon)}return icon}}});</script>
+
+</polymer-element>
+
+
+<style shim-shadowdom="">html /deep/ core-icon{display:inline-block;vertical-align:middle;background-repeat:no-repeat;fill:currentcolor;position:relative;height:24px;width:24px}</style>
+
+<polymer-element name="core-icon" attributes="src icon alt" assetpath="../bower_components/core-icon/">
+<script>(function(){var meta;Polymer("core-icon",{src:"",icon:"",alt:null,observe:{icon:"updateIcon",alt:"updateAlt"},defaultIconset:"icons",ready:function(){if(!meta){meta=document.createElement("core-iconset")}if(this.hasAttribute("aria-label")){if(!this.hasAttribute("role")){this.setAttribute("role","img")}return}this.updateAlt()},srcChanged:function(){var icon=this._icon||document.createElement("div");icon.textContent="";icon.setAttribute("fit","");icon.style.backgroundImage="url("+this.src+")";icon.style.backgroundPosition="center";icon.style.backgroundSize="100%";if(!icon.parentNode){this.appendChild(icon)}this._icon=icon},getIconset:function(name){return meta.byId(name||this.defaultIconset)},updateIcon:function(oldVal,newVal){if(!this.icon){this.updateAlt();return}var parts=String(this.icon).split(":");var icon=parts.pop();if(icon){var set=this.getIconset(parts.pop());if(set){this._icon=set.applyIcon(this,icon);if(this._icon){this._icon.setAttribute("fit","")}}}if(oldVal){if(oldVal.split(":").pop()==this.getAttribute("aria-label")){this.updateAlt()}}},updateAlt:function(){if(this.getAttribute("aria-hidden")){return}if(this.alt===""){this.setAttribute("aria-hidden","true");if(this.hasAttribute("role")){this.removeAttribute("role")}if(this.hasAttribute("aria-label")){this.removeAttribute("aria-label")}}else{this.setAttribute("aria-label",this.alt||this.icon.split(":").pop());if(!this.hasAttribute("role")){this.setAttribute("role","img")}if(this.hasAttribute("aria-hidden")){this.removeAttribute("aria-hidden")}}}})})();</script>
+
+</polymer-element>
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+`paper-toast` provides lightweight feedback about an operation in a small popup 
+at the base of the screen on mobile and at the lower left on desktop. Toasts are 
+above all other elements on screen, including the FAB.
+
+Toasts automatically disappear after a timeout or after user interaction 
+elsewhere on the screen, whichever comes first. Toasts can be swiped off 
+screen.  There can be only one on the screen at a time.
+
+Example:
+
+    <paper-toast text="Your draft has been discarded." onclick="discardDraft(el)"></paper-toast>
+    
+    <script>
+      function discardDraft(el) {
+        el.show();
+      }
+    </script>
+    
+An action button can be presented in the toast.
+
+Example (using Polymer's data-binding features):
+
+    <paper-toast id="toast2" text="Connection timed out. Showing limited messages.">
+      <div style="color: blue;" on-tap="{{retry}}">Retry</div>
+    </paper-toast>
+    
+Positioning toast:
+
+A standard toast appears near the lower left of the screen.  You can change the
+position by overriding bottom and left positions.
+
+    paper-toast {
+      bottom: 40px;
+      left: 10px;
+    }
+  
+To make it fit at the bottom of the screen:
+
+    paper-toast {
+      bottom: 0;
+      left: 0;
+      width: 100%;
+    }
+  
+When the screen size is smaller than the `responsiveWidth` (default to 480px),
+the toast will automatically fits at the bottom of the screen.
+
+@group Paper Elements
+@element paper-toast
+@homepage github.io
+-->
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+
+`<core-transition>` is an abstraction of an animation. It is used to implement pluggable
+transitions, for example in `<core-overlay>`. You can extend this class to create a custom
+animation, instantiate it, and import it where you need the animation.
+
+All instances of `<core-transition>` are stored in a single database with `type=transition`.
+For more about the database, please see the documentation for `<core-meta>`.
+
+Each instance of `<core-transition>` objects are shared across all the clients, so you should
+not store state information specific to the animated element in the transition. Rather, store
+it on the element.
+
+Example:
+
+my-transition.html:
+
+    <polymer-element name="my-transition" extends="core-transition">
+        <script>
+            go: function(node) {
+                node.style.transition = 'opacity 1s ease-out';
+                node.style.opacity = 0;
+            }
+        </script>
+    </polymer-element>
+
+    <my-transition id="my-fade-out"></my-transition>
+
+my-transition-demo.html:
+
+    <link href="components/core-meta/core-meta.html" rel="import">
+    <link href="my-transition.html" rel="import">
+
+    <div id="animate-me"></div>
+
+    <script>
+        // Get the core-transition
+        var meta = document.createElement('core-meta');
+        meta.type = 'transition';
+        var transition = meta.byId('my-fade-out');
+
+        // Run the animation
+        var animated = document.getElementById('animate-me');
+        transition.go(animated);
+    </script>
+
+@group Polymer Core Elements
+@element core-transition
+@extends core-meta
+@status beta
+@homepage github.io
+-->
+<!--
+Fired when the animation finishes.
+
+@event core-transitionend
+@param {Object} detail
+@param {Object} detail.node The animated node
+-->
+
+
+
+<polymer-element name="core-transition" extends="core-meta" assetpath="../bower_components/core-transition/">
+  
+  <script>Polymer("core-transition",{type:"transition",go:function(node,state){this.complete(node)},setup:function(node){},teardown:function(node){},complete:function(node){this.fire("core-transitionend",null,node)},listenOnce:function(node,event,fn,args){var self=this;var listener=function(){fn.apply(self,args);node.removeEventListener(event,listener,false)};node.addEventListener(event,listener,false)}});</script>
+</polymer-element>
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+
+
+<polymer-element name="core-key-helper" assetpath="../bower_components/core-overlay/">
+  <script>Polymer("core-key-helper",{ENTER_KEY:13,ESCAPE_KEY:27});</script>
+</polymer-element>
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<polymer-element name="core-overlay-layer" assetpath="../bower_components/core-overlay/">
+<template>
+  <style>:host{position:fixed;top:0;left:0;z-index:1000;display:none}:host(.core-opened){display:block}</style>
+  <content></content>
+</template>
+<script>(function(){Polymer("core-overlay-layer",{publish:{opened:false},openedChanged:function(){this.classList.toggle("core-opened",this.opened)},addElement:function(element){if(!this.parentNode){document.querySelector("body").appendChild(this)}if(element.parentNode!==this){element.__contents=[];var ip$=element.querySelectorAll("content");for(var i=0,l=ip$.length,n;i<l&&(n=ip$[i]);i++){this.moveInsertedElements(n);this.cacheDomLocation(n);n.parentNode.removeChild(n);element.__contents.push(n)}this.cacheDomLocation(element);this.updateEventController(element);var h=this.makeHost();h.shadowRoot.appendChild(element);element.__host=h}},makeHost:function(){var h=document.createElement("overlay-host");h.createShadowRoot();this.appendChild(h);return h},moveInsertedElements:function(insertionPoint){var n$=insertionPoint.getDistributedNodes();var parent=insertionPoint.parentNode;insertionPoint.__contents=[];for(var i=0,l=n$.length,n;i<l&&(n=n$[i]);i++){this.cacheDomLocation(n);this.updateEventController(n);insertionPoint.__contents.push(n);parent.appendChild(n)}},updateEventController:function(element){element.eventController=this.element.findController(element)},removeElement:function(element){element.eventController=null;this.replaceElement(element);var h=element.__host;if(h){h.parentNode.removeChild(h)}},replaceElement:function(element){if(element.__contents){for(var i=0,c$=element.__contents,c;c=c$[i];i++){this.replaceElement(c)}element.__contents=null}if(element.__parentNode){var n=element.__nextElementSibling&&element.__nextElementSibling===element.__parentNode?element.__nextElementSibling:null;element.__parentNode.insertBefore(element,n)}},cacheDomLocation:function(element){element.__nextElementSibling=element.nextElementSibling;element.__parentNode=element.parentNode}})})();</script>
+</polymer-element>
+
+
+<!--
+The `core-overlay` element displays overlayed on top of other content. It starts
+out hidden and is displayed by setting its `opened` property to true.
+A `core-overlay's` opened state can be toggled by calling the `toggle`
+method.
+
+The `core-overlay` will, by default, show/hide itself when it's opened. The 
+`target` property may be set to another element to cause that element to 
+be shown when the overlay is opened.
+
+It's common to want a `core-overlay` to animate to its opened
+position. The `core-overlay` element uses a `core-transition` to handle
+animation. The default transition is `core-transition-fade` which 
+causes the overlay to fade in when displayed. See 
+<a href="../core-transition/">`core-transition`</a> for more
+information about customizing a `core-overlay's` opening animation. The
+`backdrop` property can be set to true to show a backdrop behind the overlay
+that will darken the rest of the window.
+
+An element that should close the `core-overlay` will automatically
+do so if it's given the `core-overlay-toggle` attribute. This attribute
+can be customized with the `closeAttribute` property. You can also use
+`closeSelector` if more general matching is needed.
+
+By default  `core-overlay` will close whenever the user taps outside it or
+presses the escape key. This behavior can be turned off via the
+`autoCloseDisabled` property.
+
+    <core-overlay>
+      <h2>Dialog</h2>
+      <input placeholder="say something..." autofocus>
+      <div>I agree with this wholeheartedly.</div>
+      <button core-overlay-toggle>OK</button>
+    </core-overlay>
+
+`core-overlay` will automatically size and position itself according to the 
+following rules. The overlay's size is constrained such that it does not
+overflow the screen. This is done by setting maxHeight/maxWidth on the 
+`sizingTarget`. If the `sizingTarget` already has a setting for one of these
+properties, it will not be overridden. The overlay should
+be positioned via css or imperatively using the `core-overlay-position` event.
+If the overlay is not positioned vertically via setting `top` or `bottom`, it
+will be centered vertically. The same is true horizontally via a setting to 
+`left` or `right`. In addition, css `margin` can be used to provide some space
+around the overlay. This can be used to ensure
+that, for example, a drop shadow is always visible around the overlay.
+
+@group Core Elements
+@element core-overlay
+@homepage github.io
+-->
+<!--
+Fired when the `core-overlay`'s `opened` property changes.
+
+@event core-overlay-open
+@param {Object} detail
+@param {Object} detail.opened the opened state
+-->
+<!--
+Fired when the `core-overlay` has completely opened.
+
+@event core-overlay-open-completed
+-->
+<!--
+Fired when the `core-overlay` has completely closed.
+
+@event core-overlay-close-completed
+-->
+<!--
+Fired when the `core-overlay` needs to position itself. Optionally, implement
+in order to position an overlay via code. If the overlay was not otherwise
+positioned, it's important to indicate how the overlay has been positioned by
+setting the `dimensions.position` object. For example, if the overlay has been
+positioned via setting `right` and `top`, set dimensions.position to an
+object like this: `{v: 'top', h: 'right'}`.
+
+@event core-overlay-position
+@param {Object} detail
+@param {Object} detail.target the overlay target
+@param {Object} detail.sizingTarget the overlay sizing target
+@param {Object} detail.opened the opened state
+-->
+<style>.core-overlay-backdrop{position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:#000;opacity:0;transition:opacity .2s}.core-overlay-backdrop.core-opened{opacity:.6}</style>
+
+<polymer-element name="core-overlay" assetpath="../bower_components/core-overlay/">
+<script>(function(){Polymer("core-overlay",{publish:{target:null,sizingTarget:null,opened:false,backdrop:false,layered:false,autoCloseDisabled:false,autoFocusDisabled:false,closeAttribute:"core-overlay-toggle",closeSelector:"",transition:"core-transition-fade"},captureEventName:"tap",targetListeners:{tap:"tapHandler",keydown:"keydownHandler","core-transitionend":"transitionend"},registerCallback:function(element){this.layer=document.createElement("core-overlay-layer");this.keyHelper=document.createElement("core-key-helper");this.meta=document.createElement("core-transition");this.scrim=document.createElement("div");this.scrim.className="core-overlay-backdrop"},ready:function(){this.target=this.target||this;Platform.flush()},toggle:function(){this.opened=!this.opened},open:function(){this.opened=true},close:function(){this.opened=false},domReady:function(){this.ensureTargetSetup()},targetChanged:function(old){if(this.target){if(this.target.tabIndex<0){this.target.tabIndex=-1}this.addElementListenerList(this.target,this.targetListeners);this.target.style.display="none";this.target.__overlaySetup=false}if(old){this.removeElementListenerList(old,this.targetListeners);var transition=this.getTransition();if(transition){transition.teardown(old)}else{old.style.position="";old.style.outline=""}old.style.display=""}},transitionChanged:function(old){if(!this.target){return}if(old){this.getTransition(old).teardown(this.target)}this.target.__overlaySetup=false},ensureTargetSetup:function(){if(!this.target||this.target.__overlaySetup){return}if(!this.sizingTarget){this.sizingTarget=this.target}this.target.__overlaySetup=true;this.target.style.display="";var transition=this.getTransition();if(transition){transition.setup(this.target)}var style=this.target.style;var computed=getComputedStyle(this.target);if(computed.position==="static"){style.position="fixed"}style.outline="none";style.display="none"},openedChanged:function(){this.transitioning=true;this.ensureTargetSetup();this.prepareRenderOpened();this.async(function(){this.target.style.display="";this.target.offsetWidth;this.renderOpened()});this.fire("core-overlay-open",this.opened)},prepareRenderOpened:function(){if(this.opened){addOverlay(this)}this.prepareBackdrop();this.async(function(){if(!this.autoCloseDisabled){this.enableElementListener(this.opened,document,this.captureEventName,"captureHandler",true)}});this.enableElementListener(this.opened,window,"resize","resizeHandler");if(this.opened){this.target.offsetHeight;this.discoverDimensions();this.preparePositioning();this.positionTarget();this.updateTargetDimensions();this.finishPositioning();if(this.layered){this.layer.addElement(this.target);this.layer.opened=this.opened}}},renderOpened:function(){var transition=this.getTransition();if(transition){transition.go(this.target,{opened:this.opened})}else{this.transitionend()}this.renderBackdropOpened()},transitionend:function(e){if(e&&e.target!==this.target){return}this.transitioning=false;if(!this.opened){this.resetTargetDimensions();this.target.style.display="none";this.completeBackdrop();removeOverlay(this);if(this.layered){if(!currentOverlay()){this.layer.opened=this.opened}this.layer.removeElement(this.target)}}this.fire("core-overlay-"+(this.opened?"open":"close")+"-completed");this.applyFocus()},prepareBackdrop:function(){if(this.backdrop&&this.opened){if(!this.scrim.parentNode){document.body.appendChild(this.scrim);this.scrim.style.zIndex=currentOverlayZ()-1}trackBackdrop(this)}},renderBackdropOpened:function(){if(this.backdrop&&getBackdrops().length<2){this.scrim.classList.toggle("core-opened",this.opened)}},completeBackdrop:function(){if(this.backdrop){trackBackdrop(this);if(getBackdrops().length===0){this.scrim.parentNode.removeChild(this.scrim)}}},preparePositioning:function(){this.target.style.transition=this.target.style.webkitTransition="none";this.target.style.transform=this.target.style.webkitTransform="none";this.target.style.display=""},discoverDimensions:function(){if(this.dimensions){return}var target=getComputedStyle(this.target);var sizer=getComputedStyle(this.sizingTarget);this.dimensions={position:{v:target.top!=="auto"?"top":target.bottom!=="auto"?"bottom":null,h:target.left!=="auto"?"left":target.right!=="auto"?"right":null,css:target.position},size:{v:sizer.maxHeight!=="none",h:sizer.maxWidth!=="none"},margin:{top:parseInt(target.marginTop)||0,right:parseInt(target.marginRight)||0,bottom:parseInt(target.marginBottom)||0,left:parseInt(target.marginLeft)||0}}},finishPositioning:function(target){this.target.style.display="none";this.target.style.transform=this.target.style.webkitTransform="";this.target.offsetWidth;this.target.style.transition=this.target.style.webkitTransition=""},getTransition:function(name){return this.meta.byId(name||this.transition)},getFocusNode:function(){return this.target.querySelector("[autofocus]")||this.target},applyFocus:function(){var focusNode=this.getFocusNode();if(this.opened){if(!this.autoFocusDisabled){focusNode.focus()}}else{focusNode.blur();if(currentOverlay()==this){console.warn("Current core-overlay is attempting to focus itself as next! (bug)")}else{focusOverlay()}}},positionTarget:function(){this.fire("core-overlay-position",{target:this.target,sizingTarget:this.sizingTarget,opened:this.opened});if(!this.dimensions.position.v){this.target.style.top="0px"}if(!this.dimensions.position.h){this.target.style.left="0px"}},updateTargetDimensions:function(){this.sizeTarget();this.repositionTarget()},sizeTarget:function(){this.sizingTarget.style.boxSizing="border-box";var dims=this.dimensions;var rect=this.target.getBoundingClientRect();if(!dims.size.v){this.sizeDimension(rect,dims.position.v,"top","bottom","Height")}if(!dims.size.h){this.sizeDimension(rect,dims.position.h,"left","right","Width")}},sizeDimension:function(rect,positionedBy,start,end,extent){var dims=this.dimensions;var flip=positionedBy===end;var m=flip?start:end;var ws=window["inner"+extent];var o=dims.margin[m]+(flip?ws-rect[end]:rect[start]);var offset="offset"+extent;var o2=this.target[offset]-this.sizingTarget[offset];this.sizingTarget.style["max"+extent]=ws-o-o2+"px"},repositionTarget:function(){if(this.dimensions.position.css!=="fixed"){return}if(!this.dimensions.position.v){var t=(window.innerHeight-this.target.offsetHeight)/2;t-=this.dimensions.margin.top;this.target.style.top=t+"px"}if(!this.dimensions.position.h){var l=(window.innerWidth-this.target.offsetWidth)/2;l-=this.dimensions.margin.left;this.target.style.left=l+"px"}},resetTargetDimensions:function(){if(!this.dimensions.size.v){this.sizingTarget.style.maxHeight=""}if(!this.dimensions.size.h){this.sizingTarget.style.maxWidth=""}this.dimensions=null},tapHandler:function(e){if(e.target&&(this.closeSelector&&e.target.matches(this.closeSelector))||this.closeAttribute&&e.target.hasAttribute(this.closeAttribute)){this.toggle()}else{if(this.autoCloseJob){this.autoCloseJob.stop();this.autoCloseJob=null}}},captureHandler:function(e){if(!this.autoCloseDisabled&&currentOverlay()==this){this.autoCloseJob=this.job(this.autoCloseJob,function(){this.close()})}},keydownHandler:function(e){if(!this.autoCloseDisabled&&e.keyCode==this.keyHelper.ESCAPE_KEY){this.close();e.stopPropagation()}},resizeHandler:function(){this.updateTargetDimensions()},addElementListenerList:function(node,events){for(var i in events){this.addElementListener(node,i,events[i])}},removeElementListenerList:function(node,events){for(var i in events){this.removeElementListener(node,i,events[i])}},enableElementListener:function(enable,node,event,methodName,capture){if(enable){this.addElementListener(node,event,methodName,capture)}else{this.removeElementListener(node,event,methodName,capture)}},addElementListener:function(node,event,methodName,capture){var fn=this._makeBoundListener(methodName);if(node&&fn){Polymer.addEventListener(node,event,fn,capture)}},removeElementListener:function(node,event,methodName,capture){var fn=this._makeBoundListener(methodName);if(node&&fn){Polymer.removeEventListener(node,event,fn,capture)}},_makeBoundListener:function(methodName){var self=this,method=this[methodName];if(!method){return}var bound="_bound"+methodName;if(!this[bound]){this[bound]=function(e){method.call(self,e)}}return this[bound]}});var overlays=[];function addOverlay(overlay){var z0=currentOverlayZ();overlays.push(overlay);var z1=currentOverlayZ();if(z1<=z0){applyOverlayZ(overlay,z0)}}function removeOverlay(overlay){var i=overlays.indexOf(overlay);if(i>=0){overlays.splice(i,1);setZ(overlay,"")}}function applyOverlayZ(overlay,aboveZ){setZ(overlay.target,aboveZ+2)}function setZ(element,z){element.style.zIndex=z}function currentOverlay(){return overlays[overlays.length-1]}var DEFAULT_Z=10;function currentOverlayZ(){var z;var current=currentOverlay();if(current){var z1=window.getComputedStyle(current.target).zIndex;if(!isNaN(z1)){z=Number(z1)}}return z||DEFAULT_Z}function focusOverlay(){var current=currentOverlay();if(current&&!current.transitioning){current.applyFocus()}}var backdrops=[];function trackBackdrop(element){if(element.opened){backdrops.push(element)}else{var i=backdrops.indexOf(element);if(i>=0){backdrops.splice(i,1)}}}function getBackdrops(){return backdrops}})();</script>
+</polymer-element>
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+
+`<core-transition-css>` implements CSS transitions as `<core-transition>` objects so they can be
+reused in a pluggable transition system such as in `<core-overlay>`. Currently this class has
+some specific support to animate an element from and to the viewport such as a dialog, but you
+can override it for different effects.
+
+Example:
+
+my-css-transition.html:
+
+    <polymer-element name="my-css-transition" extends="core-transition-css">
+    <template>
+        <style>
+            :host(.my-transition) {
+                opacity: 0;
+                transition: transform 1s ease-out, opacity 1s ease-out;
+            }
+            :host(.my-transition.my-opened) {
+                opacity: 1;
+                transform: none;
+            }
+            :host(.my-transition-top) {
+                transform: translateY(-100vh);
+            }
+            :host(.my-transition-bottom) {
+                transform: translateY(100vh);
+            }
+        </style>
+    </template>
+    <script>
+      Polymer({
+        baseClass: 'my-transition',
+        openedClass: 'my-opened'
+      });
+    </script>
+    </polymer-element>
+
+    <my-css-transition id="my-transition-top" transitionType="top"></my-css-transition>
+    <my-css-transition id="my-transition-bottom" transitionType="bottom"></my-css-transition>
+
+my-css-transition-demo.html
+
+    <link href="components/core-meta/core-meta.html" rel="import">
+    <link href="my-css-transition.html">
+
+    <div id="animate-me"></div>
+
+    <script>
+        // Get the core-transition
+        var meta = document.createElement('core-meta');
+        meta.type = 'transition';
+        var transition1 = meta.byId('my-transition-top');
+
+        // Set up the animation
+        var animated = document.getElementById('animate-me');
+        transition1.setup(animated);
+        transition1.go(animated, {opened: true});
+    </script>
+
+The first element in the template of a `<core-transition-css>` object should be a stylesheet. It
+will be injected to the scope of the animated node in the `setup` function. The node is initially
+invisible with `opacity: 0`, and you can transition it to an "opened" state by passing
+`{opened: true}` to the `go` function.
+
+All nodes being animated will get the class `my-transition` added in the `setup` function.
+Additionally, the class `my-transition-<transitionType>` will be applied. You can use the
+`transitionType` attribute to implement several different behaviors with the same
+`<core-transition-css>` object. In the above example, `<my-css-transition>` implements both
+sliding the node from the top of the viewport and from the bottom of the viewport.
+
+Available transitions
+---------------------
+
+`<core-transition-css>` includes several commonly used transitions.
+
+`core-transition-fade`: Animates from `opacity: 0` to `opacity: 1` when it opens.
+
+`core-transition-center`: Zooms the node into the final size.
+
+`core-transition-top`: Slides the node into the final position from the top.
+
+`core-transition-bottom`: Slides the node into the final position from the bottom.
+
+`core-transition-left`: Slides the node into the final position from the left.
+
+`core-transition-right`: Slides the node into the final position from the right.
+
+@group Polymer Core Elements
+@element core-transition-css
+@extends core-transition
+@status beta
+@homepage github.io
+-->
+
+
+
+<polymer-element name="core-transition-css" extends="core-transition" attributes="transitionType" assetpath="../bower_components/core-transition/">
+<template>
+  <style no-shim="">:host(.core-transition){outline:0;overflow:auto;opacity:0;transition:transform .2s ease-in-out,opacity .2s ease-in;-webkit-transition:-webkit-transform .2s ease-in-out,opacity .2s ease-in}:host(.core-transition.core-opened){opacity:1;transform:translateZ(0);-webkit-transform:translateZ(0)}:host(.core-transition-center){transform:scale(0.5);-webkit-transform:scale(0.5)}:host(.core-transition-top){transform:translateY(-200%);-webkit-transform:translateY(-200%)}:host(.core-transition-bottom){transform:translateY(200%);-webkit-transform:translateY(200%)}:host(.core-transition-left){transform:translateX(-200%);-webkit-transform:translateX(-200%)}:host(.core-transition-right){transform:translateX(200%);-webkit-transform:translateX(200%)}</style>
+</template>
+<script>Polymer("core-transition-css",{baseClass:"core-transition",openedClass:"core-opened",closedClass:"core-closed",completeEventName:"transitionend",publish:{transitionType:null},registerCallback:function(element){this.transitionStyle=element.templateContent().firstElementChild},fetchTemplate:function(){return null},go:function(node,state){if(state.opened!==undefined){this.transitionOpened(node,state.opened)}},setup:function(node){if(!node._hasTransitionStyle){if(!node.shadowRoot){node.createShadowRoot().innerHTML="<content></content>"}this.installScopeStyle(this.transitionStyle,"transition",node.shadowRoot);node._hasTransitionStyle=true}node.classList.add(this.baseClass);if(this.transitionType){node.classList.add(this.baseClass+"-"+this.transitionType)}},teardown:function(node){node.classList.remove(this.baseClass);if(this.transitionType){node.classList.remove(this.baseClass+"-"+this.transitionType)}},transitionOpened:function(node,opened){this.listenOnce(node,this.completeEventName,function(){node.classList.toggle(this.revealedClass,opened);if(!opened){node.classList.remove(this.closedClass)}this.complete(node)});node.classList.toggle(this.openedClass,opened);node.classList.toggle(this.closedClass,!opened)}});</script>
+</polymer-element>
+
+<core-transition-css id="core-transition-fade"></core-transition-css>
+<core-transition-css id="core-transition-center" transitiontype="center"></core-transition-css>
+<core-transition-css id="core-transition-top" transitiontype="top"></core-transition-css>
+<core-transition-css id="core-transition-bottom" transitiontype="bottom"></core-transition-css>
+<core-transition-css id="core-transition-left" transitiontype="left"></core-transition-css>
+<core-transition-css id="core-transition-right" transitiontype="right"></core-transition-css>
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!--
+/**
+ * @group Polymer Core Elements
+ * @element core-media-query
+ * @status beta
+ * @homepage github.io
+ *
+ * core-media-query can be used to data bind to a CSS media query.
+ * The "query" property is a bare CSS media query.
+ * The "queryMatches" property will be a boolean representing if the page matches that media query.
+ *
+ * core-media-query uses media query listeners to dynamically update the "queryMatches" property.
+ * A "core-media-change" event also fires when queryMatches changes.
+ *
+ * Example:
+ *
+ *      <core-media-query query="max-width: 640px" queryMatches="{{phoneScreen}}"></core-media-query>
+ *
+ */
+
+ /**
+  * Fired when the media query state changes
+  *
+  * @event core-media-change
+  */
+-->
+
+
+<polymer-element name="core-media-query" attributes="query queryMatches" assetpath="../bower_components/core-media-query/">
+  <template>
+    <style>:host{display:none}</style>
+  </template>
+  <script>Polymer("core-media-query",{queryMatches:false,query:"",ready:function(){this._mqHandler=this.queryHandler.bind(this);this._mq=null},queryChanged:function(){if(this._mq){this._mq.removeListener(this._mqHandler)}var query=this.query;if(query[0]!=="("){query="("+this.query+")"}this._mq=window.matchMedia(query);this._mq.addListener(this._mqHandler);this.queryHandler(this._mq)},queryHandler:function(mq){this.queryMatches=mq.matches;this.asyncFire("core-media-change",mq)}});</script>
+</polymer-element>
+
+
+<polymer-element name="paper-toast" attributes="text duration opened responsiveWidth swipeDisabled" role="status" assetpath="../bower_components/paper-toast/">
+
+<template>
+
+  <style>:host{display:inline-block;background:#323232;color:#f1f1f1;min-height:48px;min-width:288px;padding:16px 24px 12px;box-sizing:border-box;-moz-box-sizing:border-box;box-shadow:0 2px 5px 0 rgba(0,0,0,.26);border-radius:2px;bottom:12px;left:12px;font-size:14px;cursor:default}:host(.capsule){border-radius:24px}:host(.fit-bottom){bottom:0;left:0;width:100%;min-width:0;border-radius:0}:host(.core-transition.dragging){transition:none}:host(.core-transition.fade-out-down),:host(.core-transition.fade-out-up),:host(.core-transition.fade-out-right),:host(.core-transition.fade-out-left){opacity:0;transition:-webkit-transform .08s ease-in-out,opacity .08s ease-in-out;transition:transform .08s ease-in-out,opacity .08s ease-in-out}:host(.core-transition.fade-out-down){-webkit-transform:translate(0,100%);transform:translate(0,100%)}:host(.core-transition.fade-out-up){-webkit-transform:translate(0,-100%);transform:translate(0,-100%)}:host(.core-transition.fade-out-right){-webkit-transform:translate(100%,0);transform:translate(100%,0)}:host(.core-transition.fade-out-left){-webkit-transform:translate(-100%,0);transform:translate(-100%,0)}.toast-container{overflow:hidden}.toast-action{padding-left:24px;cursor:pointer;text-transform:uppercase}</style>
+
+  <core-overlay autofocusdisabled="" opened="{{opened}}" target="{{}}" sizingtarget="{{$.container}}" transition="core-transition-bottom"></core-overlay>
+
+  <div class="toast-container" horizontal="" layout="">
+
+    <div class="toast-text" flex="">{{text}}</div>
+    
+    <div class="toast-text toast-action" on-tap="{{dismiss}}">
+      <content></content>
+    </div>
+
+  </div>
+  
+  <core-media-query query="max-width: {{responsiveWidth}}" querymatches="{{narrowMode}}"></core-media-query>
+
+</template>
+<script>(function(){var currentToast;Polymer("paper-toast",{text:"",duration:3e3,opened:false,responsiveWidth:"480px",swipeDisabled:false,eventDelegates:{trackstart:"trackStart",track:"track",trackend:"trackEnd",transitionend:"transitionEnd"},narrowModeChanged:function(){this.classList.toggle("fit-bottom",this.narrowMode)},openedChanged:function(){if(this.opened){this.dismissJob=this.job(this.dismissJob,this.dismiss,this.duration)}else{this.dismissJob&&this.dismissJob.stop();this.dismiss()}},toggle:function(){this.opened=!this.opened},show:function(){if(currentToast){currentToast.dismiss()}currentToast=this;this.opened=true},dismiss:function(){if(this.dragging){this.shouldDismiss=true}else{this.opened=false;if(currentToast===this){currentToast=null}}},trackStart:function(e){if(!this.swipeDisabled){e.preventTap();this.vertical=e.yDirection;this.w=this.offsetWidth;this.h=this.offsetHeight;this.dragging=true;this.classList.add("dragging")}},track:function(e){if(this.dragging){var s=this.style;if(this.vertical){var y=e.dy;s.opacity=(this.h-Math.abs(y))/this.h;s.webkitTransform=s.transform="translate3d(0, "+y+"px, 0)"}else{var x=e.dx;s.opacity=(this.w-Math.abs(x))/this.w;s.webkitTransform=s.transform="translate3d("+x+"px, 0, 0)"}}},trackEnd:function(e){if(this.dragging){this.classList.remove("dragging");this.style.opacity=null;this.style.webkitTransform=this.style.transform=null;var cl=this.classList;if(this.vertical){cl.toggle("fade-out-down",e.yDirection===1&&e.dy>0);cl.toggle("fade-out-up",e.yDirection===-1&&e.dy<0)}else{cl.toggle("fade-out-right",e.xDirection===1&&e.dx>0);cl.toggle("fade-out-left",e.xDirection===-1&&e.dx<0)}this.dragging=false}},transitionEnd:function(){var cl=this.classList;if(cl.contains("fade-out-right")||cl.contains("fade-out-left")||cl.contains("fade-out-down")||cl.contains("fade-out-up")){this.dismiss();cl.remove("fade-out-right","fade-out-left","fade-out-down","fade-out-up")}else if(this.shouldDismiss){this.dismiss()}this.shouldDismiss=false}})})();</script>
+</polymer-element>
+
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css">
+
+<polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
+  <template>
+    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:20px;right:20px;font-size:2em}.header{width:320px;position:absolute;top:60px;left:50%;margin-left:-160px}.splashtext{font-size:3em;font-weight:lighter;text-align:center}.roundedImage{border-radius:50%;border:1px solid #fff}</style>
+
+    <paper-toast id="toast" text="There was a problem loading data.">
+    </paper-toast>
+
+    <fow-login user="{{user}}" userphoto="{{userPhoto}}" class="loginButton" toast="{{$.toast}}">
+    </fow-login>
+
+    <img class="header" src="../images/fow.svg">
+    
+    
+    <div layout="" horizontal="" center="" center-justified="" fit="">
+      <div layout="" vertical="" center="">
+
+        <template if="{{userPhoto}}">
+          
+          <img class="roundedImage" src="{{userPhoto.url}}">
+          
+          
+        </template>
+
+        <div class="splashtext">
+          {{text}}
+        </div>
+
+
+      <div>
+    </div>
+
+  </div></div></template>
+  <script>(function(){"use strict";Polymer("fow-app",{text:"Please log in with facebook",userChanged:function(){if(this.user){this.text="Thank you for loggin in "+this.user.first_name+" "+this.user.last_name}}})})();</script>
+</polymer-element>
+</div><div hidden>undefined</div>
