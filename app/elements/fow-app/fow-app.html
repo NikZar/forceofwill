@@ -21,12 +21,18 @@
 
       .header{
         width: 320px;
+        position: absolute;
+        top: 60px;
+        left: 50%;
+        margin-left: -160px;
       }
 
       .splashtext{
         font-size: 3.0em;
         font-weight: lighter;
+        text-align: center;
       }
+
       .roundedImage{
         border-radius: 50%;
         border: 1px solid #fff;
@@ -43,23 +49,29 @@
       class="loginButton"
       toast="{{$.toast}}">
     </fow-login>
+
+    <img 
+      class="header" 
+      src="../../images/fow.svg">
+    </img>
     
-    <div 
-      layout vertical center>
-      <img 
-        class="header" 
-        src="../../images/fow.svg">
-      </img>
+    <div layout horizontal center center-justified fit>
+      <div layout vertical center>
 
-      <template if="{{userPhoto}}">
-        <img class="roundedImage"
+        <template if="{{userPhoto}}">
+          
+          <img class="roundedImage"
           src="{{userPhoto.url}}">
-        </img>
-      </template>
+          </img>
+          
+        </template>
 
-      <div class="splashtext">
-        {{text}}
-      </div>
+        <div class="splashtext">
+          {{text}}
+        </div>
+
+
+      <div>
     </div>
 
   </template>
