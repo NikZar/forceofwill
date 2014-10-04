@@ -1,0 +1,47 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
+
+<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <core-ajax id="ajax" 
+      auto="{{auto}}"
+      on-core-error="{{errorHandler}}"
+      on-core-response="{{elementsLoaded}}"
+      response="{{fditems}}"
+      handleAs="json"
+      method="{{method}}"
+      params="{{params}}"
+      body="{{body}}"
+      contentType="{{contentType}}">
+    </core-ajax>
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer("fow-rest-service",{
+        
+        apiurl: "localhost:9000/",
+
+        created: function() {
+          this.items = [];
+        },
+        
+        reloadUrl: function(){
+          if(this.ssl != undefined && this.apiurl && this.fdtype){   
+            this.$.ajax.url = "http://"+ this.apiurl + this.type +"/";
+          }
+        }
+        
+      });
+
+    })();
+  </script>
+</polymer-element>

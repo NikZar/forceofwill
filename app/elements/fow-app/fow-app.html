@@ -2,6 +2,8 @@
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
+<link rel="import" href="../../elements/fow-card-list/fow-card-list.html">
+<link rel="import" href="../../elements/fow-login/fow-login.html">
 
 <polymer-element name="fow-app" attributes="toast">
   <template>
@@ -12,11 +14,13 @@
         font-family: Open Sans;
       }
 
+
       .loginButton{
         position: absolute;
         top: 20px;
-        right: 20px;
+        right: 25px;
         font-size: 2.0em;
+        z-index: 99;
       }
 
       .header{
@@ -70,9 +74,10 @@
           {{text}}
         </div>
 
-
       <div>
     </div>
+
+    <fow-card-list></fow-card-list>
 
   </template>
   <script>
