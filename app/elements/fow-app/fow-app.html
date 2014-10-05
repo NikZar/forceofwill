@@ -25,8 +25,8 @@
 
       .header{
         width: 320px;
-        position: absolute;
-        top: 60px;
+        position: relative;
+        top: 0px;
         left: 50%;
         margin-left: -160px;
       }
@@ -59,23 +59,21 @@
       src="../../images/fow.svg">
     </img>
     
-    <div layout horizontal center center-justified fit>
-      <div layout vertical center>
+    <div layout vertical center>
 
-        <template if="{{userPhoto}}">
-          
-          <img class="roundedImage"
-          src="{{userPhoto.url}}">
-          </img>
-          
-        </template>
+      <template if="{{userPhoto}}">
+        
+        <img class="roundedImage"
+        src="{{userPhoto.url}}">
+        </img>
+        
+      </template>
 
-        <div class="splashtext">
-          {{text}}
-        </div>
+      <div class="splashtext">
+        {{text}}
+      </div>
 
-      <div>
-    </div>
+    <div>
 
     <fow-card-list></fow-card-list>
 

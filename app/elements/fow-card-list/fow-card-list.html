@@ -9,10 +9,10 @@
       }
     </style>
 
-    <fow-rest-service type="cards" items="{{cards}}"></fow-rest-service>
+    <fow-rest-service type="cards" items="{{cards}}" auto="true"></fow-rest-service>
 
     <template repeat="{{card in cards}}">
-      <div>{{JSON.stryngify(card)}}</div>
+      <div>{{card.Name}}</div>
     </template>
 
 
