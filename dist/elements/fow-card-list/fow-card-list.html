@@ -1,28 +1,110 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
+<link rel="import" href="../../elements/fow-card-preview/fow-card-preview.html">
 
-<polymer-element name="fow-card-list" attributes="">
+<polymer-element name="fow-card-list" attributes="cards nameFilter">
   <template>
     <style>
+      
       :host {
         display: block;
+        width: 80%;
+        text-align: left;
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 30px;
       }
+
+      .tools{
+        background-color: rgba(255,255,255,0.3);
+        color: #000;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
     </style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true"></fow-rest-service>
 
-    <template repeat="{{card in cards}}">
-      <div>Card: {{card.Name}}</div>
+    <div class="tools">
+      Search Tools
+      <div>
+        Name: <input type="text" value="{{nameFilter}}">
+      </div>
+    </div>
+
+    <template repeat="{{card in filteredCards}}">
+      <fow-card-preview 
+        card="{{card}}">
+      </fow-card-preview>
     </template>
 
 
   </template>
   <script>
+
     (function () {
       'use strict';
 
-      Polymer({
-        // define element prototype here
+      Polymer("fow-card-list",{
+
+        observe: {
+          "cards nameFilter" : "updateFilteredCards"
+        },
+
+        created: function (){
+          this.filteredCards = [];
+          this.nameFilter = "";
+        },
+
+        updateFilteredCards: function(){
+          //console.log("Cards: ", this.cards);
+          this.filteredCards = this.filterOnName(this.cards, this.nameFilter);
+        },
+
+        filterOnName: function(cardList, filterString){
+          if(filterString === ""){
+            return cardList;
+          } 
+          else {
+            var self = this;
+
+            return cardList.filter(
+              
+              function(card){
+                return self.fuzzyMatch(card.Name, filterString);
+              }
+            
+            );
+          }
+        },
+
+        strictMatch:  function(text, textToSearch){
+          return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
+        },
+
+        fuzzyMatch: function(text, textToSearch){
+          var search = textToSearch.toUpperCase();
+          var text = text.toUpperCase();
+
+          var j = -1; // remembers position of last found character
+
+          // consider each search character one at a time
+          for (var i = 0; i < search.length; i++) {
+            var l = search[i];
+            if (l == ' ') {
+              continue;     // ignore spaces
+            }
+            
+            j = text.indexOf(l, j+1);     // search for character & update position
+            if (j == -1) {
+              return false;  // if it's not found, exclude this item
+            }
+          }
+          return true;
+        }
+
       });
 
     })();

@@ -1,0 +1,27 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-card-preview" attributes="card">
+  <template>
+    <link rel="stylesheet" href="fow-card-preview.css">
+
+    <div>{{card.Name}}</div>
+    <img id="cardImg" />
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        // define element prototype here
+        cardChanged: function(){
+          console.log("Card: ", this.card);
+          if(this.card){
+            this.$.cardImg.src = "images"+this.card["Image path"];
+          }
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>

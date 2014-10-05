@@ -3,7 +3,7 @@
 
   document.addEventListener('polymer-ready', function() {
     // Perform some behaviour
-    console.log('Polymer is ready to rock!');
+    console.log('Welcome FOW bro! Keep it real, yo! Peace!');
   });
 
 // wrap document so it plays nice with other libraries
