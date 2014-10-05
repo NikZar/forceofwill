@@ -851,24 +851,38 @@ can be used for API calls.
     </facebook-login>
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-login",{appID:"",user:null,userPhoto:null,observe:{globals:"reloadAppID"},reloadAppID:function(){console.log("Globals APP ID: ",this.globals.appid);this.appID=this.globals.appid;this.$.facebook.ready()},loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-login",{appID:"",user:null,userPhoto:null,observe:{globals:"reloadAppID"},reloadAppID:function(){console.log("Globals APP ID: ",this.globals.appid);this.appID=this.globals.appid;this.$.facebook.ready()},loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";FB.Event.subscribe("auth.logout",function(response){location.reload()});this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
 </polymer-element>
 
 
 <polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
   <template>
-    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:20px;right:25px;font-size:2em;z-index:99}.header{width:320px;position:relative;top:0;left:50%;margin-left:-160px}.splashtext{font-size:3em;font-weight:lighter;text-align:center}.roundedImage{border-radius:50%;border:1px solid #fff}</style>
+    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:65px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}</style>
 
     <paper-toast id="toast" text="There was a problem loading data.">
     </paper-toast>
-
-    <fow-login user="{{user}}" userphoto="{{userPhoto}}" class="loginButton" toast="{{$.toast}}">
-    </fow-login>
-
-    <img class="header" src="../images/fow.svg">
-    
     
     <div layout="" vertical="" center="">
+
+      <fow-login user="{{user}}" userphoto="{{userPhoto}}" class="loginButton" toast="{{$.toast}}">
+      </fow-login>
+
+      <template if="{{!user}}">
+        <div class="splashtext">
+          << Please log in with facebook
+        </div>
+      </template>
+
+      <template if="{{user}}">
+        <div id="avatar">
+          <div layout="" horizontal="">
+            <div> {{user.first_name}} {{user.last_name}} </div>
+          </div>
+        </div>
+      </template>
+
+      <img class="header" src="../images/fow.svg">
+      
 
       <template if="{{userPhoto}}">
         
@@ -876,10 +890,6 @@ can be used for API calls.
         
         
       </template>
-
-      <div class="splashtext">
-        {{text}}
-      </div>
 
       <template if="{{user}}">
 
@@ -891,6 +901,6 @@ can be used for API calls.
 
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-app",{text:"Please log in with facebook",userChanged:function(){if(this.user){this.text="Thank you for loggin in "+this.user.first_name+" "+this.user.last_name}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-app",{})})();</script>
 </polymer-element>
 </div><div hidden>undefined</div>

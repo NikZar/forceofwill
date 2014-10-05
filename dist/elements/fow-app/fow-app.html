@@ -13,32 +13,41 @@
         height: 100%;
         font-family: Open Sans;
       }
-      
+
       .loginButton{
         position: absolute;
-        top: 20px;
-        right: 25px;
-        font-size: 2.0em;
+        top: 26px;
+        left: 10px;
         z-index: 99;
       }
 
       .header{
+        margin-top: 65px;
         width: 320px;
-        position: relative;
-        top: 0px;
-        left: 50%;
-        margin-left: -160px;
       }
 
       .splashtext{
-        font-size: 3.0em;
+        position: absolute;
+        top: 26px;
+        left: 80px;
+        font-size: 1.0em;
         font-weight: lighter;
         text-align: center;
       }
 
       .roundedImage{
+        position: absolute;
+        top: 10px;
+        left: 90px;
         border-radius: 50%;
         border: 1px solid #fff;
+      }
+
+      #avatar{
+        position: absolute;
+        top: 22px;
+        left: 146px;
+        font-size: 1.2em;
       }
 
     </style>
@@ -47,18 +56,32 @@
       id="toast" 
       text="There was a problem loading data.">
     </paper-toast>
-
-    <fow-login user="{{user}}" userPhoto="{{userPhoto}}"
-      class="loginButton"
-      toast="{{$.toast}}">
-    </fow-login>
-
-    <img 
-      class="header" 
-      src="../../images/fow.svg">
-    </img>
     
     <div layout vertical center>
+
+      <fow-login user="{{user}}" userPhoto="{{userPhoto}}"
+        class="loginButton"
+        toast="{{$.toast}}">
+      </fow-login>
+
+      <template if="{{!user}}">
+        <div class="splashtext">
+          << Please log in with facebook
+        </div>
+      </template>
+
+      <template if="{{user}}">
+        <div id="avatar">
+          <div layout horizontal>
+            <div> {{user.first_name}} {{user.last_name}} </div>
+          </div>
+        </div>
+      </template>
+
+      <img 
+        class="header" 
+        src="../../images/fow.svg">
+      </img>
 
       <template if="{{userPhoto}}">
         
@@ -67,10 +90,6 @@
         </img>
         
       </template>
-
-      <div class="splashtext">
-        {{text}}
-      </div>
 
       <template if="{{user}}">
 
@@ -88,14 +107,6 @@
 
       Polymer("fow-app",{
         // define element prototype here
-        text: "Please log in with facebook",
-
-        userChanged: function(){
-          if(this.user){
-            this.text = "Thank you for loggin in "+this.user.first_name+" "+this.user.last_name;
-          }
-        }
-
       });
 
     })();
