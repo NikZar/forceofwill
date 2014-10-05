@@ -769,7 +769,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-card-preview" attributes="card" assetpath="fow-card-preview/">
   <template>
-    <style type="text/css">:host{font-family:Open Sans;display:block;background-color:rgba(255,255,255,.9);margin:10px;padding:10px;border-radius:5px;color:#222;min-height:142px}#cardImg{width:100px;margin-right:10px}.preview{margin-left:10px}.title{font-size:1.5em}#description{font-size:.7em}</style>
+    <style type="text/css">:host{font-family:Open Sans;display:block;background-color:rgba(255,255,255,.9);margin:10px;padding:10px;border-radius:5px;color:#222;min-height:142px}#cardImg{width:100px;margin-top:1px;margin-right:10px}.preview{margin-left:10px}.title{font-size:1.5em}#description{font-size:.7em}</style>
 
     <div>
       <img id="cardImg" align="left">
@@ -851,7 +851,7 @@ can be used for API calls.
     </facebook-login>
 
   </fow-globals></template>
-  <script>(function(){"use strict";Polymer("fow-login",{appID:"716407968436535",user:null,userPhoto:null,observe:{globals:"reloadAppID"},reloadAppID:function(){this.appID=this.globals.appid},loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-login",{appID:"568442163257885",user:null,userPhoto:null,observe:{globals:"reloadAppID"},reloadAppID:function(){console.log("Globals APP ID: ",this.globals.appid);this.appID=this.globals.appid},loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
 </polymer-element>
 
 
