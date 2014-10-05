@@ -52,6 +52,11 @@
           console.log("Response:", response);
           if(this.toast){
             this.toast.text="Login successful";
+            
+            FB.Event.subscribe('auth.logout', function(response) {
+              location.reload();
+            });
+
             this.$.facebook["on-graph-api-response"] = this.userResponse;
             this.toast.show();
             this.$.facebook.go();
