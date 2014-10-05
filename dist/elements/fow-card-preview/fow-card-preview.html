@@ -11,24 +11,25 @@
         padding: 10px;
         border-radius: 5px;
         color: #222;
+        min-height: 142px;
       }
       #cardImg{
         width: 100px; 
+        margin-right: 10px;
       }
       .preview{
-        padding-left: 10px;
+       margin-left: 10px;
       }
       .title{
         font-size: 1.5em;
       }
       #description{
         font-size: 0.7em;
-        max-width: 600px;
       }
     </style>
 
-    <div layout horizontal>
-      <div><img id="cardImg" /></div>
+    <div>
+      <img id="cardImg" align="left" />
       <div class="preview">
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
