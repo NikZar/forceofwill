@@ -1,7 +1,9 @@
 var gzippo = require('gzippo');
 var express = require('express');
 var morgan = require('morgan');
+var cors = require('cors');
 var app = express();
+app.use(cors());
 
 // Database
 var mongo = require('mongoskin');
@@ -9,6 +11,7 @@ var mongo = require('mongoskin');
 switch(process.env.NODE_ENV){
 
         case 'production':
+        	var BASEDIR = "/dist";
             var DBURL = "lennon.mongohq.com:10041/app30136505";
 			var USERNAME = "niko";
 			var PASSWORD = "bambumbim";
@@ -16,6 +19,7 @@ switch(process.env.NODE_ENV){
 			break;
         
         default:
+        	var BASEDIR = "/app";
             var DBURL = "localhost:27017/app30136505";
 			var db = mongo.db("mongodb://"+DBURL, {native_parser:true});
 			break;
@@ -29,9 +33,9 @@ app.use(function(req,res,next){
 });
 // API
 //	CARDS
-var cards = require("" + __dirname +'/dist/api/cards');
+var cards = require("" + __dirname +BASEDIR+'/api/cards');
 app.use('/cards', cards);
 
 app.use(morgan('dev'));
-app.use(gzippo.staticGzip("" + __dirname + "/dist"));
-app.listen(process.env.PORT || 9000);
+app.use(gzippo.staticGzip("" + __dirname + BASEDIR));
+app.listen(process.env.PORT || 5000);
