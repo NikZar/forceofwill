@@ -29,7 +29,7 @@
 
       Polymer("fow-login",{
 
-        appID: "716407968436535",
+        appID: "568442163257885",
 
         user: null,
 
@@ -40,6 +40,7 @@
         },
 
         reloadAppID: function(){
+          console.log("Globals APP ID: ", this.globals.appid);
           this.appID = this.globals.appid;
         },
 
