@@ -1,7 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
+<link rel="import" href="../../elements/fow-card-preview/fow-card-preview.html">
 
-<polymer-element name="fow-card-list" attributes="cards filterStr">
+<polymer-element name="fow-card-list" attributes="cards nameFilter">
   <template>
     <style>
       
@@ -15,7 +16,11 @@
       }
 
       .tools{
-
+        background-color: rgba(255,255,255,0.3);
+        color: #000;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
       }
 
     </style>
@@ -25,53 +30,79 @@
     <div class="tools">
       Search Tools
       <div>
-        Name: <input type="text" value="{{filterStr}}">
+        Name: <input type="text" value="{{nameFilter}}">
       </div>
     </div>
 
     <template repeat="{{card in filteredCards}}">
-      <div>{{card.Name | uppercase}}</div>
+      <fow-card-preview 
+        card="{{card}}">
+      </fow-card-preview>
     </template>
 
 
   </template>
   <script>
+
     (function () {
       'use strict';
-
-      PolymerExpressions.prototype.uppercase = function(input) {
-        return input.toUpperCase();
-      };
 
       Polymer("fow-card-list",{
 
         observe: {
-          "cards filterStr" : "updateFilteredCards"
+          "cards nameFilter" : "updateFilteredCards"
         },
 
         created: function (){
           this.filteredCards = [];
-          this.filterStr = "";
+          this.nameFilter = "";
         },
 
         updateFilteredCards: function(){
+          //console.log("Cards: ", this.cards);
+          this.filteredCards = this.filterOnName(this.cards, this.nameFilter);
+        },
+
+        filterOnName: function(cardList, filterString){
+          if(filterString === ""){
+            return cardList;
+          } 
+          else {
+            var self = this;
+
+            return cardList.filter(
+              
+              function(card){
+                return self.fuzzyMatch(card.Name, filterString);
+              }
             
-            if(this.filterStr === ""){
-              this.filteredCards = this.cards;
-            } 
-            else {
-              
-              var filterStr = this.filterStr;
+            );
+          }
+        },
 
-              this.filteredCards = this.cards.filter(
-                
-                function(card){
-                  return (card.Name.toLowerCase().indexOf(filterStr.toLowerCase()) > -1) ;
-                }
-              
-              );
+        strictMatch:  function(text, textToSearch){
+          return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
+        },
+
+        fuzzyMatch: function(text, textToSearch){
+          var search = textToSearch.toUpperCase();
+          var text = text.toUpperCase();
+
+          var j = -1; // remembers position of last found character
+
+          // consider each search character one at a time
+          for (var i = 0; i < search.length; i++) {
+            var l = search[i];
+            if (l == ' ') {
+              continue;     // ignore spaces
             }
-
+            
+            j = text.indexOf(l, j+1);     // search for character & update position
+            if (j == -1) {
+              return false;  // if it's not found, exclude this item
+            }
+          }
+          return true;
         }
 
       });

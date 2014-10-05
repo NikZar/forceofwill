@@ -766,26 +766,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </polymer-element>
 
 
-<polymer-element name="fow-card-list" attributes="cards filterStr" assetpath="fow-card-list/">
+
+<polymer-element name="fow-card-preview" attributes="card" assetpath="fow-card-preview/">
   <template>
-    <style>:host{display:block;width:80%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:30px}</style>
+    <style>:host{display:block}</style>
+
+    <div>{{card.Name}}</div>
+    <img id="cardImg">
+  </template>
+  <script>(function(){"use strict";Polymer("fow-card-preview",{cardChanged:function(){console.log("Card: ",this.card);if(this.card){this.$.cardImg.src="../images"+this.card["Image path"]}}})})();</script>
+</polymer-element>
+
+
+<polymer-element name="fow-card-list" attributes="cards nameFilter" assetpath="fow-card-list/">
+  <template>
+    <style>:host{display:block;width:80%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:30px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}</style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true"></fow-rest-service>
 
     <div class="tools">
       Search Tools
       <div>
-        Name: <input type="text" value="{{filterStr}}">
+        Name: <input type="text" value="{{nameFilter}}">
       </div>
     </div>
 
     <template repeat="{{card in filteredCards}}">
-      <div>{{card.Name | uppercase}}</div>
+      <fow-card-preview card="{{card}}">
+      </fow-card-preview>
     </template>
 
 
   </template>
-  <script>(function(){"use strict";PolymerExpressions.prototype.uppercase=function(input){return input.toUpperCase()};Polymer("fow-card-list",{observe:{"cards filterStr":"updateFilteredCards"},created:function(){this.filteredCards=[];this.filterStr=""},updateFilteredCards:function(){if(this.filterStr===""){this.filteredCards=this.cards}else{var filterStr=this.filterStr;this.filteredCards=this.cards.filter(function(card){return card.Name.toLowerCase().indexOf(filterStr.toLowerCase())>-1})}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter":"updateFilteredCards"},created:function(){this.filteredCards=[];this.nameFilter=""},updateFilteredCards:function(){this.filteredCards=this.filterOnName(this.cards,this.nameFilter)},filterOnName:function(cardList,filterString){if(filterString===""){return cardList}else{var self=this;return cardList.filter(function(card){return self.fuzzyMatch(card.Name,filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
 </polymer-element>
 
 
@@ -821,21 +834,25 @@ can be used for API calls.
 </polymer-element>
 
 
-<polymer-element name="fow-login" attributes="toast user userPhoto" assetpath="fow-login/">
+
+<polymer-element name="fow-login" attributes="toast user userPhoto globals" assetpath="fow-login/">
   <template>
     <style>:host{display:block}</style>
 
-    <facebook-login id="facebook" graphurl="me" autoapicall="false" on-graph-api-response="{{apiHandler}}" on-facebook-signin-success="{{loginSuccess}}" on-facebook-signin-not-authorized="{{loginFail}}" appid="568442163257885">
+    <fow-globals values="{{globals}}">
+    
+
+    <facebook-login id="facebook" graphurl="me" autoapicall="false" on-graph-api-response="{{apiHandler}}" on-facebook-signin-success="{{loginSuccess}}" on-facebook-signin-not-authorized="{{loginFail}}" appid="{{appID}}">
     </facebook-login>
 
-  </template>
-  <script>(function(){"use strict";Polymer("fow-login",{user:null,userPhoto:null,loginSuccess:function(event){var response=event.detail.response;if(this.toast){this.toast.text="Login successful";this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;this.userPhoto=response}}})})();</script>
+  </fow-globals></template>
+  <script>(function(){"use strict";Polymer("fow-login",{appID:"716407968436535",user:null,userPhoto:null,observe:{globals:"reloadAppID"},reloadAppID:function(){this.appID=this.globals.appid},loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
 </polymer-element>
 
 
 <polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
   <template>
-    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:20px;right:25px;font-size:2em;z-index:99}.header{width:320px;position:relative;top:0;left:50%;margin-left:-160px}.splashtext{font-size:3em;font-weight:lighter;text-align:center}.roundedImage{border-radius:50%;border:1px solid #fff}</style>
+    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:20px;right:25px;font-size:2em;z-index:99;background-color:red}.header{width:320px;position:relative;top:0;left:50%;margin-left:-160px}.splashtext{font-size:3em;font-weight:lighter;text-align:center}.roundedImage{border-radius:50%;border:1px solid #fff}</style>
 
     <paper-toast id="toast" text="There was a problem loading data.">
     </paper-toast>
