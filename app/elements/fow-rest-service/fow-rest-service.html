@@ -1,13 +1,17 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="../../elements/fow-globals/fow-globals.html">
 
-<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType">
+<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType globals">
   <template>
     <style>
       :host {
-        display: block;
+        display: none;
       }
     </style>
+
+    <fow-globals values="{{globals}}">
+    </fow-globlas>
 
     <core-ajax id="ajax" 
       auto="{{auto}}"
@@ -27,22 +31,21 @@
       'use strict';
 
       Polymer("fow-rest-service",{
-        
-        apiurl: "localhost:9000/",
 
         auto: true,
 
         observe: {
-          "apiurl type": "reloadUrl"
+          "apiurl type globals": "reloadUrl"
         },
 
-        created: function() {
+        created: function(){
           this.items = [];
         },
         
         reloadUrl: function(){
-          if(this.apiurl && this.type){   
-            this.$.ajax.url = "http://"+ this.apiurl + this.type;
+          if(this.globals.apiurl && this.type ){   
+            this.$.ajax.url = "http://"+ this.globals.apiurl + this.type;
+            console.log(this.$.ajax.url);
           }
         }
         

@@ -1,18 +1,36 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
 
-<polymer-element name="fow-card-list" attributes="">
+<polymer-element name="fow-card-list" attributes="cards filterStr">
   <template>
     <style>
+      
       :host {
         display: block;
+        width: 80%;
+        text-align: left;
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 30px;
       }
+
+      .tools{
+
+      }
+
     </style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true"></fow-rest-service>
 
-    <template repeat="{{card in cards}}">
-      <div>{{card.Name}}</div>
+    <div class="tools">
+      Search Tools
+      <div>
+        Name: <input type="text" value="{{filterStr}}">
+      </div>
+    </div>
+
+    <template repeat="{{card in filteredCards}}">
+      <div>{{card.Name | uppercase}}</div>
     </template>
 
 
@@ -21,8 +39,41 @@
     (function () {
       'use strict';
 
-      Polymer({
-        // define element prototype here
+      PolymerExpressions.prototype.uppercase = function(input) {
+        return input.toUpperCase();
+      };
+
+      Polymer("fow-card-list",{
+
+        observe: {
+          "cards filterStr" : "updateFilteredCards"
+        },
+
+        created: function (){
+          this.filteredCards = [];
+          this.filterStr = "";
+        },
+
+        updateFilteredCards: function(){
+            
+            if(this.filterStr === ""){
+              this.filteredCards = this.cards;
+            } 
+            else {
+              
+              var filterStr = this.filterStr;
+
+              this.filteredCards = this.cards.filter(
+                
+                function(card){
+                  return (card.Name.toLowerCase().indexOf(filterStr.toLowerCase()) > -1) ;
+                }
+              
+              );
+            }
+
+        }
+
       });
 
     })();

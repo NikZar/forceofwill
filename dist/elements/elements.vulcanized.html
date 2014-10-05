@@ -742,31 +742,50 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </polymer-element>
 
 
-<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType" assetpath="fow-rest-service/">
+
+<polymer-element name="fow-globals" attributes="values" assetpath="fow-globals/">
   <template>
     <style>:host{display:block}</style>
+  </template>
+  <script>(function(){"use strict";var values={};Polymer("fow-globals",{ready:function(){this.values=values;for(var i=0;i<this.attributes.length;++i){var attr=this.attributes[i];values[attr.nodeName]=attr.value}}})})();</script>
+</polymer-element>
+
+
+<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType globals" assetpath="fow-rest-service/">
+  <template>
+    <style>:host{display:none}</style>
+
+    <fow-globals values="{{globals}}">
+    
 
     <core-ajax id="ajax" auto="{{auto}}" on-core-error="{{errorHandler}}" on-core-response="{{elementsLoaded}}" response="{{items}}" handleas="json" method="{{method}}" params="{{params}}" body="{{body}}" contenttype="{{contentType}}">
     </core-ajax>
 
-  </template>
-  <script>(function(){"use strict";Polymer("fow-rest-service",{apiurl:"localhost:9000/",auto:true,observe:{"apiurl type":"reloadUrl"},created:function(){this.items=[]},reloadUrl:function(){if(this.apiurl&&this.type){this.$.ajax.url="http://"+this.apiurl+this.type}}})})();</script>
+  </fow-globals></template>
+  <script>(function(){"use strict";Polymer("fow-rest-service",{auto:true,observe:{"apiurl type globals":"reloadUrl"},created:function(){this.items=[]},reloadUrl:function(){if(this.globals.apiurl&&this.type){this.$.ajax.url="http://"+this.globals.apiurl+this.type;console.log(this.$.ajax.url)}}})})();</script>
 </polymer-element>
 
 
-<polymer-element name="fow-card-list" attributes="" assetpath="fow-card-list/">
+<polymer-element name="fow-card-list" attributes="cards filterStr" assetpath="fow-card-list/">
   <template>
-    <style>:host{display:block}</style>
+    <style>:host{display:block;width:80%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:30px}</style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true"></fow-rest-service>
 
-    <template repeat="{{card in cards}}">
-      <div>Card: {{card.Name}}</div>
+    <div class="tools">
+      Search Tools
+      <div>
+        Name: <input type="text" value="{{filterStr}}">
+      </div>
+    </div>
+
+    <template repeat="{{card in filteredCards}}">
+      <div>{{card.Name | uppercase}}</div>
     </template>
 
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-list",{})})();</script>
+  <script>(function(){"use strict";PolymerExpressions.prototype.uppercase=function(input){return input.toUpperCase()};Polymer("fow-card-list",{observe:{"cards filterStr":"updateFilteredCards"},created:function(){this.filteredCards=[];this.filterStr=""},updateFilteredCards:function(){if(this.filterStr===""){this.filteredCards=this.cards}else{var filterStr=this.filterStr;this.filteredCards=this.cards.filter(function(card){return card.Name.toLowerCase().indexOf(filterStr.toLowerCase())>-1})}}})})();</script>
 </polymer-element>
 
 
@@ -810,7 +829,7 @@ can be used for API calls.
     </facebook-login>
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-login",{user:null,userPhoto:null,loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-login",{user:null,userPhoto:null,loginSuccess:function(event){var response=event.detail.response;if(this.toast){this.toast.text="Login successful";this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;this.userPhoto=response}}})})();</script>
 </polymer-element>
 
 
@@ -840,11 +859,16 @@ can be used for API calls.
         {{text}}
       </div>
 
-    <div>
+      <template if="{{user}}">
 
-    <fow-card-list></fow-card-list>
+        <fow-card-list></fow-card-list>
+        
+      </template>
 
-  </div></div></template>
+    </div>
+
+
+  </template>
   <script>(function(){"use strict";Polymer("fow-app",{text:"Please log in with facebook",userChanged:function(){if(this.user){this.text="Thank you for loggin in "+this.user.first_name+" "+this.user.last_name}}})})();</script>
 </polymer-element>
-</div>
+</div><div hidden>undefined</div>

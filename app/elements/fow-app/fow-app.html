@@ -73,9 +73,14 @@
         {{text}}
       </div>
 
-    <div>
+      <template if="{{user}}">
 
-    <fow-card-list></fow-card-list>
+        <fow-card-list></fow-card-list>
+        
+      </template>
+
+    </div>
+
 
   </template>
   <script>
