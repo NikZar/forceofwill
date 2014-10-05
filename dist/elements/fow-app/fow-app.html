@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
 <link rel="import" href="../../elements/fow-card-list/fow-card-list.html">
+<link rel="import" href="../../elements/fow-login/fow-login.html">
 
 <polymer-element name="fow-app" attributes="toast">
   <template>
@@ -13,17 +14,19 @@
         font-family: Open Sans;
       }
 
+
       .loginButton{
         position: absolute;
         top: 20px;
         right: 25px;
         font-size: 2.0em;
+        z-index: 99;
       }
 
       .header{
         width: 320px;
-        position: absolute;
-        top: 60px;
+        position: relative;
+        top: 0px;
         left: 50%;
         margin-left: -160px;
       }
@@ -56,23 +59,21 @@
       src="../../images/fow.svg">
     </img>
     
-    <div layout horizontal center center-justified fit>
-      <div layout vertical center>
+    <div layout vertical center>
 
-        <template if="{{userPhoto}}">
-          
-          <img class="roundedImage"
-          src="{{userPhoto.url}}">
-          </img>
-          
-        </template>
+      <template if="{{userPhoto}}">
+        
+        <img class="roundedImage"
+        src="{{userPhoto.url}}">
+        </img>
+        
+      </template>
 
-        <div class="splashtext">
-          {{text}}
-        </div>
+      <div class="splashtext">
+        {{text}}
+      </div>
 
-      <div>
-    </div>
+    <div>
 
     <fow-card-list></fow-card-list>
 

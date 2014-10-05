@@ -13,7 +13,7 @@
       auto="{{auto}}"
       on-core-error="{{errorHandler}}"
       on-core-response="{{elementsLoaded}}"
-      response="{{fditems}}"
+      response="{{items}}"
       handleAs="json"
       method="{{method}}"
       params="{{params}}"
@@ -30,13 +30,19 @@
         
         apiurl: "localhost:9000/",
 
+        auto: true,
+
+        observe: {
+          "apiurl type": "reloadUrl"
+        },
+
         created: function() {
           this.items = [];
         },
         
         reloadUrl: function(){
-          if(this.ssl != undefined && this.apiurl && this.fdtype){   
-            this.$.ajax.url = "http://"+ this.apiurl + this.type +"/";
+          if(this.apiurl && this.type){   
+            this.$.ajax.url = "http://"+ this.apiurl + this.type;
           }
         }
         

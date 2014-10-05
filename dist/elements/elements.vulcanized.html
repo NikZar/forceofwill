@@ -746,11 +746,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style>:host{display:block}</style>
 
-    <core-ajax id="ajax" auto="{{auto}}" on-core-error="{{errorHandler}}" on-core-response="{{elementsLoaded}}" response="{{fditems}}" handleas="json" method="{{method}}" params="{{params}}" body="{{body}}" contenttype="{{contentType}}">
+    <core-ajax id="ajax" auto="{{auto}}" on-core-error="{{errorHandler}}" on-core-response="{{elementsLoaded}}" response="{{items}}" handleas="json" method="{{method}}" params="{{params}}" body="{{body}}" contenttype="{{contentType}}">
     </core-ajax>
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-rest-service",{apiurl:"localhost:9000/",created:function(){this.items=[]},reloadUrl:function(){if(this.ssl!=undefined&&this.apiurl&&this.fdtype){this.$.ajax.url="http://"+this.apiurl+this.type+"/"}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-rest-service",{apiurl:"localhost:9000/",auto:true,observe:{"apiurl type":"reloadUrl"},created:function(){this.items=[]},reloadUrl:function(){if(this.apiurl&&this.type){this.$.ajax.url="http://"+this.apiurl+this.type}}})})();</script>
 </polymer-element>
 
 
@@ -758,10 +758,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style>:host{display:block}</style>
 
-    <fow-rest-service type="cards" items="{{cards}}"></fow-rest-service>
+    <fow-rest-service type="cards" items="{{cards}}" auto="true"></fow-rest-service>
 
     <template repeat="{{card in cards}}">
-      <div>{{JSON.stryngify(card)}}</div>
+      <div>Card: {{card.Name}}</div>
     </template>
 
 
@@ -770,9 +770,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </polymer-element>
 
 
+
+
+<!--
+Element for including the Facebook Login button into your site.
+After including the button the FB object is at a global scope and
+can be used for API calls.
+
+##### Example
+
+    <facebook-login appID="123456789"></facebook-login>
+
+@element facebook-login
+@blurb Element that includes the Facebook Login button into your site and enables Graph API calls.
+@status alpha
+@homepage http://davidwittenbrink.github.io/facebook-login
+-->
+<polymer-element name="facebook-login" attributes="appID cookie version scopes buttonText graphURL graphResponse autoAPICall graphParams" assetpath="../bower_components/facebook-login/">
+
+  <template>
+    <style>:host{display:inline-block}</style>
+    <div id="fb-login-container">
+        <fb:login-button scope="{{FB_APP_SCOPES}}" onlogin="FB.customCheckLoginState();" data-auto-logout-link="true">
+        {{ buttonText }}
+        </fb:login-button>
+    </div>
+  </template>
+
+  <script>(function(){function statusChangeCallback(response){if(response.status==="connected"){handler.fire("facebook-signin-success",{response:response})}else if(response.status==="not_authorized"){handler.fire("facebook-signin-not-authorized",{response:response})}else{console.log("User not logged into Facebook")}}var FB_APP_ID="";var FB_APP_COOKIE="";var FB_APP_VERSION="";var FB_APP_XFBML;var handler;Polymer("facebook-login",{appID:"",cookie:true,version:"v2.0",scopes:"public_profile",buttonText:"",graphURL:"",graphResponse:null,graphParams:{},graphMethod:"get",autoAPICall:false,go:function(params,method){if(!this.graphURL)console.error("No URL specified. Specify the graph API URL using the graphURL attribute.");FB.api(this.graphURL,this.graphMethod,this.graphParams,function(response){this.graphResponse=response;handler.fire("graph-api-response",{response:response})})},ready:function(){if(!this.appID){console.error("Missing attribute appID for Facebook Login Button");return}handler=this;FB_APP_ID=this.appID;FB_APP_COOKIE=this.cookie;FB_APP_XFBML=this.xfbml;FB_APP_VERSION=this.version;handler.FB_APP_SCOPES=this.scopes.split(" ").join(",");var container=this.$["fb-login-container"];window.fbAsyncInit=function(){FB.init({appId:FB_APP_ID,cookie:FB_APP_COOKIE,xfbml:FB_APP_XFBML,version:FB_APP_VERSION});FB.getLoginStatus(function(response){statusChangeCallback(response)});FB.XFBML.parse(container);FB.customCheckLoginState=function(){FB.getLoginStatus(function(response){statusChangeCallback(response)})}};if(typeof FB=="undefined"){(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="//connect.facebook.net/en_US/sdk.js";fjs.parentNode.insertBefore(js,fjs)})(document,"script","facebook-jssdk")}},graphURLChanged:function(){if(this.autoAPICall)this.go()},graphParamsChanged:function(){if(this.autoAPICall)this.go()}})})();</script>
+
+</polymer-element>
+
+
+<polymer-element name="fow-login" attributes="toast user userPhoto" assetpath="fow-login/">
+  <template>
+    <style>:host{display:block}</style>
+
+    <facebook-login id="facebook" graphurl="me" autoapicall="false" on-graph-api-response="{{apiHandler}}" on-facebook-signin-success="{{loginSuccess}}" on-facebook-signin-not-authorized="{{loginFail}}" appid="568442163257885">
+    </facebook-login>
+
+  </template>
+  <script>(function(){"use strict";Polymer("fow-login",{user:null,userPhoto:null,loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
+</polymer-element>
+
+
 <polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
   <template>
-    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:20px;right:25px;font-size:2em}.header{width:320px;position:absolute;top:60px;left:50%;margin-left:-160px}.splashtext{font-size:3em;font-weight:lighter;text-align:center}.roundedImage{border-radius:50%;border:1px solid #fff}</style>
+    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:20px;right:25px;font-size:2em;z-index:99}.header{width:320px;position:relative;top:0;left:50%;margin-left:-160px}.splashtext{font-size:3em;font-weight:lighter;text-align:center}.roundedImage{border-radius:50%;border:1px solid #fff}</style>
 
     <paper-toast id="toast" text="There was a problem loading data.">
     </paper-toast>
@@ -783,22 +827,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <img class="header" src="../images/fow.svg">
     
     
-    <div layout="" horizontal="" center="" center-justified="" fit="">
-      <div layout="" vertical="" center="">
+    <div layout="" vertical="" center="">
 
-        <template if="{{userPhoto}}">
-          
-          <img class="roundedImage" src="{{userPhoto.url}}">
-          
-          
-        </template>
+      <template if="{{userPhoto}}">
+        
+        <img class="roundedImage" src="{{userPhoto.url}}">
+        
+        
+      </template>
 
-        <div class="splashtext">
-          {{text}}
-        </div>
+      <div class="splashtext">
+        {{text}}
+      </div>
 
-      <div>
-    </div>
+    <div>
 
     <fow-card-list></fow-card-list>
 
