@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/facebook-login/facebook-login.html">
 <link rel="import" href="../../elements/fow-globals/fow-globals.html">
 
-<polymer-element name="fow-login" attributes="toast user userPhoto globals">
+<polymer-element name="fow-login" attributes="toast user userPhoto globals appID">
   <template>
     <style>
       :host {
@@ -11,7 +11,7 @@
     </style>
 
     <fow-globals values="{{globals}}">
-    </fow-globlas>
+    </fow-globals>
 
     <facebook-login id="facebook"
       graphURL="me"
@@ -29,7 +29,7 @@
 
       Polymer("fow-login",{
 
-        appID: "568442163257885",
+        appID: "",
 
         user: null,
 
@@ -42,6 +42,7 @@
         reloadAppID: function(){
           console.log("Globals APP ID: ", this.globals.appid);
           this.appID = this.globals.appid;
+          this.$.facebook.ready();
         },
 
         // define element prototype here
