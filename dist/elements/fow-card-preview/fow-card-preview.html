@@ -1,11 +1,39 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-
+<link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
 <polymer-element name="fow-card-preview" attributes="card">
   <template>
-    <link rel="stylesheet" href="fow-card-preview.css">
+    <style type="text/css">
+      :host {
+        font-family: Open Sans;
+        display: block;
+        background-color: rgba(255,255,255,0.9);
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        color: #222;
+      }
+      #cardImg{
+        width: 100px; 
+      }
+      .preview{
+        padding-left: 10px;
+      }
+      .title{
+        font-size: 1.5em;
+      }
+      #description{
+        font-size: 0.7em;
+        max-width: 600px;
+      }
+    </style>
 
-    <div>{{card.Name}}</div>
-    <img id="cardImg" />
+    <div layout horizontal>
+      <div><img id="cardImg" /></div>
+      <div class="preview">
+        <div class="title">{{card.Name}}</div>
+        <div id="description"></div>
+      </div>
+    </div>
   </template>
   <script>
     (function () {
@@ -14,9 +42,10 @@
       Polymer({
         // define element prototype here
         cardChanged: function(){
-          console.log("Card: ", this.card);
+          //console.log("Card: ", this.card);
           if(this.card){
             this.$.cardImg.src = "../images"+this.card["Image path"];
+            this.$.description.innerHTML = this.card.Cardtext;
           }
         }
 
