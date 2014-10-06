@@ -14,11 +14,11 @@ router.param('token', function(req, res, next, token) {
 	  });
 	  response.on('end', function () {
 	    var fbauth = JSON.parse(str);
-		// go to the next thing
+
+	    //validation
 		if(fbauth.id){
-			// once validation is done save the new item in the req
 			req.token = token;
-			// retrieving id parameter
+			// retrieving id parameter for future use
 			req.id = fbauth.id;
 			next();
 		}
@@ -37,7 +37,6 @@ router.param('token', function(req, res, next, token) {
 
 });
 
-/*
 /*
  * GET cards.
  */
