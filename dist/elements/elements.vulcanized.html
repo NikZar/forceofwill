@@ -804,7 +804,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter":"updateFilteredCards"},created:function(){this.filteredCards=[];this.nameFilter=""},updateFilteredCards:function(){this.filteredCards=this.filterOnName(this.cards,this.nameFilter)},filterOnName:function(cardList,filterString){if(filterString===""){return cardList}else{var self=this;return cardList.filter(function(card){return self.fuzzyMatch(card.Name,filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter":"updateFilteredCards"},created:function(){this.filteredCards=[];this.nameFilter=""},updateFilteredCards:function(){this.filteredCards=this.filterOnName(this.cards,this.nameFilter)},filterOnName:function(cardList,filterString){if(filterString===""){return cardList}else{var self=this;return cardList.filter(function(card){return self.strictMatch(card.Name,filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
 </polymer-element>
 
 

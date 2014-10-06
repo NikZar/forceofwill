@@ -74,7 +74,7 @@
             return cardList.filter(
               
               function(card){
-                return self.fuzzyMatch(card.Name, filterString);
+                return self.strictMatch(card.Name, filterString);
               }
             
             );
