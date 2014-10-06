@@ -61,7 +61,8 @@
 
       <fow-login user="{{user}}" userPhoto="{{userPhoto}}"
         class="loginButton"
-        toast="{{$.toast}}">
+        toast="{{$.toast}}"
+        token="{{token}}">
       </fow-login>
 
       <template if="{{!user}}">
@@ -93,7 +94,7 @@
 
       <template if="{{user}}">
 
-        <fow-card-list></fow-card-list>
+        <fow-card-list token="{{token}}"></fow-card-list>
         
       </template>
 

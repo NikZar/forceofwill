@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/facebook-login/facebook-login.html">
 <link rel="import" href="../../elements/fow-globals/fow-globals.html">
 
-<polymer-element name="fow-login" attributes="toast user userPhoto globals appID">
+<polymer-element name="fow-login" attributes="toast user userPhoto globals appID token">
   <template>
     <style>
       :host {
@@ -56,6 +56,8 @@
             FB.Event.subscribe('auth.logout', function(response) {
               location.reload();
             });
+
+            this.token = response.authResponse.accessToken;
 
             this.$.facebook["on-graph-api-response"] = this.userResponse;
             this.toast.show();
