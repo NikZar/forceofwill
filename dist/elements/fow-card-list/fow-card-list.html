@@ -2,7 +2,7 @@
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
 <link rel="import" href="../../elements/fow-card-preview/fow-card-preview.html">
 
-<polymer-element name="fow-card-list" attributes="cards nameFilter">
+<polymer-element name="fow-card-list" attributes="cards nameFilter token">
   <template>
     <style>
       
@@ -25,7 +25,8 @@
 
     </style>
 
-    <fow-rest-service type="cards" items="{{cards}}" auto="true"></fow-rest-service>
+    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
+    </fow-rest-service>
 
     <div class="tools">
       Search Tools
@@ -73,7 +74,7 @@
             return cardList.filter(
               
               function(card){
-                return self.fuzzyMatch(card.Name, filterString);
+                return self.strictMatch(card.Name, filterString);
               }
             
             );
