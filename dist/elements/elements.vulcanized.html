@@ -762,7 +762,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </core-ajax>
 
   </fow-globals></template>
-  <script>(function(){"use strict";Polymer("fow-rest-service",{auto:true,observe:{"apiurl type globals":"reloadUrl"},created:function(){this.items=[]},reloadUrl:function(){if(this.globals.apiurl&&this.type){this.$.ajax.url="http://"+this.globals.apiurl+this.type+"/"+this.token;console.log(this.$.ajax.url)}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-rest-service",{auto:true,observe:{"apiurl type globals":"reloadUrl"},created:function(){this.items=[]},reloadUrl:function(){if(this.globals.apiurl&&this.type){this.$.ajax.url="http://"+this.globals.apiurl+this.type+"/?token="+this.token;console.log(this.$.ajax.url)}}})})();</script>
 </polymer-element>
 
 
