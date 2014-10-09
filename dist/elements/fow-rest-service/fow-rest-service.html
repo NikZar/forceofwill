@@ -44,7 +44,7 @@
         
         reloadUrl: function(){
           if(this.globals.apiurl && this.type ){   
-            this.$.ajax.url = "http://"+ this.globals.apiurl + this.type + '/' + this.token;
+            this.$.ajax.url = "http://"+ this.globals.apiurl + this.type + '/?token=' + this.token;
             console.log(this.$.ajax.url);
           }
         }
