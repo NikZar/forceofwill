@@ -1,0 +1,53 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-media-query/core-media-query.html">
+
+<polymer-element name="fow-menu" attributes="smallQuery">
+  <template>
+    <style>
+
+      :host {
+        display: block;
+      }
+
+      .menu-bar{
+        position: fixed;
+        left: 0px;
+        top: 50%;
+        margin-top: -100px;
+      }
+
+    </style>
+
+    <core-media-query
+      query="{{smallQuery}}"
+      queryMatches="{{smallScreen}}">
+    </core-media-query>
+
+    <template if="{{smallScreen}}">
+      <div layout horizontal center center-justified>
+        <div> 
+          MENU
+        </div>
+      </div>
+    </template>
+
+    <template if="{{!smallScreen}}">
+      <div class="menu-bar">
+        <div> 
+          MENU
+        </div>
+      </div>
+    </template>
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>
