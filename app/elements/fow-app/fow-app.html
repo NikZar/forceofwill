@@ -4,6 +4,7 @@
 <link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
 <link rel="import" href="../../elements/fow-card-list/fow-card-list.html">
 <link rel="import" href="../../elements/fow-login/fow-login.html">
+<link rel="import" href="../../elements/fow-notification-icon/fow-notification-icon.html">
 
 <polymer-element name="fow-app" attributes="toast">
   <template>
@@ -50,7 +51,16 @@
         font-size: 1.2em;
       }
 
+      #notificationIcon{
+        position: absolute;
+        top: 15px;
+        right: 15px;
+      }
+
     </style>
+
+    <fow-notification-icon id="notificationIcon">
+    </fow-notification-icon>
 
     <paper-toast 
       id="toast" 
