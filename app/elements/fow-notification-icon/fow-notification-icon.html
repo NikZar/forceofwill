@@ -1,0 +1,69 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../bower_components/core-icons/social-icons.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+
+<polymer-element name="fow-notification-icon" attributes="notificationCount">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .iconNotification{
+        color: #fff;
+        height: 30px;
+        width: 30px;
+      }
+
+      .rotate180 {
+        -webkit-animation:spin 2s linear infinite;
+        -moz-animation:spin 2s linear infinite;
+        animation:spin 2s linear infinite;
+      }
+      @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+      @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+      @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+    </style>
+
+    <template if="{{notificationCount === 0}}">
+      <core-icon class="iconNotification" icon="social:notifications-none">
+      </core-icon>
+    </template>
+
+    <template if="{{notificationCount > 0}}">
+      <core-icon id="icon" class="iconNotification" icon="social:notifications-on" on-tap="{{showNotifications}}">
+      </core-icon>
+    </template>
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        created: function(){
+          this.notificationCount = 1;
+        },
+
+        notificationCountChanged: function(){
+          if(this.notificationCount > 0){
+            this.$.icon.style.webkitTransform = 'rotate('+30+'deg)'; 
+          }
+        },
+
+        showNotifications: function(){
+          if(this.notificationCount > 0){
+            this.$.icon.classList.add('rotate180'); 
+          }
+        },
+
+        animateNotification: function(){
+          this.$.icon.style.webkitTransform = 'rotate('+180+'deg)'; 
+        }
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>
