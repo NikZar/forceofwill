@@ -36,19 +36,7 @@
         border-radius: 5px;
       }
 
-      .textSearch{
-        background-color: rgba(255,255,255,0.3);
-        border-radius: 10px;
-        margin: 4px;
-      }
-
-      .attributes{
-        background-color: rgba(255,255,255,0.3);
-        border-radius: 10px;
-        margin: 4px;
-      }
-
-      .type{
+      .textSearch, .attributes, .type, .rarity, .expansion{
         background-color: rgba(255,255,255,0.3);
         border-radius: 10px;
         margin: 4px;
@@ -112,6 +100,13 @@
         background-color:  #fff;
       }
 
+      paper-radio-button.default::shadow #ink[checked] {
+        color: #fff;
+      }
+      paper-radio-button.default::shadow #onRadio {
+        background-color:  #fff;
+      }
+
     </style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
@@ -144,15 +139,34 @@
           <paper-radio-button class="wind" name="wind" label="Wind"></paper-radio-button>
           <paper-radio-button class="water" name="water" label="Water"></paper-radio-button>
           <paper-radio-button class="fire" name="fire" label="Fire"></paper-radio-button>
-          <paper-radio-button class="all" name="" label="All"></paper-radio-button>
+          <paper-radio-button class="all" name="radio_all" label="All"></paper-radio-button>
         </paper-radio-group>
       </div>
       <div class="type" layout horizontal center center-justified>
         <paper-radio-group selected="{{typeFilter}}">
-          <paper-radio-button name="resonator" label="Resonator"></paper-radio-button>
-          <paper-radio-button name="spell" label="Normal Spell"></paper-radio-button>
-          <paper-radio-button name="ruler" label="Ruler / JRuler"></paper-radio-button>
-          <paper-radio-button name="" label="All"></paper-radio-button>
+          <paper-radio-button class="default" name="resonator" label="Resonator"></paper-radio-button>
+          <paper-radio-button class="default" name="spell" label="Instant/Chant"></paper-radio-button>
+          <paper-radio-button class="default" name="addition" label="Addition"></paper-radio-button>
+          <paper-radio-button class="default" name="ruler" label="Ruler / JRuler"></paper-radio-button>
+          <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
+        </paper-radio-group>
+      </div>
+      <div class="rarity" layout horizontal center center-justified>
+        <paper-radio-group selected="{{rarityFilter}}">
+          <paper-radio-button class="default" name="sr" label="SR"></paper-radio-button>
+          <paper-radio-button class="default" name="r" label="R"></paper-radio-button>
+          <paper-radio-button class="default" name="u" label="U"></paper-radio-button>
+          <paper-radio-button class="default" name="c" label="C"></paper-radio-button>
+          <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
+        </paper-radio-group>
+      </div>
+      <div class="expansion" layout horizontal center center-justified>
+        <paper-radio-group selected="{{expansionFilter}}">
+          <paper-radio-button class="default" name="Dawn of Valhalla" label="Dawn of Valhalla"></paper-radio-button>
+          <paper-radio-button class="default" name="War of Valhalla" label="War of Valhalla"></paper-radio-button>
+          <paper-radio-button class="default" name="The Shaft of Light of Valhalla" label="The Shaft of Light of Valhalla"></paper-radio-button>
+          <paper-radio-button class="default" name="The Crimson Moon Fairy Tale" label="The Crimson Moon Fairy Tale"></paper-radio-button>
+          <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
         </paper-radio-group>
       </div>
     </div>
@@ -173,15 +187,17 @@
       Polymer("fow-card-list",{
 
         observe: {
-          "cards nameFilter descriptionFilter attributeFilter typeFilter" : "updateFilteredCards"
+          "cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter" : "updateFilteredCards"
         },
 
         created: function (){
           this.filteredCards = [];
           this.nameFilter = "";
           this.descriptionFilter = "";
-          this.attributeFilter = "";
-          this.typeFilter = "";
+          this.attributeFilter = "radio_all";
+          this.typeFilter = "radio_all";
+          this.rarityFilter = "radio_all";
+          this.expansionFilter = "radio_all";
         },
 
         updateFilteredCards: function(){
@@ -192,10 +208,14 @@
           this.filteredCards = this.filterOnText(this.filteredCards, "Attribute", this.attributeFilter);
 
           this.filteredCards = this.filterOnText(this.filteredCards, "Type", this.typeFilter);
+
+          this.filteredCards = this.filterOnText(this.filteredCards, "Rarity", this.rarityFilter);
+
+          this.filteredCards = this.filterOnText(this.filteredCards, "Expansion", this.expansionFilter);
         },
 
         filterOnText: function(cardList, key, filterString){
-          if(filterString === ""){
+          if(filterString === "" || filterString === "radio_all"){
             return cardList;
           } 
           else {
