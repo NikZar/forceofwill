@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/fow-paypal-donate/fow-paypal-donate.html">
+<link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
+
+<polymer-element layout vertical center center-justified name="fow-settings" attributes="token">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 100%;
+        font-family: Open Sans;
+        font-size: 1.3em;
+        text-align: center;
+      }
+    </style>
+
+    <div>
+      Please support us, make a small donation:
+    </div>
+    <br />
+    <fow-paypal-donate>
+    </fow-paypal-donate>
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>
