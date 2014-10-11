@@ -1,7 +1,11 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-media-query/core-media-query.html">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../bower_components/core-icons/social-icons.html">
+<link rel="import" href="../../bower_components/core-icons/communication-icons.html">
 
-<polymer-element name="fow-menu" attributes="smallQuery">
+<polymer-element name="fow-menu" attributes="smallQuery selected">
   <template>
     <style>
 
@@ -9,11 +13,52 @@
         display: block;
       }
 
+      .container{
+        background-color: rgba(255,255,255,0.1);
+        padding: 10px;
+      }
+
       .menu-bar{
         position: fixed;
         left: 0px;
         top: 50%;
         margin-top: -100px;
+      }
+
+      .menu-icon{
+        width: 40px;
+        height: 40px;
+        margin: 5px;
+        color: #fff;
+      }
+
+      .menu-icon:hover{
+        color: #555;
+      }
+
+      .violet{
+        color: #a5f;
+      }
+
+      .green{
+        color: #6f6;
+      }
+
+      .blue{
+        color: #8df;
+      }
+
+      .orange{
+        color: #fa5;
+      }
+
+      .grey{
+        color: #bbb;
+      }
+
+      .active{
+        border: 1px solif #fff;
+        color: #fff;
       }
 
     </style>
@@ -24,17 +69,77 @@
     </core-media-query>
 
     <template if="{{smallScreen}}">
-      <div layout horizontal center center-justified>
-        <div> 
-          MENU
-        </div>
+      <div class="container" layout horizontal center center-justified>
+
+        <core-icon 
+          name="cards" 
+          class="menu-icon {{ (selected === 'cards')?'violet':'' }}" 
+          icon="content-copy" 
+          on-tap="{{buttonTapped}}">
+        </core-icon>
+
+        <core-icon 
+          name="myCards" 
+          class="menu-icon {{ (selected === 'myCards')?'green':'' }}" 
+          icon="content-copy" 
+          on-tap="{{buttonTapped}}">
+        </core-icon>
+        <core-icon 
+          name="decks" 
+          class="menu-icon {{ (selected === 'decks')?'green':'' }}" 
+          icon="list" 
+          on-tap="{{buttonTapped}}">
+        </core-icon>
+
+        <core-icon 
+          name="friends" 
+          class="menu-icon {{ (selected === 'friends')?'blue':'' }}" 
+          icon="social:people" 
+          on-tap="{{buttonTapped}}">
+        </core-icon>
+        <core-icon 
+          name="messages" 
+          class="menu-icon {{ (selected === 'messages')?'blue':'' }}" 
+          icon="communication:forum" 
+          on-tap="{{buttonTapped}}">
+        </core-icon>
+        <core-icon 
+          name="trading" 
+          class="menu-icon {{ (selected === 'trading')?'blue':'' }}" 
+          icon="social:circles-extended" 
+          on-tap="{{buttonTapped}}"></core-icon>
+
+        <core-icon 
+          name="tournaments" 
+          class="menu-icon {{ (selected === 'tournaments')?'orange':'' }}" 
+          icon="social:communities" 
+          on-tap="{{buttonTapped}}">
+        </core-icon>
+        <core-icon 
+          name="ranking" 
+          class="menu-icon {{ (selected === 'ranking')?'orange':'' }}" 
+          icon="star-half" 
+          on-tap="{{buttonTapped}}">
+        </core-icon>
+
+        <core-icon 
+          name="settings" 
+          class="menu-icon {{ (selected === 'settings')?'grey':'' }}" 
+          icon="settings" 
+          on-tap="{{buttonTapped}}"></core-icon>
       </div>
     </template>
 
     <template if="{{!smallScreen}}">
-      <div class="menu-bar">
-        <div> 
-          MENU
+      <div class="container menu-bar">
+        <div layout vertical center> 
+          <core-icon name="cards" class="menu-icon" icon="content-copy" on-tap="{{buttonTapped}}"></core-icon>
+          <core-icon name="myCards" class="menu-icon" icon="content-copy" on-tap="{{buttonTapped}}"></core-icon>
+          <core-icon name="decks" class="menu-icon" icon="list" on-tap="{{buttonTapped}}"></core-icon>
+          <core-icon name="friends" class="menu-icon" icon="social:people" on-tap="{{buttonTapped}}"></core-icon>
+          <core-icon name="messages" class="menu-icon" icon="communication:forum" on-tap="{{buttonTapped}}"></core-icon>
+          <core-icon name="trading" class="menu-icon" icon="social:circles-extended" on-tap="{{buttonTapped}}"></core-icon>
+          <core-icon name="settings" class="menu-icon" icon="settings" on-tap="{{buttonTapped}}"></core-icon>
         </div>
       </div>
     </template>
@@ -45,7 +150,15 @@
       'use strict';
 
       Polymer({
-        // define element prototype here
+
+        ready: function(){
+          this.selected = "cards";
+        },
+
+        buttonTapped: function(event, detail, sender){
+          this.selected = sender.attributes.name.value;
+        }
+
       });
 
     })();

@@ -8,6 +8,7 @@
     <style>
       :host {
         display: block;
+        position: relative;
       }
 
       .iconNotification{
@@ -16,25 +17,56 @@
         width: 30px;
       }
 
-      .rotate180 {
-        -webkit-animation:spin 2s linear infinite;
-        -moz-animation:spin 2s linear infinite;
-        animation:spin 2s linear infinite;
+      .iconNotificationOff{
+        color: #fff;
       }
-      @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-      @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-      @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+      .iconNotificationOn{
+        color: #f55;
+      }
+
+      .circle{
+        border-radius: 50%;
+        background-color: #f55;
+        color: #fff;
+        position: absolute;
+        top: -12px;
+        right: -12px;
+        font-size: 10px;
+        width: 18px;
+        height: 18px;
+      }
+
+      .rotateRight {
+        -webkit-animation:spinR 0.3s linear;
+        -moz-animation:spinR 0.3s linear;
+        animation:spinR 0.3s linear;
+      }
+      @-moz-keyframes spinR { 100% { -moz-transform: rotate(5deg); } }
+      @-webkit-keyframes spinR { 100% { -webkit-transform: rotate(5deg); } }
+      @keyframes spinR { 100% { -webkit-transform: rotate(5deg); transform:rotate(5deg); } }
+
+      .rotateLeft {
+        -webkit-animation:spinL 0.3s linear;
+        -moz-animation:spinL 0.3s linear;
+        animation:spinL 0.3s linear;
+      }
+      @-moz-keyframes spinL { 100% { -moz-transform: rotate(-5deg); } }
+      @-webkit-keyframes spinL { 100% { -webkit-transform: rotate(-5deg); } }
+      @keyframes spinL { 100% { -webkit-transform: rotate(-5deg); transform:rotate(-5deg); } }
+
     </style>
 
-    <template if="{{notificationCount === 0}}">
-      <core-icon class="iconNotification" icon="social:notifications-none">
-      </core-icon>
+    <template if="{{notificationCount > 0}}">
+      <div class="circle" layout horizontal center center-justified>
+        {{notificationCount}}
+      </div>
     </template>
 
-    <template if="{{notificationCount > 0}}">
-      <core-icon id="icon" class="iconNotification" icon="social:notifications-on" on-tap="{{showNotifications}}">
-      </core-icon>
-    </template>
+    <input type="text" value="{{notificationCount}}">
+
+    <core-icon id="notificationIcon" class="iconNotification iconNotificationOff" icon="social:notifications-none" on-tap="{{showNotifications}}">
+    </core-icon>
 
   </template>
   <script>
@@ -42,26 +74,54 @@
       'use strict';
 
       Polymer({
+
         created: function(){
-          this.notificationCount = 1;
+          this.notificationCount = 0;
         },
 
         notificationCountChanged: function(){
           if(this.notificationCount > 0){
-            this.$.icon.style.webkitTransform = 'rotate('+30+'deg)'; 
+            this.$.notificationIcon.classList.remove('iconNotificationOff');
+            this.$.notificationIcon.classList.add('iconNotificationOn');
+            this.$.notificationIcon.icon = "social:notifications-on";
+            this.animateNotificationIcon();
+          } else {
+            this.$.notificationIcon.classList.remove('iconNotificationOn');
+            this.$.notificationIcon.classList.add('iconNotificationOff');
+            this.$.notificationIcon.icon = "social:notifications-none";
           }
         },
 
-        showNotifications: function(){
+        animateNotificationIcon: function(){
+          var self = this;
           if(this.notificationCount > 0){
-            this.$.icon.classList.add('rotate180'); 
+            self.rotationAnimation(self, 1);
           }
         },
 
-        animateNotification: function(){
-          this.$.icon.style.webkitTransform = 'rotate('+180+'deg)'; 
+        rotationAnimation: function(self, iteration){
+
+          if(self.notificationCount == 0){
+            self.$.notificationIcon.classList.remove('rotateLeft');
+            self.$.notificationIcon.classList.remove('rotateRight');
+            return;
+          }
+
+          switch(iteration%2){
+            case 1: 
+              self.$.notificationIcon.classList.remove('rotateLeft');
+              self.$.notificationIcon.classList.add('rotateRight'); 
+              break;
+            default:
+              self.$.notificationIcon.classList.remove('rotateRight');
+              self.$.notificationIcon.classList.add('rotateLeft'); 
+              break;
+          }
+          window.setTimeout(function() {
+            self.rotationAnimation(self, ++iteration);
+          }, 300);
         }
-        // define element prototype here
+
       });
 
     })();
