@@ -4,14 +4,34 @@ var https = require('https');
 
 
 var getAllDecks = function(req, res){
-	console.log("User ID: ", req.userId);
-	console.log("App ID: ", req.appId);
     var db = req.db;
     db.collection('decks').find().toArray(function (err, items) {
         res.json(items);
     });
 }
 
+var getDeck = function(req, res){
+    var db = req.db;
+    var id = req.params.id;
+    db.collection('decks').find({id: id}).toArray(function (err, items) {
+    	if(items[0].userId === req.userId){
+        	res.json(items[0]);
+    	} else {
+        	res.json({});
+    	}
+    });
+}
+
+/*
+ * GET a deck.
+ */
+router.get('/:id', function(req, res) {
+	getDeck(req, res);
+});
+
+router.get('/:id/', function(req, res) {
+	getDeck(req, res);
+});
 /*
  * GET all decks.
  */

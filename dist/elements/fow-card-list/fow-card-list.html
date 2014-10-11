@@ -1,6 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
 <link rel="import" href="../../bower_components/core-icons/social-icons.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
 <link rel="import" href="../../elements/fow-card-preview/fow-card-preview.html">
 
@@ -25,9 +28,64 @@
         border-radius: 5px;
       }
 
+      .attributes{
+        background-color: rgba(255,255,255,0.3);
+        border-radius: 10px;
+        margin: 4px;
+      }
+
+      .type{
+        background-color: rgba(255,255,255,0.3);
+        border-radius: 10px;
+        margin: 4px;
+      }
+
       .title{
         text-transform: uppercase;
         font-size: 1.4em;
+      }
+
+      /* Attribute Radio Button Colors */
+      paper-radio-button.light::shadow #ink[checked] {
+        color: #ff0;
+      }
+      paper-radio-button.light::shadow #onRadio {
+        background-color:  #ff8;
+      }
+
+      paper-radio-button.dark::shadow #ink[checked] {
+        color: #111;
+      }
+      paper-radio-button.dark::shadow #onRadio {
+        background-color:  #111;
+      }
+
+      paper-radio-button.wind::shadow #ink[checked] {
+        color: #2e2;
+      }
+      paper-radio-button.wind::shadow #onRadio {
+        background-color:  #2e2;
+      }
+
+      paper-radio-button.fire::shadow #ink[checked] {
+        color: #f44;
+      }
+      paper-radio-button.fire::shadow #onRadio {
+        background-color:  #f44;
+      }
+
+      paper-radio-button.water::shadow #ink[checked] {
+        color: #57f;
+      }
+      paper-radio-button.water::shadow #onRadio {
+        background-color:  #57f;
+      }
+
+      paper-radio-button.all::shadow #ink[checked] {
+        color: #fff;
+      }
+      paper-radio-button.all::shadow #onRadio {
+        background-color:  #fff;
       }
 
     </style>
@@ -39,6 +97,7 @@
       <div layout horizontal center center-justified>
         <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
       </div>
+      <br />
       <div layout horizontal center center-justified>
         <div>
           Name: <input type="text" value="{{nameFilter}}">
@@ -46,6 +105,24 @@
         <div>
           Description: <input type="text" value="{{descriptionFilter}}">
         </div>
+      </div>
+      <div class="attributes" layout horizontal center center-justified>
+        <paper-radio-group selected="{{attributeFilter}}">
+          <paper-radio-button class="light" name="light" label="Light"></paper-radio-button>
+          <paper-radio-button class="dark" name="dark" label="Dark"></paper-radio-button>
+          <paper-radio-button class="wind" name="wind" label="Wind"></paper-radio-button>
+          <paper-radio-button class="water" name="water" label="Water"></paper-radio-button>
+          <paper-radio-button class="fire" name="fire" label="Fire"></paper-radio-button>
+          <paper-radio-button class="all" name="" label="All"></paper-radio-button>
+        </paper-radio-group>
+      </div>
+      <div class="type" layout horizontal center center-justified>
+        <paper-radio-group selected="{{typeFilter}}">
+          <paper-radio-button name="resonator" label="Resonator"></paper-radio-button>
+          <paper-radio-button name="spell" label="Normal Spell"></paper-radio-button>
+          <paper-radio-button name="ruler" label="Ruler / JRuler"></paper-radio-button>
+          <paper-radio-button name="" label="All"></paper-radio-button>
+        </paper-radio-group>
       </div>
     </div>
 
@@ -65,20 +142,28 @@
       Polymer("fow-card-list",{
 
         observe: {
-          "cards nameFilter" : "updateFilteredCards"
+          "cards nameFilter descriptionFilter attributeFilter typeFilter" : "updateFilteredCards"
         },
 
         created: function (){
           this.filteredCards = [];
           this.nameFilter = "";
+          this.descriptionFilter = "";
+          this.attributeFilter = "";
+          this.typeFilter = "";
         },
 
         updateFilteredCards: function(){
-          //console.log("Cards: ", this.cards);
-          this.filteredCards = this.filterOnName(this.cards, this.nameFilter);
+          this.filteredCards = this.filterOnText(this.cards, "Name", this.nameFilter);
+
+          this.filteredCards = this.filterOnText(this.filteredCards, "Cardtext", this.descriptionFilter);
+
+          this.filteredCards = this.filterOnText(this.filteredCards, "Attribute", this.attributeFilter);
+
+          this.filteredCards = this.filterOnText(this.filteredCards, "Type", this.typeFilter);
         },
 
-        filterOnName: function(cardList, filterString){
+        filterOnText: function(cardList, key, filterString){
           if(filterString === ""){
             return cardList;
           } 
@@ -88,7 +173,7 @@
             return cardList.filter(
               
               function(card){
-                return self.strictMatch(card.Name, filterString);
+                return self.strictMatch(card[key], filterString);
               }
             
             );
