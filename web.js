@@ -91,7 +91,7 @@ var checkToken = function(req,res,next,token){
 // Authenticate user at each request
 app.use("/api",function(req,res,next){
     var token = req.query.token;
-    console.log("Token: ",token);
+    //console.log("Token: ",token);
     checkToken(req,res,next, token);
 });
 // API

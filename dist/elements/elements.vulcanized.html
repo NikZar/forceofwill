@@ -2768,17 +2768,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-card-list" attributes="cards nameFilter token" assetpath="fow-card-list/">
   <template>
-    <style>:host{display:block;width:90%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.attributes{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.type{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.title{text-transform:uppercase;font-size:1.4em}.textInput{color:#000;margin-left:30px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}</style>
+    <style>:host{display:block;width:90%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.header{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.textSearch{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.attributes{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.type{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.title{text-transform:uppercase;font-size:1.4em}.textInput{color:#000;margin-left:30px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}</style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
     </fow-rest-service>
 
     <div class="tools">
-      <div layout="" horizontal="" center="" center-justified="">
+      <div class="header" layout="" horizontal="" center="" center-justified="">
         <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
       </div>
       <br>
-      <div class="attributes" layout="" horizontal="" center="" center-justified="">
+      <div class="textSearch" layout="" horizontal="" center="" center-justified="">
         <paper-input class="textInput" autofocus floatinglabel="" label="Name" layout="" vertical="" inputvalue="{{nameFilter}}">
         </paper-input>
         <paper-input class="textInput" floatinglabel="" label="Card Text" layout="" vertical="" inputvalue="{{descriptionFilter}}">
@@ -2877,7 +2877,7 @@ can be used for API calls.
       </div>
     </template>
 
-    <input type="text" value="{{notificationCount}}">
+    <!-- <input type="text" value="{{notificationCount}}"> -->
 
     <core-icon id="notificationIcon" class="iconNotification iconNotificationOff" icon="social:notifications-none" on-tap="{{showNotifications}}">
     </core-icon>
@@ -2954,7 +2954,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-menu" attributes="smallQuery selected" assetpath="fow-menu/">
   <template>
-    <style>:host{display:block;width:100%}.container{background-color:rgba(255,255,255,.1);padding:10px}.toolbar{width:100%;margin-top:10px;margin-bottom:10px}.menu-bar{position:fixed;left:0;top:50%;margin-top:-100px}.menu-icon{width:40px;height:40px;margin:5px;color:#fff}.menu-icon:hover{color:#555}.violet{color:#a5f}.green{color:#6f6}.blue{color:#8df}.orange{color:#fa5}.grey{color:#bbb}.active{border:1px solif #fff;color:#fff}</style>
+    <style>:host{display:block;width:100%}.container{background-color:rgba(255,255,255,.1);padding:10px}.toolbar{width:100%;margin-top:10px;margin-bottom:10px}.menu-bar{position:fixed;left:0;top:50%;margin-top:-300px;border-radius:0 10px 10px 0}.menu-icon{width:40px;height:40px;margin:5px;color:#fff}.menu-icon:hover{color:#555}.violet{color:#a5f}.green{color:#6f6}.blue{color:#8df}.orange{color:#fa5}.grey{color:#bbb}.active{border:1px solif #fff;color:#fff}</style>
 
     <core-media-query query="{{smallQuery}}" querymatches="{{smallScreen}}">
     </core-media-query>
@@ -3024,7 +3024,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
   <template>
-    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:65px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:15px;right:15px}core-animated-pages{width:100%;position:relative}section{position:relative;margin-left:8%}</style>
+    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:15px;right:15px}core-animated-pages{width:100%;position:relative}section{position:relative;margin-left:8%}</style>
 
     <template if="{{user}}">
       <fow-notification-icon id="notificationIcon" notificationcount="{{notificationCount}}">

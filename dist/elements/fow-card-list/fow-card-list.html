@@ -23,12 +23,23 @@
         font-family: Open Sans;
       }
 
+      .header{
+        position: relative;
+        top: 10px;
+      }
+
       .tools{
         background-color: rgba(255,255,255,0.3);
         color: #000;
         margin: 10px;
         padding: 10px;
         border-radius: 5px;
+      }
+
+      .textSearch{
+        background-color: rgba(255,255,255,0.3);
+        border-radius: 10px;
+        margin: 4px;
       }
 
       .attributes{
@@ -107,11 +118,11 @@
     </fow-rest-service>
 
     <div class="tools">
-      <div layout horizontal center center-justified>
+      <div class="header" layout horizontal center center-justified>
         <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
       </div>
       <br />
-      <div class="attributes" layout horizontal center center-justified>
+      <div class="textSearch" layout horizontal center center-justified>
         <paper-input class="textInput"
         autofocus
         floatinglabel 
