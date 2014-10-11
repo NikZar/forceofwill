@@ -28,8 +28,7 @@
       .menu-bar{
         position: fixed;
         left: 0px;
-        top: 50%;
-        margin-top: -300px;
+        top: 16%;
         border-radius: 0px 10px 10px 0px; 
       }
 
@@ -69,6 +68,15 @@
         color: #fff;
       }
 
+      .my{
+        position: relative;
+        top: 40%;
+        left: 10%;
+        width: 90%;
+        text-align: center;
+        font-size: 0.6em;
+      }
+
     </style>
 
     <core-media-query
@@ -90,7 +98,7 @@
           name="myCards" 
           class="menu-icon {{ (selected === 'myCards')?'green':'' }}" 
           icon="content-copy" 
-          on-tap="{{buttonTapped}}">
+          on-tap="{{buttonTapped}}"><div class="my">my</div>
         </core-icon>
         <core-icon 
           name="decks" 
@@ -144,7 +152,7 @@
       <div class="container menu-bar">
         <div layout vertical center> 
           
-          <core-icon 
+            <core-icon 
             name="cards" 
             class="menu-icon {{ (selected === 'cards')?'violet':'' }}" 
             icon="content-copy" 
@@ -155,7 +163,7 @@
             name="myCards" 
             class="menu-icon {{ (selected === 'myCards')?'green':'' }}" 
             icon="content-copy" 
-            on-tap="{{buttonTapped}}">
+            on-tap="{{buttonTapped}}"><div class="my">my</div>
           </core-icon>
           <core-icon 
             name="decks" 
