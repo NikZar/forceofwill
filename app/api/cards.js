@@ -4,8 +4,6 @@ var https = require('https');
 
 
 var getAllCards = function(req, res){
-	console.log("User ID: ", req.userId);
-	console.log("App ID: ", req.appId);
     var db = req.db;
     db.collection('cards').find().toArray(function (err, items) {
         res.json(items);
@@ -13,8 +11,6 @@ var getAllCards = function(req, res){
 }
 
 var getCard = function(req,res){
-	console.log("User ID: ", req.userId);
-	console.log("App ID: ", req.appId);
     var db = req.db;
 	var code = req.params.code;
 	db.collection('cards').find({Code: code}).toArray(function (err, items) {
@@ -23,8 +19,6 @@ var getCard = function(req,res){
 }
 
 var getCardsWithAttribute = function(req,res){
-	console.log("User ID: ", req.userId);
-	console.log("App ID: ", req.appId);
     var db = req.db;
 	var attribute = req.params.attribute;
 	db.collection('cards').find({Attribute: attribute}).toArray(function (err, items) {

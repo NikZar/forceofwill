@@ -13,17 +13,17 @@ switch(process.env.NODE_ENV){
 
         case 'production':
         	var BASEDIR = "/dist";
-            var DBURL = "lennon.mongohq.com:10041/app30136505";
-			var USERNAME = "niko";
-			var PASSWORD = "bambumbim";
-			var db = mongo.db("mongodb://"+USERNAME+":"+PASSWORD+"@"+DBURL, {native_parser:true});
-			break;
+          var DBURL = "lennon.mongohq.com:10041/app30136505";
+          var USERNAME = "niko";
+          var PASSWORD = "bambumbim";
+          var db = mongo.db("mongodb://"+USERNAME+":"+PASSWORD+"@"+DBURL, {native_parser:true});
+          break;
         
         default:
-        	var BASEDIR = "/app";
-            var DBURL = "localhost:27017/app30136505";
-			var db = mongo.db("mongodb://"+DBURL, {native_parser:true});
-			break;
+          var BASEDIR = "/app";
+          var DBURL = "localhost:27017/app30136505";
+          var db = mongo.db("mongodb://"+DBURL, {native_parser:true});
+          break;
 			
 }
 
@@ -37,7 +37,7 @@ var checkToken = function(req,res,next,token){
         str += chunk;
       });
       response.on('end', function () {
-        console.log(str);
+        //console.log(str);
         var fbauth = JSON.parse(str);
 
         //validation
@@ -91,7 +91,7 @@ var checkToken = function(req,res,next,token){
 // Authenticate user at each request
 app.use(function(req,res,next){
     var token = req.query.token;
-    console.log("Token: ",token);
+    //console.log("Token: ",token);
     checkToken(req,res,next, token);
 });
 // API

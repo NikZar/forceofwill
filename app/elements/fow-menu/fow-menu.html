@@ -11,11 +11,18 @@
 
       :host {
         display: block;
+        width: 100%;
       }
 
       .container{
         background-color: rgba(255,255,255,0.1);
         padding: 10px;
+      }
+
+      .toolbar{
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
       }
 
       .menu-bar{
@@ -69,7 +76,7 @@
     </core-media-query>
 
     <template if="{{smallScreen}}">
-      <div class="container" layout horizontal center center-justified>
+      <div class="container toolbar" layout horizontal center center-justified>
 
         <core-icon 
           name="cards" 
@@ -126,20 +133,74 @@
           name="settings" 
           class="menu-icon {{ (selected === 'settings')?'grey':'' }}" 
           icon="settings" 
-          on-tap="{{buttonTapped}}"></core-icon>
+          on-tap="{{buttonTapped}}">
+        </core-icon>
+
       </div>
     </template>
 
     <template if="{{!smallScreen}}">
       <div class="container menu-bar">
         <div layout vertical center> 
-          <core-icon name="cards" class="menu-icon" icon="content-copy" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="myCards" class="menu-icon" icon="content-copy" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="decks" class="menu-icon" icon="list" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="friends" class="menu-icon" icon="social:people" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="messages" class="menu-icon" icon="communication:forum" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="trading" class="menu-icon" icon="social:circles-extended" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="settings" class="menu-icon" icon="settings" on-tap="{{buttonTapped}}"></core-icon>
+          
+          <core-icon 
+            name="cards" 
+            class="menu-icon {{ (selected === 'cards')?'violet':'' }}" 
+            icon="content-copy" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+
+          <core-icon 
+            name="myCards" 
+            class="menu-icon {{ (selected === 'myCards')?'green':'' }}" 
+            icon="content-copy" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+          <core-icon 
+            name="decks" 
+            class="menu-icon {{ (selected === 'decks')?'green':'' }}" 
+            icon="list" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+
+          <core-icon 
+            name="friends" 
+            class="menu-icon {{ (selected === 'friends')?'blue':'' }}" 
+            icon="social:people" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+          <core-icon 
+            name="messages" 
+            class="menu-icon {{ (selected === 'messages')?'blue':'' }}" 
+            icon="communication:forum" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+          <core-icon 
+            name="trading" 
+            class="menu-icon {{ (selected === 'trading')?'blue':'' }}" 
+            icon="social:circles-extended" 
+            on-tap="{{buttonTapped}}"></core-icon>
+
+          <core-icon 
+            name="tournaments" 
+            class="menu-icon {{ (selected === 'tournaments')?'orange':'' }}" 
+            icon="social:communities" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+          <core-icon 
+            name="ranking" 
+            class="menu-icon {{ (selected === 'ranking')?'orange':'' }}" 
+            icon="star-half" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+
+          <core-icon 
+            name="settings" 
+            class="menu-icon {{ (selected === 'settings')?'grey':'' }}" 
+            icon="settings" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+        
         </div>
       </div>
     </template>

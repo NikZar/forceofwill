@@ -1947,6 +1947,203 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </defs></svg>
 </core-iconset-svg>
 
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+`paper-radio-button` is a button that can be either checked or unchecked.
+User can tap the radio button to check it.  But it cannot be unchecked by
+tapping once checked.
+
+Use `paper-radio-group` to group a set of radio buttons.  When radio buttons
+are inside a radio group, only one radio button in the group can be checked.
+
+Example:
+
+    <paper-radio-button></paper-radio-button>
+    
+Styling radio button:
+
+To change the ink color for checked state:
+
+    paper-radio-button::shadow #ink[checked] {
+      color: #4285f4;
+    }
+    
+To change the radio checked color:
+    
+    paper-radio-button::shadow #onRadio {
+      background-color: #4285f4;
+    }
+    
+To change the ink color for unchecked state:
+
+    paper-radio-button::shadow #ink {
+      color: #b5b5b5;
+    }
+    
+To change the radio unchecked color:
+    
+    paper-radio-button::shadow #offRadio {
+      border-color: #b5b5b5;
+    }
+
+@group Paper Elements
+@element paper-radio-button
+@homepage github.io
+-->
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+`paper-ripple` provides a visual effect that other paper elements can
+use to simulate a rippling effect emanating from the point of contact.  The
+effect can be visualized as a concentric circle with motion.
+
+Example:
+
+    <paper-ripple></paper-ripple>
+
+`paper-ripple` listens to "down" and "up" events so it would display ripple
+effect when touches on it.  You can also defeat the default behavior and 
+manually route the down and up actions to the ripple element.  Note that it is
+important if you call downAction() you will have to make sure to call upAction()
+so that `paper-ripple` would end the animation loop.
+
+Example:
+
+    <paper-ripple id="ripple" style="pointer-events: none;"></paper-ripple>
+    ...
+    downAction: function(e) {
+      this.$.ripple.downAction({x: e.x, y: e.y});
+    },
+    upAction: function(e) {
+      this.$.ripple.upAction();
+    }
+
+Styling ripple effect:
+
+  Use CSS color property to style the ripple:
+
+    paper-ripple {
+      color: #4285f4;
+    }
+
+  Note that CSS color property is inherited so it is not required to set it on
+  the `paper-ripple` element directly.
+
+Apply `recenteringTouch` class to make the recentering rippling effect.
+
+    <paper-ripple class="recenteringTouch"></paper-ripple>
+
+Apply `circle` class to make the rippling effect within a circle.
+
+    <paper-ripple class="circle"></paper-ripple>
+
+@group Paper Elements
+@element paper-ripple
+@homepage github.io
+-->
+
+
+
+<polymer-element name="paper-ripple" attributes="initialOpacity opacityDecayVelocity" assetpath="../bower_components/paper-ripple/">
+<template>
+
+  <style>:host{display:block;position:relative}:host-context([noink]){pointer-events:none}#bg,#waves,.wave-container,.wave{pointer-events:none;position:absolute;top:0;left:0;width:100%;height:100%}#bg,.wave{opacity:0}#waves,.wave{overflow:hidden}.wave-container,.wave{border-radius:50%}:host(.circle) #bg,:host(.circle) #waves{border-radius:50%}:host(.circle) .wave-container{overflow:hidden}</style>
+
+  <div id="bg"></div>
+  <div id="waves">
+  </div>
+
+</template>
+<script>(function(){var waveMaxRadius=150;function waveRadiusFn(touchDownMs,touchUpMs,anim){var touchDown=touchDownMs/1e3;var touchUp=touchUpMs/1e3;var totalElapsed=touchDown+touchUp;var ww=anim.width,hh=anim.height;var waveRadius=Math.min(Math.sqrt(ww*ww+hh*hh),waveMaxRadius)*1.1+5;var duration=1.1-.2*(waveRadius/waveMaxRadius);var tt=totalElapsed/duration;var size=waveRadius*(1-Math.pow(80,-tt));return Math.abs(size)}function waveOpacityFn(td,tu,anim){var touchDown=td/1e3;var touchUp=tu/1e3;var totalElapsed=touchDown+touchUp;if(tu<=0){return anim.initialOpacity}return Math.max(0,anim.initialOpacity-touchUp*anim.opacityDecayVelocity)}function waveOuterOpacityFn(td,tu,anim){var touchDown=td/1e3;var touchUp=tu/1e3;var outerOpacity=touchDown*.3;var waveOpacity=waveOpacityFn(td,tu,anim);return Math.max(0,Math.min(outerOpacity,waveOpacity))}function waveDidFinish(wave,radius,anim){var waveOpacity=waveOpacityFn(wave.tDown,wave.tUp,anim);return waveOpacity<.01&&radius>=Math.min(wave.maxRadius,waveMaxRadius)}function waveAtMaximum(wave,radius,anim){var waveOpacity=waveOpacityFn(wave.tDown,wave.tUp,anim);return waveOpacity>=anim.initialOpacity&&radius>=Math.min(wave.maxRadius,waveMaxRadius)}function drawRipple(ctx,x,y,radius,innerAlpha,outerAlpha){if(outerAlpha!==undefined){ctx.bg.style.opacity=outerAlpha}ctx.wave.style.opacity=innerAlpha;var s=radius/(ctx.containerSize/2);var dx=x-ctx.containerWidth/2;var dy=y-ctx.containerHeight/2;ctx.wc.style.webkitTransform="translate3d("+dx+"px,"+dy+"px,0)";ctx.wc.style.transform="translate3d("+dx+"px,"+dy+"px,0)";ctx.wave.style.webkitTransform="scale("+s+","+s+")";ctx.wave.style.transform="scale3d("+s+","+s+",1)"}function createWave(elem){var elementStyle=window.getComputedStyle(elem);var fgColor=elementStyle.color;var inner=document.createElement("div");inner.style.backgroundColor=fgColor;inner.classList.add("wave");var outer=document.createElement("div");outer.classList.add("wave-container");outer.appendChild(inner);var container=elem.$.waves;container.appendChild(outer);elem.$.bg.style.backgroundColor=fgColor;var wave={bg:elem.$.bg,wc:outer,wave:inner,waveColor:fgColor,maxRadius:0,isMouseDown:false,mouseDownStart:0,mouseUpStart:0,tDown:0,tUp:0};return wave}function removeWaveFromScope(scope,wave){if(scope.waves){var pos=scope.waves.indexOf(wave);scope.waves.splice(pos,1);wave.wc.remove()}}var pow=Math.pow;var now=Date.now;if(window.performance&&performance.now){now=performance.now.bind(performance)}function cssColorWithAlpha(cssColor,alpha){var parts=cssColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);if(typeof alpha=="undefined"){alpha=1}if(!parts){return"rgba(255, 255, 255, "+alpha+")"}return"rgba("+parts[1]+", "+parts[2]+", "+parts[3]+", "+alpha+")"}function dist(p1,p2){return Math.sqrt(pow(p1.x-p2.x,2)+pow(p1.y-p2.y,2))}function distanceFromPointToFurthestCorner(point,size){var tl_d=dist(point,{x:0,y:0});var tr_d=dist(point,{x:size.w,y:0});var bl_d=dist(point,{x:0,y:size.h});var br_d=dist(point,{x:size.w,y:size.h});return Math.max(tl_d,tr_d,bl_d,br_d)}Polymer("paper-ripple",{initialOpacity:.25,opacityDecayVelocity:.8,backgroundFill:true,pixelDensity:2,eventDelegates:{down:"downAction",up:"upAction"},ready:function(){this.waves=[]},downAction:function(e){var wave=createWave(this);this.cancelled=false;wave.isMouseDown=true;wave.tDown=0;wave.tUp=0;wave.mouseUpStart=0;wave.mouseDownStart=now();var rect=this.getBoundingClientRect();var width=rect.width;var height=rect.height;var touchX=e.x-rect.left;var touchY=e.y-rect.top;wave.startPosition={x:touchX,y:touchY};if(this.classList.contains("recenteringTouch")){wave.endPosition={x:width/2,y:height/2};wave.slideDistance=dist(wave.startPosition,wave.endPosition)}wave.containerSize=Math.max(width,height);wave.containerWidth=width;wave.containerHeight=height;wave.maxRadius=distanceFromPointToFurthestCorner(wave.startPosition,{w:width,h:height});wave.wc.style.top=(wave.containerHeight-wave.containerSize)/2+"px";wave.wc.style.left=(wave.containerWidth-wave.containerSize)/2+"px";wave.wc.style.width=wave.containerSize+"px";wave.wc.style.height=wave.containerSize+"px";this.waves.push(wave);if(!this._loop){this._loop=this.animate.bind(this,{width:width,height:height});requestAnimationFrame(this._loop)}},upAction:function(){for(var i=0;i<this.waves.length;i++){var wave=this.waves[i];if(wave.isMouseDown){wave.isMouseDown=false;wave.mouseUpStart=now();wave.mouseDownStart=0;wave.tUp=0;break}}this._loop&&requestAnimationFrame(this._loop)},cancel:function(){this.cancelled=true},animate:function(ctx){var shouldRenderNextFrame=false;var deleteTheseWaves=[];var longestTouchDownDuration=0;var longestTouchUpDuration=0;var lastWaveColor=null;var anim={initialOpacity:this.initialOpacity,opacityDecayVelocity:this.opacityDecayVelocity,height:ctx.height,width:ctx.width};for(var i=0;i<this.waves.length;i++){var wave=this.waves[i];if(wave.mouseDownStart>0){wave.tDown=now()-wave.mouseDownStart}if(wave.mouseUpStart>0){wave.tUp=now()-wave.mouseUpStart}var tUp=wave.tUp;var tDown=wave.tDown;longestTouchDownDuration=Math.max(longestTouchDownDuration,tDown);longestTouchUpDuration=Math.max(longestTouchUpDuration,tUp);var radius=waveRadiusFn(tDown,tUp,anim);var waveAlpha=waveOpacityFn(tDown,tUp,anim);var waveColor=cssColorWithAlpha(wave.waveColor,waveAlpha);lastWaveColor=wave.waveColor;var x=wave.startPosition.x;var y=wave.startPosition.y;if(wave.endPosition){var translateFraction=Math.min(1,radius/wave.containerSize*2/Math.sqrt(2));x+=translateFraction*(wave.endPosition.x-wave.startPosition.x);y+=translateFraction*(wave.endPosition.y-wave.startPosition.y)}var bgFillColor=null;if(this.backgroundFill){var bgFillAlpha=waveOuterOpacityFn(tDown,tUp,anim);bgFillColor=cssColorWithAlpha(wave.waveColor,bgFillAlpha)}drawRipple(wave,x,y,radius,waveAlpha,bgFillAlpha);var maximumWave=waveAtMaximum(wave,radius,anim);var waveDissipated=waveDidFinish(wave,radius,anim);var shouldKeepWave=!waveDissipated||maximumWave;var shouldRenderWaveAgain=!waveDissipated&&!maximumWave;shouldRenderNextFrame=shouldRenderNextFrame||shouldRenderWaveAgain;if(!shouldKeepWave||this.cancelled){deleteTheseWaves.push(wave)}}if(shouldRenderNextFrame){requestAnimationFrame(this._loop)}for(var i=0;i<deleteTheseWaves.length;++i){var wave=deleteTheseWaves[i];removeWaveFromScope(this,wave)}if(!this.waves.length&&this._loop){this.$.bg.style.backgroundColor=null;this._loop=null;this.fire("core-transitionend")}}})})();</script>
+</polymer-element>
+
+
+<polymer-element name="paper-radio-button" role="radio" tabindex="0" aria-checked="false" assetpath="../bower_components/paper-radio-button/">
+<template>
+
+  <style>:host{display:inline-block;white-space:nowrap}:host(:focus){outline:0}#radioContainer{position:relative;width:16px;height:16px;cursor:pointer}#radioContainer.labeled{display:inline-block;vertical-align:middle}#ink{position:absolute;top:-16px;left:-16px;width:48px;height:48px;color:#5a5a5a}#ink[checked]{color:#0f9d58}#offRadio{position:absolute;top:0;left:0;width:12px;height:12px;border-radius:50%;border:solid 2px;border-color:#5a5a5a}#onRadio{position:absolute;top:0;left:0;width:16px;height:16px;border-radius:50%;background-color:#0f9d58;-webkit-transform:scale(0);transform:scale(0);transition:-webkit-transform ease .28s;transition:transform ease .28s}#onRadio.fill{-webkit-transform:scale(1.1);transform:scale(1.1)}#radioLabel{position:relative;display:inline-block;vertical-align:middle;margin-left:10px;white-space:normal;pointer-events:none}#radioLabel[hidden]{display:none}:host([disabled]){pointer-events:none}:host([disabled]) #onRadio{display:none}:host([disabled]) #offRadio{opacity:.33;border-color:#5a5a5a}:host([disabled][checked]) #offRadio{opacity:.33;background-color:#5a5a5a}</style>
+  
+  <div id="radioContainer" class="{{ {labeled: label} | tokenList }}">
+  
+    <div id="offRadio"></div>
+    <div id="onRadio"></div>
+    
+    <paper-ripple id="ink" class="circle recenteringTouch" checked?="{{!checked}}"></paper-ripple>
+    
+  </div>
+  
+  <div id="radioLabel" aria-hidden="true" hidden?="{{!label}}">{{label}}<content></content></div>
+  
+</template>
+<script>Polymer("paper-radio-button",{publish:{checked:{value:false,reflect:true},label:"",toggles:false,disabled:{value:false,reflect:true}},eventDelegates:{tap:"tap"},tap:function(){var old=this.checked;this.toggle();if(this.checked!==old){this.fire("change")}},toggle:function(){this.checked=!this.toggles||!this.checked},checkedChanged:function(){this.$.onRadio.classList.toggle("fill",this.checked);this.setAttribute("aria-checked",this.checked?"true":"false");this.fire("core-change")},labelChanged:function(){this.setAttribute("aria-label",this.label)}});</script>
+</polymer-element>
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+`paper-radio-group` allows user to select only one radio button from a set.
+Checking one radio button that belongs to a radio group unchecks any 
+previously checked radio button within the same group. Use
+`selected` to get or set the selected radio button.
+
+Example:
+
+    <paper-radio-group selected="small">
+      <paper-radio-button name="small" label="Small"></paper-radio-button>
+      <paper-radio-button name="medium" label="Medium"></paper-radio-button>
+      <paper-radio-button name="large" label="Large"></paper-radio-button>
+    </paper-radio-group>
+
+See <a href="../paper-radio-button/">paper-radio-button</a> for more
+information about `paper-radio-button`.
+
+@group Paper Elements
+@element paper-radio-group
+@extends core-selector
+@homepage github.io
+-->
+
+
+
+
+<polymer-element name="paper-radio-group" extends="core-selector" role="radiogroup" assetpath="../bower_components/paper-radio-group/">
+
+  <template>
+  
+    <style>:host{display:inline-block}polyfill-next-selector{content:':host > *'}::content>*{padding:12px}</style>
+  
+    <shadow></shadow>
+    
+  </template>
+  
+  <script>Polymer("paper-radio-group",{selectedAttribute:"checked",activateEvent:"change"});</script>
+  
+</polymer-element>
+
+
 
 <!--
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
@@ -2059,7 +2256,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-card-list" attributes="cards nameFilter token" assetpath="fow-card-list/">
   <template>
-    <style>:host{display:block;width:90%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.title{text-transform:uppercase;font-size:1.4em}</style>
+    <style>:host{display:block;width:90%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.attributes{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.type{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.title{text-transform:uppercase;font-size:1.4em}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}</style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
     </fow-rest-service>
@@ -2068,6 +2265,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div layout="" horizontal="" center="" center-justified="">
         <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
       </div>
+      <br>
       <div layout="" horizontal="" center="" center-justified="">
         <div>
           Name: <input type="text" value="{{nameFilter}}">
@@ -2075,6 +2273,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div>
           Description: <input type="text" value="{{descriptionFilter}}">
         </div>
+      </div>
+      <div class="attributes" layout="" horizontal="" center="" center-justified="">
+        <paper-radio-group selected="{{attributeFilter}}">
+          <paper-radio-button class="light" name="light" label="Light"></paper-radio-button>
+          <paper-radio-button class="dark" name="dark" label="Dark"></paper-radio-button>
+          <paper-radio-button class="wind" name="wind" label="Wind"></paper-radio-button>
+          <paper-radio-button class="water" name="water" label="Water"></paper-radio-button>
+          <paper-radio-button class="fire" name="fire" label="Fire"></paper-radio-button>
+          <paper-radio-button class="all" name="" label="All"></paper-radio-button>
+        </paper-radio-group>
+      </div>
+      <div class="type" layout="" horizontal="" center="" center-justified="">
+        <paper-radio-group selected="{{typeFilter}}">
+          <paper-radio-button name="resonator" label="Resonator"></paper-radio-button>
+          <paper-radio-button name="spell" label="Normal Spell"></paper-radio-button>
+          <paper-radio-button name="ruler" label="Ruler / JRuler"></paper-radio-button>
+          <paper-radio-button name="" label="All"></paper-radio-button>
+        </paper-radio-group>
       </div>
     </div>
 
@@ -2085,7 +2301,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter":"updateFilteredCards"},created:function(){this.filteredCards=[];this.nameFilter=""},updateFilteredCards:function(){this.filteredCards=this.filterOnName(this.cards,this.nameFilter)},filterOnName:function(cardList,filterString){if(filterString===""){return cardList}else{var self=this;return cardList.filter(function(card){return self.strictMatch(card.Name,filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter":"updateFilteredCards"},created:function(){this.filteredCards=[];this.nameFilter="";this.descriptionFilter="";this.attributeFilter="";this.typeFilter=""},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter)},filterOnText:function(cardList,key,filterString){if(filterString===""){return cardList}else{var self=this;return cardList.filter(function(card){return self.strictMatch(card[key],filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
 </polymer-element>
 
 
@@ -2506,13 +2722,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-menu" attributes="smallQuery selected" assetpath="fow-menu/">
   <template>
-    <style>:host{display:block}.container{background-color:rgba(255,255,255,.1);padding:10px}.menu-bar{position:fixed;left:0;top:50%;margin-top:-100px}.menu-icon{width:40px;height:40px;margin:5px;color:#fff}.menu-icon:hover{color:#555}.violet{color:#a5f}.green{color:#6f6}.blue{color:#8df}.orange{color:#fa5}.grey{color:#bbb}.active{border:1px solif #fff;color:#fff}</style>
+    <style>:host{display:block;width:100%}.container{background-color:rgba(255,255,255,.1);padding:10px}.toolbar{width:100%;margin-top:10px;margin-bottom:10px}.menu-bar{position:fixed;left:0;top:50%;margin-top:-100px}.menu-icon{width:40px;height:40px;margin:5px;color:#fff}.menu-icon:hover{color:#555}.violet{color:#a5f}.green{color:#6f6}.blue{color:#8df}.orange{color:#fa5}.grey{color:#bbb}.active{border:1px solif #fff;color:#fff}</style>
 
     <core-media-query query="{{smallQuery}}" querymatches="{{smallScreen}}">
     </core-media-query>
 
     <template if="{{smallScreen}}">
-      <div class="container" layout="" horizontal="" center="" center-justified="">
+      <div class="container toolbar" layout="" horizontal="" center="" center-justified="">
 
         <core-icon name="cards" class="menu-icon {{ (selected === &apos;cards&apos;)?&apos;violet&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}">
         </core-icon>
@@ -2533,20 +2749,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <core-icon name="ranking" class="menu-icon {{ (selected === &apos;ranking&apos;)?&apos;orange&apos;:&apos;&apos; }}" icon="star-half" on-tap="{{buttonTapped}}">
         </core-icon>
 
-        <core-icon name="settings" class="menu-icon {{ (selected === &apos;settings&apos;)?&apos;grey&apos;:&apos;&apos; }}" icon="settings" on-tap="{{buttonTapped}}"></core-icon>
+        <core-icon name="settings" class="menu-icon {{ (selected === &apos;settings&apos;)?&apos;grey&apos;:&apos;&apos; }}" icon="settings" on-tap="{{buttonTapped}}">
+        </core-icon>
+
       </div>
     </template>
 
     <template if="{{!smallScreen}}">
       <div class="container menu-bar">
         <div layout="" vertical="" center=""> 
-          <core-icon name="cards" class="menu-icon" icon="content-copy" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="myCards" class="menu-icon" icon="content-copy" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="decks" class="menu-icon" icon="list" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="friends" class="menu-icon" icon="social:people" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="messages" class="menu-icon" icon="communication:forum" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="trading" class="menu-icon" icon="social:circles-extended" on-tap="{{buttonTapped}}"></core-icon>
-          <core-icon name="settings" class="menu-icon" icon="settings" on-tap="{{buttonTapped}}"></core-icon>
+          
+          <core-icon name="cards" class="menu-icon {{ (selected === &apos;cards&apos;)?&apos;violet&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}">
+          </core-icon>
+
+          <core-icon name="myCards" class="menu-icon {{ (selected === &apos;myCards&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}">
+          </core-icon>
+          <core-icon name="decks" class="menu-icon {{ (selected === &apos;decks&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}">
+          </core-icon>
+
+          <core-icon name="friends" class="menu-icon {{ (selected === &apos;friends&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:people" on-tap="{{buttonTapped}}">
+          </core-icon>
+          <core-icon name="messages" class="menu-icon {{ (selected === &apos;messages&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="communication:forum" on-tap="{{buttonTapped}}">
+          </core-icon>
+          <core-icon name="trading" class="menu-icon {{ (selected === &apos;trading&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:circles-extended" on-tap="{{buttonTapped}}"></core-icon>
+
+          <core-icon name="tournaments" class="menu-icon {{ (selected === &apos;tournaments&apos;)?&apos;orange&apos;:&apos;&apos; }}" icon="social:communities" on-tap="{{buttonTapped}}">
+          </core-icon>
+          <core-icon name="ranking" class="menu-icon {{ (selected === &apos;ranking&apos;)?&apos;orange&apos;:&apos;&apos; }}" icon="star-half" on-tap="{{buttonTapped}}">
+          </core-icon>
+
+          <core-icon name="settings" class="menu-icon {{ (selected === &apos;settings&apos;)?&apos;grey&apos;:&apos;&apos; }}" icon="settings" on-tap="{{buttonTapped}}">
+          </core-icon>
+        
         </div>
       </div>
     </template>
