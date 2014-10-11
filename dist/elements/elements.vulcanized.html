@@ -2143,216 +2143,35 @@ information about `paper-radio-button`.
   
 </polymer-element>
 
-
-
 <!--
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE
+The complete set of authors may be found at http://polymer.github.io/AUTHORS
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS
 Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
 -->
 
 <!--
-@group Polymer Core Elements
+`paper-input` is a single- or multi-line text field where user can enter input.
+It can optionally have a label.
 
-The `core-ajax` element exposes `XMLHttpRequest` functionality.
+Example:
 
-    <core-ajax
-        auto
-        url="http://gdata.youtube.com/feeds/api/videos/"
-        params='{"alt":"json", "q":"chrome"}'
-        handleAs="json"
-        on-core-response="{{handleResponse}}"></core-ajax>
+    <paper-input label="Your Name"></paper-input>
+    <paper-input multiline label="Enter multiple lines here"></paper-input>
 
-With `auto` set to `true`, the element performs a request whenever
-its `url` or `params` properties are changed.
+Theming
+--------
 
-Note: The `params` attribute must be double quoted JSON.
+Set `CoreStyle.g.paperInput.focusedColor` and `CoreStyle.g.paperInput.invalidColor` to theme
+the focused and invalid states.
 
-You can trigger a request explicitly by calling `go` on the
-element.
-
-@element core-ajax
-@status beta
+@group Paper Elements
+@element paper-input
+@extends core-input
 @homepage github.io
 -->
-<!--
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-<!--
-/**
- * @group Polymer Core Elements
- *
- * core-xhr can be used to perform XMLHttpRequests.
- *
- *     <core-xhr id="xhr"></core-xhr>
- *     ...
- *     this.$.xhr.request({url: url, params: params, callback: callback});
- *
- * @element core-xhr
- */
--->
-
-
-
-<polymer-element name="core-xhr" hidden assetpath="../bower_components/core-ajax/">
-
-  <script>Polymer("core-xhr",{request:function(options){var xhr=new XMLHttpRequest;var url=options.url;var method=options.method||"GET";var async=!options.sync;var params=this.toQueryString(options.params);if(params&&method=="GET"){url+=(url.indexOf("?")>0?"&":"?")+params}var xhrParams=this.isBodyMethod(method)?options.body||params:null;xhr.open(method,url,async);if(options.responseType){xhr.responseType=options.responseType}if(options.withCredentials){xhr.withCredentials=true}this.makeReadyStateHandler(xhr,options.callback);this.setRequestHeaders(xhr,options.headers);xhr.send(xhrParams);if(!async){xhr.onreadystatechange(xhr)}return xhr},toQueryString:function(params){var r=[];for(var n in params){var v=params[n];n=encodeURIComponent(n);r.push(v==null?n:n+"="+encodeURIComponent(v))}return r.join("&")},isBodyMethod:function(method){return this.bodyMethods[(method||"").toUpperCase()]},bodyMethods:{POST:1,PUT:1,DELETE:1},makeReadyStateHandler:function(xhr,callback){xhr.onreadystatechange=function(){if(xhr.readyState==4){callback&&callback.call(null,xhr.response,xhr)}}},setRequestHeaders:function(xhr,headers){if(headers){for(var name in headers){xhr.setRequestHeader(name,headers[name])}}}});</script>
-  
-</polymer-element>
-
-<polymer-element name="core-ajax" hidden attributes="url handleAs auto params response error method headers body contentType withCredentials" assetpath="../bower_components/core-ajax/">
-<script>Polymer("core-ajax",{url:"",handleAs:"",auto:false,params:"",response:null,error:null,method:"",headers:null,body:null,contentType:"application/x-www-form-urlencoded",withCredentials:false,xhrArgs:null,ready:function(){this.xhr=document.createElement("core-xhr")},receive:function(response,xhr){if(this.isSuccess(xhr)){this.processResponse(xhr)}else{this.processError(xhr)}this.complete(xhr)},isSuccess:function(xhr){var status=xhr.status||0;return!status||status>=200&&status<300},processResponse:function(xhr){var response=this.evalResponse(xhr);if(xhr===this.activeRequest){this.response=response}this.fire("core-response",{response:response,xhr:xhr})},processError:function(xhr){var response=xhr.status+": "+xhr.responseText;if(xhr===this.activeRequest){this.error=response}this.fire("core-error",{response:response,xhr:xhr})},complete:function(xhr){this.fire("core-complete",{response:xhr.status,xhr:xhr})},evalResponse:function(xhr){return this[(this.handleAs||"text")+"Handler"](xhr)},xmlHandler:function(xhr){return xhr.responseXML},textHandler:function(xhr){return xhr.responseText},jsonHandler:function(xhr){var r=xhr.responseText;try{return JSON.parse(r)}catch(x){console.warn("core-ajax caught an exception trying to parse response as JSON:");console.warn("url:",this.url);console.warn(x);return r}},documentHandler:function(xhr){return xhr.response},blobHandler:function(xhr){return xhr.response},arraybufferHandler:function(xhr){return xhr.response},urlChanged:function(){if(!this.handleAs){var ext=String(this.url).split(".").pop();switch(ext){case"json":this.handleAs="json";break}}this.autoGo()},paramsChanged:function(){this.autoGo()},autoChanged:function(){this.autoGo()},autoGo:function(){if(this.auto){this.goJob=this.job(this.goJob,this.go,0)}},go:function(){var args=this.xhrArgs||{};args.body=this.body||args.body;args.params=this.params||args.params;if(args.params&&typeof args.params=="string"){args.params=JSON.parse(args.params)}args.headers=this.headers||args.headers||{};if(args.headers&&typeof args.headers=="string"){args.headers=JSON.parse(args.headers)}var hasContentType=Object.keys(args.headers).some(function(header){return header.toLowerCase()==="content-type"});if(!hasContentType&&this.contentType){args.headers["Content-Type"]=this.contentType}if(this.handleAs==="arraybuffer"||this.handleAs==="blob"||this.handleAs==="document"){args.responseType=this.handleAs}args.withCredentials=this.withCredentials;args.callback=this.receive.bind(this);args.url=this.url;args.method=this.method;this.response=this.error=null;this.activeRequest=args.url&&this.xhr.request(args);return this.activeRequest}});</script>
-</polymer-element>
-
-
-
-<polymer-element name="fow-globals" attributes="values" assetpath="fow-globals/">
-  <template>
-    <style>:host{display:block}</style>
-  </template>
-  <script>(function(){"use strict";var values={};Polymer("fow-globals",{ready:function(){this.values=values;for(var i=0;i<this.attributes.length;++i){var attr=this.attributes[i];values[attr.nodeName]=attr.value}}})})();</script>
-</polymer-element>
-
-
-<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType globals token" assetpath="fow-rest-service/">
-  <template>
-    <style>:host{display:none}</style>
-
-    <fow-globals values="{{globals}}">
-    
-
-    <core-ajax id="ajax" auto="{{auto}}" on-core-error="{{errorHandler}}" on-core-response="{{elementsLoaded}}" response="{{items}}" handleas="json" method="{{method}}" params="{{params}}" body="{{body}}" contenttype="{{contentType}}">
-    </core-ajax>
-
-  </fow-globals></template>
-  <script>(function(){"use strict";Polymer("fow-rest-service",{auto:true,observe:{"apiurl type globals":"reloadUrl"},created:function(){this.items=[]},reloadUrl:function(){if(this.globals.apiurl&&this.type){this.$.ajax.url="http://"+this.globals.apiurl+this.type+"/?token="+this.token;console.log(this.$.ajax.url)}}})})();</script>
-</polymer-element>
-
-
-
-<polymer-element name="fow-card-preview" attributes="card" assetpath="fow-card-preview/">
-  <template>
-    <style type="text/css">:host{font-family:Open Sans;display:block;background-color:rgba(255,255,255,.9);margin:10px;padding:10px;border-radius:5px;color:#222;min-height:142px}#cardImg{width:100px;margin-top:1px;margin-right:10px}.preview{margin-left:10px}.title{font-size:1.5em}#description{font-size:.7em}</style>
-
-    <div>
-      <img id="cardImg" align="left">
-      <div class="preview">
-        <div class="title">{{card.Name}}</div>
-        <div id="description"></div>
-      </div>
-    </div>
-  </template>
-  <script>(function(){"use strict";Polymer("fow-card-preview",{cardChanged:function(){if(this.card){this.$.cardImg.src="../images"+this.card["Image path"];this.$.description.innerHTML=this.card.Cardtext}}})})();</script>
-</polymer-element>
-
-
-<polymer-element name="fow-card-list" attributes="cards nameFilter token" assetpath="fow-card-list/">
-  <template>
-    <style>:host{display:block;width:90%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.attributes{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.type{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.title{text-transform:uppercase;font-size:1.4em}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}</style>
-
-    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
-    </fow-rest-service>
-
-    <div class="tools">
-      <div layout="" horizontal="" center="" center-justified="">
-        <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
-      </div>
-      <br>
-      <div layout="" horizontal="" center="" center-justified="">
-        <div>
-          Name: <input type="text" value="{{nameFilter}}">
-        </div>
-        <div>
-          Description: <input type="text" value="{{descriptionFilter}}">
-        </div>
-      </div>
-      <div class="attributes" layout="" horizontal="" center="" center-justified="">
-        <paper-radio-group selected="{{attributeFilter}}">
-          <paper-radio-button class="light" name="light" label="Light"></paper-radio-button>
-          <paper-radio-button class="dark" name="dark" label="Dark"></paper-radio-button>
-          <paper-radio-button class="wind" name="wind" label="Wind"></paper-radio-button>
-          <paper-radio-button class="water" name="water" label="Water"></paper-radio-button>
-          <paper-radio-button class="fire" name="fire" label="Fire"></paper-radio-button>
-          <paper-radio-button class="all" name="" label="All"></paper-radio-button>
-        </paper-radio-group>
-      </div>
-      <div class="type" layout="" horizontal="" center="" center-justified="">
-        <paper-radio-group selected="{{typeFilter}}">
-          <paper-radio-button name="resonator" label="Resonator"></paper-radio-button>
-          <paper-radio-button name="spell" label="Normal Spell"></paper-radio-button>
-          <paper-radio-button name="ruler" label="Ruler / JRuler"></paper-radio-button>
-          <paper-radio-button name="" label="All"></paper-radio-button>
-        </paper-radio-group>
-      </div>
-    </div>
-
-    <template repeat="{{card in filteredCards}}">
-      <fow-card-preview card="{{card}}">
-      </fow-card-preview>
-    </template>
-
-
-  </template>
-  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter":"updateFilteredCards"},created:function(){this.filteredCards=[];this.nameFilter="";this.descriptionFilter="";this.attributeFilter="";this.typeFilter=""},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter)},filterOnText:function(cardList,key,filterString){if(filterString===""){return cardList}else{var self=this;return cardList.filter(function(card){return self.strictMatch(card[key],filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
-</polymer-element>
-
-
-
-
-<!--
-Element for including the Facebook Login button into your site.
-After including the button the FB object is at a global scope and
-can be used for API calls.
-
-##### Example
-
-    <facebook-login appID="123456789"></facebook-login>
-
-@element facebook-login
-@blurb Element that includes the Facebook Login button into your site and enables Graph API calls.
-@status alpha
-@homepage http://davidwittenbrink.github.io/facebook-login
--->
-<polymer-element name="facebook-login" attributes="appID cookie version scopes buttonText graphURL graphResponse autoAPICall graphParams" assetpath="../bower_components/facebook-login/">
-
-  <template>
-    <style>:host{display:inline-block}</style>
-    <div id="fb-login-container">
-        <fb:login-button scope="{{FB_APP_SCOPES}}" onlogin="FB.customCheckLoginState();" data-auto-logout-link="true">
-        {{ buttonText }}
-        </fb:login-button>
-    </div>
-  </template>
-
-  <script>(function(){function statusChangeCallback(response){if(response.status==="connected"){handler.fire("facebook-signin-success",{response:response})}else if(response.status==="not_authorized"){handler.fire("facebook-signin-not-authorized",{response:response})}else{console.log("User not logged into Facebook")}}var FB_APP_ID="";var FB_APP_COOKIE="";var FB_APP_VERSION="";var FB_APP_XFBML;var handler;Polymer("facebook-login",{appID:"",cookie:true,version:"v2.0",scopes:"public_profile",buttonText:"",graphURL:"",graphResponse:null,graphParams:{},graphMethod:"get",autoAPICall:false,go:function(params,method){if(!this.graphURL)console.error("No URL specified. Specify the graph API URL using the graphURL attribute.");FB.api(this.graphURL,this.graphMethod,this.graphParams,function(response){this.graphResponse=response;handler.fire("graph-api-response",{response:response})})},ready:function(){if(!this.appID){console.error("Missing attribute appID for Facebook Login Button");return}handler=this;FB_APP_ID=this.appID;FB_APP_COOKIE=this.cookie;FB_APP_XFBML=this.xfbml;FB_APP_VERSION=this.version;handler.FB_APP_SCOPES=this.scopes.split(" ").join(",");var container=this.$["fb-login-container"];window.fbAsyncInit=function(){FB.init({appId:FB_APP_ID,cookie:FB_APP_COOKIE,xfbml:FB_APP_XFBML,version:FB_APP_VERSION});FB.getLoginStatus(function(response){statusChangeCallback(response)});FB.XFBML.parse(container);FB.customCheckLoginState=function(){FB.getLoginStatus(function(response){statusChangeCallback(response)})}};if(typeof FB=="undefined"){(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="//connect.facebook.net/en_US/sdk.js";fjs.parentNode.insertBefore(js,fjs)})(document,"script","facebook-jssdk")}},graphURLChanged:function(){if(this.autoAPICall)this.go()},graphParamsChanged:function(){if(this.autoAPICall)this.go()}})})();</script>
-
-</polymer-element>
-
-
-
-<polymer-element name="fow-login" attributes="toast user userPhoto globals appID token" assetpath="fow-login/">
-  <template>
-    <style>:host{display:block}</style>
-
-    <fow-globals values="{{globals}}">
-    </fow-globals>
-
-    <facebook-login id="facebook" graphurl="me" autoapicall="false" on-graph-api-response="{{apiHandler}}" on-facebook-signin-success="{{loginSuccess}}" on-facebook-signin-not-authorized="{{loginFail}}" appid="{{appID}}">
-    </facebook-login>
-
-  </template>
-  <script>(function(){"use strict";Polymer("fow-login",{appID:"",user:null,userPhoto:null,observe:{globals:"reloadAppID"},reloadAppID:function(){console.log("Globals APP ID: ",this.globals.appid);this.appID=this.globals.appid;this.$.facebook.ready()},loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";FB.Event.subscribe("auth.logout",function(response){location.reload()});this.token=response.authResponse.accessToken;this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
-</polymer-element>
-
-
 
 
 <!--
@@ -2633,6 +2452,419 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="work"><path d="M20,6h-4V4l-2-2h-4L8,4v2H4C2.9,6,2,6.9,2,8l0,11c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V8C22,6.9,21.1,6,20,6z M14,6h-4V4h4V6z"></path></g>
 </defs></svg>
 </core-iconset-svg>
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE
+The complete set of authors may be found at http://polymer.github.io/AUTHORS
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
+-->
+
+<!--
+/**
+ * core-input is an unstyled single- or multi-line text field where user can
+ * enter input.
+ *
+ * Example:
+ *
+ *     <core-input placeholder="Placeholder text here"></core-input>
+ *
+ *     <core-input multiline placeholder="Enter multiple lines here"></core-input>
+ *
+ * The text input's value is considered "committed" if the user hits the "enter"
+ * key or blurs the input after changing the value. The `change` event is fired
+ * when the value becomes committed, and the committed value is stored in the
+ * `value` property. The current value of the input is stored in the `inputValue`
+ * property.
+ *
+ * Validation
+ * ----------
+ *
+ * core-input can optionally validate the value using the HTML5 constraints API,
+ * similar to native inputs. There are two methods to configure input validation:
+ *
+ * 1. By setting the `type` attribute. For example, setting it to `email` will
+ *    check the value is a valid email, and setting it to `number` will check
+ *    the input is a number.
+ *
+ * 2. By setting attributes related to validation. The attributes are `pattern`,
+ *    `min`, `max`, `step` and `required`.
+ *
+ * Only `required` is supported for multiline inputs currently.
+ *
+ * Example:
+ *
+ *     <core-input type="email" placeholder="enter your email"></core-input>
+ *
+ *     <core-input type="number" min="5" placeholder="enter a number greater than or equal to 5"></core-input>
+ *
+ *     <core-input pattern=".*abc.*" placeholder="enter something containing 'abc'"></core-input>
+ *
+ * See https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation
+ * for more info on validation.
+ *
+ * @group Polymer Core Elements
+ * @element core-input
+ * @homepage github.io
+ */
+-->
+
+<!--
+Fired when the inputValue of is changed. This is the same event as the DOM
+"input" event.
+
+@event input
+-->
+
+<!--
+Fired when the user commits the value of the input, either by the hitting the
+`enter` key or blurring the input after the changing the inputValue. Also see the
+DOM "change" event.
+
+@event change
+-->
+
+<!--
+Fired when the inputValue of this text input changes and fails validation.
+
+@event input-invalid
+@param {Object} detail
+@param {string} value The text input's inputValue.
+-->
+
+<!--
+Fired when the inputValue of this text input changes and passes validation.
+
+@event input-valid
+@param {Object} detail
+@param {string} value The text input's inputValue.
+-->
+
+
+<polymer-element name="core-input" on-focus="{{focusAction}}" assetpath="../bower_components/core-input/">
+
+  <template>
+
+    <style>:host{display:inline-block;text-align:inherit;position:relative;width:20em}:host:hover{cursor:text}input,textarea{font:inherit;color:inherit;width:100%;margin:0;padding:0;background-color:transparent;border:none;outline:0;width:100%}textarea{resize:none}textarea[rows=fit]{height:100%}</style>
+
+    <template if="{{multiline}}">
+      <textarea id="input" value="{{inputValue}}" rows="{{rows}}" disabled?="{{disabled}}" placeholder="{{placeholder}}" autofocus?="{{autofocus}}" required?="{{required}}" readonly?="{{readonly}}" maxlength="{{maxlength}}" aria-label="{{label || placeholder}}" aria-invalid="{{invalid}}" on-change="{{inputChangeAction}}" on-focus="{{inputFocusAction}}" on-blur="{{inputBlurAction}}"></textarea>
+    </template>
+
+    <template if="{{!multiline}}">
+      <input id="input" value="{{inputValue}}" disabled?="{{disabled}}" type="{{type}}" placeholder="{{placeholder}}" autofocus?="{{autofocus}}" required?="{{required}}" readonly?="{{readonly}}" pattern="{{pattern}}" min="{{min}}" max="{{max}}" step="{{step}}" maxlength="{{maxlength}}" aria-label="{{label || placeholder}}" aria-invalid="{{invalid}}" on-keypress="{{keypressAction}}" on-change="{{inputChangeAction}}" on-focus="{{inputFocusAction}}" on-blur="{{inputBlurAction}}">
+    </template>
+
+  </template>
+
+  <script>Polymer("core-input",{publish:{placeholder:"",disabled:false,readonly:false,autofocus:false,multiline:false,rows:"fit",inputValue:"",value:"",type:"text",required:false,pattern:".*",min:null,max:null,step:null,maxlength:null,invalid:false,validateImmediately:true},ready:function(){this.handleTabindex(this.getAttribute("tabindex"))},disabledChanged:function(){if(this.disabled){this.setAttribute("aria-disabled",true)}else{this.removeAttribute("aria-disabled")}},invalidChanged:function(){this.classList.toggle("invalid",this.invalid);this.fire("input-"+(this.invalid?"invalid":"valid"),{value:this.inputValue})},inputValueChanged:function(){if(this.validateImmediately){this.updateValidity_()}},valueChanged:function(){this.inputValue=this.value},requiredChanged:function(){if(this.validateImmediately){this.updateValidity_()}},attributeChanged:function(attr,oldVal,curVal){if(attr==="tabindex"){this.handleTabindex(curVal)}},handleTabindex:function(tabindex){if(tabindex>0){this.$.input.setAttribute("tabindex",-1)}else{this.$.input.removeAttribute("tabindex")}},commit:function(){this.value=this.inputValue},updateValidity_:function(){if(this.$.input.willValidate){this.invalid=!this.$.input.validity.valid}},keypressAction:function(e){if(this.type!=="number"){return}var c=String.fromCharCode(e.charCode);if(e.charCode!==0&&!c.match(/[\d-\.e]/)){e.preventDefault()}},inputChangeAction:function(){this.commit();if(!window.ShadowDOMPolyfill){this.fire("change",null,this)}},focusAction:function(e){if(this.getAttribute("tabindex")>0){this.$.input.focus()}},inputFocusAction:function(e){if(window.ShadowDOMPolyfill){this.fire("focus",null,this,false)}},inputBlurAction:function(){if(window.ShadowDOMPolyfill){this.fire("blur",null,this,false)}},blur:function(){this.$.input.blur()},click:function(){this.$.input.click()},focus:function(){this.$.input.focus()},select:function(){this.$.input.select()},setSelectionRange:function(selectionStart,selectionEnd,selectionDirection){this.$.input.setSelectionRange(selectionStart,selectionEnd,selectionDirection)},setRangeText:function(replacement,start,end,selectMode){if(!this.multiline){this.$.input.setRangeText(replacement,start,end,selectMode)}},stepDown:function(n){if(!this.multiline){this.$.input.stepDown(n)}},stepUp:function(n){if(!this.multiline){this.$.input.stepUp(n)}},get willValidate(){return this.$.input.willValidate},get validity(){return this.$.input.validity},get validationMessage(){return this.$.input.validationMessage},checkValidity:function(){var r=this.$.input.checkValidity();this.updateValidity_();return r},setCustomValidity:function(message){this.$.input.setCustomValidity(message);this.updateValidity_()}});</script>
+
+</polymer-element>
+
+
+
+<core-style id="paper-input">
+
+:host([focused]) .floated-label {
+  color: {{g.paperInput.focusedColor}};
+}
+
+.focused-underline,
+.cursor {
+  background-color: {{g.paperInput.focusedColor}};
+}
+
+
+:host(.invalid[focused]) .floated-label,
+:host([focused]) .error-text,
+:host([focused]) .error-icon {
+  color: {{g.paperInput.invalidColor}};
+}
+
+:host(.invalid) .focused-underline,
+:host(.invalid) .cursor {
+  background-color: {{g.paperInput.invalidColor}};
+}
+
+</core-style>
+
+<polymer-element name="paper-input" extends="core-input" layout="" vertical="" attributes="label floatingLabel maxRows error" on-transitionend="{{transitionEndAction}}" on-webkittransitionend="{{transitionEndAction}}" assetpath="../bower_components/paper-input/">
+
+  <template>
+
+    <!--
+    Input tests:
+
+    - set value to integer 0
+    - various html5 input types
+    - sizing:
+      - single-line: size with CSS
+      - single-line: can fit to container
+      - multi-line: size with CSS
+      - multi-line: size with rows
+      - multi-line: can fit to container
+      - multi-line: grows with typing
+      - multi-line: max rows
+      - multi-line: max rows, scrolls after
+    -->
+
+    <style>:host{display:inline-block;outline:0;text-align:inherit;color:#757575;padding:.75em 0}:host /deep/ input,:host /deep/ textarea{font:inherit;color:#000;padding:0;margin:0;background-color:transparent;border:none;outline:0;width:100%;height:100%}input:invalid,textarea:invalid{box-shadow:none}textarea{resize:none}[invisible]{visibility:hidden}[animated]{visibility:visible!important;-webkit-transition:-webkit-transform .2s cubic-bezier(0.4,0,.2,1),opacity .2s cubic-bezier(0.4,0,.2,1);transition:transform .2s cubic-bezier(0.4,0,.2,1),opacity .2s cubic-bezier(0.4,0,.2,1)}.floated-label{font-size:.75em;background:0 0;white-space:nowrap}.mirror-text{padding:.5em 0 .25em;max-width:100%;white-space:nowrap}:host([multiline]) .mirror-text{white-space:pre-wrap;word-wrap:break-word}.label{padding:.5em 0 .25em;background:0 0;pointer-events:none}.label-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;max-width:100%;-moz-transform-origin:0 0;-webkit-transform-origin:0 0;transform-origin:0 0}.cursor{position:absolute;top:.4em;left:0;width:1px;height:1.4em;opacity:.4;-moz-transform-origin:0;-webkit-transform-origin:0;transform-origin:0;-webkit-transform:none;transform:none}.cursor[invisible]{opacity:.75;-webkit-transform:translate3d(3em,0,0) scale3d(50,1,1);transform:translate3d(3em,0,0) scale3d(50,1,1)}.input-container{position:absolute;top:.5em;right:0;bottom:.25em;left:0}.underline{height:0;overflow:visible}:host([disabled]) .underline{border-bottom:1px dashed}.unfocused-underline{height:1px;background:#757575;border-bottom-color:#757575}.focused-underline{height:2px;-webkit-transform:none;transform:none}.focused-underline[invisible]{-webkit-transform:scale3d(0,1,1);transform:scale3d(0,1,1)}.error-text{font-size:.75em;padding:.5em 0}.error-icon{height:20px;width:20px}</style>
+    <core-style ref="paper-input"></core-style>
+
+    <div class="floated-label" aria-hidden="true" hidden?="{{!floatingLabel}}" invisible?="{{!inputValue &amp;&amp; !(type === &apos;number&apos; &amp;&amp; !validity.valid) || labelAnimated}}">
+      <!-- needed for floating label animation measurement -->
+      <span id="floatedLabelText" class="label-text">{{label}}</span>
+    </div>
+
+    <!-- <div class="input-body" flex auto relative on-down="{{downAction}}" on-up="{{upAction}}"> -->
+    <div class="input-body" flex="" auto="" relative="">
+
+      <!-- the mirror sizes the input/textarea so it grows with typing -->
+      <div id="mirror" class="mirror-text" invisible="" aria-hidden="true"></div>
+
+      <div class="label" fit="" aria-hidden="true">
+        <!-- needed for floating label animation measurement -->
+        <span id="labelText" class="label-text" invisible?="{{inputValue || !inputValue &amp;&amp; type === &apos;number&apos; &amp;&amp; !validity.valid}}" animated?="{{labelAnimated}}">{{label}}</span>
+      </div>
+
+      <div class="cursor" invisible?="{{!cursorAnimated}}" animated?="{{cursorAnimated}}"></div>
+
+      <!-- size the input/textarea with a div, because the textarea has intrinsic size in ff -->
+      <div class="input-container" on-down="{{downAction}}" on-up="{{upAction}}">
+        <shadow></shadow>
+      </div>
+
+    </div>
+
+    <div id="underline" class="underline" relative="">
+      <div class="unfocused-underline" fit="" invisible?="{{disabled}}"></div>
+      <div id="focusedUnderline" class="focused-underline" fit="" invisible?="{{!focused}}" animated?="{{underlineAnimated}}"></div>
+    </div>
+
+    <div layout="" horizontal="" center="" hidden?="{{!invalid}}">
+      <div class="error-text" flex="" auto="" role="alert" aria-hidden="{{!invalid}}">{{error || validationMessage}}</div>
+      <core-icon class="error-icon" icon="warning"></core-icon>
+    </div>
+
+  </template>
+
+  <script>(function(){var paperInput=CoreStyle.g.paperInput=CoreStyle.g.paperInput||{};paperInput.focusedColor="#4059a9";paperInput.invalidColor="#d34336";Polymer("paper-input",{publish:{label:"",floatingLabel:false,maxRows:0,error:"",focused:{value:false,reflect:true}},get inputValueForMirror(){var tokens=this.inputValue?String(this.inputValue).replace(/&/gm,"&amp;").replace(/"/gm,"&quot;").replace(/'/gm,"&#39;").replace(/</gm,"&lt;").replace(/>/gm,"&gt;").split("\n"):[""];if(this.multiline){if(this.maxRows&&tokens.length>this.maxRows){tokens=tokens.slice(0,this.maxRows)}while(this.rows&&tokens.length<this.rows){tokens.push("")}}return tokens.join("<br>")+"&nbsp;"},get inputHasValue(){return this.inputValue||this.type==="number"&&!this.validity.valid},syncInputValueToMirror:function(){this.$.mirror.innerHTML=this.inputValueForMirror},ready:function(){this.syncInputValueToMirror()},prepareLabelTransform:function(){var toRect=this.$.floatedLabelText.getBoundingClientRect();var fromRect=this.$.labelText.getBoundingClientRect();if(toRect.width!==0){var sy=toRect.height/fromRect.height;this.$.labelText.cachedTransform="scale3d("+toRect.width/fromRect.width+","+sy+",1) "+"translate3d(0,"+(toRect.top-fromRect.top)/sy+"px,0)"}},animateFloatingLabel:function(){if(!this.floatingLabel||this.labelAnimated){return}if(!this.$.labelText.cachedTransform){this.prepareLabelTransform()}if(!this.$.labelText.cachedTransform){return}this.labelAnimated=true;this.async(function(){this.transitionEndAction()},null,250);if(this.inputHasValue){this.$.labelText.style.webkitTransform=this.$.labelText.cachedTransform;this.$.labelText.style.transform=this.$.labelText.cachedTransform}else{if(!this.$.labelText.style.webkitTransform&&!this.$.labelText.style.transform){this.$.labelText.style.webkitTransform=this.$.labelText.cachedTransform;this.$.labelText.style.transform=this.$.labelText.cachedTransform;this.$.labelText.offsetTop}this.$.labelText.style.webkitTransform="";this.$.labelText.style.transform=""}},inputValueChanged:function(old){this.super();this.syncInputValueToMirror();if(old&&!this.inputValue||!old&&this.inputValue){this.animateFloatingLabel()}},placeholderChanged:function(){this.label=this.placeholder},inputFocusAction:function(){this.super(arguments);this.focused=true},inputBlurAction:function(e){this.super(arguments);this.focused=false},downAction:function(e){if(this.disabled){return}if(this.focused){return}var rect=this.$.underline.getBoundingClientRect();var right=e.x-rect.left;this.$.focusedUnderline.style.mozTransformOrigin=right+"px";this.$.focusedUnderline.style.webkitTransformOrigin=right+"px ";this.$.focusedUnderline.style.transformOriginX=right+"px";this.underlineAnimated=true;if(!this.inputHasValue){this.cursorAnimated=true}this.async(function(){this.transitionEndAction()},null,250)},keydownAction:function(){this.super();if(this.type==="number"){var valid=!this.inputValue&&this.validity.valid;this.async(function(){if(valid!==(!this.inputValue&&this.validity.valid)){this.animateFloatingLabel()}})}},transitionEndAction:function(){this.underlineAnimated=false;this.cursorAnimated=false;this.labelAnimated=false}})})();</script>
+
+</polymer-element>
+
+
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+@group Polymer Core Elements
+
+The `core-ajax` element exposes `XMLHttpRequest` functionality.
+
+    <core-ajax
+        auto
+        url="http://gdata.youtube.com/feeds/api/videos/"
+        params='{"alt":"json", "q":"chrome"}'
+        handleAs="json"
+        on-core-response="{{handleResponse}}"></core-ajax>
+
+With `auto` set to `true`, the element performs a request whenever
+its `url` or `params` properties are changed.
+
+Note: The `params` attribute must be double quoted JSON.
+
+You can trigger a request explicitly by calling `go` on the
+element.
+
+@element core-ajax
+@status beta
+@homepage github.io
+-->
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!--
+/**
+ * @group Polymer Core Elements
+ *
+ * core-xhr can be used to perform XMLHttpRequests.
+ *
+ *     <core-xhr id="xhr"></core-xhr>
+ *     ...
+ *     this.$.xhr.request({url: url, params: params, callback: callback});
+ *
+ * @element core-xhr
+ */
+-->
+
+
+
+<polymer-element name="core-xhr" hidden assetpath="../bower_components/core-ajax/">
+
+  <script>Polymer("core-xhr",{request:function(options){var xhr=new XMLHttpRequest;var url=options.url;var method=options.method||"GET";var async=!options.sync;var params=this.toQueryString(options.params);if(params&&method=="GET"){url+=(url.indexOf("?")>0?"&":"?")+params}var xhrParams=this.isBodyMethod(method)?options.body||params:null;xhr.open(method,url,async);if(options.responseType){xhr.responseType=options.responseType}if(options.withCredentials){xhr.withCredentials=true}this.makeReadyStateHandler(xhr,options.callback);this.setRequestHeaders(xhr,options.headers);xhr.send(xhrParams);if(!async){xhr.onreadystatechange(xhr)}return xhr},toQueryString:function(params){var r=[];for(var n in params){var v=params[n];n=encodeURIComponent(n);r.push(v==null?n:n+"="+encodeURIComponent(v))}return r.join("&")},isBodyMethod:function(method){return this.bodyMethods[(method||"").toUpperCase()]},bodyMethods:{POST:1,PUT:1,DELETE:1},makeReadyStateHandler:function(xhr,callback){xhr.onreadystatechange=function(){if(xhr.readyState==4){callback&&callback.call(null,xhr.response,xhr)}}},setRequestHeaders:function(xhr,headers){if(headers){for(var name in headers){xhr.setRequestHeader(name,headers[name])}}}});</script>
+  
+</polymer-element>
+
+<polymer-element name="core-ajax" hidden attributes="url handleAs auto params response error method headers body contentType withCredentials" assetpath="../bower_components/core-ajax/">
+<script>Polymer("core-ajax",{url:"",handleAs:"",auto:false,params:"",response:null,error:null,method:"",headers:null,body:null,contentType:"application/x-www-form-urlencoded",withCredentials:false,xhrArgs:null,ready:function(){this.xhr=document.createElement("core-xhr")},receive:function(response,xhr){if(this.isSuccess(xhr)){this.processResponse(xhr)}else{this.processError(xhr)}this.complete(xhr)},isSuccess:function(xhr){var status=xhr.status||0;return!status||status>=200&&status<300},processResponse:function(xhr){var response=this.evalResponse(xhr);if(xhr===this.activeRequest){this.response=response}this.fire("core-response",{response:response,xhr:xhr})},processError:function(xhr){var response=xhr.status+": "+xhr.responseText;if(xhr===this.activeRequest){this.error=response}this.fire("core-error",{response:response,xhr:xhr})},complete:function(xhr){this.fire("core-complete",{response:xhr.status,xhr:xhr})},evalResponse:function(xhr){return this[(this.handleAs||"text")+"Handler"](xhr)},xmlHandler:function(xhr){return xhr.responseXML},textHandler:function(xhr){return xhr.responseText},jsonHandler:function(xhr){var r=xhr.responseText;try{return JSON.parse(r)}catch(x){console.warn("core-ajax caught an exception trying to parse response as JSON:");console.warn("url:",this.url);console.warn(x);return r}},documentHandler:function(xhr){return xhr.response},blobHandler:function(xhr){return xhr.response},arraybufferHandler:function(xhr){return xhr.response},urlChanged:function(){if(!this.handleAs){var ext=String(this.url).split(".").pop();switch(ext){case"json":this.handleAs="json";break}}this.autoGo()},paramsChanged:function(){this.autoGo()},autoChanged:function(){this.autoGo()},autoGo:function(){if(this.auto){this.goJob=this.job(this.goJob,this.go,0)}},go:function(){var args=this.xhrArgs||{};args.body=this.body||args.body;args.params=this.params||args.params;if(args.params&&typeof args.params=="string"){args.params=JSON.parse(args.params)}args.headers=this.headers||args.headers||{};if(args.headers&&typeof args.headers=="string"){args.headers=JSON.parse(args.headers)}var hasContentType=Object.keys(args.headers).some(function(header){return header.toLowerCase()==="content-type"});if(!hasContentType&&this.contentType){args.headers["Content-Type"]=this.contentType}if(this.handleAs==="arraybuffer"||this.handleAs==="blob"||this.handleAs==="document"){args.responseType=this.handleAs}args.withCredentials=this.withCredentials;args.callback=this.receive.bind(this);args.url=this.url;args.method=this.method;this.response=this.error=null;this.activeRequest=args.url&&this.xhr.request(args);return this.activeRequest}});</script>
+</polymer-element>
+
+
+
+<polymer-element name="fow-globals" attributes="values" assetpath="fow-globals/">
+  <template>
+    <style>:host{display:block}</style>
+  </template>
+  <script>(function(){"use strict";var values={};Polymer("fow-globals",{ready:function(){this.values=values;for(var i=0;i<this.attributes.length;++i){var attr=this.attributes[i];values[attr.nodeName]=attr.value}}})})();</script>
+</polymer-element>
+
+
+<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType globals token" assetpath="fow-rest-service/">
+  <template>
+    <style>:host{display:none}</style>
+
+    <fow-globals values="{{globals}}">
+    
+
+    <core-ajax id="ajax" auto="{{auto}}" on-core-error="{{errorHandler}}" on-core-response="{{elementsLoaded}}" response="{{items}}" handleas="json" method="{{method}}" params="{{params}}" body="{{body}}" contenttype="{{contentType}}">
+    </core-ajax>
+
+  </fow-globals></template>
+  <script>(function(){"use strict";Polymer("fow-rest-service",{auto:true,observe:{"apiurl type globals":"reloadUrl"},created:function(){this.items=[]},reloadUrl:function(){if(this.globals.apiurl&&this.type){this.$.ajax.url="http://"+this.globals.apiurl+this.type+"/?token="+this.token;console.log(this.$.ajax.url)}}})})();</script>
+</polymer-element>
+
+
+
+<polymer-element name="fow-card-preview" attributes="card" assetpath="fow-card-preview/">
+  <template>
+    <style type="text/css">:host{font-family:Open Sans;display:block;background-color:rgba(255,255,255,.9);margin:10px;padding:10px;border-radius:5px;color:#222;min-height:142px}#cardImg{width:100px;margin-top:1px;margin-right:10px}.preview{margin-left:10px}.title{font-size:1.5em}#description{font-size:.7em}</style>
+
+    <div>
+      <img id="cardImg" align="left">
+      <div class="preview">
+        <div class="title">{{card.Name}}</div>
+        <div id="description"></div>
+      </div>
+    </div>
+  </template>
+  <script>(function(){"use strict";Polymer("fow-card-preview",{cardChanged:function(){if(this.card){this.$.cardImg.src="../images"+this.card["Image path"];this.$.description.innerHTML=this.card.Cardtext}}})})();</script>
+</polymer-element>
+
+
+
+<polymer-element name="fow-card-list" attributes="cards nameFilter token" assetpath="fow-card-list/">
+  <template>
+    <style>:host{display:block;width:90%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.attributes{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.type{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.title{text-transform:uppercase;font-size:1.4em}.textInput{color:#000;margin-left:30px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}</style>
+
+    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
+    </fow-rest-service>
+
+    <div class="tools">
+      <div layout="" horizontal="" center="" center-justified="">
+        <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
+      </div>
+      <br>
+      <div class="attributes" layout="" horizontal="" center="" center-justified="">
+        <paper-input class="textInput" autofocus floatinglabel="" label="Name" layout="" vertical="" inputvalue="{{nameFilter}}">
+        </paper-input>
+        <paper-input class="textInput" floatinglabel="" label="Card Text" layout="" vertical="" value="{{descriptionFilter}}">
+        </paper-input>
+      </div>
+      <div class="attributes" layout="" horizontal="" center="" center-justified="">
+        <paper-radio-group selected="{{attributeFilter}}">
+          <paper-radio-button class="light" name="light" label="Light"></paper-radio-button>
+          <paper-radio-button class="dark" name="dark" label="Dark"></paper-radio-button>
+          <paper-radio-button class="wind" name="wind" label="Wind"></paper-radio-button>
+          <paper-radio-button class="water" name="water" label="Water"></paper-radio-button>
+          <paper-radio-button class="fire" name="fire" label="Fire"></paper-radio-button>
+          <paper-radio-button class="all" name="" label="All"></paper-radio-button>
+        </paper-radio-group>
+      </div>
+      <div class="type" layout="" horizontal="" center="" center-justified="">
+        <paper-radio-group selected="{{typeFilter}}">
+          <paper-radio-button name="resonator" label="Resonator"></paper-radio-button>
+          <paper-radio-button name="spell" label="Normal Spell"></paper-radio-button>
+          <paper-radio-button name="ruler" label="Ruler / JRuler"></paper-radio-button>
+          <paper-radio-button name="" label="All"></paper-radio-button>
+        </paper-radio-group>
+      </div>
+    </div>
+
+    <template repeat="{{card in filteredCards}}">
+      <fow-card-preview card="{{card}}">
+      </fow-card-preview>
+    </template>
+
+
+  </template>
+  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter":"updateFilteredCards"},created:function(){this.filteredCards=[];this.nameFilter="";this.descriptionFilter="";this.attributeFilter="";this.typeFilter=""},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter)},filterOnText:function(cardList,key,filterString){if(filterString===""){return cardList}else{var self=this;return cardList.filter(function(card){return self.strictMatch(card[key],filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
+</polymer-element>
+
+
+
+
+<!--
+Element for including the Facebook Login button into your site.
+After including the button the FB object is at a global scope and
+can be used for API calls.
+
+##### Example
+
+    <facebook-login appID="123456789"></facebook-login>
+
+@element facebook-login
+@blurb Element that includes the Facebook Login button into your site and enables Graph API calls.
+@status alpha
+@homepage http://davidwittenbrink.github.io/facebook-login
+-->
+<polymer-element name="facebook-login" attributes="appID cookie version scopes buttonText graphURL graphResponse autoAPICall graphParams" assetpath="../bower_components/facebook-login/">
+
+  <template>
+    <style>:host{display:inline-block}</style>
+    <div id="fb-login-container">
+        <fb:login-button scope="{{FB_APP_SCOPES}}" onlogin="FB.customCheckLoginState();" data-auto-logout-link="true">
+        {{ buttonText }}
+        </fb:login-button>
+    </div>
+  </template>
+
+  <script>(function(){function statusChangeCallback(response){if(response.status==="connected"){handler.fire("facebook-signin-success",{response:response})}else if(response.status==="not_authorized"){handler.fire("facebook-signin-not-authorized",{response:response})}else{console.log("User not logged into Facebook")}}var FB_APP_ID="";var FB_APP_COOKIE="";var FB_APP_VERSION="";var FB_APP_XFBML;var handler;Polymer("facebook-login",{appID:"",cookie:true,version:"v2.0",scopes:"public_profile",buttonText:"",graphURL:"",graphResponse:null,graphParams:{},graphMethod:"get",autoAPICall:false,go:function(params,method){if(!this.graphURL)console.error("No URL specified. Specify the graph API URL using the graphURL attribute.");FB.api(this.graphURL,this.graphMethod,this.graphParams,function(response){this.graphResponse=response;handler.fire("graph-api-response",{response:response})})},ready:function(){if(!this.appID){console.error("Missing attribute appID for Facebook Login Button");return}handler=this;FB_APP_ID=this.appID;FB_APP_COOKIE=this.cookie;FB_APP_XFBML=this.xfbml;FB_APP_VERSION=this.version;handler.FB_APP_SCOPES=this.scopes.split(" ").join(",");var container=this.$["fb-login-container"];window.fbAsyncInit=function(){FB.init({appId:FB_APP_ID,cookie:FB_APP_COOKIE,xfbml:FB_APP_XFBML,version:FB_APP_VERSION});FB.getLoginStatus(function(response){statusChangeCallback(response)});FB.XFBML.parse(container);FB.customCheckLoginState=function(){FB.getLoginStatus(function(response){statusChangeCallback(response)})}};if(typeof FB=="undefined"){(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id))return;js=d.createElement(s);js.id=id;js.src="//connect.facebook.net/en_US/sdk.js";fjs.parentNode.insertBefore(js,fjs)})(document,"script","facebook-jssdk")}},graphURLChanged:function(){if(this.autoAPICall)this.go()},graphParamsChanged:function(){if(this.autoAPICall)this.go()}})})();</script>
+
+</polymer-element>
+
+
+
+<polymer-element name="fow-login" attributes="toast user userPhoto globals appID token" assetpath="fow-login/">
+  <template>
+    <style>:host{display:block}</style>
+
+    <fow-globals values="{{globals}}">
+    </fow-globals>
+
+    <facebook-login id="facebook" graphurl="me" autoapicall="false" on-graph-api-response="{{apiHandler}}" on-facebook-signin-success="{{loginSuccess}}" on-facebook-signin-not-authorized="{{loginFail}}" appid="{{appID}}">
+    </facebook-login>
+
+  </template>
+  <script>(function(){"use strict";Polymer("fow-login",{appID:"",user:null,userPhoto:null,observe:{globals:"reloadAppID"},reloadAppID:function(){console.log("Globals APP ID: ",this.globals.appid);this.appID=this.globals.appid;this.$.facebook.ready()},loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";FB.Event.subscribe("auth.logout",function(response){location.reload()});this.token=response.authResponse.accessToken;this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
+</polymer-element>
+
+
+
+
 
 
 <polymer-element name="fow-notification-icon" attributes="notificationCount" assetpath="fow-notification-icon/">
