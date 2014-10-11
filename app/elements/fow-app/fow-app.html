@@ -1,10 +1,21 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/flatiron-director/flatiron-director.html">
+<link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../../bower_components/core-animated-pages/transitions/slide-up.html">
+<link rel="import" href="../../bower_components/core-animated-pages/transitions/slide-down.html">
+<link rel="import" href="../../bower_components/core-animated-pages/transitions/list-cascade.html">
+<link rel="import" href="../../bower_components/core-animated-pages/transitions/tile-cascade.html">
+<link rel="import" href="../../bower_components/core-animated-pages/transitions/cross-fade.html">
+<link rel="import" href="../../bower_components/core-animated-pages/transitions/hero-transition.html">
+<link rel="import" href="../../bower_components/core-animated-pages/transitions/hero-transition.css">
+
 <link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
 <link rel="import" href="../../elements/fow-card-list/fow-card-list.html">
 <link rel="import" href="../../elements/fow-login/fow-login.html">
 <link rel="import" href="../../elements/fow-notification-icon/fow-notification-icon.html">
+<link rel="import" href="../../elements/fow-menu/fow-menu.html">
 
 <polymer-element name="fow-app" attributes="toast">
   <template>
@@ -57,10 +68,22 @@
         right: 15px;
       }
 
+      core-animated-pages{
+        width: 100%;
+        position: relative;
+      }
+
+      section{
+        position: relative;
+        margin-left: 8%;
+      }
+
     </style>
 
-    <fow-notification-icon id="notificationIcon">
-    </fow-notification-icon>
+    <template if="{{user}}">
+      <fow-notification-icon id="notificationIcon" notificationCount="{{notificationCount}}">
+      </fow-notification-icon>
+    </template>
 
     <paper-toast 
       id="toast" 
@@ -103,8 +126,18 @@
       </template>
 
       <template if="{{user}}">
+        <flatiron-director route="{{selected}}" autoHash on-director-route="{{routeChanged}}">
+        </flatiron-director>
 
-        <fow-card-list token="{{token}}"></fow-card-list>
+        <fow-menu selected="{{selected}}" smallQuery="max-width: 1000px"></fow-menu>
+
+        <core-animated-pages selected="{{selected}}" transitions="slide-up slide-down list-cascade hero-transition cross-fade">
+          
+          <section name="cards">
+            <fow-card-list token="{{token}}"></fow-card-list>
+          </section>
+
+        <core-animated-pages>
         
       </template>
 

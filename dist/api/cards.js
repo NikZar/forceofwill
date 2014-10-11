@@ -12,6 +12,46 @@ var getAllCards = function(req, res){
     });
 }
 
+var getCard = function(req,res){
+	console.log("User ID: ", req.userId);
+	console.log("App ID: ", req.appId);
+    var db = req.db;
+	var code = req.params.code;
+	db.collection('cards').find({Code: code}).toArray(function (err, items) {
+        res.json(items[0]);
+    });
+}
+
+var getCardsWithAttribute = function(req,res){
+	console.log("User ID: ", req.userId);
+	console.log("App ID: ", req.appId);
+    var db = req.db;
+	var attribute = req.params.attribute;
+	db.collection('cards').find({Attribute: attribute}).toArray(function (err, items) {
+        res.json(items);
+    });
+}
+
+/*
+ * GET all cards with input attribute.
+ */
+router.get('/attribute/:attribute', function(req, res) {
+	getCardsWithAttribute(req, res);
+});
+
+router.get('/attribute/:attribute', function(req, res) {
+	getCardsWithAttribute(req, res);
+});
+/*
+ * GET a card.
+ */
+router.get('/:code', function(req, res) {
+	getCard(req, res);
+});
+
+router.get('/:code/', function(req, res) {
+	getCard(req, res);
+});
 /*
  * GET all cards.
  */
@@ -20,13 +60,6 @@ router.get('', function(req, res) {
 });
 
 router.get('/', function(req, res) {
-	getAllCards(req, res);
-});
-
-/*
- * GET one cards.
- */
-router.get('/:code', function(req, res) {
 	getAllCards(req, res);
 });
 

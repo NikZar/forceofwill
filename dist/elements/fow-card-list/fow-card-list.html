@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../bower_components/core-icons/social-icons.html">
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
 <link rel="import" href="../../elements/fow-card-preview/fow-card-preview.html">
 
@@ -23,15 +25,27 @@
         border-radius: 5px;
       }
 
+      .title{
+        text-transform: uppercase;
+        font-size: 1.4em;
+      }
+
     </style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
     </fow-rest-service>
 
     <div class="tools">
-      Search Tools
-      <div>
-        Name: <input type="text" value="{{nameFilter}}">
+      <div layout horizontal center center-justified>
+        <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
+      </div>
+      <div layout horizontal center center-justified>
+        <div>
+          Name: <input type="text" value="{{nameFilter}}">
+        </div>
+        <div>
+          Description: <input type="text" value="{{descriptionFilter}}">
+        </div>
       </div>
     </div>
 
