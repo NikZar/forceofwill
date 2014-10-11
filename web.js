@@ -89,18 +89,18 @@ var checkToken = function(req,res,next,token){
 }
 
 // Authenticate user at each request
-app.use(function(req,res,next){
+app.use("/api",function(req,res,next){
     var token = req.query.token;
-    //console.log("Token: ",token);
+    console.log("Token: ",token);
     checkToken(req,res,next, token);
 });
 // API
 //	CARDS
 var cards = require("" + __dirname +BASEDIR+'/api/cards');
-app.use('/cards', cards);
+app.use('/api/cards', cards);
 //  DECKS
 var decks = require("" + __dirname +BASEDIR+'/api/decks');
-app.use('/decks', decks);
+app.use('/api/decks', decks);
 
 app.use(morgan('dev'));
 app.use(gzippo.staticGzip("" + __dirname + BASEDIR));

@@ -3,9 +3,11 @@
 <link rel="import" href="../../bower_components/core-icons/social-icons.html">
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
 <link rel="import" href="../../elements/fow-card-preview/fow-card-preview.html">
+<link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
 
 <polymer-element name="fow-card-list" attributes="cards nameFilter token">
   <template>
@@ -18,6 +20,7 @@
         background-color: rgba(255,255,255,0.1);
         border-radius: 10px;
         padding: 5px;
+        font-family: Open Sans;
       }
 
       .tools{
@@ -43,6 +46,16 @@
       .title{
         text-transform: uppercase;
         font-size: 1.4em;
+      }
+
+      .textInput{
+        color: #000;
+        margin-left: 30px;
+      }
+
+      html /deep/ paper-input[focused] .floated-label {
+          /* floating label color when the input has focus */
+          color: #fff;
       }
 
       /* Attribute Radio Button Colors */
@@ -98,13 +111,20 @@
         <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
       </div>
       <br />
-      <div layout horizontal center center-justified>
-        <div>
-          Name: <input type="text" value="{{nameFilter}}">
-        </div>
-        <div>
-          Description: <input type="text" value="{{descriptionFilter}}">
-        </div>
+      <div class="attributes" layout horizontal center center-justified>
+        <paper-input class="textInput"
+        autofocus
+        floatinglabel 
+        label="Name" 
+        layout vertical 
+        inputValue="{{nameFilter}}">
+        </paper-input>
+        <paper-input class="textInput"
+        floatinglabel 
+        label="Card Text" 
+        layout vertical 
+        value="{{descriptionFilter}}">
+        </paper-input>
       </div>
       <div class="attributes" layout horizontal center center-justified>
         <paper-radio-group selected="{{attributeFilter}}">
