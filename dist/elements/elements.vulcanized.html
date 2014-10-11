@@ -1511,328 +1511,7 @@ Fired when a page transition completes.
 
 </polymer-element>
 
-<!--
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 
-
-
-<core-style id="slide-up">
-  polyfill-next-selector { content: ':host.slide-up > * [slide-up]'; }
-  :host(.slide-up) ::content > * /deep/ [slide-up] {
-    -webkit-transition: -webkit-transform {{g.transitions.slideDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-    transition: transform {{g.transitions.slideDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  polyfill-next-selector { content: ':host > .core-selected [slide-up]'; }
-  ::content > .core-selected /deep/ [slide-up] {
-    -webkit-transform: none;
-    transform: none;
-  }
-
-  polyfill-next-selector { content: ':host > [animate]:not(.core-selected) [slide-up]'; }
-  ::content > [animate]:not(.core-selected) /deep/ [slide-up] {
-    -webkit-transform: translateY(150%);
-    transform: translateY(150%);
-  }
-</core-style>
-
-<core-style id="slide-up-offscreen">
-  polyfill-next-selector { content: ':host.slide-up-offscreen > * [slide-up-offscreen]'; }
-  :host(.slide-up-offscreen) ::content > * /deep/ [slide-up-offscreen] {
-    -webkit-transition: -webkit-transform {{g.transitions.slideDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-    transition: transform {{g.transitions.slideDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  polyfill-next-selector { content: ':host > .core-selected [slide-up-offscreen]'; }
-  ::content > .core-selected /deep/ [slide-up-offscreen] {
-    -webkit-transform: none;
-    transform: none;
-  }
-
-  polyfill-next-selector { content: ':host > [animate]:not(.core-selected) [slide-up-offscreen]'; }
-  ::content > [animate]:not(.core-selected) /deep/ [slide-up-offscreen] {
-    -webkit-transform: translateY(100vh);
-    transform: translateY(100vh);
-    z-index: -1;
-  }
-
-  polyfill-rule {
-    content: ':host > [animate]:not(.core-selected) [slide-up-offscreen]';
-    -webkit-transform: translateY(1000px);
-  }
-</core-style>
-
-<!--
-
-`slide-up` slides an element in the outgoing page from the bottom of the window
-and slides in an element in the incoming page from the bottom of the window during
-a page transition. You can configure the duration of the transition with the global
-variable `CoreStyle.g.transitions.slideDuration`.
-
-Example:
-
-    <core-animated-pages transition="slide-up">
-      <section>
-        <div id="div1" slide-up></div>
-      </section>
-      <section></section>
-    </core-animated-pages>
-
-@class slide-up
-@extends core-transition-pages
-@status beta
-@homepage github.io
-
--->
-
-<core-transition-pages id="slide-up" activeclass="slide-up"></core-transition-pages>
-<core-transition-pages id="slide-up-offscreen" activeclass="slide-up-offscreen"></core-transition-pages>
-
-<!--
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-
-
-<core-style id="slide-down">
-  polyfill-next-selector { content: ':host.slide-down > * [slide-down]'; }
-  :host(.slide-down) ::content > * /deep/ [slide-down] {
-    -webkit-transition: -webkit-transform {{g.transitions.slideDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-    transition: transform {{g.transitions.slideDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  polyfill-next-selector { content: ':host > .core-selected [slide-down]'; }
-  ::content > .core-selected /deep/ [slide-down] {
-    -webkit-transform: none;
-    transform: none;
-  }
-
-  polyfill-next-selector { content: ':host > [animate]:not(.core-selected) [slide-down]'; }
-  ::content > [animate]:not(.core-selected) /deep/ [slide-down] {
-    -webkit-transform: translateY(-100%);
-    transform: translateY(-100%);
-  }
-</core-style>
-
-<!--
-
-`slide-down` slides an element in the outgoing page from the top of the window and
-slides in an element in the incoming page from the top of the window during a page
-transition. You can configure the duration of the transition with the global variable
-`CoreStyle.g.transitions.slideDuration`.
-
-Example:
-
-    <core-animated-pages transition="slide-down">
-      <section>
-        <div id="div1" slide-down></div>
-      </section>
-      <section></section>
-    </core-animated-pages>
-
-@class slide-down
-@extends core-transition-pages
-@status beta
-@homepage github.io
-
--->
-
-<core-transition-pages id="slide-down" activeclass="slide-down"></core-transition-pages>
-
-<!--
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-
-
-
-<core-style id="list-cascade">
-  polyfill-next-selector { content: ':host.list-cascade > * [list-cascade]'; }
-  :host(.list-cascade) ::content > * [list-cascade] * {
-    -webkit-transition: -webkit-transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity {{g.transitions.cascade || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity {{g.transitions.cascade || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  polyfill-next-selector { content: ':host > .core-selected [list-cascade] *'; }
-  ::content > .core-selected [list-cascade] * {
-    -webkit-transform: none;
-    transform: none;
-  }
-
-  polyfill-next-selector { content: ':host > *:not(.core-selected) [list-cascade] *'; }
-  ::content > *:not(.core-selected) [list-cascade] * {
-    -webkit-transform: translateY(200%);
-    transform: translateY(200%);
-    opacity: 0.2;
-  }
-
-  polyfill-next-selector { content: ':host > .core-selected [list-cascade] *:nth-child(2)'; }
-  ::content > .core-selected [list-cascade] *:nth-child(2) {
-    -webkit-transition-delay: 0.1s;
-    transition-delay: 0.1s;
-  }
-
-  polyfill-next-selector { content: ':host > .core-selected [list-cascade] *:nth-child(3)'; }
-  ::content > .core-selected [list-cascade] *:nth-child(3) {
-    -webkit-transition-delay: 0.2s;
-    transition-delay: 0.2s;
-  }
-
-  polyfill-next-selector { content: ':host > .core-selected [list-cascade] *:nth-child(4)'; }
-  ::content > .core-selected [list-cascade] *:nth-child(4) {
-    -webkit-transition-delay: 0.3s;
-    transition-delay: 0.3s;
-  }
-  
-  polyfill-next-selector { content: ':host > .core-selected [list-cascade] *:nth-child(5)'; }
-  ::content > .core-selected [list-cascade] *:nth-child(5) {
-    -webkit-transition-delay: 0.4s;
-    transition-delay: 0.4s;
-  }
-</core-style>
-
-<core-transition-pages id="list-cascade" activeclass="list-cascade"></core-transition-pages>
-<!--
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
-
-
-<core-style id="tile-cascade">
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div {
-    -webkit-transition: -webkit-transform {{g.transitions.cascadeDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1), opacity {{g.transitions.cascadeFadeDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-    transition: transform {{g.transitions.cascadeDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1), opacity {{g.transitions.cascadeFadeDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div:nth-of-type(2)'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div:nth-of-type(2) {
-    -webkit-transition-delay: 0.05s;
-    transition-delay: 0.05s;
-  }
-
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div:nth-of-type(3)'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div:nth-of-type(3) {
-    -webkit-transition-delay: 0.1s;
-    transition-delay: 0.1s;
-  }
-  
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div:nth-of-type(4)'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div:nth-of-type(4) {
-    -webkit-transition-delay: 0.15s;
-    transition-delay: 0.15s;
-  }
-  
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div:nth-of-type(5)'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div:nth-of-type(5) {
-    -webkit-transition-delay: 0.2s;
-    transition-delay: 0.2s;
-  }
-  
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div:nth-of-type(6)'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div:nth-of-type(6) {
-    -webkit-transition-delay: 0.25s;
-    transition-delay: 0.25s;
-  }
-  
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div:nth-of-type(7)'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div:nth-of-type(7) {
-    -webkit-transition-delay: 0.3s;
-    transition-delay: 0.3s;
-  }
-  
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div:nth-of-type(8)'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div:nth-of-type(8) {
-    -webkit-transition-delay: 0.35s;
-    transition-delay: 0.35s;
-  }
-  
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div:nth-of-type(9)'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div:nth-of-type(9) {
-    -webkit-transition-delay: 0.4s;
-    transition-delay: 0.4s;
-  }
-  
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div:nth-of-type(10)'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div:nth-of-type(10) {
-    -webkit-transition-delay: 0.45s;
-    transition-delay: 0.45s;
-  }
-  
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div:nth-of-type(11)'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div:nth-of-type(11) {
-    -webkit-transition-delay: 0.5s;
-    transition-delay: 0.5s;
-  }
-  
-  polyfill-next-selector { content: ':host(.tile-cascade) > * [tile-cascade] > div:nth-of-type(12)'; }
-  :host(.tile-cascade) ::content > * /deep/ [tile-cascade] > div:nth-of-type(12) {
-    -webkit-transition-delay: 0.55s;
-    transition-delay: 0.55s;
-  }
-  
-  polyfill-next-selector { content: '.core-selected [tile-cascade] > div'; }
-  ::content > .core-selected /deep/ [tile-cascade] > div {
-  }
-
-  polyfill-next-selector { content: '[animate]:not(.core-selected) [tile-cascade] > div'; }
-  ::content > [animate]:not(.core-selected) /deep/ [tile-cascade] > div {
-    -webkit-transform: translateY(100%);
-    transform: translateY(100%);
-  }
-
-  polyfill-next-selector { content: '[animate]:not(.core-selected) [tile-cascade][fade] > div'; }
-  ::content > [animate]:not(.core-selected) /deep/ [tile-cascade][fade] > div {
-    opacity: 0;
-  }
-</core-style>
-
-<core-transition-pages id="tile-cascade" activeclass="tile-cascade" transitionproperty="transform"></core-transition-pages>
-
-
-/*
- * @license
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
-
-/* Hide heroes that are not currently transitioning */
-polyfill-next-selector { content: ':host > [animate] [hero]'; }
-::content > [animate] /deep/ [hero], ::content > [animate]::shadow [hero] {
-  visibility: hidden;
-}
-
-polyfill-next-selector { content: ':host > .core-selected[animate] [hero]'; }
-::content > .core-selected[animate] /deep/ [hero],
-::content > .core-selected[animate]::shadow [hero] {
-  visibility: visible;
-  z-index: 10000;
-}
 
 
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css">
@@ -2768,7 +2447,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-card-list" attributes="cards nameFilter token" assetpath="fow-card-list/">
   <template>
-    <style>:host{display:block;width:90%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.header{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.textSearch{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.attributes{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.type{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin-left:30px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}</style>
+    <style>:host{display:block;width:90%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.header{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.textSearch,.attributes,.type,.rarity,.expansion{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin-left:30px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}paper-radio-button.default::shadow #ink[checked]{color:#fff}paper-radio-button.default::shadow #onRadio{background-color:#fff}</style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
     </fow-rest-service>
@@ -2791,15 +2470,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-radio-button class="wind" name="wind" label="Wind"></paper-radio-button>
           <paper-radio-button class="water" name="water" label="Water"></paper-radio-button>
           <paper-radio-button class="fire" name="fire" label="Fire"></paper-radio-button>
-          <paper-radio-button class="all" name="" label="All"></paper-radio-button>
+          <paper-radio-button class="all" name="radio_all" label="All"></paper-radio-button>
         </paper-radio-group>
       </div>
       <div class="type" layout="" horizontal="" center="" center-justified="">
         <paper-radio-group selected="{{typeFilter}}">
-          <paper-radio-button name="resonator" label="Resonator"></paper-radio-button>
-          <paper-radio-button name="spell" label="Normal Spell"></paper-radio-button>
-          <paper-radio-button name="ruler" label="Ruler / JRuler"></paper-radio-button>
-          <paper-radio-button name="" label="All"></paper-radio-button>
+          <paper-radio-button class="default" name="resonator" label="Resonator"></paper-radio-button>
+          <paper-radio-button class="default" name="spell" label="Instant/Chant"></paper-radio-button>
+          <paper-radio-button class="default" name="addition" label="Addition"></paper-radio-button>
+          <paper-radio-button class="default" name="ruler" label="Ruler / JRuler"></paper-radio-button>
+          <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
+        </paper-radio-group>
+      </div>
+      <div class="rarity" layout="" horizontal="" center="" center-justified="">
+        <paper-radio-group selected="{{rarityFilter}}">
+          <paper-radio-button class="default" name="sr" label="SR"></paper-radio-button>
+          <paper-radio-button class="default" name="r" label="R"></paper-radio-button>
+          <paper-radio-button class="default" name="u" label="U"></paper-radio-button>
+          <paper-radio-button class="default" name="c" label="C"></paper-radio-button>
+          <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
+        </paper-radio-group>
+      </div>
+      <div class="expansion" layout="" horizontal="" center="" center-justified="">
+        <paper-radio-group selected="{{expansionFilter}}">
+          <paper-radio-button class="default" name="Dawn of Valhalla" label="Dawn of Valhalla"></paper-radio-button>
+          <paper-radio-button class="default" name="War of Valhalla" label="War of Valhalla"></paper-radio-button>
+          <paper-radio-button class="default" name="The Shaft of Light of Valhalla" label="The Shaft of Light of Valhalla"></paper-radio-button>
+          <paper-radio-button class="default" name="The Crimson Moon Fairy Tale" label="The Crimson Moon Fairy Tale"></paper-radio-button>
+          <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
         </paper-radio-group>
       </div>
     </div>
@@ -2811,7 +2509,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter":"updateFilteredCards"},created:function(){this.filteredCards=[];this.nameFilter="";this.descriptionFilter="";this.attributeFilter="";this.typeFilter=""},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter)},filterOnText:function(cardList,key,filterString){if(filterString===""){return cardList}else{var self=this;return cardList.filter(function(card){return self.strictMatch(card[key],filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter":"updateFilteredCards"},created:function(){this.filteredCards=[];this.nameFilter="";this.descriptionFilter="";this.attributeFilter="radio_all";this.typeFilter="radio_all";this.rarityFilter="radio_all";this.expansionFilter="radio_all"},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Rarity",this.rarityFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Expansion",this.expansionFilter)},filterOnText:function(cardList,key,filterString){if(filterString===""||filterString==="radio_all"){return cardList}else{var self=this;return cardList.filter(function(card){return self.strictMatch(card[key],filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
 </polymer-element>
 
 
@@ -2954,7 +2652,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-menu" attributes="smallQuery selected" assetpath="fow-menu/">
   <template>
-    <style>:host{display:block;width:100%}.container{background-color:rgba(255,255,255,.1);padding:10px}.toolbar{width:100%;margin-top:10px;margin-bottom:10px}.menu-bar{position:fixed;left:0;top:16%;border-radius:0 10px 10px 0}.menu-icon{width:40px;height:40px;margin:5px;color:#fff}.menu-icon:hover{color:#555}.violet{color:#a5f}.green{color:#6f6}.blue{color:#8df}.orange{color:#fa5}.grey{color:#bbb}.active{border:1px solif #fff;color:#fff}.my{position:relative;top:40%;left:10%;width:90%;text-align:center;font-size:.6em}</style>
+    <style>:host{display:block;width:100%;z-index:99}.container{background-color:rgba(255,255,255,.1);padding:10px}.toolbar{width:100%;margin-top:10px;margin-bottom:10px}.menu-bar{position:fixed;left:0;top:16%;border-radius:0 10px 10px 0}.menu-icon{width:40px;height:40px;margin:5px;color:#fff}.menu-icon:hover{color:#555}.violet{color:#a5f}.green{color:#6f6}.blue{color:#8df}.orange{color:#fa5}.grey{color:#bbb}.active{border:1px solif #fff;color:#fff}.my{position:relative;top:40%;left:10%;width:90%;text-align:center;font-size:.6em}</style>
 
     <core-media-query query="{{smallQuery}}" querymatches="{{smallScreen}}">
     </core-media-query>
@@ -2991,7 +2689,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="container menu-bar">
         <div layout="" vertical="" center=""> 
           
-            <core-icon name="cards" class="menu-icon {{ (selected === &apos;cards&apos;)?&apos;violet&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}">
+          <core-icon name="cards" class="menu-icon {{ (selected === &apos;cards&apos;)?&apos;violet&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}">
           </core-icon>
 
           <core-icon name="myCards" class="menu-icon {{ (selected === &apos;myCards&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}"><div class="my">my</div>
@@ -3018,13 +2716,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-menu",{ready:function(){this.selected="cards"},buttonTapped:function(event,detail,sender){this.selected=sender.attributes.name.value}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-menu",{ready:function(){if(!this.selected){this.selected="cards"}},buttonTapped:function(event,detail,sender){this.selected=sender.attributes.name.value}})})();</script>
+</polymer-element>
+
+
+
+
+<polymer-element name="fow-paypal-donate" attributes="" assetpath="fow-paypal-donate/">
+  <template>
+    <style>:host{display:block}</style>
+
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+      <input type="hidden" name="cmd" value="_s-xclick">
+      <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+      ">
+      <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+      <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+    </form>
+
+
+
+
+  </template>
+  <script>(function(){"use strict";Polymer("fow-paypal-donate",{})})();</script>
+</polymer-element>
+
+
+
+<polymer-element layout="" vertical="" center="" center-justified="" name="fow-settings" attributes="token" assetpath="fow-settings/">
+  <template>
+    <style>:host{display:block;height:100%;font-family:Open Sans;font-size:1.3em;text-align:center}</style>
+
+    <div>
+      Please support us, make a small donation:
+    </div>
+    <br>
+    <fow-paypal-donate>
+    </fow-paypal-donate>
+
+  </template>
+  <script>(function(){"use strict";Polymer("fow-settings",{})})();</script>
 </polymer-element>
 
 
 <polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
   <template>
-    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:6px;right:6px}core-animated-pages{width:100%;position:relative}section{position:relative;margin-left:8%}</style>
+    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:6px;right:6px}core-animated-pages{width:100%;position:relative;height:100%}section{position:relative;margin-left:8%;height:100%}.fillHeight{height:100%;z-index:0}</style>
 
     <template if="{{user}}">
       <fow-notification-icon id="notificationIcon" notificationcount="{{notificationCount}}">
@@ -3034,7 +2771,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-toast id="toast" text="There was a problem loading data.">
     </paper-toast>
     
-    <div layout="" vertical="" center="">
+    <div layout="" vertical="" center="" class="fillHeight">
 
       <fow-login user="{{user}}" userphoto="{{userPhoto}}" class="loginButton" toast="{{$.toast}}" token="{{token}}">
       </fow-login>
@@ -3069,10 +2806,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <fow-menu selected="{{selected}}" smallquery="max-width: 1000px"></fow-menu>
 
-        <core-animated-pages selected="{{selected}}" transitions="slide-up slide-down list-cascade hero-transition cross-fade">
+        <core-animated-pages selected="{{selected}}" transitions="cross-fade">
           
           <section name="cards">
-            <fow-card-list token="{{token}}"></fow-card-list>
+            <fow-card-list cross-fade="" token="{{token}}">
+            </fow-card-list>
+          </section>
+
+          <section name="settings">
+            <fow-settings cross-fade="" token="{{token}}">
+            </fow-settings>
           </section>
 
         <core-animated-pages>
@@ -3080,8 +2823,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </core-animated-pages></core-animated-pages></template>
 
     </div>
-
-
   </template>
   <script>(function(){"use strict";Polymer("fow-app",{})})();</script>
 </polymer-element>
