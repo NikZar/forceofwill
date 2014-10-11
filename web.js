@@ -65,7 +65,7 @@ var checkToken = function(req,res,next,token){
       });
       response.on('end', function () {
         var fbauth = JSON.parse(str);
-
+        req.user = fbauth;
         //validation
         if(fbauth.id){
             // making db available to other routers
@@ -93,6 +93,29 @@ app.use("/api",function(req,res,next){
     var token = req.query.token;
     //console.log("Token: ",token);
     checkToken(req,res,next, token);
+});
+
+// Create/Update User
+app.use("/api",function(req,res,next){
+    var userId = req.userId;
+    var user = req.user;
+    var db = req.db;
+
+    console.log("Searching: ", userId);
+    db.collection('users').findOne({id: userId},function(err, result) {
+          if (err) throw err;
+          if(result){
+            console.log("Found: ", result);
+          } else {
+            console.log("Inserting User: ",user);
+            db.collection('users').insert(user, function(err, result) {
+              if (err) throw err;
+              if (result) console.log('Added!');
+            });
+          }
+    });
+
+    next();
 });
 // API
 //	CARDS
