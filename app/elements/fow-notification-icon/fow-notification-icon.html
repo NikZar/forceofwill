@@ -26,15 +26,14 @@
       }
 
       .circle{
-        border-radius: 50%;
-        background-color: #f55;
         color: #fff;
         position: absolute;
-        top: -12px;
-        right: -12px;
+        top: 7px;
+        left: 0px;
         font-size: 10px;
-        width: 18px;
-        height: 18px;
+        text-align: center;
+        width: 28px;
+        z-index:20; 
       }
 
       .rotateRight {
@@ -77,6 +76,10 @@
 
         created: function(){
           this.notificationCount = 0;
+        },
+
+        ready: function(){
+          this.notificationCountChanged();
         },
 
         notificationCountChanged: function(){
