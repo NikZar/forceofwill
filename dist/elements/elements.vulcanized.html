@@ -2336,6 +2336,7 @@ Fired when the inputValue of this text input changes and passes validation.
 
 
 
+
 <!--
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -2438,6 +2439,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="preview">
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
+        <div>{{card.ATK}}/{{card.DEF}}</div>
       </div>
     </div>
   </template>
@@ -2448,13 +2450,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-card-list" attributes="cards nameFilter token" assetpath="fow-card-list/">
   <template>
-    <style>:host{display:block;width:86%;margin-left:7%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.header{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.textSearch,.attributes,.type,.rarity,.expansion{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin:10px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}paper-radio-button.default::shadow #ink[checked]{color:#fff}paper-radio-button.default::shadow #onRadio{background-color:#fff}core-icon:hover{color:#fff}</style>
+    <style>:host{display:block;width:86%;margin-left:7%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.sheader{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.textSearch,.attributes,.type,.rarity,.expansion,.cost{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.cost{padding:10px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin:10px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}paper-radio-button.default::shadow #ink[checked]{color:#fff}paper-radio-button.default::shadow #onRadio{background-color:#fff}core-icon:hover{color:#fff}input{width:20px;text-align:center}</style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
     </fow-rest-service>
 
     <div class="tools">
-      <div class="header" layout="" horizontal="" center="" center-justified="">
+      <div class="sheader" layout="" horizontal="" center="" center-justified="">
         <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
       </div>
       <br>
@@ -2501,6 +2503,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
         </paper-radio-group>
       </div>
+      <div class="cost" layout="" horizontal="" center="" center-justified="">
+        <input value="{{minCost}}"> 
+        &nbsp <= total="" cost="" <="&#xA0;" <input="" value="{{maxCost}}">
+      </=></div>
       <div layout="" vertical="" center="">
         <core-icon icon="undo" on-tap="{{resetFilters}}">
         </core-icon>
@@ -2514,7 +2520,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter":"updateFilteredCards"},created:function(){this.filteredCards=[];this.resetFilters()},resetFilters:function(){this.nameFilter="";this.descriptionFilter="";this.attributeFilter="radio_all";this.typeFilter="radio_all";this.rarityFilter="radio_all";this.expansionFilter="radio_all"},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Rarity",this.rarityFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Expansion",this.expansionFilter)},filterOnText:function(cardList,key,filterString){if(filterString===""||filterString==="radio_all"){return cardList}else{var self=this;return cardList.filter(function(card){return self.strictMatch(card[key],filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost":"updateFilteredCards"},created:function(){this.filteredCards=[];this.resetFilters()},resetFilters:function(){this.nameFilter="";this.descriptionFilter="";this.attributeFilter="radio_all";this.typeFilter="radio_all";this.rarityFilter="radio_all";this.expansionFilter="radio_all";this.minCost="0";this.maxCost="20"},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Rarity",this.rarityFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Expansion",this.expansionFilter);this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost)},filterOnRange:function(cardList,key,min,max){var min=parseInt(min);var max=parseInt(max);var self=this;return cardList.filter(function(card){return card[key]>=min&&card[key]<=max})},filterOnText:function(cardList,key,filterString){if(filterString===""||filterString==="radio_all"){return cardList}else{var self=this;return cardList.filter(function(card){return self.strictMatch(card[key],filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
 </polymer-element>
 
 
@@ -2766,7 +2772,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
   <template>
-    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:6px;right:6px}core-animated-pages{width:100%;position:relative;height:70%}section{position:relative;width:100%;height:100%}.fillHeight{height:100%;z-index:0}</style>
+    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:6px;right:6px}core-animated-pages{width:100%;position:relative;height:65%}section{position:relative;width:100%;height:100%}.fillHeight{height:100%;z-index:0}</style>
 
     <template if="{{user}}">
       <fow-notification-icon id="notificationIcon" notificationcount="{{notificationCount}}">
