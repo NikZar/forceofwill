@@ -1,8 +1,12 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
-<polymer-element name="fow-card-preview" attributes="card">
+<link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
+
+<polymer-element name="fow-card-preview" attributes="card toast token">
   <template>
     <style type="text/css">
+
       :host {
         font-family: Open Sans;
         display: block;
@@ -27,7 +31,21 @@
       #description{
         font-size: 0.7em;
       }
+
+      core-icon:hover{
+        color: #5a5;
+        cursor: pointer;
+      }
+      
     </style>
+
+    <fow-rest-service id="addCard" 
+      toast="{{toast}}"
+      auto="false" 
+      type="binders" 
+      method="POST" 
+      token="{{token}}">
+    </fow-rest-service>
 
     <div>
       <img id="cardImg" align="left" />
@@ -35,9 +53,10 @@
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
         <div>{{card.Type}}</div>
-        <template if="{{ (card.Type !== 'Spell') && (card.Type !== 'Chant') && (card.Type !== 'Addition') }}">
+        <template if="{{ (card.Type !== 'Spell') && (card.Type !== 'Chant') && (card.Type !== 'Addition')  && (card.Type !== 'Ruler') }}">
           <div>{{card.ATK}}/{{card.DEF}}</div>
         </template>
+        <core-icon class="cardIcon" icon="add-box" on-tap="{{addCard}}"></core-icon>
       </div>
     </div>
   </template>
@@ -53,7 +72,12 @@
             this.$.cardImg.src = "../images"+this.card["Image path"];
             this.$.description.innerHTML = this.card.Cardtext;
           }
-        }
+        },
+
+        addCard: function(){
+          this.$.addCard.body = JSON.stringify(this.card);
+          this.$.addCard.go();
+        }        
 
       });
 

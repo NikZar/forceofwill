@@ -35,7 +35,7 @@
         background-color: rgba(255,255,255,0.3);
         color: #000;
         margin: 10px;
-        padding: 10px;
+        padding: 9px;
         border-radius: 5px;
       }
 
@@ -122,19 +122,25 @@
         width: 40px;
         text-align: center;
       }
+
+      .no-select{ 
+        /*user-select: none; 
+        -ms-user-select: none; 
+        -moz-user-select: none; 
+        -webkit-user-select: none; */
+      }
+
     </style>
 
-    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
-    </fow-rest-service>
+    
 
-    <div class="tools">
+    <div class="tools no-select">
       <div class="sheader" layout horizontal center center-justified>
         <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
       </div>
       <br />
       <div class="textSearch" layout horizontal center center-justified>
         <paper-input class="textInput"
-        autofocus
         floatinglabel 
         label="Name" 
         layout vertical 
@@ -211,7 +217,7 @@
 
     <template repeat="{{card in filteredCards}}">
       <fow-card-preview 
-        card="{{card}}">
+        card="{{card}}" toast="{{toast}}" token="{{token}}">
       </fow-card-preview>
     </template>
 
@@ -230,6 +236,7 @@
         },
 
         created: function (){
+          this.cards = [];
           this.filteredCards = [];
           this.resetFilters();
         },

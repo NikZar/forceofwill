@@ -36,6 +36,8 @@
 
         contentType: "application/json",
 
+        items: [],
+
         autoChanged: function(){
           if(this.auto){
             this.$.ajax.auto =  this.auto;
@@ -53,15 +55,15 @@
         reloadUrl: function(){
           if(this.globals.apiurl && this.type ){   
             this.$.ajax.url = "http://"+ this.globals.apiurl + this.type + '/?token=' + this.token;
-            if(this.method===""){
-              console.log("REST API Setup:", this.$.ajax.auto ,this.$.ajax.method, this.$.ajax.url);
-            }
+            // if(this.method===""){
+            //   console.log("REST API Setup:", this.$.ajax.auto ,this.$.ajax.method, this.$.ajax.url);
+            // }
           }
         },
 
         go: function(){
           this.$.ajax.go();
-          console.log("Synch REST API Called:", this.$.ajax.auto ,this.$.ajax.method, this.$.ajax.url);
+          //console.log("Synch REST API Called:", this.$.ajax.auto ,this.$.ajax.method, this.$.ajax.url);
         }
         
       });

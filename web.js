@@ -19,16 +19,10 @@ switch(process.env.NODE_ENV){
 
         case 'production':
         	var BASEDIR = "/dist";
-          var DBURL = "lennon.mongohq.com:10041/app30136505";
-          var USERNAME = "niko";
-          var PASSWORD = "bambumbim";
-          var db = mongo.db("mongodb://"+USERNAME+":"+PASSWORD+"@"+DBURL, {native_parser:true});
           break;
         
         default:
           var BASEDIR = "/app";
-          var DBURL = "localhost:27017/app30136505";
-          var db = mongo.db("mongodb://"+DBURL, {native_parser:true});
           break;
 			
 }
@@ -74,6 +68,23 @@ var checkToken = function(req,res,next,token){
         req.user = fbauth;
         //validation
         if(fbauth.id){
+            //Open DB connection
+            //console.log("Opening connection...");
+            switch(process.env.NODE_ENV){
+
+              case 'production':
+                var DBURL = "lennon.mongohq.com:10041/app30136505";
+                var USERNAME = "niko";
+                var PASSWORD = "bambumbim";
+                var db = mongo.db("mongodb://"+USERNAME+":"+PASSWORD+"@"+DBURL, {native_parser:true, auto_reconnect: true, poolSize: 5});
+                break;
+              
+              default:
+                var DBURL = "localhost:27017/app30136505";
+                var db = mongo.db("mongodb://"+DBURL, {native_parser:true, auto_reconnect: true, poolSize: 5});
+                break;
+                  
+            }
             // making db available to other routers
             req.db = db;
             // retrieving user id parameter for future use

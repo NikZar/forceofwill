@@ -6,6 +6,7 @@ var getAllDecks = function(req, res){
     var db = req.db;
     db.collection('decks').find().toArray(function (err, items) {
         res.json(items);
+        db.close();
     });
 }
 
@@ -15,8 +16,10 @@ var getDeck = function(req, res){
     db.collection('decks').find({id: id}).toArray(function (err, items) {
     	if(items[0].userId === req.userId){
         	res.json(items[0]);
+            db.close();
     	} else {
-        	res.json({});
+        	res.send(500);
+            db.close();
     	}
     });
 }

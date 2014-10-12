@@ -4,17 +4,21 @@ var router = express.Router();
 
 var getAllCards = function(req, res){
     var db = req.db;
+    //console.log("Getting all cards");
     db.collection('cards').find().toArray(function (err, items) {
-        res.json(items);
+        res.json(items);       
+	    db.close();
     });
 }
 
 var getCard = function(req,res){
     var db = req.db;
 	var code = req.params.code;
+	//console.log("Getting card: ",code);
 	db.collection('cards').find({Code: code}).toArray(function (err, items) {
 		//Rulers Code corresponds to two cards
         res.json(items);
+	    db.close();
     });
 }
 
@@ -24,6 +28,7 @@ var getCardsWithAttribute = function(req,res){
 	db.collection('cards').find({Attribute: attribute}).toArray(function (err, items) {
         res.json(items);
     });
+    db.close();
 }
 
 /*

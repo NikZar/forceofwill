@@ -1,0 +1,80 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
+<link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
+
+<polymer-element name="fow-binder" attributes="binder token cards">
+  <template>
+    <style>
+      :host {
+        display: block;
+        font-family: Open Sans;
+      }
+
+      .cardRow{
+        margin: 1px;
+        padding: 4px;
+        background-color: rgba(255,255,255,0.1);
+        width: 85%;
+      }
+
+      .binderTitle{
+        font-size: 1.2em;
+        margin: 10px;
+      }
+
+    </style>
+    <fow-rest-service id="getCards" type="cards" auto="false" token="{{token}}" on-core-response="{{addCard}}">
+    </fow-rest-service>
+    <div layout vertical center>
+      <div class="binderTitle">Cards in your binder:</div>
+      <template repeat="{{card in binder}}">
+        <div class="cardRow">{{card.count}}x {{cards[card.Code].Name}}</div>
+      </template>
+    </div>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+
+        alreadyLoading: false,
+
+        created: function(){
+          this.cards = {};
+          this.alreadyLoading = false;
+        },
+
+        binderChanged: function(){
+          if(this.binder && !this.alreadyLoading){
+            console.log("Loading binder...", this.binder);
+            this.cards = {};
+            this.alreadyLoading = true;
+            for (var i = 0; i < this.binder.length; i++) {
+              var code = this.binder[i].Code;
+              this.$.getCards.type = "cards/"+encodeURIComponent(code);
+              this.$.getCards.reloadUrl();
+              this.$.getCards.go();
+            }
+            this.alreadyLoading = false;
+          }
+        },
+
+        // define element prototype here
+        addCard: function(response){
+          var cards = response.detail.response;
+          for (var i = 0; i < cards.length; i++) {
+            if(cards[i].Code in this.cards){
+              this.cards[cards[i].Code].Name += " / "+cards[i].Name;
+            } else {
+              this.cards[cards[i].Code] = cards[i];
+            }
+          }
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>

@@ -124,16 +124,15 @@
       }
 
       .no-select{ 
-        user-select: none; 
+        /*user-select: none; 
         -ms-user-select: none; 
         -moz-user-select: none; 
-        -webkit-user-select: none; 
+        -webkit-user-select: none; */
       }
 
     </style>
 
-    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
-    </fow-rest-service>
+    
 
     <div class="tools no-select">
       <div class="sheader" layout horizontal center center-justified>
@@ -237,6 +236,7 @@
         },
 
         created: function (){
+          this.cards = [];
           this.filteredCards = [];
           this.resetFilters();
         },
