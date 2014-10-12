@@ -2440,7 +2440,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
         <div>{{card.Type}}</div>
-        <template if="{{ (card.Type !== &apos;Spell&apos;) &amp;&amp; (card.Type !== &apos;Addition&apos;) }}">
+        <template if="{{ (card.Type !== &apos;Spell&apos;) &amp;&amp; (card.Type !== &apos;Chant&apos;) &amp;&amp; (card.Type !== &apos;Addition&apos;) }}">
           <div>{{card.ATK}}/{{card.DEF}}</div>
         </template>
       </div>
