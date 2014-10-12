@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
 <link rel="import" href="../../bower_components/core-icons/social-icons.html">
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
@@ -15,7 +16,8 @@
       
       :host {
         display: block;
-        width: 90%;
+        width: 86%;
+        margin-left: 7%;
         text-align: left;
         background-color: rgba(255,255,255,0.1);
         border-radius: 10px;
@@ -49,7 +51,7 @@
 
       .textInput{
         color: #000;
-        margin-left: 30px;
+        margin: 10px;
       }
 
       html /deep/ paper-input[focused] .floated-label {
@@ -107,6 +109,9 @@
         background-color:  #fff;
       }
 
+      core-icon:hover{
+        color: #fff;
+      }
     </style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
@@ -169,6 +174,10 @@
           <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
         </paper-radio-group>
       </div>
+      <div layout vertical center>
+        <core-icon icon="undo" on-tap="{{resetFilters}}">
+        </core-icon>
+      </div>
     </div>
 
     <template repeat="{{card in filteredCards}}">
@@ -192,6 +201,10 @@
 
         created: function (){
           this.filteredCards = [];
+          this.resetFilters();
+        },
+
+        resetFilters: function(){
           this.nameFilter = "";
           this.descriptionFilter = "";
           this.attributeFilter = "radio_all";
