@@ -72,12 +72,20 @@
       .my{
         position: relative;
         top: 40%;
+        left: 12%;
+        width: 90%;
+        text-align: center;
+        font-size: 45%;
+      }
+
+      .myd{
+        position: relative;
+        top: -1%;
         left: 10%;
         width: 90%;
         text-align: center;
-        font-size: 0.6em;
+        font-size: 55%;
       }
-
     </style>
 
     <core-media-query
@@ -94,6 +102,12 @@
           icon="content-copy" 
           on-tap="{{buttonTapped}}">
         </core-icon>
+        <core-icon 
+          name="decks" 
+          class="menu-icon {{ (selected === 'decks')?'violet':'' }}" 
+          icon="list" 
+          on-tap="{{buttonTapped}}">
+        </core-icon>
 
         <core-icon 
           name="myCards" 
@@ -102,10 +116,10 @@
           on-tap="{{buttonTapped}}"><div class="my">my</div>
         </core-icon>
         <core-icon 
-          name="decks" 
-          class="menu-icon {{ (selected === 'decks')?'green':'' }}" 
+          name="mydecks" 
+          class="menu-icon {{ (selected === 'mydecks')?'green':'' }}" 
           icon="list" 
-          on-tap="{{buttonTapped}}">
+          on-tap="{{buttonTapped}}"><div class="myd">my</div>
         </core-icon>
 
         <core-icon 
@@ -124,7 +138,8 @@
           name="trading" 
           class="menu-icon {{ (selected === 'trading')?'blue':'' }}" 
           icon="social:circles-extended" 
-          on-tap="{{buttonTapped}}"></core-icon>
+          on-tap="{{buttonTapped}}">
+        </core-icon>
 
         <core-icon 
           name="tournaments" 
@@ -159,6 +174,12 @@
             icon="content-copy" 
             on-tap="{{buttonTapped}}">
           </core-icon>
+          <core-icon 
+            name="decks" 
+            class="menu-icon {{ (selected === 'decks')?'violet':'' }}" 
+            icon="list" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
 
           <core-icon 
             name="myCards" 
@@ -167,10 +188,10 @@
             on-tap="{{buttonTapped}}"><div class="my">my</div>
           </core-icon>
           <core-icon 
-            name="decks" 
-            class="menu-icon {{ (selected === 'decks')?'green':'' }}" 
+            name="mydecks" 
+            class="menu-icon {{ (selected === 'mydecks')?'green':'' }}" 
             icon="list" 
-            on-tap="{{buttonTapped}}">
+            on-tap="{{buttonTapped}}"><div class="myd">my</div>
           </core-icon>
 
           <core-icon 
@@ -189,7 +210,8 @@
             name="trading" 
             class="menu-icon {{ (selected === 'trading')?'blue':'' }}" 
             icon="social:circles-extended" 
-            on-tap="{{buttonTapped}}"></core-icon>
+            on-tap="{{buttonTapped}}">
+          </core-icon>
 
           <core-icon 
             name="tournaments" 

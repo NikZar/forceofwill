@@ -2425,14 +2425,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </core-ajax>
 
   </fow-globals></template>
-  <script>(function(){"use strict";Polymer("fow-rest-service",{auto:true,observe:{"apiurl type globals":"reloadUrl"},created:function(){this.items=[]},reloadUrl:function(){if(this.globals.apiurl&&this.type){this.$.ajax.url="http://"+this.globals.apiurl+this.type+"/?token="+this.token;console.log(this.$.ajax.url)}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-rest-service",{auto:true,contentType:"application/json",items:[],autoChanged:function(){if(this.auto){this.$.ajax.auto=this.auto}},observe:{"apiurl type globals":"reloadUrl"},created:function(){this.items=[]},reloadUrl:function(){if(this.globals.apiurl&&this.type){this.$.ajax.url="http://"+this.globals.apiurl+this.type+"/?token="+this.token}},go:function(){this.$.ajax.go()}})})();</script>
 </polymer-element>
 
 
 
-<polymer-element name="fow-card-preview" attributes="card" assetpath="fow-card-preview/">
+
+
+
+<polymer-element name="fow-card-preview" attributes="card toast token" assetpath="fow-card-preview/">
   <template>
-    <style type="text/css">:host{font-family:Open Sans;display:block;background-color:rgba(255,255,255,.9);margin:10px;padding:10px;border-radius:5px;color:#222;min-height:142px}#cardImg{width:100px;margin-top:1px;margin-right:10px}.preview{margin-left:10px}.title{font-size:1.5em}#description{font-size:.7em}</style>
+    <style type="text/css">:host{font-family:Open Sans;display:block;background-color:rgba(255,255,255,.9);margin:10px;padding:10px;border-radius:5px;color:#222;min-height:142px}#cardImg{width:100px;margin-top:1px;margin-right:10px}.preview{margin-left:10px}.title{font-size:1.5em}#description{font-size:.7em}core-icon:hover{color:#5a5;cursor:pointer}</style>
+
+    <fow-rest-service id="addCard" toast="{{toast}}" auto="false" type="binders" method="POST" token="{{token}}">
+    </fow-rest-service>
 
     <div>
       <img id="cardImg" align="left">
@@ -2440,31 +2446,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
         <div>{{card.Type}}</div>
-        <template if="{{ (card.Type !== &apos;Spell&apos;) &amp;&amp; (card.Type !== &apos;Chant&apos;) &amp;&amp; (card.Type !== &apos;Addition&apos;) }}">
+        <template if="{{ (card.Type !== &apos;Spell&apos;) &amp;&amp; (card.Type !== &apos;Chant&apos;) &amp;&amp; (card.Type !== &apos;Addition&apos;)  &amp;&amp; (card.Type !== &apos;Ruler&apos;) }}">
           <div>{{card.ATK}}/{{card.DEF}}</div>
         </template>
+        <core-icon class="cardIcon" icon="add-box" on-tap="{{addCard}}"></core-icon>
       </div>
     </div>
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-preview",{cardChanged:function(){if(this.card){this.$.cardImg.src="../images"+this.card["Image path"];this.$.description.innerHTML=this.card.Cardtext}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-card-preview",{cardChanged:function(){if(this.card){this.$.cardImg.src="../images"+this.card["Image path"];this.$.description.innerHTML=this.card.Cardtext}},addCard:function(){this.$.addCard.body=JSON.stringify(this.card);this.$.addCard.go()}})})();</script>
 </polymer-element>
 
 
 
 <polymer-element name="fow-card-list" attributes="cards nameFilter token" assetpath="fow-card-list/">
   <template>
-    <style>:host{display:block;width:86%;margin-left:7%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.sheader{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.textSearch,.attributes,.type,.rarity,.expansion,.cost{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.cost{padding:10px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin:10px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}paper-radio-button.default::shadow #ink[checked]{color:#fff}paper-radio-button.default::shadow #onRadio{background-color:#fff}core-icon:hover{color:#fff}input{width:40px;text-align:center}</style>
+    <style>:host{display:block;width:86%;margin-left:7%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.sheader{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:9px;border-radius:5px}.textSearch,.attributes,.type,.rarity,.expansion,.cost{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.cost{padding:10px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin:10px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}paper-radio-button.default::shadow #ink[checked]{color:#fff}paper-radio-button.default::shadow #onRadio{background-color:#fff}core-icon:hover{color:#fff}input{width:40px;text-align:center}</style>
 
-    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
-    </fow-rest-service>
+    
 
-    <div class="tools">
+    <div class="tools no-select">
       <div class="sheader" layout="" horizontal="" center="" center-justified="">
         <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
       </div>
       <br>
       <div class="textSearch" layout="" horizontal="" center="" center-justified="">
-        <paper-input class="textInput" autofocus floatinglabel="" label="Name" layout="" vertical="" inputvalue="{{nameFilter}}">
+        <paper-input class="textInput" floatinglabel="" label="Name" layout="" vertical="" inputvalue="{{nameFilter}}">
         </paper-input>
         <paper-input class="textInput" floatinglabel="" label="Card Text" layout="" vertical="" inputvalue="{{descriptionFilter}}">
         </paper-input>
@@ -2532,13 +2538,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </div>
 
     <template repeat="{{card in filteredCards}}">
-      <fow-card-preview card="{{card}}">
+      <fow-card-preview card="{{card}}" toast="{{toast}}" token="{{token}}">
       </fow-card-preview>
     </template>
 
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost":"updateFilteredCards","minCost maxCost minATK maxATK minDEF maxDEF":"updateFilteredCards"},created:function(){this.filteredCards=[];this.resetFilters()},resetFilters:function(){this.nameFilter="";this.descriptionFilter="";this.attributeFilter="radio_all";this.typeFilter="radio_all";this.rarityFilter="radio_all";this.expansionFilter="radio_all";this.minCost="0";this.maxCost="20";this.minATK="0";this.maxATK="10000";this.minDEF="0";this.maxDEF="10000"},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Rarity",this.rarityFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Expansion",this.expansionFilter);if(this.typeFilter==="spell"){var remainingCards=[];var spellCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter,remainingCards);var remainingCards2=[];var chantCards=this.filterOnText(remainingCards,"Type","Chant",remainingCards2);var istantCards=this.filterOnText(remainingCards2,"Type","Instant");this.filteredCards=spellCards.concat(chantCards,istantCards)}else{this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter)}this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost);if(this.typeFilter!=="spell"&&this.typeFilter!=="addition"){this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost);this.filteredCards=this.filterOnRange(this.filteredCards,"ATK",this.minATK,this.maxATK);this.filteredCards=this.filterOnRange(this.filteredCards,"DEF",this.minDEF,this.maxDEF)}},filterOnRange:function(cardList,key,min,max){min=parseInt(min);max=parseInt(max);if(cardList){return cardList.filter(function(card){return card[key]>=min&&card[key]<=max})}else{return[]}},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(card){if(self.strictMatch(card[key],filterString)){return true}else if(remaining){remaining.push(card)}return false})}else{return[]}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost":"updateFilteredCards","minCost maxCost minATK maxATK minDEF maxDEF":"updateFilteredCards"},created:function(){this.cards=[];this.filteredCards=[];this.resetFilters()},resetFilters:function(){this.nameFilter="";this.descriptionFilter="";this.attributeFilter="radio_all";this.typeFilter="radio_all";this.rarityFilter="radio_all";this.expansionFilter="radio_all";this.minCost="0";this.maxCost="20";this.minATK="0";this.maxATK="10000";this.minDEF="0";this.maxDEF="10000"},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Rarity",this.rarityFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Expansion",this.expansionFilter);if(this.typeFilter==="spell"){var remainingCards=[];var spellCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter,remainingCards);var remainingCards2=[];var chantCards=this.filterOnText(remainingCards,"Type","Chant",remainingCards2);var istantCards=this.filterOnText(remainingCards2,"Type","Instant");this.filteredCards=spellCards.concat(chantCards,istantCards)}else{this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter)}this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost);if(this.typeFilter!=="spell"&&this.typeFilter!=="addition"){this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost);this.filteredCards=this.filterOnRange(this.filteredCards,"ATK",this.minATK,this.maxATK);this.filteredCards=this.filterOnRange(this.filteredCards,"DEF",this.minDEF,this.maxDEF)}},filterOnRange:function(cardList,key,min,max){min=parseInt(min);max=parseInt(max);if(cardList){return cardList.filter(function(card){return card[key]>=min&&card[key]<=max})}else{return[]}},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(card){if(self.strictMatch(card[key],filterString)){return true}else if(remaining){remaining.push(card)}return false})}else{return[]}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
 </polymer-element>
 
 
@@ -2586,7 +2592,7 @@ can be used for API calls.
     </facebook-login>
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-login",{appID:"",user:null,userPhoto:null,observe:{globals:"reloadAppID"},reloadAppID:function(){console.log("Globals APP ID: ",this.globals.appid);this.appID=this.globals.appid;this.$.facebook.ready()},loginSuccess:function(event){var response=event.detail.response;console.log("Response:",response);if(this.toast){this.toast.text="Login successful";FB.Event.subscribe("auth.logout",function(response){location.reload()});this.token=response.authResponse.accessToken;this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;console.log("User:",response);this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;console.log("User Picture:",response);this.userPhoto=response}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-login",{appID:"",user:null,userPhoto:null,observe:{globals:"reloadAppID"},reloadAppID:function(){this.appID=this.globals.appid;this.$.facebook.ready()},loginSuccess:function(event){var response=event.detail.response;if(this.toast){this.toast.text="Login successful";FB.Event.subscribe("auth.logout",function(response){location.reload()});this.token=response.authResponse.accessToken;this.$.facebook["on-graph-api-response"]=this.userResponse;this.toast.show();this.$.facebook.go()}},loginFail:function(event){console.log("Error:",event);if(this.toast){this.toast.text="There was a login problem.";this.toast.show()}},apiHandler:function(event){if(!this.user){var response=event.detail.response;this.user=response;this.$.facebook["on-graph-api-response"]=this.pictureResponse;this.$.facebook.graphURL="me/picture?redirect=false";this.$.facebook.go()}else if(!this.userPhoto){var response=event.detail.response.data;this.userPhoto=response}}})})();</script>
 </polymer-element>
 
 
@@ -2681,7 +2687,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-menu" attributes="smallQuery selected" assetpath="fow-menu/">
   <template>
-    <style>:host{display:block;width:100%;z-index:99}.container{background-color:rgba(255,255,255,.1);padding:10px}.toolbar{width:100%;margin-top:10px;margin-bottom:10px}.menu-bar{position:fixed;left:0;top:16%;border-radius:0 10px 10px 0}.menu-icon{width:40px;height:40px;margin:5px;color:#fff}.menu-icon:hover{color:#555}.violet{color:#a5f}.green{color:#6f6}.blue{color:#8df}.orange{color:#fa5}.grey{color:#bbb}.active{border:1px solif #fff;color:#fff}.my{position:relative;top:40%;left:10%;width:90%;text-align:center;font-size:.6em}</style>
+    <style>:host{display:block;width:100%;z-index:99}.container{background-color:rgba(255,255,255,.1);padding:10px}.toolbar{width:100%;margin-top:10px;margin-bottom:10px}.menu-bar{position:fixed;left:0;top:16%;border-radius:0 10px 10px 0}.menu-icon{width:40px;height:40px;margin:5px;color:#fff}.menu-icon:hover{color:#555}.violet{color:#a5f}.green{color:#6f6}.blue{color:#8df}.orange{color:#fa5}.grey{color:#bbb}.active{border:1px solif #fff;color:#fff}.my{position:relative;top:40%;left:12%;width:90%;text-align:center;font-size:45%}.myd{position:relative;top:-1%;left:10%;width:90%;text-align:center;font-size:55%}</style>
 
     <core-media-query query="{{smallQuery}}" querymatches="{{smallScreen}}">
     </core-media-query>
@@ -2691,17 +2697,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <core-icon name="cards" class="menu-icon {{ (selected === &apos;cards&apos;)?&apos;violet&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}">
         </core-icon>
+        <core-icon name="decks" class="menu-icon {{ (selected === &apos;decks&apos;)?&apos;violet&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}">
+        </core-icon>
 
         <core-icon name="myCards" class="menu-icon {{ (selected === &apos;myCards&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}"><div class="my">my</div>
         </core-icon>
-        <core-icon name="decks" class="menu-icon {{ (selected === &apos;decks&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}">
+        <core-icon name="mydecks" class="menu-icon {{ (selected === &apos;mydecks&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}"><div class="myd">my</div>
         </core-icon>
 
         <core-icon name="friends" class="menu-icon {{ (selected === &apos;friends&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:people" on-tap="{{buttonTapped}}">
         </core-icon>
         <core-icon name="messages" class="menu-icon {{ (selected === &apos;messages&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="communication:forum" on-tap="{{buttonTapped}}">
         </core-icon>
-        <core-icon name="trading" class="menu-icon {{ (selected === &apos;trading&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:circles-extended" on-tap="{{buttonTapped}}"></core-icon>
+        <core-icon name="trading" class="menu-icon {{ (selected === &apos;trading&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:circles-extended" on-tap="{{buttonTapped}}">
+        </core-icon>
 
         <core-icon name="tournaments" class="menu-icon {{ (selected === &apos;tournaments&apos;)?&apos;orange&apos;:&apos;&apos; }}" icon="social:communities" on-tap="{{buttonTapped}}">
         </core-icon>
@@ -2720,17 +2729,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           
           <core-icon name="cards" class="menu-icon {{ (selected === &apos;cards&apos;)?&apos;violet&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}">
           </core-icon>
+          <core-icon name="decks" class="menu-icon {{ (selected === &apos;decks&apos;)?&apos;violet&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}">
+          </core-icon>
 
           <core-icon name="myCards" class="menu-icon {{ (selected === &apos;myCards&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}"><div class="my">my</div>
           </core-icon>
-          <core-icon name="decks" class="menu-icon {{ (selected === &apos;decks&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}">
+          <core-icon name="mydecks" class="menu-icon {{ (selected === &apos;mydecks&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}"><div class="myd">my</div>
           </core-icon>
 
           <core-icon name="friends" class="menu-icon {{ (selected === &apos;friends&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:people" on-tap="{{buttonTapped}}">
           </core-icon>
           <core-icon name="messages" class="menu-icon {{ (selected === &apos;messages&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="communication:forum" on-tap="{{buttonTapped}}">
           </core-icon>
-          <core-icon name="trading" class="menu-icon {{ (selected === &apos;trading&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:circles-extended" on-tap="{{buttonTapped}}"></core-icon>
+          <core-icon name="trading" class="menu-icon {{ (selected === &apos;trading&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:circles-extended" on-tap="{{buttonTapped}}">
+          </core-icon>
 
           <core-icon name="tournaments" class="menu-icon {{ (selected === &apos;tournaments&apos;)?&apos;orange&apos;:&apos;&apos; }}" icon="social:communities" on-tap="{{buttonTapped}}">
           </core-icon>
@@ -2788,9 +2800,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </polymer-element>
 
 
+
+
+
+
+<polymer-element name="fow-binder" attributes="binder token cards" assetpath="fow-binder/">
+  <template>
+    <style>:host{display:block;font-family:Open Sans}.cardRow{margin:1px;padding:4px;background-color:rgba(255,255,255,.1);width:85%}.binderTitle{font-size:1.2em;margin:10px}</style>
+    <fow-rest-service id="getCards" type="cards" auto="false" token="{{token}}" on-core-response="{{addCard}}">
+    </fow-rest-service>
+    <div layout="" vertical="" center="">
+      <div class="binderTitle">Cards in your binder:</div>
+      <template repeat="{{card in binder}}">
+        <div class="cardRow">{{card.count}}x {{cards[card.Code].Name}}</div>
+      </template>
+    </div>
+  </template>
+  <script>(function(){"use strict";Polymer("fow-binder",{alreadyLoading:false,created:function(){this.cards={};this.alreadyLoading=false},binderChanged:function(){if(this.binder&&!this.alreadyLoading){console.log("Loading binder...",this.binder);this.cards={};this.alreadyLoading=true;for(var i=0;i<this.binder.length;i++){var code=this.binder[i].Code;this.$.getCards.type="cards/"+encodeURIComponent(code);this.$.getCards.reloadUrl();this.$.getCards.go()}this.alreadyLoading=false}},addCard:function(response){var cards=response.detail.response;for(var i=0;i<cards.length;i++){if(cards[i].Code in this.cards){this.cards[cards[i].Code].Name+=" / "+cards[i].Name}else{this.cards[cards[i].Code]=cards[i]}}}})})();</script>
+</polymer-element>
+
+
+
 <polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
   <template>
-    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:6px;right:6px}core-animated-pages{width:100%;position:relative;height:65%}section{position:relative;width:100%;height:100%}.fillHeight{height:100%;z-index:0}</style>
+    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:6px;right:6px}core-animated-pages{width:100%;position:relative;height:60%}section{position:relative;width:100%;height:100%}.fillHeight{height:100%;z-index:0}</style>
 
     <template if="{{user}}">
       <fow-notification-icon id="notificationIcon" notificationcount="{{notificationCount}}">
@@ -2838,8 +2871,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <core-animated-pages selected="{{selected}}" transitions="cross-fade">
           
           <section name="cards">
-            <fow-card-list cross-fade="" token="{{token}}">
-            </fow-card-list>
+              <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
+              </fow-rest-service>
+              <fow-card-list cross-fade="" cards="{{cards}}" token="{{token}}">
+              </fow-card-list>
+          </section>
+
+          <section name="myCards">
+            <template if="{{selected === &apos;myCards&apos;}}">
+              <fow-rest-service type="binders" items="{{binder}}" auto="true" token="{{token}}">
+              </fow-rest-service>
+              <fow-binder cross-fade="" binder="{{binder}}" token="{{token}}">
+              </fow-binder>
+            </template>
           </section>
 
           <section name="settings">
