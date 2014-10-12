@@ -35,7 +35,9 @@
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
         <div>{{card.Type}}</div>
-        <div>{{card.ATK}}/{{card.DEF}}</div>
+        <template if="{{ (card.Type !== 'Spell') && (card.Type !== 'Chant') && (card.Type !== 'Addition') }}">
+          <div>{{card.ATK}}/{{card.DEF}}</div>
+        </template>
       </div>
     </div>
   </template>
