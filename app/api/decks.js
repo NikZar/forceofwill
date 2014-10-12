@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var https = require('https');
 
 
 var getAllDecks = function(req, res){

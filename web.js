@@ -4,6 +4,12 @@ var morgan = require('morgan');
 var cors = require('cors');
 var https = require('https');
 var app = express();
+
+var bodyParser = require('body-parser')
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(cors());
 
 // Database
@@ -101,16 +107,16 @@ app.use("/api",function(req,res,next){
     var user = req.user;
     var db = req.db;
 
-    console.log("Searching: ", userId);
+    //console.log("Searching: ", userId);
     db.collection('users').findOne({id: userId},function(err, result) {
           if (err) throw err;
           if(result){
-            console.log("Found: ", result);
+            //console.log("Found: ", result);
           } else {
             console.log("Inserting User: ",user);
             db.collection('users').insert(user, function(err, result) {
               if (err) throw err;
-              if (result) console.log('Added!');
+              //if (result) console.log('Added!');
             });
           }
     });
@@ -124,6 +130,9 @@ app.use('/api/cards', cards);
 //  DECKS
 var decks = require("" + __dirname +BASEDIR+'/api/decks');
 app.use('/api/decks', decks);
+//  BINDERS
+var binders = require("" + __dirname +BASEDIR+'/api/binders');
+app.use('/api/binders', binders);
 
 app.use(morgan('dev'));
 app.use(gzippo.staticGzip("" + __dirname + BASEDIR));
