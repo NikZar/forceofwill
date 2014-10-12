@@ -5,6 +5,7 @@
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/core-input/core-input.html">
 
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
 <link rel="import" href="../../elements/fow-card-preview/fow-card-preview.html">
@@ -25,10 +26,8 @@
         font-family: Open Sans;
       }
 
-      .header{
+      .sheader{
         position: relative;
-        width: 100%;
-        text-align: center;
         top: 10px;
       }
 
@@ -40,10 +39,14 @@
         border-radius: 5px;
       }
 
-      .textSearch, .attributes, .type, .rarity, .expansion{
+      .textSearch, .attributes, .type, .rarity, .expansion, .cost{
         background-color: rgba(255,255,255,0.3);
         border-radius: 10px;
         margin: 4px;
+      }
+
+      .cost{
+        padding: 10px;
       }
 
       .title{
@@ -114,14 +117,19 @@
       core-icon:hover{
         color: #fff;
       }
+
+      input{
+        width: 20px;
+        text-align: center;
+      }
     </style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
     </fow-rest-service>
 
     <div class="tools">
-      <div class="header title">
-        Search Filters
+      <div class="sheader" layout horizontal center center-justified>
+        <core-icon icon="social:whatshot"></core-icon> <div class="title">Search Filters</div> <core-icon icon="social:whatshot"></core-icon>
       </div>
       <br />
       <div class="textSearch" layout horizontal center center-justified>
@@ -176,6 +184,11 @@
           <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
         </paper-radio-group>
       </div>
+      <div class="cost" layout horizontal center center-justified>
+        <input value="{{minCost}}"></input> 
+        &nbsp <= Total Cost <= &nbsp
+        <input value="{{maxCost}}"></input>
+      </div>
       <div layout vertical center>
         <core-icon icon="undo" on-tap="{{resetFilters}}">
         </core-icon>
@@ -198,7 +211,7 @@
       Polymer("fow-card-list",{
 
         observe: {
-          "cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter" : "updateFilteredCards"
+          "cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost" : "updateFilteredCards"
         },
 
         created: function (){
@@ -213,6 +226,8 @@
           this.typeFilter = "radio_all";
           this.rarityFilter = "radio_all";
           this.expansionFilter = "radio_all";
+          this.minCost = "0";
+          this.maxCost = "20";
         },
 
         updateFilteredCards: function(){
@@ -227,6 +242,23 @@
           this.filteredCards = this.filterOnText(this.filteredCards, "Rarity", this.rarityFilter);
 
           this.filteredCards = this.filterOnText(this.filteredCards, "Expansion", this.expansionFilter);
+
+          this.filteredCards = this.filterOnRange(this.filteredCards, "Total Cost", this.minCost, this.maxCost);
+        },
+
+        filterOnRange: function(cardList, key, min, max){
+          var min = parseInt(min);
+          var max = parseInt(max);
+
+          var self = this;
+
+          return cardList.filter(
+            
+            function(card){
+              return (card[key] >= min) && (card[key] <= max);
+            }
+          
+          );
         },
 
         filterOnText: function(cardList, key, filterString){
