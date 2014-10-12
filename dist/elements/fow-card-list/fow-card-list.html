@@ -119,7 +119,7 @@
       }
 
       input{
-        width: 20px;
+        width: 40px;
         text-align: center;
       }
     </style>
@@ -189,6 +189,20 @@
         &nbsp &lt= Total Cost &lt= &nbsp
         <input value="{{maxCost}}" />
       </div>
+
+      <template if="{{ (typeFilter !== 'spell') && (typeFilter !== 'addition') }}">
+        <div class="cost" layout horizontal center center-justified>
+          <input value="{{minATK}}" />
+          &nbsp &lt= Attack &lt= &nbsp
+          <input value="{{maxATK}}" />
+        </div>
+        <div class="cost" layout horizontal center center-justified>
+          <input value="{{minDEF}}" />
+          &nbsp &lt= Defense &lt= &nbsp
+          <input value="{{maxDEF}}" />
+        </div>
+      </template>
+
       <div layout vertical center>
         <core-icon icon="undo" on-tap="{{resetFilters}}">
         </core-icon>
@@ -211,7 +225,8 @@
       Polymer("fow-card-list",{
 
         observe: {
-          "cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost" : "updateFilteredCards"
+          "cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost" : "updateFilteredCards",
+          "minCost maxCost minATK maxATK minDEF maxDEF" : "updateFilteredCards"
         },
 
         created: function (){
@@ -228,6 +243,10 @@
           this.expansionFilter = "radio_all";
           this.minCost = "0";
           this.maxCost = "20";
+          this.minATK = "0";
+          this.maxATK = "10000";
+          this.minDEF = "0";
+          this.maxDEF = "10000";
         },
 
         updateFilteredCards: function(){
@@ -237,44 +256,73 @@
 
           this.filteredCards = this.filterOnText(this.filteredCards, "Attribute", this.attributeFilter);
 
-          this.filteredCards = this.filterOnText(this.filteredCards, "Type", this.typeFilter);
 
           this.filteredCards = this.filterOnText(this.filteredCards, "Rarity", this.rarityFilter);
 
           this.filteredCards = this.filterOnText(this.filteredCards, "Expansion", this.expansionFilter);
 
+          if(this.typeFilter === "spell"){
+            var remainingCards = [];
+            var spellCards = this.filterOnText(this.filteredCards, "Type", this.typeFilter, remainingCards);
+            var remainingCards2 = [];
+            var chantCards = this.filterOnText(remainingCards, "Type", "Chant", remainingCards2);
+            var istantCards = this.filterOnText(remainingCards2, "Type", "Instant");
+            this.filteredCards = spellCards.concat(chantCards,istantCards);
+          } else {
+            this.filteredCards = this.filterOnText(this.filteredCards, "Type", this.typeFilter);
+          }
+
           this.filteredCards = this.filterOnRange(this.filteredCards, "Total Cost", this.minCost, this.maxCost);
+
+          if((this.typeFilter !== 'spell') && (this.typeFilter !== 'addition')){
+            this.filteredCards = this.filterOnRange(this.filteredCards, "Total Cost", this.minCost, this.maxCost);
+            this.filteredCards = this.filterOnRange(this.filteredCards, "ATK", this.minATK, this.maxATK);
+            this.filteredCards = this.filterOnRange(this.filteredCards, "DEF", this.minDEF, this.maxDEF);
+          }
         },
 
         filterOnRange: function(cardList, key, min, max){
-          var min = parseInt(min);
-          var max = parseInt(max);
+          min = parseInt(min);
+          max = parseInt(max);
+          if(cardList){
 
-          var self = this;
-
-          return cardList.filter(
+            return cardList.filter(
+              
+              function(card){
+                return (card[key] >= min) && (card[key] <= max);
+              }
             
-            function(card){
-              return (card[key] >= min) && (card[key] <= max);
-            }
+            );
+          } else {
+            return [];
+          }
           
-          );
         },
 
-        filterOnText: function(cardList, key, filterString){
+        filterOnText: function(cardList, key, filterString, remaining){
           if(filterString === "" || filterString === "radio_all"){
             return cardList;
           } 
-          else {
+          else if(cardList){
             var self = this;
 
             return cardList.filter(
               
               function(card){
-                return self.strictMatch(card[key], filterString);
+                
+                if( self.strictMatch(card[key], filterString) ){
+                  return true;
+                } else if(remaining){ 
+                  remaining.push(card);
+                }
+                
+                return false;
+                
               }
             
             );
+          } else {
+            return [];
           }
         },
 

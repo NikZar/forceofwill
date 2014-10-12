@@ -2440,7 +2440,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
         <div>{{card.Type}}</div>
-        <div>{{card.ATK}}/{{card.DEF}}</div>
+        <template if="{{ (card.Type !== &apos;Spell&apos;) &amp;&amp; (card.Type !== &apos;Addition&apos;) }}">
+          <div>{{card.ATK}}/{{card.DEF}}</div>
+        </template>
       </div>
     </div>
   </template>
@@ -2451,7 +2453,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-card-list" attributes="cards nameFilter token" assetpath="fow-card-list/">
   <template>
-    <style>:host{display:block;width:86%;margin-left:7%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.sheader{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.textSearch,.attributes,.type,.rarity,.expansion,.cost{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.cost{padding:10px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin:10px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}paper-radio-button.default::shadow #ink[checked]{color:#fff}paper-radio-button.default::shadow #onRadio{background-color:#fff}core-icon:hover{color:#fff}input{width:20px;text-align:center}</style>
+    <style>:host{display:block;width:86%;margin-left:7%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.sheader{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:10px;border-radius:5px}.textSearch,.attributes,.type,.rarity,.expansion,.cost{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.cost{padding:10px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin:10px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}paper-radio-button.default::shadow #ink[checked]{color:#fff}paper-radio-button.default::shadow #onRadio{background-color:#fff}core-icon:hover{color:#fff}input{width:40px;text-align:center}</style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
     </fow-rest-service>
@@ -2509,6 +2511,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         &nbsp &lt= Total Cost &lt= &nbsp
         <input value="{{maxCost}}">
       </div>
+
+      <template if="{{ (typeFilter !== &apos;spell&apos;) &amp;&amp; (typeFilter !== &apos;addition&apos;) }}">
+        <div class="cost" layout="" horizontal="" center="" center-justified="">
+          <input value="{{minATK}}">
+          &nbsp &lt= Attack &lt= &nbsp
+          <input value="{{maxATK}}">
+        </div>
+        <div class="cost" layout="" horizontal="" center="" center-justified="">
+          <input value="{{minDEF}}">
+          &nbsp &lt= Defense &lt= &nbsp
+          <input value="{{maxDEF}}">
+        </div>
+      </template>
+
       <div layout="" vertical="" center="">
         <core-icon icon="undo" on-tap="{{resetFilters}}">
         </core-icon>
@@ -2522,7 +2538,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost":"updateFilteredCards"},created:function(){this.filteredCards=[];this.resetFilters()},resetFilters:function(){this.nameFilter="";this.descriptionFilter="";this.attributeFilter="radio_all";this.typeFilter="radio_all";this.rarityFilter="radio_all";this.expansionFilter="radio_all";this.minCost="0";this.maxCost="20"},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Rarity",this.rarityFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Expansion",this.expansionFilter);this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost)},filterOnRange:function(cardList,key,min,max){var min=parseInt(min);var max=parseInt(max);var self=this;return cardList.filter(function(card){return card[key]>=min&&card[key]<=max})},filterOnText:function(cardList,key,filterString){if(filterString===""||filterString==="radio_all"){return cardList}else{var self=this;return cardList.filter(function(card){return self.strictMatch(card[key],filterString)})}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-card-list",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost":"updateFilteredCards","minCost maxCost minATK maxATK minDEF maxDEF":"updateFilteredCards"},created:function(){this.filteredCards=[];this.resetFilters()},resetFilters:function(){this.nameFilter="";this.descriptionFilter="";this.attributeFilter="radio_all";this.typeFilter="radio_all";this.rarityFilter="radio_all";this.expansionFilter="radio_all";this.minCost="0";this.maxCost="20";this.minATK="0";this.maxATK="10000";this.minDEF="0";this.maxDEF="10000"},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Rarity",this.rarityFilter);this.filteredCards=this.filterOnText(this.filteredCards,"Expansion",this.expansionFilter);if(this.typeFilter==="spell"){var remainingCards=[];var spellCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter,remainingCards);var remainingCards2=[];var chantCards=this.filterOnText(remainingCards,"Type","Chant",remainingCards2);var istantCards=this.filterOnText(remainingCards2,"Type","Instant");this.filteredCards=spellCards.concat(chantCards,istantCards)}else{this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter)}this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost);if(this.typeFilter!=="spell"&&this.typeFilter!=="addition"){this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost);this.filteredCards=this.filterOnRange(this.filteredCards,"ATK",this.minATK,this.maxATK);this.filteredCards=this.filterOnRange(this.filteredCards,"DEF",this.minDEF,this.maxDEF)}},filterOnRange:function(cardList,key,min,max){min=parseInt(min);max=parseInt(max);if(cardList){return cardList.filter(function(card){return card[key]>=min&&card[key]<=max})}else{return[]}},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(card){if(self.strictMatch(card[key],filterString)){return true}else if(remaining){remaining.push(card)}return false})}else{return[]}},strictMatch:function(text,textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
 </polymer-element>
 
 
