@@ -145,6 +145,10 @@
               </fow-card-list>
           </section>
 
+          <section name="decks">
+              <<div>DECKS<div>
+          </section>
+
           <section name="myCards">
             <template if="{{selected === 'myCards'}}">
               <fow-rest-service type="binders" items="{{binder}}" auto="true" token="{{token}}">
@@ -152,6 +156,30 @@
               <fow-binder cross-fade binder="{{binder}}" token="{{token}}">
               </fow-binder>
             </template>
+          </section>
+
+          <section name="myDecks">
+              <<div>MY DECKS<div>
+          </section>
+
+          <section name="friends">
+              <<div>FRIENDS<div>
+          </section>
+
+          <section name="messages">
+              <<div>MESSAGES<div>
+          </section>
+
+          <section name="trading">
+              <<div>TRADING<div>
+          </section>
+
+          <section name="tournaments">
+              <<div>TOURNAMENTS<div>
+          </section>
+
+          <section name="ranking">
+              <<div>RANKING<div>
           </section>
 
           <section name="settings">
