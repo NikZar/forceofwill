@@ -2734,7 +2734,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <core-icon name="myCards" class="menu-icon {{ (selected === &apos;myCards&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}"><div class="my">my</div>
           </core-icon>
-          <core-icon name="mydecks" class="menu-icon {{ (selected === &apos;mydecks&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}"><div class="myd">my</div>
+          <core-icon name="myDecks" class="menu-icon {{ (selected === &apos;myDecks&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}"><div class="myd">my</div>
           </core-icon>
 
           <core-icon name="friends" class="menu-icon {{ (selected === &apos;friends&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:people" on-tap="{{buttonTapped}}">
@@ -2823,7 +2823,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
   <template>
-    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:6px;right:6px}core-animated-pages{width:100%;position:relative;height:60%}section{position:relative;width:100%;height:100%}.fillHeight{height:100%;z-index:0}</style>
+    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:6px;right:6px}core-animated-pages{width:100%;position:relative;height:60%}core-pages-animated transitions{width:100%;height:100%}section{position:relative;width:100%;height:100%}.fillHeight{height:100%;z-index:0}</style>
 
     <template if="{{user}}">
       <fow-notification-icon id="notificationIcon" notificationcount="{{notificationCount}}">
@@ -2878,7 +2878,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </section>
 
           <section name="decks">
-              <div>DECKS</div>
+              <div layout="" vertical="" center="">DECKS</div>
           </section>
 
           <section name="myCards">
@@ -2891,27 +2891,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </section>
 
           <section name="myDecks">
-              <div>MY DECKS</div>
+              <div cross-fade="" layout="" vertical="" center="">MY DECKS</div>
           </section>
 
           <section name="friends">
-              <div>FRIENDS</div>
+              <div cross-fade="" layout="" vertical="" center="">FRIENDS</div>
           </section>
 
           <section name="messages">
-              <div>MESSAGES</div>
+              <div cross-fade="" layout="" vertical="" center="">MESSAGES</div>
           </section>
 
           <section name="trading">
-              <div>TRADING</div>
+              <div cross-fade="" layout="" vertical="" center="">TRADING</div>
           </section>
 
           <section name="tournaments">
-              <div>TOURNAMENTS</div>
+              <div cross-fade="" layout="" vertical="" center="">TOURNAMENTS</div>
           </section>
 
           <section name="ranking">
-              <div>RANKING</div>
+              <div cross-fade="" layout="" vertical="" center="">RANKING</div>
           </section>
 
           <section name="settings">
