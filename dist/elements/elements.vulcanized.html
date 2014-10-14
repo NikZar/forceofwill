@@ -2702,7 +2702,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <core-icon name="myCards" class="menu-icon {{ (selected === &apos;myCards&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="content-copy" on-tap="{{buttonTapped}}"><div class="my">my</div>
         </core-icon>
-        <core-icon name="mydecks" class="menu-icon {{ (selected === &apos;mydecks&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}"><div class="myd">my</div>
+        <core-icon name="myDecks" class="menu-icon {{ (selected === &apos;myDecks&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}"><div class="myd">my</div>
         </core-icon>
 
         <core-icon name="friends" class="menu-icon {{ (selected === &apos;friends&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:people" on-tap="{{buttonTapped}}">
@@ -2877,6 +2877,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </fow-card-list>
           </section>
 
+          <section name="decks">
+              <div>DECKS</div>
+          </section>
+
           <section name="myCards">
             <template if="{{selected === &apos;myCards&apos;}}">
               <fow-rest-service type="binders" items="{{binder}}" auto="true" token="{{token}}">
@@ -2884,6 +2888,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <fow-binder cross-fade="" binder="{{binder}}" token="{{token}}">
               </fow-binder>
             </template>
+          </section>
+
+          <section name="myDecks">
+              <div>MY DECKS</div>
+          </section>
+
+          <section name="friends">
+              <div>FRIENDS</div>
+          </section>
+
+          <section name="messages">
+              <div>MESSAGES</div>
+          </section>
+
+          <section name="trading">
+              <div>TRADING</div>
+          </section>
+
+          <section name="tournaments">
+              <div>TOURNAMENTS</div>
+          </section>
+
+          <section name="ranking">
+              <div>RANKING</div>
           </section>
 
           <section name="settings">
