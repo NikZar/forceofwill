@@ -24,6 +24,22 @@ var getDeck = function(req, res){
     });
 }
 
+var addDeck = function(req, res){
+    var deck = req.body;
+    console.log(deck);
+    var db = req.db;
+    var userId = req.userId;
+}
+/*
+ * GET a deck.
+ */
+router.post('', function(req, res) {
+    addDeck(req, res);
+});
+
+router.post('/', function(req, res) {
+    addDeck(req, res);
+});
 /*
  * GET a deck.
  */
