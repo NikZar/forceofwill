@@ -76,12 +76,12 @@ var checkToken = function(req,res,next,token){
                 var DBURL = "lennon.mongohq.com:10041/app30136505";
                 var USERNAME = "niko";
                 var PASSWORD = "bambumbim";
-                var db = mongo.db("mongodb://"+USERNAME+":"+PASSWORD+"@"+DBURL, {native_parser:true, auto_reconnect: true, poolSize: 5});
+                var db = mongo.db("mongodb://"+USERNAME+":"+PASSWORD+"@"+DBURL, {native_parser:true, auto_reconnect: false, poolSize: 5});
                 break;
               
               default:
                 var DBURL = "localhost:27017/app30136505";
-                var db = mongo.db("mongodb://"+DBURL, {native_parser:true, auto_reconnect: true, poolSize: 5});
+                var db = mongo.db("mongodb://"+DBURL, {native_parser:true, auto_reconnect: false, poolSize: 5});
                 break;
                   
             }
