@@ -26,20 +26,24 @@ CARDS
     
 FAQs
 
-    GET faqs <--- List of all the FAQs
-    GET faqs/:faqid
+    GET faqs <--- List of all the FAQs <--- Res: [{question: "...", answer: "..."}]
+    GET faqs/:faqid <--- Get a single FAQ <--- Res: {question: "...", answer: "..."}
 
 DECKS
 
     GET decks <--- List of all public and visible decks
-    GET decks/:userId <--- List all public and visible deck of the specified user
+    GET decks/users/:userId <--- List all public and visible deck of the specified user
     GET decks/my <--- List all deck of the API user
+    GET decks/:deckId/cards <--- List all cards in a deck. Body: [{Code: "", Qty: 1}, ... ]
+    POST decks <--- Creates a new deck. Body: [{Code: "", Qty: 1}, ... ]
+    POST decks/:deckId/cards <--- Add cards to a deck. Body: [{Code: "", Qty: 1}, ... ]
+    PUT decks/:deckId <--- Replace the selected deck with the input one. Body: [{Code: "", Qty: 1}, ... ]
 
 BINDERS
 
-    GET binders <--- List of all binder cards of the API user
-    GET binders/:code <--- Number of cards with that code in the binder
-    PUT binders/:code <--- Add the specified card to the binder(count++)
+    GET binder/cards <--- List of all binder cards of the API user. Res: [{qty: 1, ...card fields...}]
+    GET binder/cards/:code <--- Number of cards with that code in the binder. Res: {qty: 2, ...card fields...}
+    POST binder/cards/ <--- Add the specified card to the binder. Body: [{code: "", qty: 1}]
 
 USERS
 
@@ -48,6 +52,6 @@ USERS
 FRIENDS
 
     GET friends <--- List of all friends of the API user
-    POST friends/:userId <---
+    POST friends/ <--- Add friends to a user. Body: [{friendId: ""}, ...] 
 
 And more to come... :bowtie:
