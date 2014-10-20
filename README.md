@@ -19,21 +19,21 @@ HTTP RESTful API Description
 
 CARDS
 
-    GET cards <--- List of all cards
-    GET cards/:code <--- List of all cards with that code (might be more than one: ex. Ruler/J-Ruler)
-    GET cards/:code/faqs <--- List all FAQs for the specified card
-    POST cards/:code/faqs <--- Ask a question about the specified card. Body: {question: ""}
+    GET cards <--- List of all cards. Res: [ {...card fields...} , ... ]
+    GET cards/:code <--- List of all cards with that code (might be more than one: ex. Ruler/J-Ruler). Res: [ {...card fields...} , ... ]
+    GET cards/:code/faqs <--- List all FAQs for the specified card. Res: [ { question: "", answer: "" } , ... ]
+    POST cards/:code/faqs <--- Ask a question about the specified card. Body: { question: "" }
     
 FAQs
 
-    GET faqs <--- List of all the FAQs <--- Res: [{question: "...", answer: "..."}]
+    GET faqs <--- List of all the FAQs <--- Res: [ {question: "...", answer: "..."} ]
     GET faqs/:faqid <--- Get a single FAQ <--- Res: {question: "...", answer: "..."}
 
 DECKS
 
-    GET decks <--- List of all public and visible decks
-    GET decks/users/:userId <--- List all public and visible deck of the specified user
-    GET decks/my <--- List all deck of the API user
+    GET decks <--- List of all public and visible decks. Res: [ {deckId: "", title: "", attributes: ["Light", ... ], userId: "", userName: "" }, ... ]
+    GET decks/users/:userId <--- List all public and visible deck of the specified user. Res: [ {deckId: "", title: "", attributes: ["Light", ... ], userId: "", userName: "" }, ... ]
+    GET decks/my <--- List all deck of the API user. Res: [ {deckId: "", title: "", attributes: ["Light", ... ]}, ... ]
     GET decks/:deckId/cards <--- List all cards in a deck. Body: [{Code: "", Qty: 1}, ... ]
     POST decks <--- Creates a new deck. Body: [{Code: "", Qty: 1}, ... ]
     POST decks/:deckId/cards <--- Add cards to a deck. Body: [{Code: "", Qty: 1}, ... ]
@@ -47,7 +47,7 @@ BINDERS
 
 USERS
 
-    GET users <--- List of all application users
+    GET users <--- List of all application users. Res: [ {userId: "", userName: "", sex: "M", photo:""} , ... ]
 
 FRIENDS
 
