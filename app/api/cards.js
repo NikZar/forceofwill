@@ -18,7 +18,7 @@ var getCard = function(req,res){
     var db = req.db;
 	var code = req.params.code;
 	//console.log("Getting card: ",code);
-	db.collection('cards').find({Code: code}).toArray(function (err, items) {
+	db.collection('cards').find({code: code}).toArray(function (err, items) {
 		//Rulers Code corresponds to two cards
 		if (err) {
 			res.send(500).end();
