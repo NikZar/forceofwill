@@ -22,6 +22,12 @@ CARDS
     GET cards <--- List of all cards
     GET cards/:code <--- List of all cards with that code (might be more than one: ex. Ruler/J-Ruler)
     GET cards/:code/faqs <--- List all FAQs for the specified card
+    POST cards/:code/faqs <--- Ask a question about the specified card. Body: {question: ""}
+    
+FAQs
+
+    GET faqs <--- List of all the FAQs
+    GET faqs/:faqid
 
 DECKS
 
