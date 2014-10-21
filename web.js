@@ -3,6 +3,7 @@ var express = require('express');
 var morgan = require('morgan');
 var cors = require('cors');
 var https = require('https');
+var Promise = require("bluebird");
 var app = express();
 
 var bodyParser = require('body-parser')
@@ -14,6 +15,16 @@ app.use(cors());
 
 // Database
 var mongo = require('mongoskin');
+
+// Promisfy Mongoskin Calls
+Object.keys(mongo).forEach(function(key) {
+  var value = mongo[key];
+  if (typeof value === "function") {
+    Promise.promisifyAll(value);
+    Promise.promisifyAll(value.prototype);
+  }
+});
+Promise.promisifyAll(mongo);
 
 switch(process.env.NODE_ENV){
 
