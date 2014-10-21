@@ -58,3 +58,7 @@ FRIENDS
     POST friends/ <--- Add friends to a user. Body: [{friendId: ""}, ...] 
 
 And more to come... :bowtie:
+
+On success every post request responds with:
+201 Created
+Location: ... (ex. localhost:5000/decks/:deckId)
