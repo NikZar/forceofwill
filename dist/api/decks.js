@@ -1,6 +1,40 @@
 var express = require('express');
 var router = express.Router();
 
+var addCard = function(req, res){
+    var card = req.body;
+    var db = req.db;
+    var userId = req.userId;
+
+    db.collection('decks').findOne({userId: userId, Code: card.Code}, function(err, result) {
+        if (err) {
+            res.send(500).end();
+        }
+        if(result){
+            //console.log("Updating Card: ", card);
+            db.collection('binders').update({userId: userId, Code: card.Code}, {'$set':{count: (result.count+1) }}, function(err) {
+                if (err) {
+                    res.send(500).end();
+                }
+                if (result) {
+                    res.json({});
+                }
+                db.close();
+            });
+        } else {
+            //console.log("Inserting Card with Counter: ", card);
+            db.collection('binders').insert({userId: userId, Code: card.Code, count: 1}, function(err, result) {
+                if (err) {
+                    res.send(500).end();
+                }
+                if (result) {
+                    res.json({});
+                }
+                db.close();
+            });
+        }
+    });
+}
 
 var getAllDecks = function(req, res){
     var db = req.db;
