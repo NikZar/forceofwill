@@ -47,7 +47,10 @@ BINDERS
 
 USERS
 
-    GET users <--- List of all application users. Res: [ {userId: "", userName: "", sex: "M", photo:""} , ... ]
+    GET users <--- List of all application users. Res: [ {userId: "", userName: "", sex: "M", photoUrl:""} , ... ]
+    POST users <--- Creates a user. Body: {userName: "", sex: "M", photoUrl:""}
+    PUT users/:userId <--- Creates a user with the specified userId. Body: {userName: "", sex: "M", photoUrl:""}
+    PUT users <--- Updates a user. Body: {userId: "", userName: "", sex: "M", photoUrl:""}
 
 FRIENDS
 
