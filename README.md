@@ -60,9 +60,13 @@ FRIENDS
 And more to come... :bowtie:
 
 On success every CREATE (POST/PUT) request responds with:
+
 201 Created
+
 Location: ... (ex. http://localhost:5000/decks/:deckId)
 
 On success every UPDATE (POST/PUT) request responds with:
+
 200 OK
+
 Location: ... (ex. http://localhost:5000/decks/:deckId)
