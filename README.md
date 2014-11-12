@@ -44,6 +44,8 @@ BINDERS
     GET binder/cards <--- List of all binder cards of the API user. Res: [{qty: 1, ...card fields...}]
     GET binder/cards/:code <--- Number of cards with that code in the binder. Res: {qty: 2, ...card fields...}
     POST binder/cards/ <--- Add the specified card to the binder. Body: [{code: "", qty: 1}]
+    DELETE binder/cards/ <--- Remove the specified card qty into the binder. Body: [{code: "", qty: 2}]
+    POST binder/cards/:code <--- Delete all cards with the specified code into the binder.
 
 USERS
 
@@ -72,3 +74,12 @@ On success every UPDATE (*POST/PUT*) request responds with:
     200 OK
 
     Location: ... (ex. http://localhost:5000/decks/:deckId)
+
+On success every DELETE request responds with:
+
+    200 OK
+    404 Document not found
+
+If something goes wrong (hopefully not!) you will receive:
+
+    500 Internal Server Error
