@@ -138,26 +138,26 @@ app.use("/api",function(req,res,next){
       var user = req.user;
       var db = req.db;
 
-      //console.log("Searching: ", userId);
+      console.log("Searching: ", userId);
       db.collection('users').findOne({id: userId},function(err, result) {
             if (err) {
-              console.log("Error searching user: ", err, user)
+              //console.log("Error searching user: ", err, user)
             }
             if(result){
-              //console.log("Found: ", result);
+              req.user = result;
+              console.log("Found: ", result);
             } else {
               console.log("Inserting User: ",user);
               db.collection('users').insert(user, function(err, result) {
                 if (err) {
                   console.log("Error inserting new user: ", err, user)
                 }
-                //if (result) console.log('Added!');
+                if (result) console.log('Added!');
               });
             }
+            next();
       });
     }
-
-    next();
 });
 // API
 //	CARDS

@@ -1,0 +1,37 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-card-update" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+      <fow-rest-service id="addCardService" type="cards" auto="false" token="{{token}}" method="PUT">
+      </fow-rest-service>
+
+      <div on-tap="{{addCard}}">UPDATE CARD</div>
+    </template>
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer("fow-card-update",{
+        card: null,
+        created: function(){
+          this.card={};
+        },
+        addCard: function(){
+          this.card.code = "TEST0123";
+          this.card.Name = "Test Card";
+          this.$.addCardService.body = JSON.stringify(this.card);
+          this.$.addCardService.go();
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>
