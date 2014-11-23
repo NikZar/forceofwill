@@ -168,7 +168,7 @@ var decks = require("" + __dirname +BASEDIR+'/api/decks');
 app.use('/api/decks', decks);
 //  BINDERS
 var binders = require("" + __dirname +BASEDIR+'/api/binders');
-app.use('/api/binders', binders);
+app.use('/api/binder/cards', binders);
 
 app.use(morgan('dev'));
 app.use(gzippo.staticGzip("" + __dirname + BASEDIR));
