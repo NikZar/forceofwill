@@ -156,7 +156,7 @@
 
           <section name="myCards">
             <template if="{{selected === 'myCards'}}">
-              <fow-rest-service type="binders" items="{{binder}}" auto="true" token="{{token}}">
+              <fow-rest-service type="binder/cards" items="{{binder}}" auto="true" token="{{token}}">
               </fow-rest-service>
               <fow-binder cross-fade binder="{{binder}}" token="{{token}}">
               </fow-binder>

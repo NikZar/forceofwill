@@ -77,21 +77,29 @@ var getAllBinderCards = function(req, res){
  * GET a deck.
  */
 router.post('', function(req, res) {
-	addCard(req, res);
+	if(req.logged){
+		addCard(req, res);
+	}
 });
 
 router.post('/', function(req, res) {
-	addCard(req, res);
+	if(req.logged){
+		addCard(req, res);
+	}
 });
 /*
  * GET all decks.
  */
 router.get('', function(req, res) {
-	getAllBinderCards(req, res);
+	if(req.logged){
+		getAllBinderCards(req, res);
+	}
 });
 
 router.get('/', function(req, res) {
-	getAllBinderCards(req, res);
+	if(req.logged){
+		getAllBinderCards(req, res);
+	}
 });
 
 module.exports = router;

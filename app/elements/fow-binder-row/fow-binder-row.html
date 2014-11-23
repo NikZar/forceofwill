@@ -1,0 +1,71 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
+<link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
+
+<polymer-element name="fow-binder-row" attributes="card qty">
+  <template>
+    <style>
+      :host {
+        display: block;
+        font-family: Open Sans;
+        background-color: rgba(255,255,255,0.1);
+      }
+
+      .cardRow{
+        margin: 1px;
+        padding: 4px;
+        width: 85%;
+      }
+
+      .delete{
+        border-radius: 50%;
+        background-color: red;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        margin-left: 10px;
+      }
+
+      .qty{
+        width: 30px;
+      }
+
+    </style>
+
+    <fow-rest-service type="binders/cards">
+    </fow-rest-service>
+    <div layout horizontal center>
+      <div class="cardRow">{{card.qty}}x {{card.Name}}</div>
+      <input class="qty" is="core-input" 
+        committedalue="{{qty}}"
+        value="{{qty}}"
+        placeholder="{{card.qty}}" 
+        type="number"
+        preventInvalidInput>
+      <div class="delete" on-tap="{{delete}}">x</div>
+      {{qty}}
+    </div>    
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        observe: {
+          "qty":"sendUpdates"
+        },
+        qtyChanged: function(){
+          this.sendUpdates();
+        },
+        sendUpdates: function(){
+          console.log("Update qty: ", this.qty);
+        },
+        delete: function(){
+          console.log("delete: ", this.card.code);
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>

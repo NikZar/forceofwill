@@ -48,7 +48,7 @@ var checkToken = function(req,res,next,token){
         str += chunk;
       });
       response.on('end', function () {
-        //console.log(str);
+        console.log(str);
         var fbauth = JSON.parse(str);
 
         //validation
@@ -56,6 +56,10 @@ var checkToken = function(req,res,next,token){
             req.token = token;
             // retrieving app id parameter for future use
             req.appId = fbauth.id;
+            req.logged = true;
+            next();
+        } else {
+            req.logged = false;
             next();
         }
       });
@@ -79,29 +83,14 @@ var checkToken = function(req,res,next,token){
         req.user = fbauth;
         //validation
         if(fbauth.id){
-            //Open DB connection
-            //console.log("Opening connection...");
-            switch(process.env.NODE_ENV){
-
-              case 'production':
-                var DBURL = "lennon.mongohq.com:10041/app30136505";
-                var USERNAME = "niko";
-                var PASSWORD = "bambumbim";
-                var db = mongo.db("mongodb://"+USERNAME+":"+PASSWORD+"@"+DBURL, {native_parser:true, auto_reconnect: false, poolSize: 5});
-                break;
-              
-              default:
-                var DBURL = "localhost:27017/app30136505";
-                var db = mongo.db("mongodb://"+DBURL, {native_parser:true, auto_reconnect: false, poolSize: 5});
-                break;
-                  
-            }
-            // making db available to other routers
-            req.db = db;
             // retrieving user id parameter for future use
             req.userId = fbauth.id;
             https.request(appIdOptions, checkAppId).end();
+        } else {
+            req.logged = false;
+            next();
         }
+
       });
     }
 
@@ -125,27 +114,48 @@ app.use("/api",function(req,res,next){
 
 // Create/Update User
 app.use("/api",function(req,res,next){
-    var userId = req.userId;
-    var user = req.user;
-    var db = req.db;
+    //Open DB connection
+    //console.log("Opening connection...");
+    switch(process.env.NODE_ENV){
 
-    //console.log("Searching: ", userId);
-    db.collection('users').findOne({id: userId},function(err, result) {
-          if (err) {
-            console.log("Error searching user: ", err, user)
-          }
-          if(result){
-            //console.log("Found: ", result);
-          } else {
-            console.log("Inserting User: ",user);
-            db.collection('users').insert(user, function(err, result) {
-              if (err) {
-                console.log("Error inserting new user: ", err, user)
-              }
-              //if (result) console.log('Added!');
-            });
-          }
-    });
+      case 'production':
+        var DBURL = "lennon.mongohq.com:10041/app30136505";
+        var USERNAME = "niko";
+        var PASSWORD = "bambumbim";
+        var db = mongo.db("mongodb://"+USERNAME+":"+PASSWORD+"@"+DBURL, {native_parser:true, auto_reconnect: false, poolSize: 5});
+        break;
+      
+      default:
+        var DBURL = "localhost:27017/app30136505";
+        var db = mongo.db("mongodb://"+DBURL, {native_parser:true, auto_reconnect: false, poolSize: 5});
+        break;
+          
+    }
+    // making db available to other routers
+    req.db = db;
+    if(req.logged){
+      var userId = req.userId;
+      var user = req.user;
+      var db = req.db;
+
+      //console.log("Searching: ", userId);
+      db.collection('users').findOne({id: userId},function(err, result) {
+            if (err) {
+              console.log("Error searching user: ", err, user)
+            }
+            if(result){
+              //console.log("Found: ", result);
+            } else {
+              console.log("Inserting User: ",user);
+              db.collection('users').insert(user, function(err, result) {
+                if (err) {
+                  console.log("Error inserting new user: ", err, user)
+                }
+                //if (result) console.log('Added!');
+              });
+            }
+      });
+    }
 
     next();
 });
@@ -158,7 +168,7 @@ var decks = require("" + __dirname +BASEDIR+'/api/decks');
 app.use('/api/decks', decks);
 //  BINDERS
 var binders = require("" + __dirname +BASEDIR+'/api/binders');
-app.use('/api/binders', binders);
+app.use('/api/binder/cards', binders);
 
 app.use(morgan('dev'));
 app.use(gzippo.staticGzip("" + __dirname + BASEDIR));

@@ -2,6 +2,7 @@
 
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
 <link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
+<link rel="import" href="../../elements/fow-binder-row/fow-binder-row.html">
 
 <polymer-element name="fow-binder" attributes="binder token cards">
   <template>
@@ -11,16 +12,13 @@
         font-family: Open Sans;
       }
 
-      .cardRow{
-        margin: 1px;
-        padding: 4px;
-        background-color: rgba(255,255,255,0.1);
-        width: 85%;
-      }
-
       .binderTitle{
         font-size: 1.2em;
         margin: 10px;
+      }
+
+      fow-binder-row{
+        width: 90%;
       }
 
     </style>
@@ -28,7 +26,8 @@
     <div layout vertical center>
       <div class="binderTitle">Cards in your binder:</div>
       <template repeat="{{card in binder}}">
-        <div class="cardRow">{{card.qty}}x {{card.Name}}</div>
+        <fow-binder-row card="{{card}}">
+        </fow-binder-row>
       </template>
     </div>
 

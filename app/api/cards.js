@@ -4,7 +4,6 @@ var router = express.Router();
 
 var getAllCards = function(req, res){
     var db = req.db;
-    //console.log("Getting all cards");
     db.collection('cards').find().toArray(function (err, items) {
     	if (err) {
 			res.send(500).end();
@@ -14,10 +13,8 @@ var getAllCards = function(req, res){
     });
 }
 
-var getCard = function(req,res){
+var getCard = function(req,res,code){
     var db = req.db;
-	var code = req.params.code;
-	//console.log("Getting card: ",code);
 	db.collection('cards').find({code: code}).toArray(function (err, items) {
 		//Rulers Code corresponds to two cards
 		if (err) {
@@ -54,11 +51,13 @@ router.get('/attribute/:attribute', function(req, res) {
  * GET a card.
  */
 router.get('/:code', function(req, res) {
-	getCard(req, res);
+	var code = req.params.code;
+	getCard(req, res, code);
 });
 
 router.get('/:code/', function(req, res) {
-	getCard(req, res);
+	var code = req.params.code;
+	getCard(req, res, code);
 });
 /*
  * GET all cards.

@@ -10,5 +10,9 @@
   },
   "devDependencies": {
     "polymer-test-tools": "Polymer/polymer-test-tools#^0.4.0"
+  },
+  "resolutions": {
+    "polymer": "master",
+    "core-component-page": "master"
   }
 }
