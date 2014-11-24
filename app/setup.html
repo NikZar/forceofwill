@@ -17,13 +17,21 @@
   <!-- build:vulcanized elements/elements.vulcanized.html -->
  
   <link rel="import" href="elements/elements.html">
+  <link rel="import" href="elements/fow-admin-app/fow-admin-app.html">
+  
   <!-- endbuild-->
 </head>
 
 <body>
 
-  <fow-globals apiurl="forceofwill.herokuapp.com/api/" appid="568442163257885">
+  <fow-globals apiurl="localhost:5000/api/" appid="716407968436535">
   </fow-globals>
+
+<!--   <fow-globals apiurl="forceofwill.herokuapp.com/api/" appid="568442163257885">
+  </fow-globals> -->
+  
+  <fow-admin-app>
+  </fow-admin-app>
   
   <!-- build:js scripts/app.js -->
   <script src="scripts/app.js"></script>

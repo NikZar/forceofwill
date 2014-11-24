@@ -61,6 +61,15 @@
           }
         },
 
+        elementsLoaded: function(event) {
+          this.fire("rest-response", event)
+        },
+        
+        errorHandler: function(event){
+          console.log("Error:", event.detail);
+          this.fire("rest-error", event)
+        },
+
         go: function(){
           this.$.ajax.go();
           //console.log("Synch REST API Called:", this.$.ajax.auto ,this.$.ajax.method, this.$.ajax.url);
