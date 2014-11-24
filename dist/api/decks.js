@@ -68,11 +68,19 @@ var addDeck = function(req, res){
  * GET a deck.
  */
 router.post('', function(req, res) {
-    addDeck(req, res);
+    if(req.logged){
+        addDeck(req, res);
+    } else {
+        res.send(500);
+    }
 });
 
 router.post('/', function(req, res) {
-    addDeck(req, res);
+    if(req.logged){
+        addDeck(req, res);
+    } else {
+        res.send(500);
+    }
 });
 /*
  * GET a deck.

@@ -1,0 +1,27 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
+
+<polymer-element name="fow-cards" attributes="cards token">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
+    </fow-rest-service>
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>

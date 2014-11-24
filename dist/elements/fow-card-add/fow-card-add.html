@@ -1,0 +1,185 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-input/core-input.html">
+
+<link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
+
+<polymer-element name="fow-card-add" attributes="token toast">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background-color: rgba(255,255,255,0.2);
+        padding: 10px;
+        border-radius: 10px;
+      }
+      .button{
+        cursor: pointer;
+        background-color: rgba(200,255,200,0.3);
+        padding: 5px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 10px;
+      }
+      .form-row{
+        margin: 4px;
+        min-width: 300px;
+      }
+      .title-row{
+        min-width: 80px;
+      }
+      .row-text{
+        min-height: 100px;
+        min-width: 260px;
+      }
+      input{
+        min-width: 200px;
+      }
+
+    </style>
+
+     <!-- Example: { "_id" : ObjectId("54287c713b8c887803093d6b"), "Set" : 1, "Num" : 13, "Expansion" : "Dawn of Valhalla", "Name" : "Lanslot, the Knight of the Lake", "Rarity" : "R", "Attribute" : "Light", "Type" : "Resonator", "Subtype" : "", "Race" : "Knight of the Round Table", "Attribute Cost" : 2, "Free Cost" : 2, "Total Cost" : 4, "ATK" : 800, "DEF" : 600, "Cardtext" : "[Target Attack] <br />[Activate] Pay {W}{W}: Choose an [Addition:Resonator] in a field and add it on this card.", "Image path" : "/pics/1-dov/EN1-013.jpg", "Released in" : "Set 1", "Code2" : "1-013 R", "" : "", "" : "", "" : "", "" : "", "" : "", "" : "", "code" : "1-013 R" } -->
+
+      <fow-rest-service id="addCardService" 
+        type="cards" 
+        auto="false" 
+        token="{{token}}" 
+        method="POST"
+        on-rest-error="{{errorHandler}}"
+        on-rest-response="{{successHandler}}">
+      </fow-rest-service>
+
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Code:</div>
+        <input value="{{newCode}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Name:</div>
+        <input value="{{newName}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Cardtext:</div>
+        <input class="row-text" value="{{newText}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Rarity:</div>
+        <input value="{{newRarity}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Race:</div>
+        <input value="{{newRace}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Attribute:</div>
+        <input value="{{newAttribute}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">ATK:</div>
+        <input value="{{newATK}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">DEF:</div>
+        <input value="{{newDEF}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Attr. Cost:</div>
+        <input value="{{newAttrCost}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Free Cost:</div>
+        <input value="{{newFreeCost}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Total Cost:</div>
+        <input value="{{newTotalCost}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Set:</div>
+        <input value="{{newSet}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Num:</div>
+        <input value="{{newNum}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Expansion:</div>
+        <input value="{{newExpansion}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Type:</div>
+        <input value="{{newType}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Subtype:</div>
+        <input value="{{newSubtype}}"/>
+      </div>
+      <div class="button" on-tap="{{addCard}}">ADD CARD</div>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer("fow-card-add",{
+        card: null,
+        created: function(){
+          this.card={};
+
+          this.newName = "";
+          this.newCode = "";
+
+          this.newSet = 0;
+          this.newNum = 0;
+          this.newExpansion = "";
+          this.newText = "";
+          this.newRarity = "";
+          this.newRace = "";
+          this.newAttribute = "";
+          this.newATK = 0;
+          this.newDEF = 0;
+          this.newAttrCost = 0;
+          this.newFreeCost = 0;
+          this.newTotalCost = 0;
+          this.newType = "";
+          this.newSubtype = "";
+        },
+        addCard: function(){
+
+          /*Example: { "_id" : ObjectId("54287c713b8c887803093d6b"), "Set" : 1, "Num" : 13, "Expansion" : "Dawn of Valhalla", "Name" : "Lanslot, the Knight of the Lake", "Rarity" : "R", "Attribute" : "Light", "Type" : "Resonator", "Subtype" : "", "Race" : "Knight of the Round Table", "Attribute Cost" : 2, "Free Cost" : 2, "Total Cost" : 4, "ATK" : 800, "DEF" : 600, "Cardtext" : "[Target Attack] <br />[Activate] Pay {W}{W}: Choose an [Addition:Resonator] in a field and add it on this card.", "Image path" : "/pics/1-dov/EN1-013.jpg", "Released in" : "Set 1", "Code2" : "1-013 R", "" : "", "" : "", "" : "", "" : "", "" : "", "" : "", "code" : "1-013 R" } */
+          this.card.code = this.newCode;
+          this.card.Name = this.newName;
+
+          this.card.Set = parseInt(this.newSet);
+          this.card.Num = parseInt(this.newNum);
+          this.card.Cardtext = this.newText;
+          this.card.Rarity = this.newRarity;
+          this.card.Race = this.newRace;
+          this.card.Attribute = this.newAttribute;
+          this.card.ATK = parseInt(this.newATK);
+          this.card.DEF = parseInt(this.newDEF);
+          this.card["Attribute Cost"] = parseInt(this.newAttrCost);
+          this.card["Free Cost"] = parseInt(this.newFreeCost);
+          this.card["Total Cost"] = parseInt(this.newTotalCost);
+          this.card.Type = this.newType;
+          this.card.Subtype = this.newSubtype;
+
+          this.$.addCardService.body = JSON.stringify(this.card);
+          this.$.addCardService.go();
+        },
+
+        successHandler: function(event){
+          if(this.toast){
+            this.toast.text="Card added!";
+            this.toast.show();
+          }
+        },
+
+        errorHandler: function(event){
+          if(this.toast){
+            this.toast.text="There was a problem adding card.";
+            this.toast.show();
+          }
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>

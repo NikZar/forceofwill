@@ -1,0 +1,241 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/core-input/core-input.html">
+
+<link rel="import" href="../../elements/fow-cards/fow-cards.html">
+<link rel="import" href="../../elements/fow-card-filter/fow-card-filter.html">
+<link rel="import" href="../../elements/fow-object/fow-object.html">
+
+<polymer-element name="fow-card-update" attributes="token selectedCard toast">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background-color: rgba(255,255,255,0.2);
+        padding: 10px;
+        border-radius: 10px;
+        margin-left: 10px;
+      }
+
+      .scroll{
+        overflow: scroll;
+        background-color: rgba(255,255,255,0.1);
+        height: 100px;
+        margin-bottom: 10px;
+      }
+
+      .button{
+        cursor: pointer;
+        background-color: rgba(200,255,255,0.3);
+        padding: 5px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 10px;
+      }
+      .form-row{
+        margin: 4px;
+        min-width: 300px;
+      }
+      .title-row{
+        min-width: 80px;
+      }
+      .row-text{
+        min-height: 100px;
+        min-width: 260px;
+      }
+      input{
+        min-width: 200px;
+      }
+
+      .filter-row{
+        cursor: pointer;
+        overflow: hidden;
+        max-width: 280px;
+      }
+      .filter-row:hover{
+        background-color: green;
+      }
+    </style>
+
+      <fow-rest-service 
+        id="addCardService" 
+        type="cards" 
+        auto="false" 
+        token="{{token}}" 
+        method="PUT"
+        on-rest-error="{{errorHandler}}"
+        on-rest-response="{{successHandler}}">
+      </fow-rest-service>
+
+      <fow-cards cards="{{cards}}" token="{{token}}">
+      </fow-cards>
+
+      <fow-card-filter cards="{{cards}}" filteredCards="{{filteredCards}}" nameFilter="{{nameFilter}}">
+      </fow-card-filter>
+
+      <input value="{{nameFilter}}"/>
+      <div class="scroll">
+        <template repeat="{{card in filteredCards}}">
+          <fow-object class="filter-row" on-tap="{{selectCard}}" card="{{card}}">{{card.Name}}</fow-object>
+        </template>
+      </div>
+
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Code:</div>
+        <input value="{{newCode}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Name:</div>
+        <input value="{{newName}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Cardtext:</div>
+        <input type="text" class="row-text" value="{{newText}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Rarity:</div>
+        <input value="{{newRarity}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Race:</div>
+        <input value="{{newRace}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Attribute:</div>
+        <input value="{{newAttribute}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">ATK:</div>
+        <input value="{{newATK}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">DEF:</div>
+        <input value="{{newDEF}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Attr. Cost:</div>
+        <input value="{{newAttrCost}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Free Cost:</div>
+        <input value="{{newFreeCost}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Total Cost:</div>
+        <input value="{{newTotalCost}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Set:</div>
+        <input value="{{newSet}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Num:</div>
+        <input value="{{newNum}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Expansion:</div>
+        <input value="{{newExpansion}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Type:</div>
+        <input value="{{newType}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Subtype:</div>
+        <input value="{{newSubtype}}"/>
+      </div>
+
+      <div class="button" on-tap="{{updateCard}}">UPDATE CARD</div>
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer("fow-card-update",{
+
+        created: function(){
+          this.newName = "";
+          this.newCode = "";
+
+          this.newSet = 0;
+          this.newNum = 0;
+          this.newExpansion = "";
+          this.newText = "";
+          this.newRarity = "";
+          this.newRace = "";
+          this.newAttribute = "";
+          this.newATK = 0;
+          this.newDEF = 0;
+          this.newAttrCost = 0;
+          this.newFreeCost = 0;
+          this.newTotalCost = 0;
+          this.newType = "";
+          this.newSubtype = "";
+        },
+
+        updateCard: function(){
+          this.card = {}
+          this.card.code = this.newCode;
+          this.card.Name = this.newName;
+
+          this.card.Set = parseInt(this.newSet);
+          this.card.Num = parseInt(this.newNum);
+          this.card.Cardtext = this.newText;
+          this.card.Rarity = this.newRarity;
+          this.card.Race = this.newRace;
+          this.card.Attribute = this.newAttribute;
+          this.card.ATK = parseInt(this.newATK);
+          this.card.DEF = parseInt(this.newDEF);
+          this.card["Attribute Cost"] = parseInt(this.newAttrCost);
+          this.card["Free Cost"] = parseInt(this.newFreeCost);
+          this.card["Total Cost"] = parseInt(this.newTotalCost);
+          this.card.Type = this.newType;
+          this.card.Subtype = this.newSubtype;
+
+          this.$.addCardService.body = JSON.stringify(this.card);
+          this.$.addCardService.go();
+        },
+
+        selectCard: function(event){
+          this.selectedCard = event.target.card;
+        },
+
+        selectedCardChanged: function(){
+          this.newName = this.selectedCard.Name;
+          this.newCode = this.selectedCard.code;
+          this.newSet = this.selectedCard.Set;
+          this.newNum = this.selectedCard.Num;
+          this.newExpansion = this.selectedCard.Expansion;
+          this.newText = this.selectedCard.Cardtext;
+          this.newRarity = this.selectedCard.Rarity;
+          this.newRace = this.selectedCard.Race;
+          this.newAttribute = this.selectedCard.Attribute;
+          this.newATK = this.selectedCard.ATK;
+          this.newDEF = this.selectedCard.DEF;
+          this.newAttrCost = this.selectedCard["Attribute Cost"];
+          this.newFreeCost = this.selectedCard["Free Cost"];
+          this.newTotalCost = this.selectedCard["Total Cost"];
+          this.newType = this.selectedCard.Type;
+          this.newSubtype = this.selectedCard.Subtype;
+        },
+
+        successHandler: function(event){
+          if(this.toast){
+            this.toast.text="Card updated!";
+            this.toast.show();
+          }
+        },
+
+        errorHandler: function(event){
+          if(this.toast){
+            this.toast.text="There was a problem updating card.";
+            this.toast.show();
+          }
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>

@@ -14,6 +14,8 @@
 <link rel="import" href="../../elements/fow-settings/fow-settings.html">
 <link rel="import" href="../../elements/fow-binder/fow-binder.html">
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
+<link rel="import" href="../../elements/fow-cards/fow-cards.html">
+
 
 <polymer-element name="fow-app" attributes="toast">
   <template>
@@ -144,8 +146,8 @@
         <core-animated-pages selected="{{selected}}" transitions="cross-fade">
           
           <section name="cards">
-              <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
-              </fow-rest-service>
+              <fow-cards cards="{{cards}}" token="{{token}}">
+              </fow-cards>
               <fow-card-list cross-fade cards="{{cards}}" token="{{token}}">
               </fow-card-list>
           </section>
@@ -156,7 +158,7 @@
 
           <section name="myCards">
             <template if="{{selected === 'myCards'}}">
-              <fow-rest-service type="binders" items="{{binder}}" auto="true" token="{{token}}">
+              <fow-rest-service type="binder/cards" items="{{binder}}" auto="true" token="{{token}}">
               </fow-rest-service>
               <fow-binder cross-fade binder="{{binder}}" token="{{token}}">
               </fow-binder>

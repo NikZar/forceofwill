@@ -1,0 +1,55 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+
+<link rel="import" href="../../elements/fow-card-add/fow-card-add.html">
+<link rel="import" href="../../elements/fow-card-update/fow-card-update.html">
+ <link rel="import" href="../../elements/fow-login/fow-login.html">
+
+<polymer-element name="fow-admin-app" attributes="toast">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .loginButton{
+        margin: 20px;
+      }
+    </style>
+
+    <paper-toast 
+      id="toast" 
+      text="There was a problem loading data.">
+    </paper-toast>
+
+    <div layout vertical center>
+      <fow-login user="{{user}}" userPhoto="{{userPhoto}}"
+          class="loginButton"
+          toast="{{$.toast}}"
+          token="{{token}}">
+      </fow-login>
+
+      <template if="{{user}}">
+        <div layout horizontal>
+          
+          <fow-card-add token="{{token}}" toast="{{$.toast}}">
+          </fow-card-add>
+
+          <fow-card-update token="{{token}}" toast="{{$.toast}}">
+          </fow-card-update>
+
+        </div>
+      </template>
+    </div>
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>

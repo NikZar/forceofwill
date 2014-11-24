@@ -4,24 +4,21 @@ var router = express.Router();
 
 var getAllCards = function(req, res){
     var db = req.db;
-    //console.log("Getting all cards");
     db.collection('cards').find().toArray(function (err, items) {
     	if (err) {
-			res.send(500).end();
+			res.status(500).end();
 		}
         res.json(items);       
 	    db.close();
     });
 }
 
-var getCard = function(req,res){
+var getCard = function(req,res,code){
     var db = req.db;
-	var code = req.params.code;
-	//console.log("Getting card: ",code);
 	db.collection('cards').find({code: code}).toArray(function (err, items) {
 		//Rulers Code corresponds to two cards
 		if (err) {
-			res.send(500).end();
+			res.status(500).end();
 		}
         res.json(items);
 	    db.close();
@@ -33,12 +30,112 @@ var getCardsWithAttribute = function(req,res){
 	var attribute = req.params.attribute;
 	db.collection('cards').find({Attribute: attribute}).toArray(function (err, items) {
         if (err) {
-			res.send(500).end();
+			res.status(500).end();
 		}
 		res.json(items);
     });
     db.close();
 }
+
+var addNewCard = function(req, res){
+	var card = req.body;
+    var db = req.db;
+    var userId = req.userId;
+
+    console.log("Searching: ", card);
+	db.collection('cards').findOne({code: card.code},function(err, result) {
+        if (err) {
+          console.log("Error searching cards: ", err, user)
+          res.status(500).end();
+        }
+        if(result){
+          console.log("Found: ", result);
+          res.status(500).end();
+        } else {
+          console.log("Inserting Card: ",card);
+          db.collection('cards').insert(card, function(err, result) {
+            if (err) {
+              console.log("Error inserting new card: ", err, card)
+            }
+            if (result) {
+            	console.log('Added!');
+            	res.json(result);
+            }
+          });
+        }
+	});
+}
+
+var updateCard = function(req, res){
+	var card = req.body;
+    var db = req.db;
+    var userId = req.userId;
+
+    console.log("Searching: ", card);
+	db.collection('cards').findOne({code: card.code},function(err, result) {
+        if (err) {
+          console.log("Error searching cards: ", err, user)
+          res.status(500).end();
+        }
+        if(result){
+          console.log("Found: ", result);
+          db.collection('cards').update({code: card.code}, card, function(err, result) {
+          	if(err){
+          		res.status(500).end();
+          	}
+          	if(result){
+          		res.status(200).end();
+          	} else {
+          		res.status(500).end();
+          	}
+          });
+        } else {
+          res.status(404).end();
+        }
+	});
+}
+
+/*
+ * UPDATE a card.
+ */
+router.put('', function(req, res) {
+	console.log("is admin: ", req.user.isAdmin);
+	if(req.logged && req.user.isAdmin){
+		var card = req.body;
+		updateCard(req, res, card);
+	} else {
+		res.status(500);
+	}
+});
+router.put('/', function(req, res) {
+	if(req.logged){
+		var card = req.body;
+		updateCard(req, res, card);
+	} else {
+		res.status(500);
+	}
+});
+
+/*
+ * ADD a new card.
+ */
+router.post('', function(req, res) {
+	console.log("is admin: ", req.user.isAdmin);
+	if(req.logged && req.user.isAdmin){
+		var card = req.body;
+		addNewCard(req, res, card);
+	} else {
+		res.status(500);
+	}
+});
+router.post('/', function(req, res) {
+	if(req.logged){
+		var card = req.body;
+		addCard(req, res, card);
+	} else {
+		res.status(500);
+	}
+});
 
 /*
  * GET all cards with input attribute.
@@ -54,11 +151,13 @@ router.get('/attribute/:attribute', function(req, res) {
  * GET a card.
  */
 router.get('/:code', function(req, res) {
-	getCard(req, res);
+	var code = req.params.code;
+	getCard(req, res, code);
 });
 
 router.get('/:code/', function(req, res) {
-	getCard(req, res);
+	var code = req.params.code;
+	getCard(req, res, code);
 });
 /*
  * GET all cards.
