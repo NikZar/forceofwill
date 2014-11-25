@@ -222,7 +222,7 @@ module.exports = function (grunt) {
             'elements/**',
             '!elements/**/*.css',
             'images/{,*/}*.{png,webp,gif,svg,jpg}',
-            'images/pics/**/*.jpg',
+            'images/pics/**/*.{png,webp,gif,svg,jpg}',
             'bower_components/**'
           ]
         }]
