@@ -21,6 +21,7 @@
         width: 100px; 
         margin-top: 1px;
         margin-right: 10px;
+        cursor: pointer;
       }
       .preview{
        margin-left: 10px;
@@ -36,6 +37,33 @@
         color: #5a5;
         cursor: pointer;
       }
+
+      .modal{
+        position: fixed;
+        top:10%;
+        left:50%;
+        height: 450px;
+        width: 310px;
+        margin-left: -145px;
+        z-index: 99;
+        display: none;
+      }
+
+      .shadow{
+        position: fixed;
+        top:0px;
+        left:0px;
+        background-color: rgba(0,0,0,0.8);
+        z-index: 98;
+        width: 100%;
+        height: 100%;
+        display: none;
+      }
+      
+      .cardImgZoom{
+        width: 100%;
+        height: 100%;
+      }
       
     </style>
 
@@ -48,7 +76,7 @@
     </fow-rest-service>
 
     <div>
-      <img id="cardImg" align="left" />
+      <img on-tap="{{zoom}}" id="cardImg" align="left" />
       <div class="preview">
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
@@ -59,17 +87,24 @@
         <core-icon class="cardIcon" icon="add-box" on-tap="{{addCard}}"></core-icon>
       </div>
     </div>
+
+    
+    <div id="shadow" on-tap="{{zoom}}" class="shadow"></div>
+    <div id="modal" class="modal"><img on-tap="{{zoom}}" id="cardImgZoom" class="cardImgZoom" /></div>
+    
   </template>
   <script>
     (function () {
       'use strict';
 
       Polymer({
+        zoomed: false,
         // define element prototype here
         cardChanged: function(){
           //console.log("Card: ", this.card);
           if(this.card){
             this.$.cardImg.src = "../images"+this.card["Image path"];
+            this.$.cardImgZoom.src = "../images"+this.card["Image path"];
             this.$.description.innerHTML = this.card.Cardtext;
           }
         },
@@ -77,6 +112,18 @@
         addCard: function(){
           this.$.addCard.body = JSON.stringify(this.card);
           this.$.addCard.go();
+        },
+
+        zoom: function (){
+          if(this.zoomed){
+            this.$.shadow.style.display = "none";
+            this.$.modal.style.display = "none";
+          }
+          else {
+            this.$.shadow.style.display = "block";
+            this.$.modal.style.display = "block";
+          }
+          this.zoomed = !this.zoomed;
         }        
 
       });

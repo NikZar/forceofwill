@@ -2620,13 +2620,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-card-preview" attributes="card toast token" assetpath="fow-card-preview/">
   <template>
-    <style type="text/css">:host{font-family:Open Sans;display:block;background-color:rgba(255,255,255,.9);margin:10px;padding:10px;border-radius:5px;color:#222;min-height:142px}#cardImg{width:100px;margin-top:1px;margin-right:10px}.preview{margin-left:10px}.title{font-size:1.5em}#description{font-size:.7em}core-icon:hover{color:#5a5;cursor:pointer}</style>
+    <style type="text/css">:host{font-family:Open Sans;display:block;background-color:rgba(255,255,255,.9);margin:10px;padding:10px;border-radius:5px;color:#222;min-height:142px}#cardImg{width:100px;margin-top:1px;margin-right:10px;cursor:pointer}.preview{margin-left:10px}.title{font-size:1.5em}#description{font-size:.7em}core-icon:hover{color:#5a5;cursor:pointer}.modal{position:fixed;top:10%;left:50%;height:450px;width:310px;margin-left:-145px;z-index:99;display:none}.shadow{position:fixed;top:0;left:0;background-color:rgba(0,0,0,.8);z-index:98;width:100%;height:100%;display:none}.cardImgZoom{width:100%;height:100%}</style>
 
     <fow-rest-service id="addCard" toast="{{toast}}" auto="false" type="binders" method="POST" token="{{token}}">
     </fow-rest-service>
 
     <div>
-      <img id="cardImg" align="left">
+      <img on-tap="{{zoom}}" id="cardImg" align="left">
       <div class="preview">
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
@@ -2637,8 +2637,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <core-icon class="cardIcon" icon="add-box" on-tap="{{addCard}}"></core-icon>
       </div>
     </div>
+
+    
+    <div id="shadow" on-tap="{{zoom}}" class="shadow"></div>
+    <div id="modal" class="modal"><img on-tap="{{zoom}}" id="cardImgZoom" class="cardImgZoom"></div>
+    
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-preview",{cardChanged:function(){if(this.card){this.$.cardImg.src="../images"+this.card["Image path"];this.$.description.innerHTML=this.card.Cardtext}},addCard:function(){this.$.addCard.body=JSON.stringify(this.card);this.$.addCard.go()}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-card-preview",{zoomed:false,cardChanged:function(){if(this.card){this.$.cardImg.src="../images"+this.card["Image path"];this.$.cardImgZoom.src="../images"+this.card["Image path"];this.$.description.innerHTML=this.card.Cardtext}},addCard:function(){this.$.addCard.body=JSON.stringify(this.card);this.$.addCard.go()},zoom:function(){if(this.zoomed){this.$.shadow.style.display="none";this.$.modal.style.display="none"}else{this.$.shadow.style.display="block";this.$.modal.style.display="block"}this.zoomed=!this.zoomed}})})();</script>
 </polymer-element>
 
 
