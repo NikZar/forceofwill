@@ -221,7 +221,7 @@ module.exports = function (grunt) {
             'api/**',
             'elements/**',
             '!elements/**/*.css',
-            'images/{,*/}*.{webp,gif,svg,jpg}',
+            'images/{,*/}*.{png,webp,gif,svg,jpg}',
             'images/pics/**/*.jpg',
             'bower_components/**'
           ]
