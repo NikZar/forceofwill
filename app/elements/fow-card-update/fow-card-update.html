@@ -177,6 +177,8 @@
           this.newType = "";
           this.newSubtype = "";
           this.newImagePath = "";
+          this.newCode2 = "";
+          this.newReleasedIn="";
         },
 
         updateCard: function(){
@@ -198,6 +200,9 @@
           this.card["Image path"] = this.newImagePath;
           this.card.Type = this.newType;
           this.card.Subtype = this.newSubtype;
+
+          this.card.Code2 = this.newCode2;
+          this.card["Released in"] = this.newReleasedIn;
 
           this.$.addCardService.body = JSON.stringify(this.card);
           this.$.addCardService.go();
@@ -226,6 +231,9 @@
           this.newImagePath = this.selectedCard["Image path"];
           this.newSubtype = this.selectedCard.Subtype;
           this.newType = this.selectedCard.Type;
+
+          this.newCode2 = this.selectedCard.Code2;
+          this.newReleasedIn=this.selectedCard["Released in"];
         },
 
         successHandler: function(event){

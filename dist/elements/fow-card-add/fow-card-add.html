@@ -166,6 +166,10 @@
           this.card["Image path"] = this.newImagePath;
           this.card.Type = this.newType;
           this.card.Subtype = this.newSubtype;
+          this.card.Expansion = this.newExpansion;
+          
+          this.card.Code2 = this.newCode;
+          this.card["Released in"] = "Set "+this.newSet;
 
           this.$.addCardService.body = JSON.stringify(this.card);
           this.$.addCardService.go();
