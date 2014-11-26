@@ -24,6 +24,9 @@ var
   uglify = require('gulp-uglify')
 ;
 
+// init tests with gulp
+require('web-component-tester').gulp.init(gulp);
+
 var isRelease = process.env.RELEASE !== undefined;
 
 var banner = fs.readFileSync('banner.txt', 'utf8');
@@ -116,7 +119,7 @@ function readManifest(filename, modules) {
 }
 
 gulp.task('copy-bower', function() {
-  return gulp.src(['bower.json','README.md']).pipe(gulp.dest('dist/'));
+  return gulp.src(['bower.json', 'package.json', 'README.md']).pipe(gulp.dest('dist/'));
 });
 
 defineBuildTask('webcomponents', './src/WebComponents/build.json');

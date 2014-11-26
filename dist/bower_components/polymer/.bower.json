@@ -22,11 +22,11 @@
     "tools": "Polymer/tools#master",
     "web-component-tester": "Polymer/web-component-tester#^1.4.2"
   },
-  "_release": "da75e633f3",
+  "_release": "2d000d10fe",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "da75e633f39b7761494cc3139a60733c488b2215"
+    "commit": "2d000d10fec1b2415fa4edabfed2b8641264deee"
   },
   "_source": "git://github.com/Polymer/polymer.git",
   "_target": "master",
