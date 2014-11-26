@@ -43,27 +43,27 @@ var addNewCard = function(req, res){
     var userId = req.userId;
 
     console.log("Searching: ", card);
-	db.collection('cards').findOne({code: card.code},function(err, result) {
-        if (err) {
-          console.log("Error searching cards: ", err, user)
-          res.status(500).end();
-        }
-        if(result){
-          console.log("Found: ", result);
-          res.status(500).end();
-        } else {
-          console.log("Inserting Card: ",card);
-          db.collection('cards').insert(card, function(err, result) {
-            if (err) {
-              console.log("Error inserting new card: ", err, card)
-            }
-            if (result) {
-            	console.log('Added!');
-            	res.json(result);
-            }
-          });
-        }
-	});
+  	db.collection('cards').findOne({code: card.code},function(err, result) {
+          if (err) {
+            console.log("Error searching cards: ", err, user)
+            res.status(500).end();
+          }
+          if(result){
+            console.log("Found: ", result);
+            res.status(500).end();
+          } else {
+            console.log("Inserting Card: ",card);
+            db.collection('cards').insert(card, function(err, result) {
+              if (err) {
+                console.log("Error inserting new card: ", err, card)
+              }
+              if (result) {
+              	console.log('Added!');
+              	res.json(result);
+              }
+            });
+          }
+  	});
 }
 
 var updateCard = function(req, res){
@@ -72,34 +72,33 @@ var updateCard = function(req, res){
     var userId = req.userId;
 
     console.log("Searching: ", card);
-	db.collection('cards').findOne({code: card.code},function(err, result) {
-        if (err) {
-          console.log("Error searching cards: ", err, user)
-          res.status(500).end();
-        }
-        if(result){
-          console.log("Found: ", result);
-          db.collection('cards').update({code: card.code}, card, function(err, result) {
-          	if(err){
-          		res.status(500).end();
-          	}
-          	if(result){
-          		res.status(200).end();
-          	} else {
-          		res.status(500).end();
-          	}
-          });
-        } else {
-          res.status(404).end();
-        }
-	});
+  	db.collection('cards').findOne({code: card.code},function(err, result) {
+          if (err) {
+            console.log("Error searching cards: ", err, user)
+            res.status(500).end();
+          }
+          if(result){
+            console.log("Found: ", result);
+            db.collection('cards').update({code: card.code}, card, function(err, result) {
+            	if(err){
+            		res.status(500).end();
+            	}
+            	if(result){
+            		res.status(200).end();
+            	} else {
+            		res.status(500).end();
+            	}
+            });
+          } else {
+            res.status(404).end();
+          }
+  	});
 }
 
 /*
  * UPDATE a card.
  */
 router.put('', function(req, res) {
-	console.log("is admin: ", req.user.isAdmin);
 	if(req.logged && req.user.isAdmin){
 		var card = req.body;
 		updateCard(req, res, card);
@@ -108,19 +107,18 @@ router.put('', function(req, res) {
 	}
 });
 router.put('/', function(req, res) {
-	if(req.logged){
-		var card = req.body;
-		updateCard(req, res, card);
-	} else {
-		res.status(500);
-	}
+	if(req.logged && req.user.isAdmin){
+    var card = req.body;
+    updateCard(req, res, card);
+  } else {
+    res.status(500);
+  }
 });
 
 /*
  * ADD a new card.
  */
 router.post('', function(req, res) {
-	console.log("is admin: ", req.user.isAdmin);
 	if(req.logged && req.user.isAdmin){
 		var card = req.body;
 		addNewCard(req, res, card);
@@ -129,12 +127,12 @@ router.post('', function(req, res) {
 	}
 });
 router.post('/', function(req, res) {
-	if(req.logged){
-		var card = req.body;
-		addCard(req, res, card);
-	} else {
-		res.status(500);
-	}
+	if(req.logged && req.user.isAdmin){
+    var card = req.body;
+    addNewCard(req, res, card);
+  } else {
+    res.status(500);
+  }
 });
 
 /*
