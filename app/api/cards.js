@@ -6,9 +6,9 @@ var getAllCards = function(req, res){
     var db = req.db;
     db.collection('cards').find().toArray(function (err, items) {
     	if (err) {
-			res.status(500).end();
-		}
-        res.json(items);       
+  			res.status(500).end();
+  		}
+      res.json(items);       
 	    db.close();
     });
 }
