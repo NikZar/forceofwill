@@ -128,7 +128,15 @@
         },
 
         strictMatch:  function(text, textToSearch){
-          return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
+          if(text){
+            if(textToSearch){
+              return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
+            } else {
+              return -1;
+            }
+          } else{
+            return 1;
+          }
         },
 
         fuzzyMatch: function(text, textToSearch){

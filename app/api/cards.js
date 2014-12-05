@@ -6,9 +6,9 @@ var getAllCards = function(req, res){
     var db = req.db;
     db.collection('cards').find().toArray(function (err, items) {
     	if (err) {
-			res.status(500).end();
-		}
-        res.json(items);       
+  			res.status(500).end();
+  		}
+      res.json(items);       
 	    db.close();
     });
 }
@@ -37,15 +37,14 @@ var getCardsWithAttribute = function(req,res){
     db.close();
 }
 
-var addNewCard = function(req, res){
-	var card = req.body;
+var addNewCard = function(req, res, card){
     var db = req.db;
     var userId = req.userId;
 
     console.log("Searching: ", card);
   	db.collection('cards').findOne({code: card.code},function(err, result) {
           if (err) {
-            console.log("Error searching cards: ", err, user)
+            console.log("Error searching cards: ", err, user);
             res.status(500).end();
           }
           if(result){
@@ -55,19 +54,19 @@ var addNewCard = function(req, res){
             console.log("Inserting Card: ",card);
             db.collection('cards').insert(card, function(err, result) {
               if (err) {
-                console.log("Error inserting new card: ", err, card)
+                console.log("Error inserting new card: ", err, card);
+                res.status(500).end();
               }
               if (result) {
               	console.log('Added!');
-              	res.json(result);
+              	res.status(201).end();
               }
             });
           }
   	});
 }
 
-var updateCard = function(req, res){
-	var card = req.body;
+var updateCard = function(req, res, card){
     var db = req.db;
     var userId = req.userId;
 
