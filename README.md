@@ -31,13 +31,13 @@ FAQs
 
 DECKS
 
-    GET decks <--- List of all public and visible decks. Res: [ {deckId: "", title: "", attributes: ["Light", ... ], userId: "", userName: "" }, ... ]
-    GET decks/users/:userId <--- List all public and visible deck of the specified user. Res: [ {deckId: "", title: "", attributes: ["Light", ... ], userId: "", userName: "" }, ... ]
-    GET decks/my <--- List all deck of the API user. Res: [ {deckId: "", title: "", attributes: ["Light", ... ]}, ... ]
-    GET decks/:deckId/cards <--- List all cards in a deck. Body: [{Code: "", Qty: 1}, ... ]
-    POST decks <--- Creates a new deck. Body: [{Code: "", Qty: 1}, ... ]
-    POST decks/:deckId/cards <--- Add cards to a deck. Body: [{Code: "", Qty: 1}, ... ]
-    PUT decks/:deckId <--- Replace the selected deck with the input one. Body: [{Code: "", Qty: 1}, ... ]
+    GET decks <--- List of all public and visible decks. Res: [ {_id: "", title: "", attributes: ["Light", ... ], userId: "", userName: "" }, ... ]
+    GET decks/users/:userId <--- List all public and visible deck of the specified user. Res: [ {_id: "", title: "", attributes: ["Light", ... ], userId: "", userName: "" }, ... ]
+    GET decks/my <--- List all deck of the API user. Res: [ {_id: "", title: "", attributes: ["Light", ... ]}, ... ]
+    GET decks/:deckId/cards <--- List all cards in a deck. Body: [{code: "", qty: 1}, ... ]
+    POST decks <--- Creates a new deck. Body: [{code: "", qty: 1}, ... ]
+    POST decks/:deckId/cards <--- Add cards to a deck. Body: [{code: "", qty: 1}, ... ]
+    PUT decks/:deckId <--- Replace the selected deck with the input one. Body: [{code: "", qty: 1}, ... ]
 
 BINDERS
 
