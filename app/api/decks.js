@@ -1,41 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var addCard = function(req, res){
-    var card = req.body;
-    var db = req.db;
-    var userId = req.userId;
-
-    db.collection('decks').findOne({userId: userId, Code: card.Code}, function(err, result) {
-        if (err) {
-            res.send(500).end();
-        }
-        if(result){
-            //console.log("Updating Card: ", card);
-            db.collection('binders').update({userId: userId, Code: card.Code}, {'$set':{count: (result.count+1) }}, function(err) {
-                if (err) {
-                    res.send(500).end();
-                }
-                if (result) {
-                    res.json({});
-                }
-                db.close();
-            });
-        } else {
-            //console.log("Inserting Card with Counter: ", card);
-            db.collection('binders').insert({userId: userId, Code: card.Code, count: 1}, function(err, result) {
-                if (err) {
-                    res.send(500).end();
-                }
-                if (result) {
-                    res.json({});
-                }
-                db.close();
-            });
-        }
-    });
-}
-
 var getAllDecks = function(req, res){
     var db = req.db;
     db.collection('decks').find().toArray(function (err, items) {
@@ -44,63 +9,195 @@ var getAllDecks = function(req, res){
     });
 }
 
-var getDeck = function(req, res){
+var getAllDecksLogged = function(req, res){
+    if(req.logged){
+        getAllDecks(req, res);
+    } else {
+        res.send(500);
+    }
+}
+
+var getDeck = function(req, res, _id){
     var db = req.db;
-    var id = req.params.id;
-    db.collection('decks').find({id: id}).toArray(function (err, items) {
-    	if(items[0].userId === req.userId){
-        	res.json(items[0]);
+    db.collection('decks').find({_id: _id}).toArray(function (err, items) {
+    	if(err){
+            res.send(500);
             db.close();
     	} else {
-        	res.send(500);
+            res.json(items[0]);
             db.close();
     	}
     });
 }
 
-var addDeck = function(req, res){
-    var deck = req.body;
-    console.log(deck);
+var getDeckLogged = function(req, res,_id){
+    if(req.logged){
+        getDeck(req, res,_id);
+    } else {
+        res.send(500);
+    }
+}
+
+var addNewDeck = function(req, res, deck){
     var db = req.db;
     var userId = req.userId;
+    deck.userId = userId;
+
+    console.log("Inserting Deck: ",deck);
+    db.collection('decks').insert(deck, function(err, result) {
+      if (err) {
+        console.log("Error inserting new deck: ", err, deck);
+        res.status(500).end();
+      }
+      if (result) {
+        console.log('Added!');
+        res.status(200).end();
+      }
+    });
 }
+
+var addNewDeckLogged = function(req, res){
+    if(req.logged){
+        var deck = req.body;
+        addNewDeck(req, res, deck);
+    } else {
+        res.status(500);
+    }
+}
+
+var updateDeck = function(req, res, deck){
+    var db = req.db;
+    var userId = req.userId;
+
+    console.log("Searching: ", deck);
+    db.collection('decks').findOne({_id: deck._id, userId: deck.userId},function(err, result) {
+          if (err) {
+            console.log("Error searching decks: ", err, user);
+            res.status(500).end();
+          }
+          if(result){
+            console.log("Found: ", result);
+            db.collection('decks').update({_id: deck._id}, deck, function(err, result) {
+                if(err){
+                    res.status(500).end();
+                }
+                if(result){
+                    res.status(200).end();
+                } else {
+                    res.status(500).end();
+                }
+            });
+          } else {
+            res.status(404).end();
+          }
+    });
+}
+
+var updateDeckLogged = function(req, res){
+    if(req.logged){
+        var deck = req.body;
+        updateDeck(req, res, deck);
+    } else {
+        res.status(500);
+    }
+}
+
+var addCardsToDeck = function(req, res, cards, _id){
+    var db = req.db;
+    var userId = req.userId;
+
+    console.log("Searching: ", deck);
+    db.collection('decks').findOne({_id: deck._id, userId: deck.userId},function(err, result) {
+        if (err) {
+            console.log("Error searching decks: ", err, user);
+            res.status(500).end();
+        }
+        if(result){
+            console.log("Found: ", result);
+
+            var deckDictionary = {};
+
+            for (var i = 0; i < cards.length; i++) {
+                cardsDictionary[cards[i].code] += cards[i].qty;
+            };
+
+            for (var i = 0; i < result.cards.length; i++) {
+                result.cards[i] += cardsDictionary[result.cards[i].code];
+            };
+
+            console.log("Deck Cards: " , result.cards);
+
+            res.status(200).end();
+            db.close();
+        } else {
+            res.status(404).end();
+        }
+    });
+}
+
+var  addCardsToDeckLogged = function(req, res, cards, _id){
+    if(req.logged){
+        addCardsToDeck(req, res, cards, _id)
+    } else {
+        res.send(500);
+    }
+}
+
 /*
- * GET a deck.
+ * ADD cards to a deck.
+ */
+router.post('/:_id/cards', function(req, res) {
+    var cards = req.body;
+    var _id = req.params._id;
+    addCardsToDeckLogged(req, res, cards, _id);
+});
+router.post('/:_id/cards/', function(req, res) {
+    var cards = req.body;
+    var _id = req.params._id;
+    addCardsToDeckLogged(req, res, cards, _id);
+});
+
+/*
+ * UPDATE a deck.
+ */
+router.put('', function(req, res) {
+    updateDeckLogged(req, res);
+});
+router.put('/', function(req, res) {
+    updateDeckLogged(req, res);
+});
+
+/*
+ * ADD a new deck.
  */
 router.post('', function(req, res) {
-    if(req.logged){
-        addDeck(req, res);
-    } else {
-        res.send(500);
-    }
+    addNewDeckLogged(req, res);
+});
+router.post('/', function(req, res) {
+    addNewDeckLogged(req, res);
 });
 
-router.post('/', function(req, res) {
-    if(req.logged){
-        addDeck(req, res);
-    } else {
-        res.send(500);
-    }
-});
 /*
  * GET a deck.
  */
-router.get('/:id', function(req, res) {
-	getDeck(req, res);
+router.get(':_id', function(req, res) {
+    var _id = req.params._id;
+    getDeckLogged(req, res,_id);
 });
 
-router.get('/:id/', function(req, res) {
-	getDeck(req, res);
+router.get('/:_id', function(req, res) {
+    getDeckLogged(req, res);
 });
+
 /*
  * GET all decks.
  */
 router.get('', function(req, res) {
-	getAllDecks(req, res);
+	getAllDecksLogged(req, res);
 });
 
 router.get('/', function(req, res) {
-	getAllDecks(req, res);
+	getAllDecksLogged(req, res);
 });
 
 module.exports = router;
