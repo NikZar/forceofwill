@@ -59,7 +59,7 @@ var addNewCard = function(req, res, card){
               }
               if (result) {
               	console.log('Added!');
-              	res.status(200).end();
+              	res.status(201).end();
               }
             });
           }
@@ -67,7 +67,6 @@ var addNewCard = function(req, res, card){
 }
 
 var updateCard = function(req, res, card){
-	var card = req.body;
     var db = req.db;
     var userId = req.userId;
 

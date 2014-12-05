@@ -13,7 +13,7 @@ var getAllDecksLogged = function(req, res){
     if(req.logged){
         getAllDecks(req, res);
     } else {
-        res.send(500);
+        res.status(500);
     }
 }
 
@@ -21,7 +21,7 @@ var getDeck = function(req, res, _id){
     var db = req.db;
     db.collection('decks').find({_id: _id}).toArray(function (err, items) {
     	if(err){
-            res.send(500);
+            res.status(500);
             db.close();
     	} else {
             res.json(items[0]);
@@ -34,7 +34,7 @@ var getDeckLogged = function(req, res,_id){
     if(req.logged){
         getDeck(req, res,_id);
     } else {
-        res.send(500);
+        res.status(500);
     }
 }
 
@@ -51,7 +51,7 @@ var addNewDeck = function(req, res, deck){
       }
       if (result) {
         console.log('Added!');
-        res.status(200).end();
+        res.status(201).end();
       }
     });
 }
@@ -77,7 +77,7 @@ var updateDeck = function(req, res, deck){
           }
           if(result){
             console.log("Found: ", result);
-            db.collection('decks').update({_id: deck._id}, deck, function(err, result) {
+            db.collection('decks').update({_id: deck._id, userId: userId}, deck, function(err, result) {
                 if(err){
                     res.status(500).end();
                 }
