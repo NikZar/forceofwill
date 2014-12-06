@@ -35,6 +35,14 @@ var getAllBinderCards = function(req, res){
 	});
 }
 
+var getAllBinderCardsLogged = function(req, res){
+	if(req.logged){
+		getAllBinderCards(req, res);
+	} else {
+		res.send(500);
+	}
+}
+
 var addCard = function(req, res){
 	var card = req.body;
     var db = req.db;
@@ -61,6 +69,7 @@ var addCard = function(req, res){
 			//console.log("Inserting Card with Counter: ", card);
 			db.collection('binders').insert({userId: userId, code: card.code, qty: 1}, function(err, result) {
 			  	if (err) {
+                	db.close();
 					res.send(500).end();
 				}
 				if (result) {
@@ -70,6 +79,15 @@ var addCard = function(req, res){
 			});
 		}
     });
+}
+
+var addCardLogged = function(req, res){
+	if(req.logged){
+		var card = req.body;
+		addCard(req, res, card);
+	} else {
+		res.send(500);
+	}
 }
 
 var removeCard = function(req, res, card){
@@ -108,6 +126,16 @@ var removeCard = function(req, res, card){
     });
 }
 
+
+var removeCardLogged = function(req, res){
+	if(req.logged){
+		var card = req.body;
+		removeCard(req, res, card);
+	} else {
+		res.send(500);
+	}
+}
+
 var deleteCard = function(req, res, code){
 	var userId = req.userId;
 	db.collection('binders').findOne({userId: userId, code: code}, function(err, result) {
@@ -118,11 +146,11 @@ var deleteCard = function(req, res, code){
 			if(result){
 				db.collection('binders').remove({userId: userId, code: code}, function(err,result){
 						if (err) {
-							db.close();
 							res.send(500).end();
 						} else {
 							res.send(200).end();
 						}
+						db.close();
 					}
 				);
 			} else {
@@ -133,81 +161,54 @@ var deleteCard = function(req, res, code){
 	);
 }
 
-/*
- * ADD a binder card.
- */
-router.delete(':code', function(req, res) {
+var deleteCardLogged = function(req, res){
 	if(req.logged){
 		var code = req.params.code;
 		deleteCard(req, res, code);
 	} else {
 		res.send(500).end();
 	}
+}
+
+/*
+ * DELETE a binder card.
+ */
+router.delete(':code', function(req, res) {
+	deleteCardLogged(req, res);
 });
 
 router.delete('/:code', function(req, res) {
-	if(req.logged){
-		var code = req.params.code;
-		deleteCard(req, res, code);
-	} else {
-		res.send(500).end();
-	}
+	deleteCardLogged(req, res);
 });
 
 /*
- * ADD a binder card.
+ * REMOVE binder card qty.
  */
 router.delete('', function(req, res) {
-	if(req.logged){
-		removeCard(req, res);
-	} else {
-		res.send(500);
-	}
+	removeCardLogged(req, res);
 });
 router.delete('/', function(req, res) {
-	if(req.logged){
-		removeCard(req, res);
-	} else {
-		res.send(500);
-	}
+	removeCardLogged(req, res);
 });
 
 /*
  * ADD a binder card.
  */
 router.post('', function(req, res) {
-	if(req.logged){
-		var card = req.body;
-		addCard(req, res, card);
-	} else {
-		res.send(500);
-	}
+	addCardLogged(req, res);
 });
 router.post('/', function(req, res) {
-	if(req.logged){
-		var card = req.body;
-		addCard(req, res, card);
-	} else {
-		res.send(500);
-	}
+	addCardLogged(req, res);
 });
 
 /*
  * GET all binder cards.
  */
 router.get('', function(req, res) {
-	if(req.logged){
-		getAllBinderCards(req, res);
-	} else {
-		res.send(500);
-	}
+	getAllBinderCardsLogged(req, res)
 });
 router.get('/', function(req, res) {
-	if(req.logged){
-		getAllBinderCards(req, res);
-	} else {
-		res.send(500);
-	}
+	getAllBinderCardsLogged(req, res)
 });
 
 module.exports = router;
