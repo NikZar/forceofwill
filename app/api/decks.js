@@ -45,14 +45,15 @@ var addNewDeck = function(req, res, deck){
 
     console.log("Inserting Deck: ",deck);
     db.collection('decks').insert(deck, function(err, result) {
-      if (err) {
-        console.log("Error inserting new deck: ", err, deck);
-        res.status(500).end();
-      }
-      if (result) {
-        console.log('Added!');
-        res.status(201).end();
-      }
+        if (err) {
+            console.log("Error inserting new deck: ", err, deck);
+            res.status(500).end();
+        }
+        if (result) {
+            console.log('Added!');
+            res.status(201).end();
+        }
+        db.close();
     });
 }
 
@@ -72,6 +73,7 @@ var updateDeck = function(req, res, deck){
     console.log("Searching: ", deck);
     db.collection('decks').findOne({_id: deck._id, userId: deck.userId},function(err, result) {
           if (err) {
+            db.close();
             console.log("Error searching decks: ", err, user);
             res.status(500).end();
           }
@@ -86,8 +88,10 @@ var updateDeck = function(req, res, deck){
                 } else {
                     res.status(500).end();
                 }
+                db.close();
             });
           } else {
+            db.close();
             res.status(404).end();
           }
     });
@@ -130,31 +134,64 @@ var addCardsToDeck = function(req, res, cards, _id){
             res.status(200).end();
             db.close();
         } else {
+            db.close();
             res.status(404).end();
         }
     });
 }
 
-var  addCardsToDeckLogged = function(req, res, cards, _id){
+var  addCardsToDeckLogged = function(req, res){
     if(req.logged){
+        var cards = req.body;
+        var _id = req.params._id;
         addCardsToDeck(req, res, cards, _id)
     } else {
         res.send(500);
     }
 }
 
+var deleteDeck = function(req, res, _id){
+    var userId = req.userId;
+    db.collection('decks').remove({userId: userId, _id: _id}, function(err,result){
+            if (err) {
+                res.send(500).end();
+            } else {
+                res.send(200).end();
+            }
+            db.close();
+        }
+    );
+            
+}
+
+var deleteDeckLogged = function(req, res){
+    if(req.logged){
+        var _id = req.params._id;
+        deleteDeck(req, res, _id);
+    } else {
+        res.send(500);
+    }
+}
+
+
+/*
+ * DELETE a deck
+ */
+router.delete(':_id', function(req, res) {
+    deleteDeckLogged(req, res);
+});
+router.delete('/:_id', function(req, res) {
+    deleteDeckLogged(req, res);
+});
+
 /*
  * ADD cards to a deck.
  */
 router.post('/:_id/cards', function(req, res) {
-    var cards = req.body;
-    var _id = req.params._id;
-    addCardsToDeckLogged(req, res, cards, _id);
+    addCardsToDeckLogged(req, res);
 });
 router.post('/:_id/cards/', function(req, res) {
-    var cards = req.body;
-    var _id = req.params._id;
-    addCardsToDeckLogged(req, res, cards, _id);
+    addCardsToDeckLogged(req, res);
 });
 
 /*

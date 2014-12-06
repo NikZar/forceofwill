@@ -69,6 +69,7 @@ var addCard = function(req, res){
 			//console.log("Inserting Card with Counter: ", card);
 			db.collection('binders').insert({userId: userId, code: card.code, qty: 1}, function(err, result) {
 			  	if (err) {
+                	db.close();
 					res.send(500).end();
 				}
 				if (result) {
@@ -145,11 +146,11 @@ var deleteCard = function(req, res, code){
 			if(result){
 				db.collection('binders').remove({userId: userId, code: code}, function(err,result){
 						if (err) {
-							db.close();
 							res.send(500).end();
 						} else {
 							res.send(200).end();
 						}
+						db.close();
 					}
 				);
 			} else {
