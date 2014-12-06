@@ -155,14 +155,14 @@ var addNewDeck = function(req, res, deck){
     deck.userId = userId;
 
     console.log("Inserting Deck: ",deck);
-    db.collection('decks').insert(deck, function(err, result) {
+    db.collection('decks').insert(deck, function(err, deck) {
         if (err) {
             console.log("Error inserting new deck: ", err, deck);
             res.status(500).end();
         }
-        if (result) {
-            console.log('Added!');
-            res.status(201).end();
+        if (deck) {
+            console.log('Added!', deck);
+            res.status(201).json(deck).end();
         }
         db.close();
     });
@@ -184,6 +184,37 @@ router.post('/', function(req, res) {
     addNewDeckLogged(req, res);
 });
 
+
+/*
+ * GET all user decks.
+ */
+
+var getAllUserDecks = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    //console.log("Searching decks");
+    db.collection('decks').find({userId: userId}).toArray(function (err, decks) {
+        //console.log("Decks for user:", userId, " :", decks);
+        res.json(decks);
+        db.close();
+    });
+}
+
+var getAllUserDecksLogged = function(req, res){
+    if(req.logged){
+        getAllUserDecks(req, res);
+    } else {
+        res.status(500);
+    }
+}
+
+router.get('/my', function(req, res) {
+    getAllUserDecksLogged(req, res);
+});
+
+router.get('/my/', function(req, res) {
+    getAllUserDecksLogged(req, res);
+});
 
 /*
  * GET a deck.
@@ -219,34 +250,6 @@ router.get('/:_id', function(req, res) {
     getDeckLogged(req, res);
 });
 
-/*
- * GET all user decks.
- */
-
-var getAllUserDecks = function(req, res){
-    var db = req.db;
-    var userId = req.userId;
-    db.collection('decks').find({userId: userId}).toArray(function (err, items) {
-        res.json(items);
-        db.close();
-    });
-}
-
-var getAllUserDecksLogged = function(req, res){
-    if(req.logged){
-        getAllUserDecks(req, res);
-    } else {
-        res.status(500);
-    }
-}
-
-router.get('my', function(req, res) {
-    getAllUserDecksLogged(req, res);
-});
-
-router.get('/my/', function(req, res) {
-    getAllUserDecksLogged(req, res);
-});
 
 /*
  * GET all decks.

@@ -1,0 +1,37 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-deck-small-row" attributes="deck selected">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .deck-row{
+        padding: 4px;
+      }
+      .deck-row:hover{
+        background-color: #333;
+        padding-left: 2px;
+        font-style: italic;
+      }
+      .selected-deck-row{
+        padding: 4px;
+        font-weight: bold;
+        color: #9f9;
+      }
+
+    </style>
+    <div class="{{selected?'selected-deck-row':'deck-row'}}">
+      {{deck.title}}
+    </div>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>

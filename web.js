@@ -48,7 +48,7 @@ var checkToken = function(req,res,next,token){
         str += chunk;
       });
       response.on('end', function () {
-        console.log(str);
+        //console.log(str);
         var fbauth = JSON.parse(str);
 
         //validation
@@ -138,25 +138,26 @@ app.use("/api",function(req,res,next){
       var user = req.user;
       var db = req.db;
 
-      console.log("Searching: ", userId);
+      //console.log("Searching: ", userId);
       db.collection('users').findOne({id: userId},function(err, result) {
             if (err) {
-              console.log("Error searching user: ", err, user)
+              //console.log("Error searching user: ", err, user)
             }
             if(result){
               req.user = result;
-              console.log("Found: ", result);
+              //console.log("Found: ", result);
             } else {
-              console.log("Inserting User: ",user);
+              //console.log("Inserting User: ",user);
               db.collection('users').insert(user, function(err, result) {
                 if (err) {
-                  console.log("Error inserting new user: ", err, user)
+                  //console.log("Error inserting new user: ", err, user)
                 }
                 if (result) {
-                  console.log('Added!');
+                  //console.log('Added!');
                 }
               });
             }
+            //console.log("Next! ", userId);
             next();
       });
     } else {
