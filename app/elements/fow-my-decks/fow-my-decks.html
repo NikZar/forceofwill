@@ -1,0 +1,37 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/elements.html">
+
+
+<polymer-element name="fow-my-decks" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 100%;
+        width: 94%;
+        margin-left: 6%;
+      }
+      div{
+        height: 100%;
+      }
+    </style>
+
+    <div horizontal layout>
+      <div flex>
+        <fow-deck-update></fow-deck-update>
+      </div>
+      <div>
+        <fow-deck-small-list></fow-deck-small-list>
+      </div>
+    </div>
+  </template>
+  <script>
+    (function () {
+
+      Polymer("fow-my-decks",{
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>

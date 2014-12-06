@@ -219,6 +219,34 @@ router.get('/:_id', function(req, res) {
     getDeckLogged(req, res);
 });
 
+/*
+ * GET all user decks.
+ */
+
+var getAllUserDecks = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    db.collection('decks').find({userId: userId}).toArray(function (err, items) {
+        res.json(items);
+        db.close();
+    });
+}
+
+var getAllUserDecksLogged = function(req, res){
+    if(req.logged){
+        getAllUserDecks(req, res);
+    } else {
+        res.status(500);
+    }
+}
+
+router.get('my', function(req, res) {
+    getAllUserDecksLogged(req, res);
+});
+
+router.get('/my/', function(req, res) {
+    getAllUserDecksLogged(req, res);
+});
 
 /*
  * GET all decks.
