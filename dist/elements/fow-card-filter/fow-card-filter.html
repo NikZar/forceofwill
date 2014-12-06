@@ -21,8 +21,6 @@
         },
 
         created: function (){
-          //this.cards = [];
-          //this.filteredCards = [];
           this.resetFilters();
         },
 
@@ -63,6 +61,7 @@
           }
 
           if(this.typeFilter === "spell"){
+            //optimize filter
             var remainingCards = [];
             var spellCards = this.filterOnText(this.filteredCards, "Type", this.typeFilter, remainingCards);
             var remainingCards2 = [];
@@ -117,8 +116,7 @@
                   remaining.push(card);
                 }
                 
-                return false;
-                
+                return false; 
               }
             
             );
@@ -128,14 +126,10 @@
         },
 
         strictMatch:  function(text, textToSearch){
-          if(text){
-            if(textToSearch){
-              return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
-            } else {
-              return -1;
-            }
+          if(text && textToSearch){
+            return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
           } else{
-            return 1;
+            return false;
           }
         },
 
