@@ -67,8 +67,8 @@
         addNewDeck: function(){
           var deck = {};
           deck.title = "New Deck";
+          deck.privacy = "private";
           deck.cards = [];
-          //this.selectedDeck = deck;
           this.$.addDeckService.body = JSON.stringify(deck);
           this.$.addDeckService.go();
         },
@@ -91,7 +91,10 @@
 
         decksChanged: function(){
           //console.log(this.decks);
-          console.log(this.selectedDeck);
+          //console.log(this.selectedDeck);
+          if(!this.selectedDeck && this.decks){
+            this.selectedDeck = this.decks[0];
+          }
         }
 
       });
