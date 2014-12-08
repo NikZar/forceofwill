@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-card-picker" attributes="pickedCallback filteredCards selectedCard selectedQty">
+<polymer-element name="fow-card-picker" on-keydown="{{keydownHandler}}" attributes="deck filteredCards selectedCard selectedQty">
   <template>
     <style>
       :host {
@@ -20,11 +20,13 @@
 
       .button{
         cursor: pointer;
-        background-color: rgba(200,255,255,0.3);
-        padding: 5px;
+        background-color: rgba(255,255,255,0.4);
+        padding: 2px;
+        padding-left: 4px;
+        padding-right: 4px;
         border-radius: 10px;
         text-align: center;
-        margin: 10px;
+        margin-left: 10px;
       }
       .button:hover{
         background-color: #9f9;
@@ -83,10 +85,19 @@
         color: black;
       }
 
-      #selectedCardImg{
+      .image{
+        margin-top: 4px;
         margin-left: 8px;
-        width: 150px;
-        height: 200px;
+        padding: 2px;
+        padding-top: 3px;
+        padding-bottom: 0px;
+        border-radius: 4px;
+        background-color: white;
+      }
+
+      #selectedCardImg{
+        width: 120px;
+        height: 170px;
       }
     </style>
 
@@ -115,13 +126,15 @@
           </template>
         </div>
       </div>
-      <div>
-        <img id="selectedCardImg" />
-      </div>
       <div layout vertical center>
-        <div layout horizontal center>Qty: <input class="qty-input" value="{{selectedQty}}"/></div>
-        <div class="button" on-tap="{{addCard}}">ADD CARD</div>
+        <div layout horizontal center>
+          Qty: <input class="qty-input" value="{{selectedQty}}"/>
+        </div>
+        <div class="image">
+          <img id="selectedCardImg" />
+        </div>
       </div>
+      <div class="button" on-tap="{{addCard}}">ADD CARD</div>
     </div>
   </template>
   <script>
@@ -129,6 +142,11 @@
 
       Polymer({
         // define element prototype here
+        ready: function() { 
+          this.tabIndex = 0; 
+          this.currentRow = 0;
+        },
+
         selectedCardChanged: function(){
           if(this.selectedCard){
             this.$.selectedCardImg.src = "../images"+this.selectedCard["Image path"];
@@ -148,7 +166,27 @@
         },
 
         addCard: function(){
-          this.pickedCallback(this.selectedCard, this.selectedQty);
+          this.deck.cards.push({card: this.selectedCard, qty: this.selectedQty});
+          console.log(this.deck);
+        },
+
+        keydownHandler: function(event, detail, sender) { 
+          switch(event.keyCode){
+            case 13://ENTER
+              this.addCard();
+              return;
+            case 40://DOWN
+              this.currentRow++;
+              this.currentRow = (this.currentRow < this.filteredCards.length)?this.currentRow:(this.filteredCards.length-1);
+              break;
+            case 38://UP
+              this.currentRow--;
+              this.currentRow = (this.currentRow > 0)?this.currentRow:0;
+              break;
+            default:
+              break;
+          }
+          this.selectedCard = this.filteredCards[this.currentRow];
         }
 
       });

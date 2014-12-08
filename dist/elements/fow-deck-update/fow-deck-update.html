@@ -1,7 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-deck-update" attributes="deck token">
+<polymer-element name="fow-deck-update" attributes="deck token toast">
   <template>
     <style>
       :host {
@@ -14,9 +15,30 @@
         height: 100%;
       }
     </style>
+
+    <fow-rest-service id="updateDeckService" 
+        type="decks" 
+        auto="false" 
+        token="{{token}}" 
+        method="PUT"
+        on-rest-error="{{errorHandler}}"
+        on-rest-response="{{successHandler}}">
+    </fow-rest-service>
+
     <template if="{{deck}}">
+
       <div layout vertical center> 
-        <div>{{deck.title}}</div>
+        <core-icon-button 
+          on-tap="{{updateDeck}}" 
+          icon="save">
+        </core-icon-button>
+        <div>
+          <!--<core-icon-button icon="create">
+          </core-icon-button>
+          {{deck.title}}-->
+           <input class="text-input" value="{{deck.title}}"/>
+        </div> 
+
         
         <div class="privacy" layout horizontal center center-justified>
           <paper-radio-group selected="{{deck.privacy}}">
@@ -28,11 +50,11 @@
         </div>
 
         <fow-card-picker 
-          pickedCallback="{{pickedCallback}}">
+          deck="{{deck}}">
         </fow-card-picker>
 
-        <template repeat="card in deck.cards">
-          <div>{{card.Name}}</div>
+        <template repeat="{{deckCard in deck.cards}}">
+          <div>{{deckCard.qty}}X {{deckCard.card.Name}}</div>
         </template>
 
       </div>
@@ -46,10 +68,29 @@
   <script>
     (function () {
 
-      Polymer({
-        pickedCallback: function(card, qty){
-          console.log(card, qty);
+      Polymer("fow-deck-update",{  
+
+        updateDeck: function(){
+          this.$.updateDeckService.body = JSON.stringify(this.deck);
+          this.$.updateDeckService.go();
+        },
+
+        successHandler: function(event){
+          if(this.toast){
+            this.toast.text="Deck updated!";
+            this.toast.show();
+            this.$.myDeckService.go();
+            this.selectedDeck = event.detail.detail.response[0];
+          }
+        },
+
+        errorHandler: function(event){
+          if(this.toast){
+            this.toast.text="There was a problem updating the deck.";
+            this.toast.show();
+          }
         }
+
       });
 
     })();

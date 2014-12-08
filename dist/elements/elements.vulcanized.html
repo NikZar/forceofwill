@@ -3410,14 +3410,68 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+`core-icon-button` is an icon with button behaviors.
+
+    <core-icon-button src="star.png"></core-icon-button>
+
+`core-icon-button` includes a default icon set.  Use `icon` to specify 
+which icon from the icon set to use.
+
+    <core-icon-button icon="menu"></core-icon-button>
+
+See [`core-iconset`](#core-iconset) for more information about 
+how to use a custom icon set.
+
+@group Polymer Core Elements
+@element core-icon-button
+@homepage github.io
+-->
 
 
-<polymer-element name="fow-deck-update" attributes="deck token" assetpath="fow-deck-update/">
+
+
+<polymer-element name="core-icon-button" attributes="src icon active" assetpath="../bower_components/core-icon-button/">
+
+  <template>
+    <style>:host{display:inline-block;box-sizing:border-box;-moz-box-sizing:border-box;user-select:none;-moz-user-select:none;-webkit-user-select:none;border-radius:2px;padding:7px;margin:2px;vertical-align:middle;font-size:1rem;cursor:pointer}:host([disabled]){opacity:.6;pointer-events:none}:host(.outline){box-shadow:0 0 0 1px rgba(0,0,0,.1)}:host(:hover:not([disabled])){box-shadow:0 1px 0 0 rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.1)}:host(.selected:not([disabled])){background-color:rgba(0,0,0,.05);box-shadow:inset 0 1px 0 0 rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.12)}:host(:active:not([disabled]),.selected:active:not([disabled])){background-color:rgba(0,0,0,.05);box-shadow:inset 0 1px 0 0 rgba(0,0,0,.1),0 0 0 1px rgba(0,0,0,.12)}:host(.core-dark-theme.outline){background-color:rgba(200,200,200,.05);box-shadow:0 0 0 1px rgba(200,200,200,.1)}:host(.core-dark-theme:hover){background-color:rgba(200,200,200,.05);box-shadow:0 1px 0 0 rgba(200,200,200,.12),0 0 0 1px rgba(200,200,200,.1)}:host(.core-dark-theme.selected){background-color:rgba(220,220,220,.05);box-shadow:inset 0 1px 0 0 rgba(200,200,200,.05),0 0 0 1px rgba(200,200,200,.12)}:host(.core-dark-theme:active,.core-dark-theme.selected:active){background-color:rgba(200,200,200,.05);box-shadow:inset 0 1px 0 0 rgba(200,200,200,.1),0 0 0 1px rgba(200,200,200,.12)}core-icon{pointer-events:none}:host ::content>:not(core-icon){margin-left:4px}</style>
+    <core-icon src="{{src}}" icon="{{icon}}"></core-icon><content></content>
+  </template>
+
+  <script>Polymer("core-icon-button",{src:"",active:false,icon:"",activeChanged:function(){this.classList.toggle("selected",this.active)}});</script>
+
+</polymer-element>
+
+
+
+<polymer-element name="fow-deck-update" attributes="deck token toast" assetpath="fow-deck-update/">
   <template>
     <style>:host{display:block;margin-top:14px;margin-right:5px;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;height:100%}</style>
+
+    <fow-rest-service id="updateDeckService" type="decks" auto="false" token="{{token}}" method="PUT" on-rest-error="{{errorHandler}}" on-rest-response="{{successHandler}}">
+    </fow-rest-service>
+
     <template if="{{deck}}">
+
       <div layout="" vertical="" center=""> 
-        <div>{{deck.title}}</div>
+        <core-icon-button on-tap="{{updateDeck}}" icon="save">
+        </core-icon-button>
+        <div>
+          <!--<core-icon-button icon="create">
+          </core-icon-button>
+          {{deck.title}}-->
+           <input class="text-input" value="{{deck.title}}">
+        </div> 
+
         
         <div class="privacy" layout="" horizontal="" center="" center-justified="">
           <paper-radio-group selected="{{deck.privacy}}">
@@ -3428,11 +3482,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </paper-radio-group>
         </div>
 
-        <fow-card-picker pickedcallback="{{pickedCallback}}">
+        <fow-card-picker deck="{{deck}}">
         </fow-card-picker>
 
-        <template repeat="card in deck.cards">
-          <div>{{card.Name}}</div>
+        <template repeat="{{deckCard in deck.cards}}">
+          <div>{{deckCard.qty}}X {{deckCard.card.Name}}</div>
         </template>
 
       </div>
@@ -3443,7 +3497,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </template>
   </template>
-  <script>(function(){Polymer("fow-deck-update",{pickedCallback:function(card,qty){console.log(card,qty)}})})();</script>
+  <script>(function(){Polymer("fow-deck-update",{updateDeck:function(){this.$.updateDeckService.body=JSON.stringify(this.deck);this.$.updateDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck updated!";this.toast.show();this.$.myDeckService.go();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem updating the deck.";this.toast.show()}}})})();</script>
 </polymer-element>
 
 
@@ -3488,9 +3542,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-<polymer-element name="fow-card-picker" attributes="pickedCallback filteredCards selectedCard selectedQty" assetpath="fow-card-picker/">
+<polymer-element name="fow-card-picker" on-keydown="{{keydownHandler}}" attributes="deck filteredCards selectedCard selectedQty" assetpath="fow-card-picker/">
   <template>
-    <style>:host{display:block;background-color:rgba(255,255,255,.1);border-radius:8px;padding:10px}.scroll{overflow:scroll;background-color:rgba(255,255,255,.1);height:180px;margin-bottom:10px}.button{cursor:pointer;background-color:rgba(200,255,255,.3);padding:5px;border-radius:10px;text-align:center;margin:10px}.button:hover{background-color:#9f9;color:#000}.form-row{margin:4px;min-width:300px}.title-row{min-width:80px}.row-text{min-height:100px;min-width:260px}.text-input{width:195px;height:20px}.qty-input{width:20px;height:20px;text-align:center;margin-left:3px}input{background-color:#bbb;color:#000}.filter-row{margin:1;cursor:pointer;overflow:hidden;width:200px}.filter-row:hover{background-color:#9f9;color:#000}.selected-filter-row{margin:1;cursor:pointer;overflow:hidden;background-color:#9f9;font-style:italic;color:#000;width:200px}.selected-filter-row{background-color:#9f9;color:#000}#selectedCardImg{margin-left:8px;width:150px;height:200px}</style>
+    <style>:host{display:block;background-color:rgba(255,255,255,.1);border-radius:8px;padding:10px}.scroll{overflow:scroll;background-color:rgba(255,255,255,.1);height:180px;margin-bottom:10px}.button{cursor:pointer;background-color:rgba(255,255,255,.4);padding:2px;padding-left:4px;padding-right:4px;border-radius:10px;text-align:center;margin-left:10px}.button:hover{background-color:#9f9;color:#000}.form-row{margin:4px;min-width:300px}.title-row{min-width:80px}.row-text{min-height:100px;min-width:260px}.text-input{width:195px;height:20px}.qty-input{width:20px;height:20px;text-align:center;margin-left:3px}input{background-color:#bbb;color:#000}.filter-row{margin:1;cursor:pointer;overflow:hidden;width:200px}.filter-row:hover{background-color:#9f9;color:#000}.selected-filter-row{margin:1;cursor:pointer;overflow:hidden;background-color:#9f9;font-style:italic;color:#000;width:200px}.selected-filter-row{background-color:#9f9;color:#000}.image{margin-top:4px;margin-left:8px;padding:2px;padding-top:3px;padding-bottom:0;border-radius:4px;background-color:#fff}#selectedCardImg{width:120px;height:170px}</style>
 
     <fow-cards cards="{{cards}}" token="{{token}}">
     </fow-cards>
@@ -3509,16 +3563,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </template>
         </div>
       </div>
-      <div>
-        <img id="selectedCardImg">
-      </div>
       <div layout="" vertical="" center="">
-        <div layout="" horizontal="" center="">Qty: <input class="qty-input" value="{{selectedQty}}"></div>
-        <div class="button" on-tap="{{addCard}}">ADD CARD</div>
+        <div layout="" horizontal="" center="">
+          Qty: <input class="qty-input" value="{{selectedQty}}">
+        </div>
+        <div class="image">
+          <img id="selectedCardImg">
+        </div>
       </div>
+      <div class="button" on-tap="{{addCard}}">ADD CARD</div>
     </div>
   </template>
-  <script>(function(){Polymer("fow-card-picker",{selectedCardChanged:function(){if(this.selectedCard){this.$.selectedCardImg.src="../images"+this.selectedCard["Image path"]}},filteredCardsChanged:function(){if(this.filteredCards&&this.filteredCards.length>0){this.selectedCard=this.filteredCards[0];this.selectedQty=1}},selectCard:function(event){this.selectedCard=event.target.card;this.selectedQty=1},addCard:function(){this.pickedCallback(this.selectedCard,this.selectedQty)}})})();</script>
+  <script>(function(){Polymer("fow-card-picker",{ready:function(){this.tabIndex=0;this.currentRow=0},selectedCardChanged:function(){if(this.selectedCard){this.$.selectedCardImg.src="../images"+this.selectedCard["Image path"]}},filteredCardsChanged:function(){if(this.filteredCards&&this.filteredCards.length>0){this.selectedCard=this.filteredCards[0];this.selectedQty=1}},selectCard:function(event){this.selectedCard=event.target.card;this.selectedQty=1},addCard:function(){this.deck.cards.push({card:this.selectedCard,qty:this.selectedQty});console.log(this.deck)},keydownHandler:function(event,detail,sender){switch(event.keyCode){case 13:this.addCard();return;case 40:this.currentRow++;this.currentRow=this.currentRow<this.filteredCards.length?this.currentRow:this.filteredCards.length-1;break;case 38:this.currentRow--;this.currentRow=this.currentRow>0?this.currentRow:0;break;default:break}this.selectedCard=this.filteredCards[this.currentRow]}})})();</script>
 </polymer-element>
 
 

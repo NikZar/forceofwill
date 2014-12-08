@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+ObjectID = require('mongoskin').ObjectID;
 
 
 /*
@@ -45,14 +46,14 @@ var addCardsToDeck = function(req, res, cards, _id){
     var db = req.db;
     var userId = req.userId;
 
-    console.log("Searching: ", deck);
-    db.collection('decks').findOne({_id: deck._id, userId: deck.userId},function(err, result) {
+    console.log("Searching: ", _id);
+    db.collection('decks').findOne({_id: new ObjectID(_id), userId: deck.userId},function(err, result) {
         if (err) {
             console.log("Error searching decks: ", err, user);
             res.sendStatus(500).end();
         }
-        if(result){
-            console.log("Found: ", result);
+        if(deck){
+            console.log("Found: ", deck);
 
             var deckDictionary = {};
 
@@ -61,13 +62,10 @@ var addCardsToDeck = function(req, res, cards, _id){
             };
 
             for (var i = 0; i < result.cards.length; i++) {
-                result.cards[i] += cardsDictionary[result.cards[i].code];
+                deck.cards[i] += cardsDictionary[result.cards[i].code];
             };
 
-            console.log("Deck Cards: " , result.cards);
-
-            res.sendStatus(200).end();
-            db.close();
+            updateDeck(req, res, deck);
         } else {
             db.close();
             res.sendStatus(404).end();
@@ -100,6 +98,7 @@ router.post('/:_id/cards/', function(req, res) {
 var updateDeck = function(req, res, deck){
     var db = req.db;
     var userId = req.userId;
+    deck._id = new ObjectID(deck._id);
 
     console.log("Searching: ", deck);
     db.collection('decks').findOne({_id: deck._id, userId: deck.userId},function(err, result) {
