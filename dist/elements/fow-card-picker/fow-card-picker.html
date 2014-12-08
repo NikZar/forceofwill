@@ -1,0 +1,158 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/elements.html">
+
+<polymer-element name="fow-card-picker" attributes="pickedCallback filteredCards selectedCard selectedQty">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 10px;
+      }
+
+      .scroll{
+        overflow: scroll;
+        background-color: rgba(255,255,255,0.1);
+        height: 180px;
+        margin-bottom: 10px;
+      }
+
+      .button{
+        cursor: pointer;
+        background-color: rgba(200,255,255,0.3);
+        padding: 5px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 10px;
+      }
+      .button:hover{
+        background-color: #9f9;
+        color: black;
+      }
+
+      .form-row{
+        margin: 4px;
+        min-width: 300px;
+      }
+      .title-row{
+        min-width: 80px;
+      }
+      .row-text{
+        min-height: 100px;
+        min-width: 260px;
+      }
+
+      .text-input{
+        width: 195px;
+        height: 20px;
+      }
+      .qty-input{
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        margin-left: 3px;
+      }
+      input{
+        background-color: #bbb;
+        color: black;
+      }
+
+      .filter-row{
+        margin: 1;
+        cursor: pointer;
+        overflow: hidden;
+        width: 200px;
+      }
+      .filter-row:hover{
+        background-color: #9f9;
+        color: black;
+      }
+
+      .selected-filter-row{
+        margin: 1;
+        cursor: pointer;
+        overflow: hidden;
+        background-color: #9f9;
+        font-style: italic;
+        color: black;
+        width: 200px;
+      }
+      .selected-filter-row{
+        background-color: #9f9;
+        color: black;
+      }
+
+      #selectedCardImg{
+        margin-left: 8px;
+        width: 150px;
+        height: 200px;
+      }
+    </style>
+
+    <fow-cards 
+      cards="{{cards}}" 
+      token="{{token}}">
+    </fow-cards>
+
+    <fow-card-filter 
+      cards="{{cards}}" 
+      filteredCards="{{filteredCards}}" 
+      nameFilter="{{nameFilter}}">
+    </fow-card-filter>
+
+    <div layout horizontal start>
+      <div layout vertical start>
+        <input class="text-input" value="{{nameFilter}}"/>
+        <div class="scroll">
+          <template repeat="{{card in filteredCards}}">
+            <fow-object 
+              class="{{card===selectedCard?'selected-filter-row':'filter-row'}}" 
+              on-tap="{{selectCard}}" 
+              card="{{card}}">
+              {{card.Name}}
+            </fow-object>
+          </template>
+        </div>
+      </div>
+      <div>
+        <img id="selectedCardImg" />
+      </div>
+      <div layout vertical center>
+        <div layout horizontal center>Qty: <input class="qty-input" value="{{selectedQty}}"/></div>
+        <div class="button" on-tap="{{addCard}}">ADD CARD</div>
+      </div>
+    </div>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        // define element prototype here
+        selectedCardChanged: function(){
+          if(this.selectedCard){
+            this.$.selectedCardImg.src = "../images"+this.selectedCard["Image path"];
+          }
+        },
+
+        filteredCardsChanged: function(){
+          if(this.filteredCards && this.filteredCards.length>0){
+            this.selectedCard = this.filteredCards[0];
+            this.selectedQty = 1;
+          }
+        },
+
+        selectCard: function(event){
+          this.selectedCard = event.target.card;
+          this.selectedQty = 1;
+        },
+
+        addCard: function(){
+          this.pickedCallback(this.selectedCard, this.selectedQty);
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>

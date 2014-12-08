@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-deck-update" attributes="">
+<polymer-element name="fow-deck-update" attributes="deck token">
   <template>
     <style>
       :host {
@@ -13,12 +14,42 @@
         height: 100%;
       }
     </style>
+    <template if="{{deck}}">
+      <div layout vertical center> 
+        <div>{{deck.title}}</div>
+        
+        <div class="privacy" layout horizontal center center-justified>
+          <paper-radio-group selected="{{deck.privacy}}">
+            <paper-radio-button class="private" name="private" label="private"></paper-radio-button>
+            <paper-radio-button class="password" name="password" label="password"></paper-radio-button>
+            <paper-radio-button class="public" name="public" label="public"></paper-radio-button>
+            <paper-radio-button class="anonimous" name="anonimous" label="anonimous"></paper-radio-button>
+          </paper-radio-group>
+        </div>
+
+        <fow-card-picker 
+          pickedCallback="{{pickedCallback}}">
+        </fow-card-picker>
+
+        <template repeat="card in deck.cards">
+          <div>{{card.Name}}</div>
+        </template>
+
+      </div>
+    </template>
+    <template if="{{!deck}}">
+      <div layout vertical center> 
+        Select a deck >>>
+      </div>
+    </template>
   </template>
   <script>
     (function () {
 
       Polymer({
-        // define element prototype here
+        pickedCallback: function(card, qty){
+          console.log(card, qty);
+        }
       });
 
     })();

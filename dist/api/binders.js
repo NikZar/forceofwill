@@ -11,21 +11,21 @@ var deleteCard = function(req, res, code){
 	db.collection('binders').findOne({userId: userId, code: code}, function(err, result) {
 			if (err) {
 				db.close();
-				res.send(500).end();
+				res.sendStatus(500).end();
 			}
 			if(result){
 				db.collection('binders').remove({userId: userId, code: code}, function(err,result){
 						if (err) {
-							res.send(500).end();
+							res.sendStatus(500).end();
 						} else {
-							res.send(200).end();
+							res.sendStatus(200).end();
 						}
 						db.close();
 					}
 				);
 			} else {
 				db.close();
-				res.send(404).end();
+				res.sendStatus(404).end();
 			}
 		}
 	);
@@ -36,7 +36,7 @@ var deleteCardLogged = function(req, res){
 		var code = req.params.code;
 		deleteCard(req, res, code);
 	} else {
-		res.send(500).end();
+		res.sendStatus(500).end();
 	}
 }
 
@@ -62,7 +62,7 @@ var removeCard = function(req, res, card){
     db.collection('binders').findOne({userId: userId, code: card.code}, function(err, result) {
 		if (err) {
 			db.close();
-			res.send(500).end();
+			res.sendStatus(500).end();
 		}
 		if(result){
 			if((result.qty-card.qty)>0){
@@ -70,10 +70,10 @@ var removeCard = function(req, res, card){
 					{'$set':{qty: (result.qty-card.qty)}}, 
 					function(err) {
 					    if (err) {
-							res.send(500).end();
+							res.sendStatus(500).end();
 						}
 					    if (result) {
-					    	res.send(200).end();
+					    	res.sendStatus(200).end();
 					    }
 					    db.close();
 					}
@@ -84,7 +84,7 @@ var removeCard = function(req, res, card){
 			
 		} else {
 			db.close();
-			res.send(404).end();
+			res.sendStatus(404).end();
 		}
     });
 }
@@ -95,7 +95,7 @@ var removeCardLogged = function(req, res){
 		var card = req.body;
 		removeCard(req, res, card);
 	} else {
-		res.send(500);
+		res.sendStatus(500);
 	}
 }
 
@@ -120,13 +120,13 @@ var addCard = function(req, res){
 
     db.collection('binders').findOne({userId: userId, code: card.code}, function(err, result) {
 		if (err) {
-			res.send(500).end();
+			res.sendStatus(500).end();
 		}
 		if(result){
 			//console.log("Updating Card: ", card);
 			db.collection('binders').update({userId: userId, code: card.code}, {'$set':{qty: (result.qty+card.qty) }}, function(err) {
 			    if (err) {
-					res.send(500).end();
+					res.sendStatus(500).end();
 				}
 			    if (result) {
 			    	res.json({});
@@ -138,7 +138,7 @@ var addCard = function(req, res){
 			db.collection('binders').insert({userId: userId, code: card.code, qty: 1}, function(err, result) {
 			  	if (err) {
                 	db.close();
-					res.send(500).end();
+					res.sendStatus(500).end();
 				}
 				if (result) {
 					res.json({});
@@ -154,7 +154,7 @@ var addCardLogged = function(req, res){
 		var card = req.body;
 		addCard(req, res, card);
 	} else {
-		res.send(500);
+		res.sendStatus(500);
 	}
 }
 
@@ -207,7 +207,7 @@ var getAllBinderCardsLogged = function(req, res){
 	if(req.logged){
 		getAllBinderCards(req, res);
 	} else {
-		res.send(500);
+		res.sendStatus(500);
 	}
 }
 
