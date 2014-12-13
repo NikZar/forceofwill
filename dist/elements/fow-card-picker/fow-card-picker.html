@@ -167,7 +167,7 @@
 
         addCard: function(){
           this.deck.cards.push({card: this.selectedCard, qty: this.selectedQty});
-          console.log(this.deck);
+          this.fire("add");
         },
 
         keydownHandler: function(event, detail, sender) { 

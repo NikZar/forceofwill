@@ -1,0 +1,51 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-deck-update-card" attributes="deckCard">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+      }
+      .deckCard{
+        width: 100%;
+        max-width: 500px;
+        margin: 2px;
+        text-align: left;
+        padding: 4px;
+        color: black;
+        background-color: rgb(100,100,100);
+      }
+      .Fire{
+        background-color: rgb(190,100,100);
+      }
+      .Dark{
+        color: white;
+        background-color: rgb(10,10,10);
+      }
+      .Light{
+        background-color: rgb(180,170,160);
+      }
+      .Wind{
+        background-color: rgb(100,180,100);
+      }
+      .Water{
+        background-color: rgb(120,120,180);
+      }
+    </style>
+    <div layout vertical center>
+      <div class="deckCard {{deckCard.card.Attribute}}">
+        <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
+      </div>
+    </div>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>
