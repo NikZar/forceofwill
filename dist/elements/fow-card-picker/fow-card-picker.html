@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-card-picker" on-keydown="{{keydownHandler}}" attributes="deck filteredCards selectedCard selectedQty">
+<polymer-element name="fow-card-picker" on-keydown="{{keydownHandler}}" attributes="deck filteredCards selectedCard selectedQty toast">
   <template>
     <style>
       :host {
@@ -50,7 +50,7 @@
         height: 20px;
       }
       .qty-input{
-        width: 20px;
+        width: 30px;
         height: 20px;
         text-align: center;
         margin-left: 3px;
@@ -132,7 +132,7 @@
       </div>
       <div>
         <div class="qty-container" layout horizontal center>
-          Qty: <input class="qty-input" value="{{selectedQty}}"/>
+          Qty: <input type="number" class="qty-input" value="{{selectedQty}}"/>
         </div>
         <div class="image">
           <img id="selectedCardImg" />
@@ -170,7 +170,9 @@
         },
 
         addCard: function(){
-          this.deck.cards.push({card: this.selectedCard, qty: this.selectedQty});
+          this.deck.cards.push({card: this.selectedCard, qty: parseInt(this.selectedQty)});
+          this.toast.text= this.selectedQty +"x "+this.selectedCard.Name+" Added!";
+            this.toast.show();
           this.fire("add");
         },
 
@@ -190,7 +192,9 @@
             default:
               break;
           }
-          this.selectedCard = this.filteredCards[this.currentRow];
+          if(this.filteredCards[this.currentRow]){
+            this.selectedCard = this.filteredCards[this.currentRow];
+          }
         }
 
       });

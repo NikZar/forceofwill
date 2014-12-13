@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-
-<polymer-element name="fow-deck-update-card" attributes="deckCard">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<polymer-element name="fow-deck-update-card" attributes="deck deckCard">
   <template>
     <style>
       :host {
@@ -16,6 +16,14 @@
         color: black;
         background-color: rgb(100,100,100);
       }
+      .cardQty
+      {
+        width: 30px;
+        margin: 2px;
+        margin-left: 10px;
+        text-align: center;
+      }
+
       .Fire{
         background-color: rgb(190,100,100);
       }
@@ -32,10 +40,67 @@
       .Water{
         background-color: rgb(120,120,180);
       }
+
+      .FireCircle{
+        color: white;
+        background-color: rgb(160,20,20);
+      }
+      .DarkCircle{
+        color: white;
+        background-color: rgb(60,60,60);
+      }
+      .LightCircle{
+        background-color: rgb(240,230,220);
+      }
+      .WindCircle{
+        color: white;
+        background-color: rgb(30,100,30);
+      }
+      .WaterCircle{
+        color: white;
+        background-color: rgb(30,30,180);
+      }
+      .VoidCircle{
+        color: white;
+        background-color: rgb(140,140,140);
+      }
+
+      .delete{
+        height: 24px;
+        width: 24px;
+        cursor: pointer;
+      }
+      .circle{
+        padding: 1px;
+        text-align: center;
+        height: 24px;
+        width: 24px;
+        border-radius: 13px;
+        margin: 1px;
+      }
     </style>
     <div layout vertical center>
       <div class="deckCard {{deckCard.card.Attribute}}">
-        <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
+        <div layout horizontal center>
+          <div flex>
+            <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
+          </div>
+
+          <template if="{{deckCard.card['Free Cost'] != 0}}">
+            <div class="circle VoidCircle">{{deckCard.card["Free Cost"]}}</div>
+          </template>
+
+          <template if="{{deckCard.card['Attribute Cost'] != 0}}">
+            <div class="circle {{deckCard.card.Attribute + 'Circle'}}">{{deckCard.card["Attribute Cost"]}}</div>
+          </template>
+
+          <input class="cardQty" type="number" value="{{deckCard.qty}}"/>
+          <core-icon
+            class="delete"
+            on-tap="{{removeCard}}" 
+            icon="cancel">
+          </core-icon>
+        </div>
       </div>
     </div>
   </template>
@@ -43,7 +108,19 @@
     (function () {
 
       Polymer({
-        // define element prototype here
+        observe:{
+          "deckCard.qty" : "needsUpdate"
+        },
+
+        removeCard: function(){
+          var objIndex = this.deck.cards.indexOf(this.deckCard);
+          this.deck.cards.splice(objIndex,1);
+          this.needsUpdate();
+        },
+
+        needsUpdate: function(){
+          this.fire("update");
+        }
       });
 
     })();

@@ -40,12 +40,13 @@
       <div layout vertical center> 
 
         <fow-card-picker 
+          toast="{{toast}}"
           on-add="{{deckChanged}}"
           deck="{{deck}}">
         </fow-card-picker>
 
         <div>
-          <h3>{{deck.title}} ({{deck.cards.length}})</h3>
+          <h3>{{deck.title}} ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
         </div>
         <div class="privacy" layout horizontal center center-justified>
           <paper-radio-group selected="{{deck.privacy}}">
@@ -68,42 +69,42 @@
         </div>
 
         <div class="titleType">
-          Ruler ({{rulers.length}})
+          {{rulersQty}} Ruler ({{rulers.length}})
         </div>
         <template repeat="{{deckCard in rulers}}">
-          <fow-deck-update-card deckCard="{{deckCard}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckCard="{{deckCard}}">
           </fow-deck-update-card>
         </template>
 
         <div class="titleType">
-          Magic Stones ({{stones.length}})
+          {{stonesQty}} Magic Stones ({{stones.length}} distinct)
         </div>
         <template repeat="{{deckCard in stones}}">
-          <fow-deck-update-card deckCard="{{deckCard}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckCard="{{deckCard}}">
           </fow-deck-update-card>
         </template>
 
         <div class="titleType">
-          Resonators ({{resonators.length}})
+          {{resonatorsQty}} Resonators ({{resonators.length}} distinct)
         </div>
         <template repeat="{{deckCard in resonators}}">
-          <fow-deck-update-card deckCard="{{deckCard}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckCard="{{deckCard}}">
           </fow-deck-update-card>
         </template>
 
         <div class="titleType">
-          Additions ({{additions.length}})
+          {{additionsQty}} Additions ({{additions.length}} distinct)
         </div>
         <template repeat="{{deckCard in additions}}">
-          <fow-deck-update-card deckCard="{{deckCard}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckCard="{{deckCard}}">
           </fow-deck-update-card>
         </template>
 
         <div class="titleType">
-          Spells ({{spells.length}})
+          {{spellsQty}} Spells ({{spells.length}} distinct)
         </div>
         <template repeat="{{deckCard in spells}}">
-          <fow-deck-update-card deckCard="{{deckCard}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckCard="{{deckCard}}">
           </fow-deck-update-card>
         </template>
       </div>
@@ -130,12 +131,44 @@
 
         stones: null,
 
+        rulersQty: 0,
+
+        resonatorsQty: 0,
+
+        additionsQty: 0,
+
+        spellsQty: 0,
+
+        stonesQty: 0,
+
+        cardsQty: 0,
+
         deckChanged: function(){
           this.rulers = this.filterOnText(this.deck.cards, "Type", "Ruler");
           this.resonators = this.filterOnText(this.deck.cards, "Type", "Resonator");
           this.additions = this.filterOnText(this.deck.cards, "Type", "Addition");
           this.spells = this.filterOnText(this.deck.cards, "Type", "Spell");
           this.stones = this.filterOnText(this.deck.cards, "Type", "Stone");
+
+          this.cardsQty = this.countCards(this.deck.cards);
+
+          this.rulersQty = this.countCards(this.rulers);
+
+          this.resonatorsQty = this.countCards(this.resonators);
+
+          this.additionsQty = this.countCards(this.additions);
+
+          this.spellsQty = this.countCards(this.spells);
+
+          this.stonesQty = this.countCards(this.stones);
+        },
+
+        countCards: function(deckCards){
+          var sum = 0;
+          for (var i = deckCards.length - 1; i >= 0; i--) {
+            sum += Math.abs(parseInt(deckCards[i].qty));
+          };
+          return sum;
         },
 
         updateDeck: function(){
@@ -169,7 +202,7 @@
               
               function(deckCard){
                 //console.log(card);
-                if( self.strictMatch(deckCard.card[key], filterString) ){
+                if(deckCard && deckCard.card && self.strictMatch(deckCard.card[key], filterString) ){
                   return true;
                 } else if(remaining){ 
                   remaining.push(deckCard);
