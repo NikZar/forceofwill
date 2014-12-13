@@ -55,6 +55,10 @@
         text-align: center;
         margin-left: 3px;
       }
+      .qty-container{
+        margin-left: 10px;
+      }
+
       input{
         background-color: #bbb;
         color: black;
@@ -113,7 +117,7 @@
     </fow-card-filter>
 
     <div layout horizontal start>
-      <div layout vertical start>
+      <div>
         <input class="text-input" value="{{nameFilter}}"/>
         <div class="scroll">
           <template repeat="{{card in filteredCards}}">
@@ -126,8 +130,8 @@
           </template>
         </div>
       </div>
-      <div layout vertical center>
-        <div layout horizontal center>
+      <div>
+        <div class="qty-container" layout horizontal center>
           Qty: <input class="qty-input" value="{{selectedQty}}"/>
         </div>
         <div class="image">

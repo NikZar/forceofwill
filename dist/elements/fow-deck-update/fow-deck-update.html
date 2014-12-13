@@ -12,7 +12,9 @@
         background-color: rgba(255,255,255,0.1);
         border-radius: 10px;
         padding: 5px;
-        height: 100%;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        min-height: 100%;
       }
       .titleType{
         width: 100%;
@@ -36,18 +38,15 @@
     <template if="{{deck}}">
 
       <div layout vertical center> 
-        <core-icon-button 
-          on-tap="{{updateDeck}}" 
-          icon="save">
-        </core-icon-button>
-        <div>
-          <!--<core-icon-button icon="create">
-          </core-icon-button>
-          {{deck.title}}-->
-           <input class="text-input" value="{{deck.title}}"/>
-        </div> 
 
-        
+        <fow-card-picker 
+          on-add="{{deckChanged}}"
+          deck="{{deck}}">
+        </fow-card-picker>
+
+        <div>
+          <h3>{{deck.title}} ({{deck.cards.length}})</h3>
+        </div>
         <div class="privacy" layout horizontal center center-justified>
           <paper-radio-group selected="{{deck.privacy}}">
             <paper-radio-button class="private" name="private" label="private"></paper-radio-button>
@@ -56,34 +55,59 @@
             <paper-radio-button class="anonimous" name="anonimous" label="anonimous"></paper-radio-button>
           </paper-radio-group>
         </div>
+        <div layout horizontal>
+          <div>
+            <core-icon-button icon="create">
+            </core-icon-button>
+             <input class="text-input" value="{{deck.title}}"/>
+          </div> 
+          <core-icon-button 
+            on-tap="{{updateDeck}}" 
+            icon="save">
+          </core-icon-button>
+        </div>
 
-        <fow-card-picker 
-          on-add="{{deckChanged}}"
-          deck="{{deck}}">
-        </fow-card-picker>
-
-        <div><h3>{{deck.title}} ({{deck.cards.length}})</h3></div>
-        <div class="titleType">Ruler ({{rulers.length}})</div>
+        <div class="titleType">
+          Ruler ({{rulers.length}})
+        </div>
         <template repeat="{{deckCard in rulers}}">
-          <fow-deck-update-card deckCard="{{deckCard}}"></fow-deck-update-card>
+          <fow-deck-update-card deckCard="{{deckCard}}">
+          </fow-deck-update-card>
         </template>
-        <div class="titleType">Magic Stones ({{stones.length}})</div>
+
+        <div class="titleType">
+          Magic Stones ({{stones.length}})
+        </div>
         <template repeat="{{deckCard in stones}}">
-          <fow-deck-update-card deckCard="{{deckCard}}"></fow-deck-update-card>
+          <fow-deck-update-card deckCard="{{deckCard}}">
+          </fow-deck-update-card>
         </template>
-        <div class="titleType">Resonators ({{resonators.length}})</div>
+
+        <div class="titleType">
+          Resonators ({{resonators.length}})
+        </div>
         <template repeat="{{deckCard in resonators}}">
-          <fow-deck-update-card deckCard="{{deckCard}}"></fow-deck-update-card>
+          <fow-deck-update-card deckCard="{{deckCard}}">
+          </fow-deck-update-card>
         </template>
-        <div class="titleType">Additions ({{additions.length}})</div>
+
+        <div class="titleType">
+          Additions ({{additions.length}})
+        </div>
         <template repeat="{{deckCard in additions}}">
-          <fow-deck-update-card deckCard="{{deckCard}}"></fow-deck-update-card>
+          <fow-deck-update-card deckCard="{{deckCard}}">
+          </fow-deck-update-card>
         </template>
-        <div class="titleType">Spells ({{spells.length}})</div>
+
+        <div class="titleType">
+          Spells ({{spells.length}})
+        </div>
         <template repeat="{{deckCard in spells}}">
-          <fow-deck-update-card deckCard="{{deckCard}}"></fow-deck-update-card>
+          <fow-deck-update-card deckCard="{{deckCard}}">
+          </fow-deck-update-card>
         </template>
       </div>
+
     </template>
     <template if="{{!deck}}">
       <div layout vertical center> 

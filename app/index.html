@@ -13,7 +13,20 @@
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild-->
 
-  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script>
+    if('registerElement' in document
+      && 'createShadowRoot' in HTMLElement.prototype
+      && 'import' in document.createElement('link')
+      && 'content' in document.createElement('template')){
+      //Native support in browser
+    } else {
+      document.write(
+        '<script src="bower_components/webcomponentsjs/webcomponents.js"><\/script>'
+      );
+    }
+  </script>
+  <!--<script src="bower_components/webcomponentsjs/webcomponents.js"></script>-->
+  
   <!-- build:vulcanized elements/elements.vulcanized.html -->
  
   <link rel="import" href="elements/elements.html">
