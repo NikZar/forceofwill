@@ -46,7 +46,7 @@
       }
 
       .text-input{
-        width: 195px;
+        width: 99%;
         height: 20px;
       }
       .qty-input{
@@ -66,9 +66,11 @@
 
       .filter-row{
         margin: 1;
+        padding: 2px;
+        padding-left: 5px;
         cursor: pointer;
         overflow: hidden;
-        width: 200px;
+        min-width: 200px;
       }
       .filter-row:hover{
         background-color: #9f9;
@@ -76,13 +78,15 @@
       }
 
       .selected-filter-row{
+        padding: 2px;
+        padding-left: 5px;
         margin: 1;
         cursor: pointer;
         overflow: hidden;
         background-color: #9f9;
         font-style: italic;
         color: black;
-        width: 200px;
+        min-width: 200px;
       }
       .selected-filter-row{
         background-color: #9f9;
@@ -144,7 +148,7 @@
     </template>
     <template if="{{!smallScreen}}">
       <div layout horizontal start>
-        <div>
+        <div flex>
           <input class="text-input" value="{{nameFilter}}"/>
           <div class="scroll">
             <template repeat="{{card in filteredCards}}">
@@ -193,10 +197,22 @@
         },
 
         addCard: function(){
-          this.deck.cards.push({card: this.selectedCard, qty: parseInt(this.selectedQty)});
-          this.toast.text= this.selectedQty +"x "+this.selectedCard.Name+" Added!";
-            this.toast.show();
-          this.fire("add");
+          if(this.selectedCard && this.selectedQty){
+            var found = false;
+            for (var i = this.deck.cards.length - 1; i >= 0; i--) {
+              var deckCard = this.deck.cards[i];
+              if(deckCard.card.code === this.selectedCard.code){
+                deckCard.qty += this.selectedQty;
+                found = true;
+              }
+            };
+            if(!found){
+              this.deck.cards.push({card: this.selectedCard, qty: parseInt(this.selectedQty)});
+            }
+            this.toast.text= this.selectedQty +"x "+this.selectedCard.Name+" Added!";
+              this.toast.show();
+            this.fire("add");
+          }
         },
 
         keydownHandler: function(event, detail, sender) { 
