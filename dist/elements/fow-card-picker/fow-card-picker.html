@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-card-picker" on-keydown="{{keydownHandler}}" attributes="deck filteredCards selectedCard selectedQty toast">
+<polymer-element name="fow-card-picker" on-keydown="{{keydownHandler}}" attributes="deck filteredCards selectedCard selectedQty toast smallScreen">
   <template>
     <style>
       :host {
@@ -99,7 +99,7 @@
         background-color: white;
       }
 
-      #selectedCardImg{
+      .selectedCardImg{
         width: 120px;
         height: 170px;
       }
@@ -116,30 +116,59 @@
       nameFilter="{{nameFilter}}">
     </fow-card-filter>
 
-    <div layout horizontal start>
-      <div>
-        <input class="text-input" value="{{nameFilter}}"/>
-        <div class="scroll">
-          <template repeat="{{card in filteredCards}}">
-            <fow-object 
-              class="{{card===selectedCard?'selected-filter-row':'filter-row'}}" 
-              on-tap="{{selectCard}}" 
-              card="{{card}}">
-              {{card.Name}}
-            </fow-object>
-          </template>
+    <template if="{{smallScreen}}">
+      <div layout vertical center>
+        <div>
+          <input class="text-input" value="{{nameFilter}}"/>
+          <div class="scroll">
+            <template repeat="{{card in filteredCards}}">
+              <fow-object 
+                class="{{card===selectedCard?'selected-filter-row':'filter-row'}}" 
+                on-tap="{{selectCard}}" 
+                card="{{card}}">
+                {{card.Name}}
+              </fow-object>
+            </template>
+          </div>
         </div>
+        <div>
+          <div layout horizontal center>
+            Qty: <input type="number" class="qty-input" value="{{selectedQty}}"/>
+          </div>
+          <div class="image">
+            <img class="selectedCardImg" src="{{ '../images'+ selectedCard['Image path'] }}" />
+          </div>
+        </div>
+        <div class="button" on-tap="{{addCard}}">ADD CARD</div>
       </div>
-      <div>
-        <div class="qty-container" layout horizontal center>
-          Qty: <input type="number" class="qty-input" value="{{selectedQty}}"/>
+    </template>
+    <template if="{{!smallScreen}}">
+      <div layout horizontal start>
+        <div>
+          <input class="text-input" value="{{nameFilter}}"/>
+          <div class="scroll">
+            <template repeat="{{card in filteredCards}}">
+              <fow-object 
+                class="{{card===selectedCard?'selected-filter-row':'filter-row'}}" 
+                on-tap="{{selectCard}}" 
+                card="{{card}}">
+                {{card.Name}}
+              </fow-object>
+            </template>
+          </div>
         </div>
-        <div class="image">
-          <img id="selectedCardImg" />
+        <div>
+          <div class="qty-container" layout horizontal center>
+            Qty: <input type="number" class="qty-input" value="{{selectedQty}}"/>
+          </div>
+          <div class="image">
+            <img class="selectedCardImg" src="{{ '../images'+ selectedCard['Image path'] }}" />
+          </div>
         </div>
+        <div class="button" on-tap="{{addCard}}">ADD CARD</div>
       </div>
-      <div class="button" on-tap="{{addCard}}">ADD CARD</div>
-    </div>
+    </template>
+      
   </template>
   <script>
     (function () {
@@ -149,12 +178,6 @@
         ready: function() { 
           this.tabIndex = 0; 
           this.currentRow = 0;
-        },
-
-        selectedCardChanged: function(){
-          if(this.selectedCard){
-            this.$.selectedCardImg.src = "../images"+this.selectedCard["Image path"];
-          }
         },
 
         filteredCardsChanged: function(){

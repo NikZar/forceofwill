@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-media-query/core-media-query.html">
 <link rel="import" href="../../elements/elements.html">
 
 
@@ -13,22 +14,44 @@
       }
     </style>
 
-    <div horizontal layout>
-      <div flex>
-        <fow-deck-update 
-          deck="{{selectedDeck}}"
-          toast="{{toast}}" 
-          token="{{token}}">
-        </fow-deck-update>
+    <core-media-query query="max-width: 640px" queryMatches="{{smallScreen}}">
+    </core-media-query>
+
+    <template if="{{!smallScreen}}">
+      <div horizontal layout>
+        <div flex>
+          <fow-deck-update 
+            smallScreen = "{{smallScreen}}"
+            deck="{{selectedDeck}}"
+            toast="{{toast}}" 
+            token="{{token}}">
+          </fow-deck-update>
+        </div>
+        <div>
+          <fow-deck-small-list 
+            token="{{token}}"
+            toast="{{toast}}" 
+            selectedDeck="{{selectedDeck}}">
+          </fow-deck-small-list>
+        </div>
       </div>
-      <div>
+    </template>
+    <template if="{{smallScreen}}">
+      <div layout vertical center>
         <fow-deck-small-list 
           token="{{token}}"
           toast="{{toast}}" 
           selectedDeck="{{selectedDeck}}">
         </fow-deck-small-list>
+        <fow-deck-update 
+          smallScreen = "{{smallScreen}}"
+          deck="{{selectedDeck}}"
+          toast="{{toast}}" 
+          token="{{token}}">
+        </fow-deck-update>
       </div>
-    </div>
+    </template>
+      
   </template>
   <script>
     (function () {

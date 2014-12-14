@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-deck-update" attributes="deck token toast">
+<polymer-element name="fow-deck-update" attributes="deck token toast smallScreen">
   <template>
     <style>
       :host {
@@ -40,6 +40,7 @@
       <div layout vertical center> 
 
         <fow-card-picker 
+          smallScreen = "{{smallScreen}}"
           toast="{{toast}}"
           on-add="{{deckChanged}}"
           deck="{{deck}}">

@@ -3410,6 +3410,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
+
 <!--
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -3453,7 +3454,7 @@ how to use a custom icon set.
 
 
 
-<polymer-element name="fow-deck-update" attributes="deck token toast" assetpath="fow-deck-update/">
+<polymer-element name="fow-deck-update" attributes="deck token toast smallScreen" assetpath="fow-deck-update/">
   <template>
     <style>:host{display:block;margin-top:14px;margin-right:5px;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;padding-top:15px;padding-bottom:15px;min-height:100%}.titleType{width:100%;max-width:500px;text-align:left;margin-left:-4px;margin-top:10px;color:#aaa}</style>
 
@@ -3464,7 +3465,7 @@ how to use a custom icon set.
 
       <div layout="" vertical="" center=""> 
 
-        <fow-card-picker toast="{{toast}}" on-add="{{deckChanged}}" deck="{{deck}}">
+        <fow-card-picker smallscreen="{{smallScreen}}" toast="{{toast}}" on-add="{{deckChanged}}" deck="{{deck}}">
         </fow-card-picker>
 
         <div>
@@ -3581,9 +3582,9 @@ how to use a custom icon set.
 
 
 
-<polymer-element name="fow-card-picker" on-keydown="{{keydownHandler}}" attributes="deck filteredCards selectedCard selectedQty toast" assetpath="fow-card-picker/">
+<polymer-element name="fow-card-picker" on-keydown="{{keydownHandler}}" attributes="deck filteredCards selectedCard selectedQty toast smallScreen" assetpath="fow-card-picker/">
   <template>
-    <style>:host{display:block;background-color:rgba(255,255,255,.1);border-radius:8px;padding:10px}.scroll{overflow:scroll;background-color:rgba(255,255,255,.1);height:180px;margin-bottom:10px}.button{cursor:pointer;background-color:rgba(255,255,255,.4);padding:2px;padding-left:4px;padding-right:4px;border-radius:10px;text-align:center;margin-left:10px}.button:hover{background-color:#9f9;color:#000}.form-row{margin:4px;min-width:300px}.title-row{min-width:80px}.row-text{min-height:100px;min-width:260px}.text-input{width:195px;height:20px}.qty-input{width:30px;height:20px;text-align:center;margin-left:3px}.qty-container{margin-left:10px}input{background-color:#bbb;color:#000}.filter-row{margin:1;cursor:pointer;overflow:hidden;width:200px}.filter-row:hover{background-color:#9f9;color:#000}.selected-filter-row{margin:1;cursor:pointer;overflow:hidden;background-color:#9f9;font-style:italic;color:#000;width:200px}.selected-filter-row{background-color:#9f9;color:#000}.image{margin-top:4px;margin-left:8px;padding:2px;padding-top:3px;padding-bottom:0;border-radius:4px;background-color:#fff}#selectedCardImg{width:120px;height:170px}</style>
+    <style>:host{display:block;background-color:rgba(255,255,255,.1);border-radius:8px;padding:10px}.scroll{overflow:scroll;background-color:rgba(255,255,255,.1);height:180px;margin-bottom:10px}.button{cursor:pointer;background-color:rgba(255,255,255,.4);padding:2px;padding-left:4px;padding-right:4px;border-radius:10px;text-align:center;margin-left:10px}.button:hover{background-color:#9f9;color:#000}.form-row{margin:4px;min-width:300px}.title-row{min-width:80px}.row-text{min-height:100px;min-width:260px}.text-input{width:195px;height:20px}.qty-input{width:30px;height:20px;text-align:center;margin-left:3px}.qty-container{margin-left:10px}input{background-color:#bbb;color:#000}.filter-row{margin:1;cursor:pointer;overflow:hidden;width:200px}.filter-row:hover{background-color:#9f9;color:#000}.selected-filter-row{margin:1;cursor:pointer;overflow:hidden;background-color:#9f9;font-style:italic;color:#000;width:200px}.selected-filter-row{background-color:#9f9;color:#000}.image{margin-top:4px;margin-left:8px;padding:2px;padding-top:3px;padding-bottom:0;border-radius:4px;background-color:#fff}.selectedCardImg{width:120px;height:170px}</style>
 
     <fow-cards cards="{{cards}}" token="{{token}}">
     </fow-cards>
@@ -3591,36 +3592,62 @@ how to use a custom icon set.
     <fow-card-filter cards="{{cards}}" filteredcards="{{filteredCards}}" namefilter="{{nameFilter}}">
     </fow-card-filter>
 
-    <div layout="" horizontal="" start="">
-      <div>
-        <input class="text-input" value="{{nameFilter}}">
-        <div class="scroll">
-          <template repeat="{{card in filteredCards}}">
-            <fow-object class="{{card===selectedCard?&apos;selected-filter-row&apos;:&apos;filter-row&apos;}}" on-tap="{{selectCard}}" card="{{card}}">
-              {{card.Name}}
-            </fow-object>
-          </template>
+    <template if="{{smallScreen}}">
+      <div layout="" vertical="" center="">
+        <div>
+          <input class="text-input" value="{{nameFilter}}">
+          <div class="scroll">
+            <template repeat="{{card in filteredCards}}">
+              <fow-object class="{{card===selectedCard?&apos;selected-filter-row&apos;:&apos;filter-row&apos;}}" on-tap="{{selectCard}}" card="{{card}}">
+                {{card.Name}}
+              </fow-object>
+            </template>
+          </div>
         </div>
+        <div>
+          <div layout="" horizontal="" center="">
+            Qty: <input type="number" class="qty-input" value="{{selectedQty}}">
+          </div>
+          <div class="image">
+            <img class="selectedCardImg" src="{{ &apos;../images&apos;+ selectedCard[&apos;Image path&apos;] }}">
+          </div>
+        </div>
+        <div class="button" on-tap="{{addCard}}">ADD CARD</div>
       </div>
-      <div>
-        <div class="qty-container" layout="" horizontal="" center="">
-          Qty: <input type="number" class="qty-input" value="{{selectedQty}}">
+    </template>
+    <template if="{{!smallScreen}}">
+      <div layout="" horizontal="" start="">
+        <div>
+          <input class="text-input" value="{{nameFilter}}">
+          <div class="scroll">
+            <template repeat="{{card in filteredCards}}">
+              <fow-object class="{{card===selectedCard?&apos;selected-filter-row&apos;:&apos;filter-row&apos;}}" on-tap="{{selectCard}}" card="{{card}}">
+                {{card.Name}}
+              </fow-object>
+            </template>
+          </div>
         </div>
-        <div class="image">
-          <img id="selectedCardImg">
+        <div>
+          <div class="qty-container" layout="" horizontal="" center="">
+            Qty: <input type="number" class="qty-input" value="{{selectedQty}}">
+          </div>
+          <div class="image">
+            <img class="selectedCardImg" src="{{ &apos;../images&apos;+ selectedCard[&apos;Image path&apos;] }}">
+          </div>
         </div>
+        <div class="button" on-tap="{{addCard}}">ADD CARD</div>
       </div>
-      <div class="button" on-tap="{{addCard}}">ADD CARD</div>
-    </div>
+    </template>
+      
   </template>
-  <script>(function(){Polymer("fow-card-picker",{ready:function(){this.tabIndex=0;this.currentRow=0},selectedCardChanged:function(){if(this.selectedCard){this.$.selectedCardImg.src="../images"+this.selectedCard["Image path"]}},filteredCardsChanged:function(){if(this.filteredCards&&this.filteredCards.length>0){this.selectedCard=this.filteredCards[0];this.selectedQty=1}},selectCard:function(event){this.selectedCard=event.target.card;this.selectedQty=1},addCard:function(){this.deck.cards.push({card:this.selectedCard,qty:parseInt(this.selectedQty)});this.toast.text=this.selectedQty+"x "+this.selectedCard.Name+" Added!";this.toast.show();this.fire("add")},keydownHandler:function(event,detail,sender){switch(event.keyCode){case 13:this.addCard();return;case 40:this.currentRow++;this.currentRow=this.currentRow<this.filteredCards.length?this.currentRow:this.filteredCards.length-1;break;case 38:this.currentRow--;this.currentRow=this.currentRow>0?this.currentRow:0;break;default:break}if(this.filteredCards[this.currentRow]){this.selectedCard=this.filteredCards[this.currentRow]}}})})();</script>
+  <script>(function(){Polymer("fow-card-picker",{ready:function(){this.tabIndex=0;this.currentRow=0},filteredCardsChanged:function(){if(this.filteredCards&&this.filteredCards.length>0){this.selectedCard=this.filteredCards[0];this.selectedQty=1}},selectCard:function(event){this.selectedCard=event.target.card;this.selectedQty=1},addCard:function(){this.deck.cards.push({card:this.selectedCard,qty:parseInt(this.selectedQty)});this.toast.text=this.selectedQty+"x "+this.selectedCard.Name+" Added!";this.toast.show();this.fire("add")},keydownHandler:function(event,detail,sender){switch(event.keyCode){case 13:this.addCard();return;case 40:this.currentRow++;this.currentRow=this.currentRow<this.filteredCards.length?this.currentRow:this.filteredCards.length-1;break;case 38:this.currentRow--;this.currentRow=this.currentRow>0?this.currentRow:0;break;default:break}if(this.filteredCards[this.currentRow]){this.selectedCard=this.filteredCards[this.currentRow]}}})})();</script>
 </polymer-element>
 
 
 
 <polymer-element name="fow-deck-update-card" attributes="deck deckCard" assetpath="fow-deck-update-card/">
   <template>
-    <style>:host{display:block;width:100%;margin-top:1px}.deckCard{width:100%;max-width:500px;text-align:left;padding:4px;color:#000;background-color:#646464;border-radius:2px}.cardQty{width:30px;margin:2px;margin-left:10px;text-align:center}.Fire{background-color:#be6464}.Dark{color:#fff;background-color:#0a0a0a}.Light{background-color:#b4aaa0}.Wind{background-color:#0C9}.Water{background-color:#9DCEFF}.FireCircle{color:#fff;background-color:#a01414}.DarkCircle{color:#fff;background-color:#373737}.LightCircle{background-color:#f0e6dc}.WindCircle{color:#fff;background-color:#393}.WaterCircle{color:#fff;background-color:#36C}.VoidCircle{color:#fff;background-color:#8c8c8c}.delete{height:24px;width:24px;cursor:pointer}.circle{padding:1px;text-align:center;height:24px;width:24px;border-radius:13px;margin:1px}</style>
+    <style>:host{display:block;width:100%;margin-top:1px}.deckCard{width:100%;max-width:500px;text-align:left;padding:4px;color:#000;background-color:#646464;border-radius:2px}.cardQty{width:30px;margin:2px;margin-left:10px;text-align:center}.Fire{background-color:#be6464}.Dark{color:#fff;background-color:#0a0a0a}.Light{background-color:#b4aaa0}.Wind{background-color:#0C9}.Water{background-color:#9DCEFF}.FireCircle{color:#fff;background-color:#a01414}.DarkCircle{color:#fff;background-color:#373737}.LightCircle{background-color:#f0e6dc}.WindCircle{color:#fff;background-color:#393}.WaterCircle{color:#fff;background-color:#36C}.VoidCircle{color:#fff;background-color:#8c8c8c}.delete{height:24px;width:24px;cursor:pointer}.circle{text-align:center;font-size:.8em;height:18px;width:18px;border-radius:9px;margin:1px}</style>
     <div layout="" vertical="" center="">
       <div class="deckCard {{deckCard.card.Attribute}}">
         <div layout="" horizontal="" center="">
@@ -3653,16 +3680,30 @@ how to use a custom icon set.
   <template>
     <style>:host{display:block;height:100%;width:94%;margin-left:6%}</style>
 
-    <div horizontal="" layout="">
-      <div flex="">
-        <fow-deck-update deck="{{selectedDeck}}" toast="{{toast}}" token="{{token}}">
-        </fow-deck-update>
+    <core-media-query query="max-width: 640px" querymatches="{{smallScreen}}">
+    </core-media-query>
+
+    <template if="{{!smallScreen}}">
+      <div horizontal="" layout="">
+        <div flex="">
+          <fow-deck-update smallscreen="{{smallScreen}}" deck="{{selectedDeck}}" toast="{{toast}}" token="{{token}}">
+          </fow-deck-update>
+        </div>
+        <div>
+          <fow-deck-small-list token="{{token}}" toast="{{toast}}" selecteddeck="{{selectedDeck}}">
+          </fow-deck-small-list>
+        </div>
       </div>
-      <div>
+    </template>
+    <template if="{{smallScreen}}">
+      <div layout="" vertical="" center="">
         <fow-deck-small-list token="{{token}}" toast="{{toast}}" selecteddeck="{{selectedDeck}}">
         </fow-deck-small-list>
+        <fow-deck-update smallscreen="{{smallScreen}}" deck="{{selectedDeck}}" toast="{{toast}}" token="{{token}}">
+        </fow-deck-update>
       </div>
-    </div>
+    </template>
+      
   </template>
   <script>(function(){Polymer("fow-my-decks",{})})();</script>
 </polymer-element>
