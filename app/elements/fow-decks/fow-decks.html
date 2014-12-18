@@ -2,7 +2,7 @@
 
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-cards" attributes="cards token">
+<polymer-element name="fow-decks" attributes="decks token">
   <template>
     <style>
       :host {
@@ -10,13 +10,12 @@
       }
     </style>
 
-    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
+    <fow-rest-service type="decks" items="{{decks}}" auto="true" token="{{token}}">
     </fow-rest-service>
 
   </template>
   <script>
     (function () {
-      'use strict';
 
       Polymer({
         // define element prototype here

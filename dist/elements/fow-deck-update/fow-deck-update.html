@@ -173,6 +173,9 @@
         },
 
         updateDeck: function(){
+          if(this.rulers && this.rulers.length > 0){
+            this.deck.ruler = this.rulers[0].card;
+          }
           this.$.updateDeckService.body = JSON.stringify(this.deck);
           this.$.updateDeckService.go();
         },

@@ -153,7 +153,12 @@
           </section>
 
           <section name="decks">
-              <div cross-fade layout vertical center>DECKS</div>
+            <template if="{{selected === 'decks'}}">
+              <fow-decks decks="{{decks}}" token="{{token}}">
+              </fow-decks>
+              <fow-deck-list cross-fade cards="{{cards}}" decks="{{decks}}" token="{{token}}">
+              </fow-deck-list>
+            </template>
           </section>
 
           <section name="myCards">

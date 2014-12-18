@@ -8,6 +8,7 @@ ObjectID = require('mongoskin').ObjectID;
  */
 
 var deleteDeck = function(req, res, _id){
+    console.log("deleteDeck");
     var userId = req.userId;
     db.collection('decks').remove({userId: userId, _id: _id}, function(err,result){
             if (err) {
@@ -22,6 +23,7 @@ var deleteDeck = function(req, res, _id){
 }
 
 var deleteDeckLogged = function(req, res){
+    console.log("deleteDeckLogged");
     if(req.logged){
         var _id = req.params._id;
         deleteDeck(req, res, _id);
@@ -43,6 +45,7 @@ router.delete('/:_id', function(req, res) {
  */
 
 var addCardsToDeck = function(req, res, cards, _id){
+    console.log("addCardsToDeck");
     var db = req.db;
     var userId = req.userId;
 
@@ -74,6 +77,7 @@ var addCardsToDeck = function(req, res, cards, _id){
 }
 
 var  addCardsToDeckLogged = function(req, res){
+    console.log("addCardsToDeckLogged");
     if(req.logged){
         var cards = req.body;
         var _id = req.params._id;
@@ -96,9 +100,11 @@ router.post('/:_id/cards/', function(req, res) {
  */
 
 var updateDeck = function(req, res, deck){
+    console.log("updateDeck");
     var db = req.db;
     var userId = req.userId;
     deck._id = new ObjectID(deck._id);
+    deck.date = new Date();
 
     console.log("Searching: ", deck);
     db.collection('decks').findOne({_id: deck._id, userId: deck.userId},function(err, result) {
@@ -128,6 +134,7 @@ var updateDeck = function(req, res, deck){
 }
 
 var updateDeckLogged = function(req, res){
+    console.log("updateDeckLogged");
     if(req.logged){
         var deck = req.body;
         updateDeck(req, res, deck);
@@ -149,25 +156,28 @@ router.put('/', function(req, res) {
  */
 
 var addNewDeck = function(req, res, deck){
+    console.log("addNewDeck");
     var db = req.db;
     var userId = req.userId;
     deck.userId = userId;
+    deck.author = req.user.name;
+    deck.date = new Date();
 
-    //console.log("Inserting Deck: ",deck);
-    db.collection('decks').insert(deck, function(err, deck) {
+    console.log("Inserting Deck: ",deck);
+    db.collection('decks').insert(deck, function(err, newDeck) {
         if (err) {
-            //console.log("Error inserting new deck: ", err, deck);
+            console.log("Error inserting new deck: ", err, deck);
             res.sendStatus(500).end();
-        }
-        if (deck) {
-            //console.log('Added!', deck);
-            res.sendStatus(201).json(deck).end();
+        } else if (newDeck) {
+            console.log('Added!', newDeck);
+            res.status(201).json(newDeck).end();
         }
         db.close();
     });
 }
 
 var addNewDeckLogged = function(req, res){
+    console.log("addNewDeckLogged");
     if(req.logged){
         var deck = req.body;
         addNewDeck(req, res, deck);
@@ -189,17 +199,19 @@ router.post('/', function(req, res) {
  */
 
 var getAllUserDecks = function(req, res){
+    console.log("getAllUserDecks");
     var db = req.db;
     var userId = req.userId;
-    //console.log("Searching decks");
+    console.log("Searching decks");
     db.collection('decks').find({userId: userId}).toArray(function (err, decks) {
-        //console.log("Decks for user:", userId, " :", decks);
-        res.json(decks).end();
+        console.log("Decks for user:", userId, " :", decks);
+        res.status(200).json(decks).end();
         db.close();
     });
 }
 
 var getAllUserDecksLogged = function(req, res){
+    console.log("getAllUserDecksLogged");
     if(req.logged){
         getAllUserDecks(req, res);
     } else {
@@ -221,19 +233,21 @@ router.get('/my/', function(req, res) {
  */
 
 var getDeck = function(req, res, _id){
+    console.log("getDeck");
     var db = req.db;
     db.collection('decks').find({_id: _id}).toArray(function (err, items) {
         if(err){
             res.sendStatus(500);
             db.close();
         } else {
-            res.json(items[0]);
+            res.status(200).json(items[0]);
             db.close();
         }
     });
 }
 
 var getDeckLogged = function(req, res,_id){
+    console.log("getDeckLogged");
     if(req.logged){
         getDeck(req, res,_id);
     } else {
@@ -257,13 +271,16 @@ router.get('/:_id', function(req, res) {
 
 var getAllDecks = function(req, res){
     var db = req.db;
-    db.collection('decks').find().toArray(function (err, items) {
+    var userId = req.userId;
+    console.log("getAllDecks");
+    db.collection('decks').find({$or: [{privacy: "public"}, {userId: userId}]}).toArray(function (err, items) {
         res.json(items);
         db.close();
     });
 }
 
 var getAllDecksLogged = function(req, res){
+    console.log("getAllDecksLogged");
     if(req.logged){
         getAllDecks(req, res);
     } else {

@@ -1,0 +1,46 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-media-query/core-media-query.html">
+<link rel="import" href="../../elements/elements.html">
+
+<polymer-element name="fow-deck-list" attributes="decks cards token">
+  <template>
+    <style>
+      :host {
+        display: block;
+        text-align: center;
+      }
+      .small{
+        width: 100%;
+      }
+      .large{
+        width: 94%;
+        margin-left: 6%;
+      }
+      .deck-list{
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 4px;
+      }
+    </style>
+
+    <core-media-query query="max-width: 1000px" queryMatches="{{smallScreen}}">
+    </core-media-query>
+    <div class="deck-list {{smallScreen?'small':'large'}}">
+      <h3>{{decks.length}} Decks</h3>
+      <template repeat="{{deck in decks}}">
+        <fow-deck-row on-tap="{{rowSelected}}" deck="{{deck}}">
+        </fow-deck-row>
+      </template>
+    </div>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>
