@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/core-media-query/core-media-query.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-deck-list" attributes="decks cards token selected">
+<polymer-element name="fow-deck-list" attributes="decks token selected">
   <template>
     <style>
       :host {
@@ -34,7 +34,10 @@
     <div class="deck-list {{smallScreen?'small':'large'}}">
       <h3>{{decks.length}} Decks</h3>
       <template repeat="{{deck in decks}}">
-        <fow-deck-row class="deck-row" on-tap="{{deckSelected}}" deck="{{deck}}">
+        <fow-deck-row 
+          class="deck-row" 
+          on-tap="{{deckSelected}}" 
+          deck="{{deck}}">
         </fow-deck-row>
       </template>
     </div>
@@ -44,6 +47,12 @@
     (function () {
 
       Polymer({
+        decks: null,
+
+        created: function(){
+          this.decks = [];
+        },
+
         deckSelected: function(event, detail, sender){
           this.selected = "decks/"+ sender.deck._id;
         }

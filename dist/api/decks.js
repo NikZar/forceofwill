@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 ObjectID = require('mongoskin').ObjectID;
 
+/*
+    db.decks.find()
+{ "_id" : ObjectId("548c53788b264500004980aa"), "title" : "Abdul Powa", "privacy" : "private", "cards" : [ { "card" : { "code" : "CMF-081 SR" }], "userId" : "10204933851969863", "date" : ISODate("2014-12-20T15:25:45.881Z"), "side" : [ { "card" : { "code" : "CMF-081 SR" }, "qty" : 3 }, { "card" : { "code" : "3-121 C" }, "qty" : 3 }, { "card" : { "code" : "CMF-071 R" }, "qty" : 4 }, { "card" : { "code" : "CMF-069 U" }, "qty" : 4 }, { "card" : { "code" : "CMF-067 C" }, "qty" : 3 }, { "card" : { "code" : "3-084 C" }, "qty" : 3 }, { "card" : { "code" : "2-073 SR" }, "qty" : 3 }, { "card" : { "code" : "1-146 SR" }, "qty" : 1 }, { "card" : { "code" : "2-125 C" }, "qty" : 3 }, { "card" : { "code" : "2-047 C" }, "qty" : 1 }, { "card" : { "code" : "2-110 SR" }, "qty" : 1 } ] }
+*/
 
 /*
  * DELETE a deck
@@ -94,6 +98,11 @@ router.post('/:_id/cards/', function(req, res) {
 });
 
 
+var compressDeckCard = function(deckCard) {
+    console.log("Card code:", deckCard.card.code);
+  return {card: {code: deckCard.card.code}, qty: deckCard.qty};
+}
+
 /*
  * UPDATE a deck.
  */
@@ -104,6 +113,16 @@ var updateDeck = function(req, res, deck){
     var userId = req.userId;
     deck._id = new ObjectID(deck._id);
     deck.date = new Date();
+
+    deck.cards = deck.cards.map(
+        compressDeckCard
+    );
+
+    console.log(deck.cards);
+
+    deck.side = deck.side.map(
+        compressDeckCard
+    );
 
     //console.log("Searching: ", deck);
     db.collection('decks').findOne({_id: deck._id, userId: deck.userId},function(err, result) {
@@ -160,13 +179,10 @@ var addNewDeck = function(req, res, deck){
     deck.author = req.user.name;
     deck.date = new Date();
 
-    //console.log("Inserting Deck: ",deck);
     db.collection('decks').insert(deck, function(err, newDeck) {
         if (err) {
-            //console.log("Error inserting new deck: ", err, deck);
             res.sendStatus(500).end();
         } else if (newDeck) {
-            //console.log('Added!', newDeck);
             res.status(201).json(newDeck).end();
         }
         db.close();
@@ -189,19 +205,70 @@ router.post('/', function(req, res) {
     addNewDeckLogged(req, res);
 });
 
+var getExpandedDecks = function(cards, decks){
+    var cardsDictionary = {};
 
+    for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        cardsDictionary[card.code] = card;
+    };
+
+    var expandedDecks = [];
+    for (var i = decks.length - 1; i >= 0; i--) {
+        var deck = decks[i];
+
+        deck.cards = deck.cards.map(
+            function(deckCard){
+                return {card: cardsDictionary[deckCard.card.code], qty: deckCard.qty}
+            }
+        );
+        deck.side = deck.side.map(
+            function(deckCard){
+                return {card: cardsDictionary[deckCard.card.code], qty: deckCard.qty}
+            }
+        );
+
+        expandedDecks.push(deck);
+    }
+
+    return expandedDecks;
+}
+
+var sendExpandedDecks = function (req, res, db, decks){
+    var allDecksCardCodes = [];
+    for (var i = decks.length - 1; i >= 0; i--) {
+        var deck = decks[i];
+
+        var cardsCodes = deck.cards.map(function(deckCard){
+            return deckCard.card.code;
+        });
+
+        var sideCodes = deck.side.map(function(deckCard){
+            return deckCard.card.code;
+        });
+
+        allDecksCardCodes = allDecksCardCodes.concat(cardsCodes, sideCodes);
+    };
+
+    var promiseCards = db.collection('cards').find({code: {$in: allDecksCardCodes} }).toArrayAsync();
+    promiseCards.then(function(cards){
+        var expandedDecks = getExpandedDecks(cards, decks);
+        res.status(200).json(expandedDecks).end();
+        db.close();
+    });
+}
 /*
  * GET all user decks.
  */
-
 var getAllUserDecks = function(req, res){
     var db = req.db;
     var userId = req.userId;
-    console.log("Searching decks");
     db.collection('decks').find({userId: userId}).toArray(function (err, decks) {
-        console.log("Decks for user:", userId, " :", decks);
-        res.status(200).json(decks).end();
-        db.close();
+        if(err){
+            res.sendStatus(500);
+        } else {
+            sendExpandedDecks(req, res, db, decks);
+        }
     });
 }
 
@@ -221,10 +288,35 @@ router.get('/my/', function(req, res) {
     getAllUserDecksLogged(req, res);
 });
 
-
 /*
  * GET a deck.
  */
+var sendExpandedDeck = function (req, res, db, deck){
+    var allDeckCardCodes = [];
+
+    var cardsCodes = deck.cards.map(function(deckCard){
+        return deckCard.card.code;
+    });
+
+    var sideCodes = deck.side.map(function(deckCard){
+        return deckCard.card.code;
+    });
+
+    allDeckCardCodes = allDeckCardCodes.concat(cardsCodes, sideCodes);
+
+    console.log(allDeckCardCodes);
+
+    var promiseCards = db.collection('cards').find({code: {$in: allDeckCardCodes} }).toArrayAsync();
+    promiseCards.then(function(cards){
+        console.log("Cards:",cards);
+        var decks = [];
+        decks.push(deck);
+        var expandedDecks = getExpandedDecks(cards, decks);
+        res.status(200).json(expandedDecks[0]).end();
+        db.close();
+    });
+}
+
 
 var getDeck = function(req, res, _id){
     var db = req.db;
@@ -237,12 +329,11 @@ var getDeck = function(req, res, _id){
             db.close();
         } else {
             if(decks){
-                console.log("Deck:", decks[0]);
-                res.status(200).json(decks[0]).end();
+                sendExpandedDeck(req, res, db, decks[0]);
             } else{
                 res.sendStatus(404);
+                db.close();
             }
-            db.close();
         }
     });
 }
@@ -273,9 +364,12 @@ router.get('/:_id/', function(req, res) {
 var getAllDecks = function(req, res){
     var db = req.db;
     var userId = req.userId;
-    db.collection('decks').find({$or: [{privacy: "public"}, {userId: userId}]}).toArray(function (err, items) {
-        res.json(items);
-        db.close();
+    db.collection('decks').find({$or: [{privacy: "public"}, {userId: userId}]}).toArray(function (err, decks) {
+        if(err){
+            res.sendStatus(500);
+        } else {
+            sendExpandedDecks(req, res, db, decks);
+        }
     });
 }
 

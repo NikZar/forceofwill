@@ -1,10 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/elements.html">
 
-<link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
-<link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
-<link rel="import" href="../../elements/fow-binder-row/fow-binder-row.html">
-
-<polymer-element name="fow-binder" attributes="binder token cards">
+<polymer-element name="fow-binder" attributes="binderCards token toast">
   <template>
     <style>
       :host {
@@ -27,9 +24,13 @@
     </style>
 
     <div layout vertical center>
-      <div class="binderTitle">Cards in your binder:</div>
-      <template repeat="{{card in binder}}">
-        <fow-binder-row card="{{card}}">
+      <div class="binderTitle">{{binderCards.length}} cards in your binder:</div>
+      <template repeat="{{binderCard in binderCards}}">
+        <fow-binder-row 
+          on-delete="{{deleteBinderCard}}"
+          binderCard="{{binderCard}}"
+          token="{{token}}"
+          toast="{{toast}}">
         </fow-binder-row>
       </template>
     </div>
@@ -40,7 +41,10 @@
       'use strict';
 
       Polymer({
-
+        deleteBinderCard: function(event, detail, sender){
+          var objIndex = this.binderCards.indexOf(sender.binderCard);
+          this.binderCards.splice(objIndex,1);
+        }
       });
 
     })();

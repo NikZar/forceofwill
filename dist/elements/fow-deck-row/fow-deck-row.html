@@ -65,18 +65,8 @@
   <script>
     (function () {
 
-      Array.prototype.unique = function() {
-          var unique = [];
-          for (var i = 0; i < this.length; i++) {
-              if (unique.indexOf(this[i]) == -1) {
-                  unique.push(this[i]);
-              }
-          }
-          return unique;
-      };
-
-      Polymer({
-        attributes: null,
+      Polymer("fow-deck-row",{
+        deckAttributes: null,
 
         day: 0,
 
@@ -84,18 +74,32 @@
 
         year: 0,
 
+        deck: null,
+
         created: function(){
           this.deckAttributes = [];
         },
 
+        uniqueArray: function(array) {
+            var unique = [];
+            for (var i = 0; i < array.length; i++) {
+                if (unique.indexOf(array[i]) == -1) {
+                    unique.push(array[i]);
+                }
+            }
+            return unique;
+        },
+
         deckChanged: function(){
           if(this.deck){
-            this.deckAttributes = this.deck.cards.map(function(deckCard) {
-              if(deckCard.card){
-                return deckCard.card.Attribute;
-              }
-              return "Void";
-            }).unique();
+            this.deckAttributes = this.uniqueArray(
+              this.deck.cards.map(function(deckCard) {
+                if(deckCard.card){
+                  return deckCard.card.Attribute;
+                }
+                return "Void";
+              })
+            );
 
             if(this.deck.date){
               var date = new Date(this.deck.date);

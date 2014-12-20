@@ -147,6 +147,15 @@
         src="../../images/fow.svg">
       </img>
 
+      <template if="{{!user}}">
+        <a href="https://itunes.apple.com/us/app/fow-tools/id936234730?mt=8">
+          <img 
+          class="appStoreImg" 
+          src="../../images/AppStore.png">
+          </img>
+        </a>
+      </template>
+
       <template if="{{userPhoto}}">
         
         <img class="roundedImage"
@@ -164,6 +173,7 @@
         <core-animated-pages selected="{{section}}" transitions="cross-fade">
           
           <section name="cards">
+            <!--<template if="{{section === 'cards'}}">-->
               <fow-cards 
                 cards="{{cards}}" 
                 token="{{token}}">
@@ -172,6 +182,7 @@
                 cards="{{cards}}" 
                 token="{{token}}">
               </fow-card-list>
+            <!--</template>-->
           </section>
 
           <section name="decks">
@@ -179,7 +190,6 @@
               <fow-decks decks="{{decks}}" token="{{token}}">
               </fow-decks>
               <fow-deck-list cross-fade 
-                cards="{{cards}}" 
                 decks="{{decks}}" 
                 token="{{token}}" 
                 selected="{{selected}}">
@@ -191,7 +201,7 @@
             <template if="{{section === 'deckDetail'}}">
               <fow-deck 
                 deck="{{deck}}" 
-                id="{{urlID}}" 
+                fowId="{{urlID}}" 
                 token="{{token}}">
               </fow-deck>
               <fow-deck-detail cross-fade 
@@ -205,13 +215,14 @@
             <template if="{{section === 'myCards'}}">
               <fow-rest-service 
                 type="binder/cards" 
-                items="{{binder}}" 
+                items="{{binderCards}}" 
                 auto="true" 
                 token="{{token}}">
               </fow-rest-service>
               <fow-binder cross-fade 
-                binder="{{binder}}" 
-                token="{{token}}">
+                binderCards="{{binderCards}}" 
+                token="{{token}}"
+                toast="{{$.toast}}">
               </fow-binder>
             </template>
           </section>

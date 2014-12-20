@@ -1,8 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
-<link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-binder-row" attributes="card qty">
+<polymer-element name="fow-binder-row" attributes="binderCard qty token toast">
   <template>
     <style>
       :host {
@@ -20,12 +20,9 @@
       }
 
       .delete{
-        border-radius: 50%;
-        background-color: red;
-        width: 25px;
-        height: 25px;
-        text-align: center;
-        margin-left: 10px;
+        height: 24px;
+        width: 24px;
+        cursor: pointer;
       }
 
       .qty{
@@ -34,17 +31,29 @@
 
     </style>
 
-    <fow-rest-service type="binders/cards">
+    <fow-rest-service
+      id="deleteBinderCardService"
+      auto="false" 
+      method="DELETE"
+      type="binder/cards/{{binderCard.card.code}}"
+      token="{{token}}"
+      on-rest-error="{{errorHandler}}"
+      on-rest-response="{{successHandler}}">
     </fow-rest-service>
     <div layout horizontal center>
-      <div class="cardRow">{{card.qty}}x {{card.Name}}</div>
+      <div class="cardRow">{{binderCard.qty}}x {{binderCard.card.Name}}</div>
       <input class="qty" is="core-input" 
         committedalue="{{qty}}"
         value="{{qty}}"
-        placeholder="{{card.qty}}" 
+        placeholder="{{binderCard.qty}}" 
         type="number"
         preventInvalidInput>
-      <div class="delete" on-tap="{{delete}}">x</div>
+      <core-icon
+        class="delete"
+        on-tap="{{removeCard}}" 
+        icon="cancel"
+        title="Remove">
+      </core-icon>
       {{qty}}
     </div>    
   </template>
@@ -53,17 +62,36 @@
       'use strict';
 
       Polymer({
+
         observe: {
           "qty":"sendUpdates"
         },
+
         qtyChanged: function(){
           this.sendUpdates();
         },
+
         sendUpdates: function(){
           console.log("Update qty: ", this.qty);
         },
-        delete: function(){
-          console.log("delete: ", this.card.code);
+
+        removeCard: function(){
+          this.$.deleteBinderCardService.go();
+        },
+
+        successHandler: function(event){
+          if(this.toast){
+            this.toast.text="Card deleted!";
+            this.toast.show();
+            this.fire("delete");
+          }
+        },
+
+        errorHandler: function(event){
+          if(this.toast){
+            this.toast.text="There was a problem deleting the card.";
+            this.toast.show();
+          }
         }
 
       });

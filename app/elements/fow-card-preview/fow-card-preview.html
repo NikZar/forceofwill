@@ -70,7 +70,7 @@
     <fow-rest-service id="addCard" 
       toast="{{toast}}"
       auto="false" 
-      type="binders" 
+      type="binder/cards" 
       method="POST" 
       token="{{token}}">
     </fow-rest-service>
@@ -110,7 +110,7 @@
         },
 
         addCard: function(){
-          this.$.addCard.body = JSON.stringify(this.card);
+          this.$.addCard.body = JSON.stringify({card: this.card, qty: 1});
           this.$.addCard.go();
         },
 

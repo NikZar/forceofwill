@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+/*
+	db.binders.find()
+	{ "_id" : ObjectId(""), "userId" : "", "code" : "1-001 R", "qty" : 3 }
+*/
 
 /*
  * DELETE a binder card.
@@ -8,14 +12,19 @@ var router = express.Router();
 
 var deleteCard = function(req, res, code){
 	var userId = req.userId;
-	db.collection('binders').findOne({userId: userId, code: code}, function(err, result) {
+	var db = req.db;
+	db.collection('binders').findOne(
+		{userId: userId, code: code}, 
+		function(err, result) {
 			if (err) {
+				console.log("Error finding card");
 				db.close();
 				res.sendStatus(500).end();
 			}
 			if(result){
 				db.collection('binders').remove({userId: userId, code: code}, function(err,result){
 						if (err) {
+							console.log("Error deleting card");
 							res.sendStatus(500).end();
 						} else {
 							res.sendStatus(200).end();
@@ -53,21 +62,19 @@ router.delete('/:code', function(req, res) {
  * REMOVE binder card qty.
  */
 
-var removeCard = function(req, res, card){
+var removeCard = function(req, res, binderCard){
     var db = req.db;
     var userId = req.userId;
 
-    console.log("Card: ", card);
-
-    db.collection('binders').findOne({userId: userId, code: card.code}, function(err, result) {
+    db.collection('binders').findOne({userId: userId, code: binderCard.card.code}, function(err, result) {
 		if (err) {
 			db.close();
 			res.sendStatus(500).end();
 		}
 		if(result){
-			if((result.qty-card.qty)>0){
-				db.collection('binders').update({userId: userId, code: card.code}, 
-					{'$set':{qty: (result.qty-card.qty)}}, 
+			if((result.qty-binderCard.card.qty)>0){
+				db.collection('binders').update({userId: userId, code: binderCard.card.code}, 
+					{'$set':{qty: (result.qty-binderCard.card.qty)}}, 
 					function(err) {
 					    if (err) {
 							res.sendStatus(500).end();
@@ -79,7 +86,7 @@ var removeCard = function(req, res, card){
 					}
 				);
 			} else {
-				deleteCard(req, res, card.code);
+				deleteCard(req, res, binderCard.card.code);
 			}
 			
 		} else {
@@ -92,8 +99,8 @@ var removeCard = function(req, res, card){
 
 var removeCardLogged = function(req, res){
 	if(req.logged){
-		var card = req.body;
-		removeCard(req, res, card);
+		var binderCard = req.body;
+		removeCard(req, res, binderCard);
 	} else {
 		res.sendStatus(500);
 	}
@@ -111,20 +118,17 @@ router.delete('/', function(req, res) {
  * ADD a binder card.
  */
 
-var addCard = function(req, res){
-	var card = req.body;
+var addCard = function(req, res, binderCard){
     var db = req.db;
     var userId = req.userId;
 
-    console.log("Card: ", card);
-
-    db.collection('binders').findOne({userId: userId, code: card.code}, function(err, result) {
+    db.collection('binders').findOne({userId: userId, code: binderCard.card.code}, function(err, result) {
 		if (err) {
 			res.sendStatus(500).end();
 		}
 		if(result){
 			//console.log("Updating Card: ", card);
-			db.collection('binders').update({userId: userId, code: card.code}, {'$set':{qty: (result.qty+card.qty) }}, function(err) {
+			db.collection('binders').update({userId: userId, code: binderCard.card.code}, {'$set':{qty: (result.qty+binderCard.qty) }}, function(err) {
 			    if (err) {
 					res.sendStatus(500).end();
 				}
@@ -134,8 +138,7 @@ var addCard = function(req, res){
 			    db.close();
 			});
 		} else {
-			//console.log("Inserting Card with Counter: ", card);
-			db.collection('binders').insert({userId: userId, code: card.code, qty: 1}, function(err, result) {
+			db.collection('binders').insert({userId: userId, code: binderCard.card.code, qty: binderCard.qty}, function(err, result) {
 			  	if (err) {
                 	db.close();
 					res.sendStatus(500).end();
@@ -151,8 +154,8 @@ var addCard = function(req, res){
 
 var addCardLogged = function(req, res){
 	if(req.logged){
-		var card = req.body;
-		addCard(req, res, card);
+		var binderCard = req.body;
+		addCard(req, res, binderCard);
 	} else {
 		res.sendStatus(500);
 	}
@@ -184,19 +187,23 @@ var getAllBinderCards = function(req, res){
 	    	var promiseCards = db.collection('cards').find({code: {$in: binderCodes} }).toArrayAsync();
 			promiseCards.then(function(cards){
 
-				var bindersDictionary = {};
-
-				for (var i = 0; i < binderCards.length; i++) {
-					bindersDictionary[binderCards[i].code] = binderCards[i].qty;
-				};
+				var expandedBinderCards = [];
+				var cardsDictionary = {};
 
 				for (var i = 0; i < cards.length; i++) {
-					cards[i].qty = bindersDictionary[cards[i].code];
+					var card = cards[i];
+					cardsDictionary[card.code] = card;
 				};
 
+				for (var i = 0; i < binderCards.length; i++) {
+					var binderCard = binderCards[i];
+
+					var expandedBinderCard = {card: cardsDictionary[binderCard.code], qty: binderCard.qty};
+					expandedBinderCards.push(expandedBinderCard);
+				};
+
+				res.status(200).json(expandedBinderCards).end();
 				db.close();
-				console.log("Binder Cards: " , cards);
-				res.json(cards);
 			});
 
 	    }

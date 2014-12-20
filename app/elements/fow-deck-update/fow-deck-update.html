@@ -261,33 +261,35 @@
         cardsSideQty: 0,
 
         deckChanged: function(){
-          //DECK
-          this.rulers = this.filterOnText(this.deck.cards, "Type", "Ruler");
-          this.resonators = this.filterOnText(this.deck.cards, "Type", "Resonator");
-          this.additions = this.filterOnText(this.deck.cards, "Type", "Addition");
-          this.spells = this.filterOnText(this.deck.cards, "Type", "Spell");
-          this.stones = this.filterOnText(this.deck.cards, "Type", "Stone");
+          if(this.deck){
+            //DECK
+            this.rulers = this.filterOnText(this.deck.cards, "Type", "Ruler");
+            this.resonators = this.filterOnText(this.deck.cards, "Type", "Resonator");
+            this.additions = this.filterOnText(this.deck.cards, "Type", "Addition");
+            this.spells = this.filterOnText(this.deck.cards, "Type", "Spell");
+            this.stones = this.filterOnText(this.deck.cards, "Type", "Stone");
 
-          this.cardsQty = this.countCards(this.deck.cards);
-          this.rulersQty = this.countCards(this.rulers);
-          this.resonatorsQty = this.countCards(this.resonators);
-          this.additionsQty = this.countCards(this.additions);
-          this.spellsQty = this.countCards(this.spells);
-          this.stonesQty = this.countCards(this.stones);
+            this.cardsQty = this.countCards(this.deck.cards);
+            this.rulersQty = this.countCards(this.rulers);
+            this.resonatorsQty = this.countCards(this.resonators);
+            this.additionsQty = this.countCards(this.additions);
+            this.spellsQty = this.countCards(this.spells);
+            this.stonesQty = this.countCards(this.stones);
 
-          //SIDE
-          this.rulersSide = this.filterOnText(this.deck.side, "Type", "Ruler");
-          this.resonatorsSide = this.filterOnText(this.deck.side, "Type", "Resonator");
-          this.additionsSide = this.filterOnText(this.deck.side, "Type", "Addition");
-          this.spellsSide = this.filterOnText(this.deck.side, "Type", "Spell");
-          this.stonesSide = this.filterOnText(this.deck.side, "Type", "Stone");
+            //SIDE
+            this.rulersSide = this.filterOnText(this.deck.side, "Type", "Ruler");
+            this.resonatorsSide = this.filterOnText(this.deck.side, "Type", "Resonator");
+            this.additionsSide = this.filterOnText(this.deck.side, "Type", "Addition");
+            this.spellsSide = this.filterOnText(this.deck.side, "Type", "Spell");
+            this.stonesSide = this.filterOnText(this.deck.side, "Type", "Stone");
 
-          this.cardsSideQty = this.countCards(this.deck.side);
-          this.rulersSideQty = this.countCards(this.rulersSide);
-          this.resonatorsSideQty = this.countCards(this.resonatorsSide);
-          this.additionsSideQty = this.countCards(this.additionsSide);
-          this.spellsSideQty = this.countCards(this.spellsSide);
-          this.stonesSideQty = this.countCards(this.stonesSide);
+            this.cardsSideQty = this.countCards(this.deck.side);
+            this.rulersSideQty = this.countCards(this.rulersSide);
+            this.resonatorsSideQty = this.countCards(this.resonatorsSide);
+            this.additionsSideQty = this.countCards(this.additionsSide);
+            this.spellsSideQty = this.countCards(this.spellsSide);
+            this.stonesSideQty = this.countCards(this.stonesSide);
+          }
         },
 
         countCards: function(deckCards){

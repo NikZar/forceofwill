@@ -3,7 +3,7 @@
 <link rel="import" href="../../elements/elements.html">
 
 
-<polymer-element name="fow-deck" attributes="deck id token">
+<polymer-element name="fow-deck" attributes="deck fowId token">
   <template>
     <style>
       :host {
@@ -11,7 +11,7 @@
       }
     </style>
 
-    <fow-rest-service type="decks/{{id}}" items="{{deck}}" auto="true" token="{{token}}">
+    <fow-rest-service type="decks/{{fowId}}" items="{{deck}}" auto="true" token="{{token}}">
     </fow-rest-service>
   </template>
   <script>
