@@ -3966,6 +3966,13 @@ how to use a custom icon set.
       <img class="header" src="../images/fow.svg">
       
 
+      <template if="{{!user}}">
+        <a href="https://itunes.apple.com/us/app/fow-tools/id936234730?mt=8">
+          <img class="appStoreImg" src="../images/AppStore.png">
+          
+        </a>
+      </template>
+
       <template if="{{userPhoto}}">
         
         <img class="roundedImage" src="{{userPhoto.url}}">
