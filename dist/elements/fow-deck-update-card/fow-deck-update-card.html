@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
-<polymer-element name="fow-deck-update-card" attributes="deck deckCard">
+<polymer-element name="fow-deck-update-card" attributes="deck deckCard isSide">
   <template>
     <style>
       :host {
@@ -86,7 +86,6 @@
           <div flex>
             <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
           </div>
-
           <template if="{{deckCard.card['Free Cost'] != 0}}">
             <div class="circle VoidCircle">{{deckCard.card["Free Cost"]}}</div>
           </template>
@@ -99,8 +98,26 @@
           <core-icon
             class="delete"
             on-tap="{{removeCard}}" 
-            icon="cancel">
+            icon="cancel"
+            title="Remove">
           </core-icon>
+
+          <template if="{{!isSide}}">
+            <core-icon
+              class="delete"
+              on-tap="{{moveToSide}}" 
+              icon="get-app"
+              title="Move to Side">
+            </core-icon>
+          </template>
+          <template if="{{isSide}}">
+            <core-icon
+              class="delete"
+              on-tap="{{moveToDeck}}" 
+              icon="file-upload"
+              title="Move to Deck">
+            </core-icon>
+          </template>
         </div>
       </div>
     </div>
@@ -116,6 +133,23 @@
         removeCard: function(){
           var objIndex = this.deck.cards.indexOf(this.deckCard);
           this.deck.cards.splice(objIndex,1);
+          this.needsUpdate();
+        },
+
+        moveToDeck: function(){
+          var objIndex = this.deck.side.indexOf(this.deckCard);
+          this.deck.side.splice(objIndex,1);
+          this.deck.cards.push(this.deckCard);
+          this.needsUpdate();
+        },
+
+        moveToSide: function(){
+          var objIndex = this.deck.cards.indexOf(this.deckCard);
+          this.deck.cards.splice(objIndex,1);
+          if(!this.deck.side){
+            this.deck.side = [];
+          }
+          this.deck.side.push(this.deckCard);
           this.needsUpdate();
         },
 

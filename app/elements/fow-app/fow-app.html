@@ -64,8 +64,8 @@
 
       #notificationIcon{
         position: absolute;
-        top: 6px;
-        right: 6px;
+        top: 8px;
+        right: 110px;
       }
 
       core-animated-pages{
@@ -90,9 +90,27 @@
         z-index: 0;
       }
 
+      .appStore{
+        text-decoration: none;
+        color: white;
+        position: absolute;
+        top: 6px;
+        right: 6px;
+      }
+
+      .appStoreImg{
+        width: 100px;
+      }
+
     </style>
 
     <template if="{{user}}">
+      <a class="appStore" href="https://itunes.apple.com/us/app/fow-tools/id936234730?mt=8">
+        <img 
+        class="appStoreImg" 
+        src="../../images/AppStore.png">
+        </img>
+      </a>
       <fow-notification-icon id="notificationIcon" notificationCount="{{notificationCount}}">
       </fow-notification-icon>
     </template>
@@ -146,9 +164,13 @@
         <core-animated-pages selected="{{section}}" transitions="cross-fade">
           
           <section name="cards">
-              <fow-cards cards="{{cards}}" token="{{token}}">
+              <fow-cards 
+                cards="{{cards}}" 
+                token="{{token}}">
               </fow-cards>
-              <fow-card-list cross-fade cards="{{cards}}" token="{{token}}">
+              <fow-card-list cross-fade 
+                cards="{{cards}}" 
+                token="{{token}}">
               </fow-card-list>
           </section>
 
@@ -156,16 +178,25 @@
             <template if="{{section === 'decks'}}">
               <fow-decks decks="{{decks}}" token="{{token}}">
               </fow-decks>
-              <fow-deck-list cross-fade cards="{{cards}}" decks="{{decks}}" token="{{token}}" selected="{{selected}}">
+              <fow-deck-list cross-fade 
+                cards="{{cards}}" 
+                decks="{{decks}}" 
+                token="{{token}}" 
+                selected="{{selected}}">
               </fow-deck-list>
             </template>
           </section>
 
           <section name="deckDetail">
             <template if="{{section === 'deckDetail'}}">
-              <fow-deck deck="{{deck}}" id="{{urlID}}" token="{{token}}">
+              <fow-deck 
+                deck="{{deck}}" 
+                id="{{urlID}}" 
+                token="{{token}}">
               </fow-deck>
-              <fow-deck-detail cross-fade deck="{{deck}}" token="{{token}}">
+              <fow-deck-detail cross-fade 
+                deck="{{deck}}" 
+                token="{{token}}">
               </fow-deck-detail>
             </template>
           </section>
@@ -178,7 +209,9 @@
                 auto="true" 
                 token="{{token}}">
               </fow-rest-service>
-              <fow-binder cross-fade binder="{{binder}}" token="{{token}}">
+              <fow-binder cross-fade 
+                binder="{{binder}}" 
+                token="{{token}}">
               </fow-binder>
             </template>
           </section>
@@ -187,7 +220,8 @@
             <template if="{{section === 'myDecks'}}">
               <fow-my-decks 
                 toast="{{$.toast}}" 
-                token="{{token}}">
+                token="{{token}}"
+                selected="{{selected}}">
               </fow-my-decks>
             </template>
           </section>
@@ -240,9 +274,6 @@
               this.section = this.selected;
             }
           }
-          console.log(this.selected);
-          console.log(this.section);
-          console.log(this.urlID);
         },
 
         sectionChanged: function(){

@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-deck-update" attributes="deck token toast smallScreen">
+<polymer-element name="fow-deck-update" attributes="deck token toast smallScreen selected">
   <template>
     <style>
       :host {
@@ -24,6 +24,8 @@
         margin-top: 10px;
         color: #aaa;
       }
+      .view{
+        color: #99e;
       }
     </style>
 
@@ -47,8 +49,13 @@
           deck="{{deck}}">
         </fow-card-picker>
 
-        <div>
-          <h3>{{deck.title}} ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
+        <div layout horizontal center>
+          <h3>{{deck.title}}: ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
+          <core-icon-button 
+            class="view"
+            on-tap="{{viewDeck}}" 
+            icon="visibility"
+            title="View Deck"> (share)</core-icon-button> 
         </div>
         <div class="privacy" layout horizontal center center-justified>
           <paper-radio-group selected="{{deck.privacy}}">
@@ -66,7 +73,8 @@
           </div> 
           <core-icon-button 
             on-tap="{{updateDeck}}" 
-            icon="save">
+            icon="save"
+            title="Save Deck">
           </core-icon-button>
         </div>
 
@@ -74,7 +82,11 @@
           {{rulersQty}} Ruler ({{rulers.length}})
         </div>
         <template repeat="{{deckCard in rulers}}">
-          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckCard="{{deckCard}}">
+          <fow-deck-update-card 
+            on-update="{{deckChanged}}" 
+            deck="{{deck}}" 
+            deckCard="{{deckCard}}"
+            >
           </fow-deck-update-card>
         </template>
 
@@ -82,7 +94,11 @@
           {{stonesQty}} Magic Stones ({{stones.length}} distinct)
         </div>
         <template repeat="{{deckCard in stones}}">
-          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckCard="{{deckCard}}">
+          <fow-deck-update-card 
+            on-update="{{deckChanged}}" 
+            deck="{{deck}}" 
+            deckCard="{{deckCard}}"
+            >
           </fow-deck-update-card>
         </template>
 
@@ -90,7 +106,11 @@
           {{resonatorsQty}} Resonators ({{resonators.length}} distinct)
         </div>
         <template repeat="{{deckCard in resonators}}">
-          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckCard="{{deckCard}}">
+          <fow-deck-update-card 
+            on-update="{{deckChanged}}" 
+            deck="{{deck}}" 
+            deckCard="{{deckCard}}"
+            >
           </fow-deck-update-card>
         </template>
 
@@ -98,7 +118,11 @@
           {{additionsQty}} Additions ({{additions.length}} distinct)
         </div>
         <template repeat="{{deckCard in additions}}">
-          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckCard="{{deckCard}}">
+          <fow-deck-update-card 
+            on-update="{{deckChanged}}" 
+            deck="{{deck}}" 
+            deckCard="{{deckCard}}"
+            >
           </fow-deck-update-card>
         </template>
 
@@ -106,7 +130,75 @@
           {{spellsQty}} Spells ({{spells.length}} distinct)
         </div>
         <template repeat="{{deckCard in spells}}">
-          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckCard="{{deckCard}}">
+          <fow-deck-update-card 
+            on-update="{{deckChanged}}" 
+            deck="{{deck}}" 
+            deckCard="{{deckCard}}"
+            >
+          </fow-deck-update-card>
+        </template>
+
+        <!-- SIDE -->
+        <div>
+          <h3>SIDE: ({{cardsSideQty}} cards, {{deck.side.length}} distinct)</h3>
+        </div>
+        <div class="titleType">
+          {{rulersSideQty}} Rulers ({{rulersSide.length}})
+        </div>
+        <template repeat="{{deckCard in rulersSide}}">
+          <fow-deck-update-card 
+            on-update="{{deckChanged}}" 
+            deck="{{deck}}" 
+            deckCard="{{deckCard}}"
+            isSide="true">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{stonesSideQty}} Magic Stones ({{stonesSide.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in stonesSide}}">
+          <fow-deck-update-card 
+            on-update="{{deckChanged}}" 
+            deck="{{deck}}" 
+            deckCard="{{deckCard}}"
+            isSide="true">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{resonatorsSideQty}} Resonators ({{resonatorsSide.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in resonatorsSide}}">
+          <fow-deck-update-card 
+            on-update="{{deckChanged}}" 
+            deck="{{deck}}"
+            deckCard="{{deckCard}}"
+            isSide="true">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{additionsSideQty}} Additions ({{additionsSide.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in additionsSide}}">
+          <fow-deck-update-card 
+            on-update="{{deckChanged}}" 
+            deck="{{deck}}" 
+            deckCard="{{deckCard}}"
+            isSide="true">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in spellsSide}}">
+          <fow-deck-update-card 
+            on-update="{{deckChanged}}" 
+            deck="{{deck}}" 
+            deckCard="{{deckCard}}"
+            isSide="true">
           </fow-deck-update-card>
         </template>
     </div>
@@ -122,6 +214,7 @@
 
       Polymer("fow-deck-update",{  
         
+        //DECK
         rulers: null,
 
         resonators: null,
@@ -144,7 +237,31 @@
 
         cardsQty: 0,
 
+        //SIDE
+        rulersSide: null,
+
+        resonatorsSide: null,
+
+        additionsSide: null,
+
+        spellsSide: null,
+
+        stonesSide: null,
+
+        rulersSideQty: 0,
+
+        resonatorsSideQty: 0,
+
+        additionsSideQty: 0,
+
+        spellsSideQty: 0,
+
+        stonesSideQty: 0,
+
+        cardsSideQty: 0,
+
         deckChanged: function(){
+          //DECK
           this.rulers = this.filterOnText(this.deck.cards, "Type", "Ruler");
           this.resonators = this.filterOnText(this.deck.cards, "Type", "Resonator");
           this.additions = this.filterOnText(this.deck.cards, "Type", "Addition");
@@ -152,16 +269,25 @@
           this.stones = this.filterOnText(this.deck.cards, "Type", "Stone");
 
           this.cardsQty = this.countCards(this.deck.cards);
-
           this.rulersQty = this.countCards(this.rulers);
-
           this.resonatorsQty = this.countCards(this.resonators);
-
           this.additionsQty = this.countCards(this.additions);
-
           this.spellsQty = this.countCards(this.spells);
-
           this.stonesQty = this.countCards(this.stones);
+
+          //SIDE
+          this.rulersSide = this.filterOnText(this.deck.side, "Type", "Ruler");
+          this.resonatorsSide = this.filterOnText(this.deck.side, "Type", "Resonator");
+          this.additionsSide = this.filterOnText(this.deck.side, "Type", "Addition");
+          this.spellsSide = this.filterOnText(this.deck.side, "Type", "Spell");
+          this.stonesSide = this.filterOnText(this.deck.side, "Type", "Stone");
+
+          this.cardsSideQty = this.countCards(this.deck.side);
+          this.rulersSideQty = this.countCards(this.rulersSide);
+          this.resonatorsSideQty = this.countCards(this.resonatorsSide);
+          this.additionsSideQty = this.countCards(this.additionsSide);
+          this.spellsSideQty = this.countCards(this.spellsSide);
+          this.stonesSideQty = this.countCards(this.stonesSide);
         },
 
         countCards: function(deckCards){
@@ -170,6 +296,11 @@
             sum += Math.abs(parseInt(deckCards[i].qty));
           };
           return sum;
+        },
+
+        viewDeck: function(){
+          this.updateDeck();
+          this.selected = "decks/"+ this.deck._id;
         },
 
         updateDeck: function(){
