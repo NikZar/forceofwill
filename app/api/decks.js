@@ -8,7 +8,9 @@ ObjectID = require('mongoskin').ObjectID;
  */
 
 var deleteDeck = function(req, res, _id){
+    var db = req.db;
     var userId = req.userId;
+    _id = new ObjectID(_id);
     db.collection('decks').remove({userId: userId, _id: _id}, function(err,result){
             if (err) {
                 res.sendStatus(500).end();

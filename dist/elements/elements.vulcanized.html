@@ -3465,24 +3465,35 @@ how to use a custom icon set.
     <div class="button" on-tap="{{addNewDeck}}"> New Deck </div>
 
     <template repeat="{{deck in decks}}">
-      <fow-deck-small-row on-tap="{{rowSelected}}" deck="{{deck}}" selected="{{deck._id==selectedDeck._id}}">
+      <fow-deck-small-row toast="{{toast}}" token="{{token}}" on-select="{{rowSelected}}" on-delete="{{deleteDeck}}" deck="{{deck}}" selected="{{deck._id==selectedDeck._id}}">
       </fow-deck-small-row>
     </template>
 
   </template>
-  <script>(function(){Polymer("fow-deck-small-list",{rowSelected:function(event){var row=event.target;this.selectedDeck=row.deck},addNewDeck:function(){var deck={};deck.title="New Deck";deck.privacy="private";deck.cards=[];this.$.addDeckService.body=JSON.stringify(deck);this.$.addDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck created!";this.toast.show();this.$.myDeckService.go();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem creating a new deck.";this.toast.show()}},decksChanged:function(){if(!this.selectedDeck&&this.decks){this.selectedDeck=this.decks[0]}}})})();</script>
+  <script>(function(){Polymer("fow-deck-small-list",{rowSelected:function(event){var row=event.target;this.selectedDeck=row.deck},deleteDeck:function(event,detail,sender){if(this.selectedDeck==sender.deck){this.selectedDeck=null}this.$.myDeckService.go()},addNewDeck:function(){var deck={};deck.title="New Deck";deck.privacy="private";deck.cards=[];this.$.addDeckService.body=JSON.stringify(deck);this.$.addDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck created!";this.toast.show();this.$.myDeckService.go();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem creating a new deck.";this.toast.show()}},decksChanged:function(){if(!this.selectedDeck&&this.decks){this.selectedDeck=this.decks[0]}}})})();</script>
 </polymer-element>
 
 
 
-<polymer-element name="fow-deck-small-row" attributes="deck selected" assetpath="fow-deck-small-row/">
+
+<polymer-element name="fow-deck-small-row" attributes="deck selected token toast" assetpath="fow-deck-small-row/">
   <template>
-    <style>:host{display:block;height:20px}.deck-row{padding:4px}.deck-row:hover{background-color:#333;padding-left:2px;font-style:italic}.selected-deck-row{padding:4px;font-weight:700;color:#9f9}</style>
-    <div class="{{selected?&apos;selected-deck-row&apos;:&apos;deck-row&apos;}}">
-      {{deck.title}}
+    <style>:host{display:block;height:20px}.deck-row{padding:4px}.deck-row:hover{background-color:#333;padding-left:2px;font-style:italic}.selected-deck-row{padding:4px;font-weight:700;color:#9f9}.delete{height:20px;width:20px;cursor:pointer}.delete:hover{color:red}</style>
+
+    <fow-rest-service id="deleteDeckService" type="decks/{{deck._id}}" auto="false" token="{{token}}" method="DELETE" on-rest-error="{{deleteErrorHandler}}" on-rest-response="{{deleteSuccessHandler}}">
+    </fow-rest-service>
+
+    <div layout="" horizontal="" center="" class="{{selected?&apos;selected-deck-row&apos;:&apos;deck-row&apos;}}">
+      <div on-tap="{{selectDeck}}">
+        {{deck.title}}
+      </div>
+      <div flex="" layout="" horizontal="" end-justified="">
+        <core-icon class="delete" on-tap="{{deleteDeck}}" icon="cancel">
+        </core-icon>
+      </div>
     </div>
   </template>
-  <script>(function(){Polymer("fow-deck-small-row",{})})();</script>
+  <script>(function(){Polymer("fow-deck-small-row",{deleteDeck:function(){this.$.deleteDeckService.go()},deleteErrorHandler:function(event){if(this.toast){this.toast.text="There was a problem deleting your deck.";this.toast.show()}},deleteSuccessHandler:function(event){if(this.toast){this.toast.text="Deck deleted!";this.toast.show();this.fire("delete")}},selectDeck:function(){this.fire("select")}})})();</script>
 </polymer-element>
 
 
