@@ -3827,6 +3827,50 @@ how to use a custom icon set.
             <fow-deck-detail-card deckcard="{{deckCard}}">
             </fow-deck-detail-card>
           </template>
+
+          <!-- SIDE -->
+          <div>
+            <h3>SIDE: ({{cardsSideQty}} cards, {{deck.side.length}} distinct)</h3>
+          </div>
+          <div class="titleType">
+            {{rulersSideQty}} Rulers ({{rulersSide.length}})
+          </div>
+          <template repeat="{{deckCard in rulersSide}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{stonesSideQty}} Magic Stones ({{stonesSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in stonesSide}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{resonatorsSideQty}} Resonators ({{resonatorsSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in resonatorsSide}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{additionsSideQty}} Additions ({{additionsSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in additionsSide}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in spellsSide}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
         </div>
       </div>
 
@@ -3838,7 +3882,7 @@ how to use a custom icon set.
       </div>
     </template>
   </template>
-  <script>(function(){Polymer("fow-deck-detail",{rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,deckChanged:function(){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones)},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
+  <script>(function(){Polymer("fow-deck-detail",{rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,rulersSide:null,resonatorsSide:null,additionsSide:null,spellsSide:null,stonesSide:null,rulersSideQty:0,resonatorsSideQty:0,additionsSideQty:0,spellsSideQty:0,stonesSideQty:0,cardsSideQty:0,deckChanged:function(){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones);this.rulersSide=this.filterOnText(this.deck.side,"Type","Ruler");this.resonatorsSide=this.filterOnText(this.deck.side,"Type","Resonator");this.additionsSide=this.filterOnText(this.deck.side,"Type","Addition");this.spellsSide=this.filterOnText(this.deck.side,"Type","Spell");this.stonesSide=this.filterOnText(this.deck.side,"Type","Stone");this.cardsSideQty=this.countCards(this.deck.side);this.rulersSideQty=this.countCards(this.rulersSide);this.resonatorsSideQty=this.countCards(this.resonatorsSide);this.additionsSideQty=this.countCards(this.additionsSide);this.spellsSideQty=this.countCards(this.spellsSide);this.stonesSideQty=this.countCards(this.stonesSide)},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
 </polymer-element>
 
 
