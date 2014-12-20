@@ -1,0 +1,109 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-deck-detail-card" attributes="deckCard">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+        margin-top: 1px;
+      }
+      .deckCard{
+        width: 100%;
+        max-width: 500px;
+        text-align: left;
+        padding: 4px;
+        color: black;
+        background-color: rgb(100,100,100);
+        border-radius: 2px;
+      }
+      .cardQty
+      {
+        width: 30px;
+        margin: 2px;
+        margin-left: 10px;
+        text-align: center;
+      }
+
+      .Fire{
+        background-color: rgb(190,100,100);
+      }
+      .Dark{
+        color: white;
+        background-color: rgb(10,10,10);
+      }
+      .Light{
+        background-color: rgb(180,170,160);
+      }
+      .Wind{
+        background-color: #00CC99;
+      }
+      .Water{
+        background-color: #9DCEFF;
+      }
+
+      .FireCircle{
+        color: white;
+        background-color: rgb(160,20,20);
+      }
+      .DarkCircle{
+        color: white;
+        background-color: rgb(55,55,55);
+      }
+      .LightCircle{
+        background-color: rgb(240,230,220);
+      }
+      .WindCircle{
+        color: white;
+        background-color: #393;
+      }
+      .WaterCircle{
+        color: white;
+        background-color: #36C;
+      }
+      .VoidCircle{
+        color: white;
+        background-color: rgb(140,140,140);
+      }
+
+      .delete{
+        height: 24px;
+        width: 24px;
+        cursor: pointer;
+      }
+      .circle{
+        text-align: center;
+        font-size: 0.8em;
+        height: 18px;
+        width: 18px;
+        border-radius: 9px;
+        margin: 1px;
+      }
+    </style>
+    <div layout vertical center>
+      <div class="deckCard {{deckCard.card.Attribute}}">
+        <div layout horizontal center>
+          <div flex>
+            <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
+          </div>
+
+          <template if="{{deckCard.card['Free Cost'] != 0}}">
+            <div class="circle VoidCircle">{{deckCard.card["Free Cost"]}}</div>
+          </template>
+
+          <template if="{{deckCard.card['Attribute Cost'] != 0}}">
+            <div class="circle {{deckCard.card.Attribute + 'Circle'}}">{{deckCard.card["Attribute Cost"]}}</div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+      });
+
+    })();
+  </script>
+</polymer-element>

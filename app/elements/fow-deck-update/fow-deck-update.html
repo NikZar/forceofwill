@@ -24,6 +24,7 @@
         margin-top: 10px;
         color: #aaa;
       }
+      }
     </style>
 
     <fow-rest-service id="updateDeckService" 
@@ -108,8 +109,7 @@
           <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckCard="{{deckCard}}">
           </fow-deck-update-card>
         </template>
-      </div>
-
+    </div>
     </template>
     <template if="{{!deck}}">
       <div layout vertical center> 

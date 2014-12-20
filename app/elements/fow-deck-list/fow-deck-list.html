@@ -2,24 +2,30 @@
 <link rel="import" href="../../bower_components/core-media-query/core-media-query.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-deck-list" attributes="decks cards token">
+<polymer-element name="fow-deck-list" attributes="decks cards token selected">
   <template>
     <style>
       :host {
         display: block;
         text-align: center;
+        margin-top: 12px;
       }
       .small{
-        width: 100%;
+        width: 98%;
+        margin-left: 1%;
       }
       .large{
-        width: 94%;
+        width: 93%;
         margin-left: 6%;
       }
       .deck-list{
         background-color: rgba(255,255,255,0.1);
         border-radius: 10px;
         padding: 4px;
+      }
+      .deck-row:hover{
+        background-color: #a7a;
+        cursor: pointer;
       }
     </style>
 
@@ -28,7 +34,7 @@
     <div class="deck-list {{smallScreen?'small':'large'}}">
       <h3>{{decks.length}} Decks</h3>
       <template repeat="{{deck in decks}}">
-        <fow-deck-row on-tap="{{rowSelected}}" deck="{{deck}}">
+        <fow-deck-row class="deck-row" on-tap="{{deckSelected}}" deck="{{deck}}">
         </fow-deck-row>
       </template>
     </div>
@@ -38,7 +44,9 @@
     (function () {
 
       Polymer({
-        // define element prototype here
+        deckSelected: function(event, detail, sender){
+          this.selected = "decks/"+ sender.deck._id;
+        }
       });
 
     })();
