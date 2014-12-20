@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+/*
+	db.binders.find()
+	{ "_id" : ObjectId(""), "userId" : "", "code" : "1-001 R", "qty" : 3 }
+*/
 
 /*
  * DELETE a binder card.
