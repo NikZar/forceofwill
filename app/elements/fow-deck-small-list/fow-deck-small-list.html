@@ -72,10 +72,11 @@
         },
 
         deleteDeck: function(event, detail, sender){
+          var objIndex = this.decks.indexOf(sender.deck);
+          this.decks.splice(objIndex,1);
           if(this.selectedDeck == sender.deck){
             this.selectedDeck = null;
           }
-          this.$.myDeckService.go();
         },
 
         addNewDeck: function(){
@@ -92,8 +93,8 @@
           if(this.toast){
             this.toast.text="Deck created!";
             this.toast.show();
-            this.$.myDeckService.go();
             this.selectedDeck = event.detail.detail.response[0];
+            this.decks.push(this.selectedDeck);
           }
         },
 
@@ -105,8 +106,8 @@
         },
 
         decksChanged: function(){
-          //console.log(this.decks);
-          //console.log(this.selectedDeck);
+          console.log(this.decks);
+          console.log(this.selectedDeck);
           if(!this.selectedDeck && this.decks){
             this.selectedDeck = this.decks[0];
           }
