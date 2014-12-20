@@ -50,7 +50,13 @@
     <div class="button" on-tap="{{addNewDeck}}"> New Deck </div>
 
     <template repeat="{{deck in decks}}">
-      <fow-deck-small-row on-tap="{{rowSelected}}" deck="{{deck}}" selected="{{deck._id==selectedDeck._id}}">
+      <fow-deck-small-row 
+        toast="{{toast}}"
+        token="{{token}}"
+        on-select="{{rowSelected}}" 
+        on-delete="{{deleteDeck}}"
+        deck="{{deck}}" 
+        selected="{{deck._id==selectedDeck._id}}">
       </fow-deck-small-row>
     </template>
 
@@ -63,6 +69,13 @@
         rowSelected: function(event){
           var row = event.target;
           this.selectedDeck = row.deck;
+        },
+
+        deleteDeck: function(event, detail, sender){
+          if(this.selectedDeck == sender.deck){
+            this.selectedDeck = null;
+          }
+          this.$.myDeckService.go();
         },
 
         addNewDeck: function(){
