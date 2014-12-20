@@ -1,7 +1,9 @@
 Deck Tools For Force of Will TCG
 ===========
 
-A WIP simple webapp for managing Force of Will TCG cards.
+A WIP WebApp for managing Force of Will TCG cards.
+
+Visit our website: http://fowtools.com
 
 ---- 
 Development Tips
