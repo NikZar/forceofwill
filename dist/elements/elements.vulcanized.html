@@ -2622,7 +2622,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style type="text/css">:host{font-family:Open Sans;display:block;background-color:rgba(255,255,255,.9);margin:10px;padding:10px;border-radius:5px;color:#222;min-height:142px}#cardImg{width:100px;margin-top:1px;margin-right:10px;cursor:pointer}.preview{margin-left:10px}.title{font-size:1.5em}#description{font-size:.7em}core-icon:hover{color:#5a5;cursor:pointer}.modal{position:fixed;top:10%;left:50%;height:450px;width:310px;margin-left:-145px;z-index:99;display:none}.shadow{position:fixed;top:0;left:0;background-color:rgba(0,0,0,.8);z-index:98;width:100%;height:100%;display:none}.cardImgZoom{width:100%;height:100%}</style>
 
-    <fow-rest-service id="addCard" toast="{{toast}}" auto="false" type="binders" method="POST" token="{{token}}">
+    <fow-rest-service id="addCard" toast="{{toast}}" auto="false" type="binder/cards" method="POST" token="{{token}}">
     </fow-rest-service>
 
     <div>
@@ -2643,7 +2643,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div id="modal" class="modal"><img on-tap="{{zoom}}" id="cardImgZoom" class="cardImgZoom"></div>
     
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-preview",{zoomed:false,cardChanged:function(){if(this.card){this.$.cardImg.src="../images"+this.card["Image path"];this.$.cardImgZoom.src="../images"+this.card["Image path"];this.$.description.innerHTML=this.card.Cardtext}},addCard:function(){this.$.addCard.body=JSON.stringify(this.card);this.$.addCard.go()},zoom:function(){if(this.zoomed){this.$.shadow.style.display="none";this.$.modal.style.display="none"}else{this.$.shadow.style.display="block";this.$.modal.style.display="block"}this.zoomed=!this.zoomed}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-card-preview",{zoomed:false,cardChanged:function(){if(this.card){this.$.cardImg.src="../images"+this.card["Image path"];this.$.cardImgZoom.src="../images"+this.card["Image path"];this.$.description.innerHTML=this.card.Cardtext}},addCard:function(){this.$.addCard.body=JSON.stringify({card:this.card,qty:1});this.$.addCard.go()},zoom:function(){if(this.zoomed){this.$.shadow.style.display="none";this.$.modal.style.display="none"}else{this.$.shadow.style.display="block";this.$.modal.style.display="block"}this.zoomed=!this.zoomed}})})();</script>
 </polymer-element>
 
 
@@ -3062,49 +3062,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-<polymer-element name="fow-binder-row" attributes="card qty" assetpath="fow-binder-row/">
-  <template>
-    <style>:host{margin:1px;display:block;font-family:Open Sans;background-color:rgba(255,255,255,.1)}.cardRow{margin:1px;margin-left:4px;padding:4px;width:85%}.delete{border-radius:50%;background-color:red;width:25px;height:25px;text-align:center;margin-left:10px}.qty{width:30px}</style>
-
-    <fow-rest-service id="deleteBinderCardService" auto="false" method="DELETE" type="binder/cards">
-    </fow-rest-service>
-    <div layout="" horizontal="" center="">
-      <div class="cardRow">{{card.qty}}x {{card.Name}}</div>
-      <input class="qty" is="core-input" committedalue="{{qty}}" value="{{qty}}" placeholder="{{card.qty}}" type="number" preventinvalidinput="">
-      <div class="delete" on-tap="{{delete}}">x</div>
-      {{qty}}
-    </div>    
-  </template>
-  <script>(function(){"use strict";Polymer("fow-binder-row",{observe:{qty:"sendUpdates"},qtyChanged:function(){this.sendUpdates()},sendUpdates:function(){console.log("Update qty: ",this.qty)},"delete":function(){console.log("delete: ",this.card.code)}})})();</script>
-</polymer-element>
-
-
-<polymer-element name="fow-binder" attributes="binder token cards" assetpath="fow-binder/">
-  <template>
-    <style>:host{display:block;font-family:Open Sans;margin-top:5px;margin-left:6%;width:90%;height:100%}.binderTitle{font-size:1.2em}fow-binder-row{width:100%}</style>
-
-    <div layout="" vertical="" center="">
-      <div class="binderTitle">Cards in your binder:</div>
-      <template repeat="{{card in binder}}">
-        <fow-binder-row card="{{card}}">
-        </fow-binder-row>
-      </template>
-    </div>
-
-  </template>
-  <script>(function(){"use strict";Polymer("fow-binder",{})})();</script>
-</polymer-element>
-
-
-
-
-
-
-
-
-
-
-
 
 
 <polymer-element name="fow-card-add" attributes="token toast" assetpath="fow-card-add/">
@@ -3193,6 +3150,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
+
+
+
+
+<polymer-element name="fow-cards" attributes="cards token" assetpath="fow-cards/">
+  <template>
+    <style>:host{display:block}</style>
+
+    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
+    </fow-rest-service>
+
+  </template>
+  <script>(function(){"use strict";Polymer("fow-cards",{})})();</script>
+</polymer-element>
 
 
 
@@ -3915,16 +3886,46 @@ how to use a custom icon set.
 
 
 
-<polymer-element name="fow-cards" attributes="cards token" assetpath="fow-cards/">
-  <template>
-    <style>:host{display:block}</style>
 
-    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
+
+
+<polymer-element name="fow-binder-row" attributes="binderCard qty token toast" assetpath="fow-binder-row/">
+  <template>
+    <style>:host{margin:1px;display:block;font-family:Open Sans;background-color:rgba(255,255,255,.1)}.cardRow{margin:1px;margin-left:4px;padding:4px;width:85%}.delete{height:24px;width:24px;cursor:pointer}.qty{width:30px}</style>
+
+    <fow-rest-service id="deleteBinderCardService" auto="false" method="DELETE" type="binder/cards/{{binderCard.card.code}}" token="{{token}}" on-rest-error="{{errorHandler}}" on-rest-response="{{successHandler}}">
     </fow-rest-service>
+    <div layout="" horizontal="" center="">
+      <div class="cardRow">{{binderCard.qty}}x {{binderCard.card.Name}}</div>
+      <input class="qty" is="core-input" committedalue="{{qty}}" value="{{qty}}" placeholder="{{binderCard.qty}}" type="number" preventinvalidinput="">
+      <core-icon class="delete" on-tap="{{removeCard}}" icon="cancel" title="Remove">
+      </core-icon>
+      {{qty}}
+    </div>    
+  </template>
+  <script>(function(){"use strict";Polymer("fow-binder-row",{observe:{qty:"sendUpdates"},qtyChanged:function(){this.sendUpdates()},sendUpdates:function(){console.log("Update qty: ",this.qty)},removeCard:function(){this.$.deleteBinderCardService.go()},successHandler:function(event){if(this.toast){this.toast.text="Card deleted!";this.toast.show();this.fire("delete")}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem deleting the card.";this.toast.show()}}})})();</script>
+</polymer-element>
+
+
+
+
+<polymer-element name="fow-binder" attributes="binderCards token toast" assetpath="fow-binder/">
+  <template>
+    <style>:host{display:block;font-family:Open Sans;margin-top:5px;margin-left:6%;width:90%;height:100%}.binderTitle{font-size:1.2em}fow-binder-row{width:100%}</style>
+
+    <div layout="" vertical="" center="">
+      <div class="binderTitle">{{binderCards.length}} cards in your binder:</div>
+      <template repeat="{{binderCard in binderCards}}">
+        <fow-binder-row on-delete="{{deleteBinderCard}}" bindercard="{{binderCard}}" token="{{token}}" toast="{{toast}}">
+        </fow-binder-row>
+      </template>
+    </div>
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-cards",{})})();</script>
+  <script>(function(){"use strict";Polymer("fow-binder",{deleteBinderCard:function(event,detail,sender){var objIndex=this.binderCards.indexOf(sender.binderCard);this.binderCards.splice(objIndex,1)}})})();</script>
 </polymer-element>
+
+
 
 
 
@@ -4017,9 +4018,9 @@ how to use a custom icon set.
 
           <section name="myCards">
             <template if="{{section === &apos;myCards&apos;}}">
-              <fow-rest-service type="binder/cards" items="{{binder}}" auto="true" token="{{token}}">
+              <fow-rest-service type="binder/cards" items="{{binderCards}}" auto="true" token="{{token}}">
               </fow-rest-service>
-              <fow-binder cross-fade="" binder="{{binder}}" token="{{token}}">
+              <fow-binder cross-fade="" bindercards="{{binderCards}}" token="{{token}}" toast="{{$.toast}}">
               </fow-binder>
             </template>
           </section>
@@ -4064,4 +4065,4 @@ how to use a custom icon set.
   </template>
   <script>(function(){"use strict";Polymer("fow-app",{section:"cards",selectedChanged:function(){if(this.selected){if(this.contains(this.selected,"decks/")){this.section="deckDetail";this.urlID=this.selected.substring("decks/".length)}else{this.section=this.selected}}},sectionChanged:function(){if(this.section&&this.section!=this.selected){if(this.section!="deckDetail"){this.selected=this.section}}},contains:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
 </polymer-element>
-</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>
+</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>
