@@ -2909,20 +2909,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <core-icon name="myDecks" class="menu-icon {{ (selected === &apos;myDecks&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}"><div class="myd">my</div>
         </core-icon>
 
-        <core-icon name="friends" class="menu-icon {{ (selected === &apos;friends&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:people" on-tap="{{buttonTapped}}">
+        <!--
+        <core-icon 
+          name="friends" 
+          class="menu-icon {{ (selected === 'friends')?'blue':'' }}" 
+          icon="social:people" 
+          on-tap="{{buttonTapped}}">
         </core-icon>
-        <core-icon name="messages" class="menu-icon {{ (selected === &apos;messages&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="communication:forum" on-tap="{{buttonTapped}}">
+        <core-icon 
+          name="messages" 
+          class="menu-icon {{ (selected === 'messages')?'blue':'' }}" 
+          icon="communication:forum" 
+          on-tap="{{buttonTapped}}">
         </core-icon>
-        <core-icon name="trading" class="menu-icon {{ (selected === &apos;trading&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:circles-extended" on-tap="{{buttonTapped}}">
+        <core-icon 
+          name="trading" 
+          class="menu-icon {{ (selected === 'trading')?'blue':'' }}" 
+          icon="social:circles-extended" 
+          on-tap="{{buttonTapped}}">
         </core-icon>
 
-        <core-icon name="tournaments" class="menu-icon {{ (selected === &apos;tournaments&apos;)?&apos;orange&apos;:&apos;&apos; }}" icon="social:communities" on-tap="{{buttonTapped}}">
+        <core-icon 
+          name="tournaments" 
+          class="menu-icon {{ (selected === 'tournaments')?'orange':'' }}" 
+          icon="social:communities" 
+          on-tap="{{buttonTapped}}">
         </core-icon>
-        <core-icon name="ranking" class="menu-icon {{ (selected === &apos;ranking&apos;)?&apos;orange&apos;:&apos;&apos; }}" icon="star-half" on-tap="{{buttonTapped}}">
+        <core-icon 
+          name="ranking" 
+          class="menu-icon {{ (selected === 'ranking')?'orange':'' }}" 
+          icon="star-half" 
+          on-tap="{{buttonTapped}}">
         </core-icon>
 
-        <core-icon name="settings" class="menu-icon {{ (selected === &apos;settings&apos;)?&apos;grey&apos;:&apos;&apos; }}" icon="settings" on-tap="{{buttonTapped}}">
+        <core-icon 
+          name="settings" 
+          class="menu-icon {{ (selected === 'settings')?'grey':'' }}" 
+          icon="settings" 
+          on-tap="{{buttonTapped}}">
         </core-icon>
+        -->
 
       </div>
     </template>
@@ -2941,21 +2967,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <core-icon name="myDecks" class="menu-icon {{ (selected === &apos;myDecks&apos;)?&apos;green&apos;:&apos;&apos; }}" icon="list" on-tap="{{buttonTapped}}"><div class="myd">my</div>
           </core-icon>
 
-          <core-icon name="friends" class="menu-icon {{ (selected === &apos;friends&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:people" on-tap="{{buttonTapped}}">
+          <!--
+          <core-icon 
+            name="friends" 
+            class="menu-icon {{ (selected === 'friends')?'blue':'' }}" 
+            icon="social:people" 
+            on-tap="{{buttonTapped}}">
           </core-icon>
-          <core-icon name="messages" class="menu-icon {{ (selected === &apos;messages&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="communication:forum" on-tap="{{buttonTapped}}">
+          <core-icon 
+            name="messages" 
+            class="menu-icon {{ (selected === 'messages')?'blue':'' }}" 
+            icon="communication:forum" 
+            on-tap="{{buttonTapped}}">
           </core-icon>
-          <core-icon name="trading" class="menu-icon {{ (selected === &apos;trading&apos;)?&apos;blue&apos;:&apos;&apos; }}" icon="social:circles-extended" on-tap="{{buttonTapped}}">
+          <core-icon 
+            name="trading" 
+            class="menu-icon {{ (selected === 'trading')?'blue':'' }}" 
+            icon="social:circles-extended" 
+            on-tap="{{buttonTapped}}">
           </core-icon>
 
-          <core-icon name="tournaments" class="menu-icon {{ (selected === &apos;tournaments&apos;)?&apos;orange&apos;:&apos;&apos; }}" icon="social:communities" on-tap="{{buttonTapped}}">
+          <core-icon 
+            name="tournaments" 
+            class="menu-icon {{ (selected === 'tournaments')?'orange':'' }}" 
+            icon="social:communities" 
+            on-tap="{{buttonTapped}}">
           </core-icon>
-          <core-icon name="ranking" class="menu-icon {{ (selected === &apos;ranking&apos;)?&apos;orange&apos;:&apos;&apos; }}" icon="star-half" on-tap="{{buttonTapped}}">
+          <core-icon 
+            name="ranking" 
+            class="menu-icon {{ (selected === 'ranking')?'orange':'' }}" 
+            icon="star-half" 
+            on-tap="{{buttonTapped}}">
           </core-icon>
 
-          <core-icon name="settings" class="menu-icon {{ (selected === &apos;settings&apos;)?&apos;grey&apos;:&apos;&apos; }}" icon="settings" on-tap="{{buttonTapped}}">
+          <core-icon 
+            name="settings" 
+            class="menu-icon {{ (selected === 'settings')?'grey':'' }}" 
+            icon="settings" 
+            on-tap="{{buttonTapped}}">
           </core-icon>
-        
+          -->
         </div>
       </div>
     </template>
@@ -3288,7 +3339,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-<polymer-element name="fow-my-decks" attributes="token toast" assetpath="fow-my-decks/">
+<polymer-element name="fow-my-decks" attributes="token toast selected" assetpath="fow-my-decks/">
   <template>
     <style>:host{display:block;height:100%;width:94%;margin-left:6%}</style>
 
@@ -3298,7 +3349,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <template if="{{!smallScreen}}">
       <div horizontal="" layout="">
         <div flex="">
-          <fow-deck-update smallscreen="{{smallScreen}}" deck="{{selectedDeck}}" toast="{{toast}}" token="{{token}}">
+          <fow-deck-update smallscreen="{{smallScreen}}" deck="{{selectedDeck}}" toast="{{toast}}" token="{{token}}" selected="{{selected}}">
           </fow-deck-update>
         </div>
         <div>
@@ -3364,9 +3415,9 @@ how to use a custom icon set.
 
 
 
-<polymer-element name="fow-deck-update" attributes="deck token toast smallScreen" assetpath="fow-deck-update/">
+<polymer-element name="fow-deck-update" attributes="deck token toast smallScreen selected" assetpath="fow-deck-update/">
   <template>
-    <style>:host{display:block;margin-top:14px;margin-right:5px;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;padding-top:15px;padding-bottom:15px;min-height:100%}.titleType{width:100%;max-width:500px;text-align:left;margin-left:-4px;margin-top:10px;color:#aaa}}</style>
+    <style>:host{display:block;margin-top:14px;margin-right:5px;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;padding-top:15px;padding-bottom:15px;min-height:100%}.titleType{width:100%;max-width:500px;text-align:left;margin-left:-4px;margin-top:10px;color:#aaa}.view{color:#99e}</style>
 
     <fow-rest-service id="updateDeckService" type="decks" auto="false" token="{{token}}" method="PUT" on-rest-error="{{errorHandler}}" on-rest-response="{{successHandler}}">
     </fow-rest-service>
@@ -3378,8 +3429,9 @@ how to use a custom icon set.
         <fow-card-picker smallscreen="{{smallScreen}}" toast="{{toast}}" on-add="{{deckChanged}}" deck="{{deck}}">
         </fow-card-picker>
 
-        <div>
-          <h3>{{deck.title}} ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
+        <div layout="" horizontal="" center="">
+          <h3>{{deck.title}}: ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
+          <core-icon-button class="view" on-tap="{{viewDeck}}" icon="visibility" title="View Deck"> (share)</core-icon-button> 
         </div>
         <div class="privacy" layout="" horizontal="" center="" center-justified="">
           <paper-radio-group selected="{{deck.privacy}}">
@@ -3395,7 +3447,7 @@ how to use a custom icon set.
             </core-icon-button>
              <input class="text-input" value="{{deck.title}}">
           </div> 
-          <core-icon-button on-tap="{{updateDeck}}" icon="save">
+          <core-icon-button on-tap="{{updateDeck}}" icon="save" title="Save Deck">
           </core-icon-button>
         </div>
 
@@ -3438,6 +3490,50 @@ how to use a custom icon set.
           <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckcard="{{deckCard}}">
           </fow-deck-update-card>
         </template>
+
+        <!-- SIDE -->
+        <div>
+          <h3>SIDE: ({{cardsSideQty}} cards, {{deck.side.length}} distinct)</h3>
+        </div>
+        <div class="titleType">
+          {{rulersSideQty}} Rulers ({{rulersSide.length}})
+        </div>
+        <template repeat="{{deckCard in rulersSide}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckcard="{{deckCard}}" isside="true">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{stonesSideQty}} Magic Stones ({{stonesSide.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in stonesSide}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckcard="{{deckCard}}" isside="true">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{resonatorsSideQty}} Resonators ({{resonatorsSide.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in resonatorsSide}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckcard="{{deckCard}}" isside="true">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{additionsSideQty}} Additions ({{additionsSide.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in additionsSide}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckcard="{{deckCard}}" isside="true">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in spellsSide}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckcard="{{deckCard}}" isside="true">
+          </fow-deck-update-card>
+        </template>
     </div>
     </template>
     <template if="{{!deck}}">
@@ -3446,7 +3542,7 @@ how to use a custom icon set.
       </div>
     </template>
   </template>
-  <script>(function(){Polymer("fow-deck-update",{rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,deckChanged:function(){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones)},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},updateDeck:function(){if(this.rulers&&this.rulers.length>0){this.deck.ruler=this.rulers[0].card}this.$.updateDeckService.body=JSON.stringify(this.deck);this.$.updateDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck updated!";this.toast.show();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem updating the deck.";this.toast.show()}},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
+  <script>(function(){Polymer("fow-deck-update",{rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,rulersSide:null,resonatorsSide:null,additionsSide:null,spellsSide:null,stonesSide:null,rulersSideQty:0,resonatorsSideQty:0,additionsSideQty:0,spellsSideQty:0,stonesSideQty:0,cardsSideQty:0,deckChanged:function(){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones);this.rulersSide=this.filterOnText(this.deck.side,"Type","Ruler");this.resonatorsSide=this.filterOnText(this.deck.side,"Type","Resonator");this.additionsSide=this.filterOnText(this.deck.side,"Type","Addition");this.spellsSide=this.filterOnText(this.deck.side,"Type","Spell");this.stonesSide=this.filterOnText(this.deck.side,"Type","Stone");this.cardsSideQty=this.countCards(this.deck.side);this.rulersSideQty=this.countCards(this.rulersSide);this.resonatorsSideQty=this.countCards(this.resonatorsSide);this.additionsSideQty=this.countCards(this.additionsSide);this.spellsSideQty=this.countCards(this.spellsSide);this.stonesSideQty=this.countCards(this.stonesSide)},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},viewDeck:function(){this.updateDeck();this.selected="decks/"+this.deck._id},updateDeck:function(){if(this.rulers&&this.rulers.length>0){this.deck.ruler=this.rulers[0].card}this.$.updateDeckService.body=JSON.stringify(this.deck);this.$.updateDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck updated!";this.toast.show();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem updating the deck.";this.toast.show()}},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
 </polymer-element>
 
 
@@ -3470,7 +3566,7 @@ how to use a custom icon set.
     </template>
 
   </template>
-  <script>(function(){Polymer("fow-deck-small-list",{rowSelected:function(event){var row=event.target;this.selectedDeck=row.deck},deleteDeck:function(event,detail,sender){if(this.selectedDeck==sender.deck){this.selectedDeck=null}this.$.myDeckService.go()},addNewDeck:function(){var deck={};deck.title="New Deck";deck.privacy="private";deck.cards=[];this.$.addDeckService.body=JSON.stringify(deck);this.$.addDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck created!";this.toast.show();this.$.myDeckService.go();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem creating a new deck.";this.toast.show()}},decksChanged:function(){if(!this.selectedDeck&&this.decks){this.selectedDeck=this.decks[0]}}})})();</script>
+  <script>(function(){Polymer("fow-deck-small-list",{rowSelected:function(event){var row=event.target;this.selectedDeck=row.deck},deleteDeck:function(event,detail,sender){if(this.selectedDeck==sender.deck){this.selectedDeck=null}this.$.myDeckService.go()},addNewDeck:function(){var deck={};deck.title="New Deck";deck.privacy="private";deck.cards=[];deck.side=[];this.$.addDeckService.body=JSON.stringify(deck);this.$.addDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck created!";this.toast.show();this.$.myDeckService.go();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem creating a new deck.";this.toast.show()}},decksChanged:function(){if(!this.selectedDeck&&this.decks){this.selectedDeck=this.decks[0]}}})})();</script>
 </polymer-element>
 
 
@@ -3565,7 +3661,7 @@ how to use a custom icon set.
 
 
 
-<polymer-element name="fow-deck-update-card" attributes="deck deckCard" assetpath="fow-deck-update-card/">
+<polymer-element name="fow-deck-update-card" attributes="deck deckCard isSide" assetpath="fow-deck-update-card/">
   <template>
     <style>:host{display:block;width:100%;margin-top:1px}.deckCard{width:100%;max-width:500px;text-align:left;padding:4px;color:#000;background-color:#646464;border-radius:2px}.cardQty{width:30px;margin:2px;margin-left:10px;text-align:center}.Fire{background-color:#be6464}.Dark{color:#fff;background-color:#0a0a0a}.Light{background-color:#b4aaa0}.Wind{background-color:#0C9}.Water{background-color:#9DCEFF}.FireCircle{color:#fff;background-color:#a01414}.DarkCircle{color:#fff;background-color:#373737}.LightCircle{background-color:#f0e6dc}.WindCircle{color:#fff;background-color:#393}.WaterCircle{color:#fff;background-color:#36C}.VoidCircle{color:#fff;background-color:#8c8c8c}.delete{height:24px;width:24px;cursor:pointer}.circle{text-align:center;font-size:.8em;height:18px;width:18px;border-radius:9px;margin:1px}</style>
     <div layout="" vertical="" center="">
@@ -3574,7 +3670,6 @@ how to use a custom icon set.
           <div flex="">
             <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
           </div>
-
           <template if="{{deckCard.card[&apos;Free Cost&apos;] != 0}}">
             <div class="circle VoidCircle">{{deckCard.card["Free Cost"]}}</div>
           </template>
@@ -3584,13 +3679,22 @@ how to use a custom icon set.
           </template>
 
           <input class="cardQty" type="number" value="{{deckCard.qty}}">
-          <core-icon class="delete" on-tap="{{removeCard}}" icon="cancel">
+          <core-icon class="delete" on-tap="{{removeCard}}" icon="cancel" title="Remove">
           </core-icon>
+
+          <template if="{{!isSide}}">
+            <core-icon class="delete" on-tap="{{moveToSide}}" icon="get-app" title="Move to Side">
+            </core-icon>
+          </template>
+          <template if="{{isSide}}">
+            <core-icon class="delete" on-tap="{{moveToDeck}}" icon="file-upload" title="Move to Deck">
+            </core-icon>
+          </template>
         </div>
       </div>
     </div>
   </template>
-  <script>(function(){Polymer("fow-deck-update-card",{observe:{"deckCard.qty":"needsUpdate"},removeCard:function(){var objIndex=this.deck.cards.indexOf(this.deckCard);this.deck.cards.splice(objIndex,1);this.needsUpdate()},needsUpdate:function(){this.fire("update")}})})();</script>
+  <script>(function(){Polymer("fow-deck-update-card",{observe:{"deckCard.qty":"needsUpdate"},removeCard:function(){var objIndex=this.deck.cards.indexOf(this.deckCard);this.deck.cards.splice(objIndex,1);this.needsUpdate()},moveToDeck:function(){var objIndex=this.deck.side.indexOf(this.deckCard);this.deck.side.splice(objIndex,1);this.deck.cards.push(this.deckCard);this.needsUpdate()},moveToSide:function(){var objIndex=this.deck.cards.indexOf(this.deckCard);this.deck.cards.splice(objIndex,1);if(!this.deck.side){this.deck.side=[]}this.deck.side.push(this.deckCard);this.needsUpdate()},needsUpdate:function(){this.fire("update")}})})();</script>
 </polymer-element>
 
 
@@ -3723,6 +3827,50 @@ how to use a custom icon set.
             <fow-deck-detail-card deckcard="{{deckCard}}">
             </fow-deck-detail-card>
           </template>
+
+          <!-- SIDE -->
+          <div>
+            <h3>SIDE: ({{cardsSideQty}} cards, {{deck.side.length}} distinct)</h3>
+          </div>
+          <div class="titleType">
+            {{rulersSideQty}} Rulers ({{rulersSide.length}})
+          </div>
+          <template repeat="{{deckCard in rulersSide}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{stonesSideQty}} Magic Stones ({{stonesSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in stonesSide}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{resonatorsSideQty}} Resonators ({{resonatorsSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in resonatorsSide}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{additionsSideQty}} Additions ({{additionsSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in additionsSide}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in spellsSide}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
         </div>
       </div>
 
@@ -3734,7 +3882,7 @@ how to use a custom icon set.
       </div>
     </template>
   </template>
-  <script>(function(){Polymer("fow-deck-detail",{rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,deckChanged:function(){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones)},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
+  <script>(function(){Polymer("fow-deck-detail",{rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,rulersSide:null,resonatorsSide:null,additionsSide:null,spellsSide:null,stonesSide:null,rulersSideQty:0,resonatorsSideQty:0,additionsSideQty:0,spellsSideQty:0,stonesSideQty:0,cardsSideQty:0,deckChanged:function(){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones);this.rulersSide=this.filterOnText(this.deck.side,"Type","Ruler");this.resonatorsSide=this.filterOnText(this.deck.side,"Type","Resonator");this.additionsSide=this.filterOnText(this.deck.side,"Type","Addition");this.spellsSide=this.filterOnText(this.deck.side,"Type","Spell");this.stonesSide=this.filterOnText(this.deck.side,"Type","Stone");this.cardsSideQty=this.countCards(this.deck.side);this.rulersSideQty=this.countCards(this.rulersSide);this.resonatorsSideQty=this.countCards(this.resonatorsSide);this.additionsSideQty=this.countCards(this.additionsSide);this.spellsSideQty=this.countCards(this.spellsSide);this.stonesSideQty=this.countCards(this.stonesSide)},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
 </polymer-element>
 
 
@@ -3780,9 +3928,13 @@ how to use a custom icon set.
 
 <polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
   <template>
-    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:6px;right:6px}core-animated-pages{width:100%;position:relative;height:100%}core-pages-animated transitions{width:100%;height:100%}section{position:relative;width:100%;height:100%}.fillHeight{height:100%;z-index:0}</style>
+    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:8px;right:110px}core-animated-pages{width:100%;position:relative;height:100%}core-pages-animated transitions{width:100%;height:100%}section{position:relative;width:100%;height:100%}.fillHeight{height:100%;z-index:0}.appStore{text-decoration:none;color:#fff;position:absolute;top:6px;right:6px}.appStoreImg{width:100px}</style>
 
     <template if="{{user}}">
+      <a class="appStore" href="https://itunes.apple.com/us/app/fow-tools/id936234730?mt=8">
+        <img class="appStoreImg" src="../images/AppStore.png">
+        
+      </a>
       <fow-notification-icon id="notificationIcon" notificationcount="{{notificationCount}}">
       </fow-notification-icon>
     </template>
@@ -3863,7 +4015,7 @@ how to use a custom icon set.
 
           <section name="myDecks">
             <template if="{{section === &apos;myDecks&apos;}}">
-              <fow-my-decks toast="{{$.toast}}" token="{{token}}">
+              <fow-my-decks toast="{{$.toast}}" token="{{token}}" selected="{{selected}}">
               </fow-my-decks>
             </template>
           </section>
@@ -3899,6 +4051,6 @@ how to use a custom icon set.
 
     </div>
   </template>
-  <script>(function(){"use strict";Polymer("fow-app",{section:"cards",selectedChanged:function(){if(this.selected){if(this.contains(this.selected,"decks/")){this.section="deckDetail";this.urlID=this.selected.substring("decks/".length)}else{this.section=this.selected}}console.log(this.selected);console.log(this.section);console.log(this.urlID)},sectionChanged:function(){if(this.section&&this.section!=this.selected){if(this.section!="deckDetail"){this.selected=this.section}}},contains:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-app",{section:"cards",selectedChanged:function(){if(this.selected){if(this.contains(this.selected,"decks/")){this.section="deckDetail";this.urlID=this.selected.substring("decks/".length)}else{this.section=this.selected}}},sectionChanged:function(){if(this.section&&this.section!=this.selected){if(this.section!="deckDetail"){this.selected=this.section}}},contains:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
 </polymer-element>
 </div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>

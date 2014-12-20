@@ -50,7 +50,8 @@
             {{stonesQty}} Magic Stones ({{stones.length}} distinct)
           </div>
           <template repeat="{{deckCard in stones}}">
-            <fow-deck-detail-card deckCard="{{deckCard}}">
+            <fow-deck-detail-card 
+              deckCard="{{deckCard}}">
             </fow-deck-detail-card>
           </template>
 
@@ -58,7 +59,8 @@
             {{resonatorsQty}} Resonators ({{resonators.length}} distinct)
           </div>
           <template repeat="{{deckCard in resonators}}">
-            <fow-deck-detail-card deckCard="{{deckCard}}">
+            <fow-deck-detail-card 
+              deckCard="{{deckCard}}">
             </fow-deck-detail-card>
           </template>
 
@@ -66,7 +68,8 @@
             {{additionsQty}} Additions ({{additions.length}} distinct)
           </div>
           <template repeat="{{deckCard in additions}}">
-            <fow-deck-detail-card deckCard="{{deckCard}}">
+            <fow-deck-detail-card 
+              deckCard="{{deckCard}}">
             </fow-deck-detail-card>
           </template>
 
@@ -74,7 +77,57 @@
             {{spellsQty}} Spells ({{spells.length}} distinct)
           </div>
           <template repeat="{{deckCard in spells}}">
-            <fow-deck-detail-card deckCard="{{deckCard}}">
+            <fow-deck-detail-card 
+              deckCard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <!-- SIDE -->
+          <div>
+            <h3>SIDE: ({{cardsSideQty}} cards, {{deck.side.length}} distinct)</h3>
+          </div>
+          <div class="titleType">
+            {{rulersSideQty}} Rulers ({{rulersSide.length}})
+          </div>
+          <template repeat="{{deckCard in rulersSide}}">
+            <fow-deck-detail-card 
+              deckCard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{stonesSideQty}} Magic Stones ({{stonesSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in stonesSide}}">
+            <fow-deck-detail-card 
+              deckCard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{resonatorsSideQty}} Resonators ({{resonatorsSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in resonatorsSide}}">
+            <fow-deck-detail-card
+              deckCard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{additionsSideQty}} Additions ({{additionsSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in additionsSide}}">
+            <fow-deck-detail-card 
+              deckCard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in spellsSide}}">
+            <fow-deck-detail-card 
+              deckCard="{{deckCard}}">
             </fow-deck-detail-card>
           </template>
         </div>
@@ -92,6 +145,7 @@
     (function () {
 
       Polymer({
+        //DECK
         rulers: null,
 
         resonators: null,
@@ -114,7 +168,31 @@
 
         cardsQty: 0,
 
+        //SIDE
+        rulersSide: null,
+
+        resonatorsSide: null,
+
+        additionsSide: null,
+
+        spellsSide: null,
+
+        stonesSide: null,
+
+        rulersSideQty: 0,
+
+        resonatorsSideQty: 0,
+
+        additionsSideQty: 0,
+
+        spellsSideQty: 0,
+
+        stonesSideQty: 0,
+
+        cardsSideQty: 0,
+
         deckChanged: function(){
+          //DECK
           this.rulers = this.filterOnText(this.deck.cards, "Type", "Ruler");
           this.resonators = this.filterOnText(this.deck.cards, "Type", "Resonator");
           this.additions = this.filterOnText(this.deck.cards, "Type", "Addition");
@@ -122,16 +200,25 @@
           this.stones = this.filterOnText(this.deck.cards, "Type", "Stone");
 
           this.cardsQty = this.countCards(this.deck.cards);
-
           this.rulersQty = this.countCards(this.rulers);
-
           this.resonatorsQty = this.countCards(this.resonators);
-
           this.additionsQty = this.countCards(this.additions);
-
           this.spellsQty = this.countCards(this.spells);
-
           this.stonesQty = this.countCards(this.stones);
+
+          //SIDE
+          this.rulersSide = this.filterOnText(this.deck.side, "Type", "Ruler");
+          this.resonatorsSide = this.filterOnText(this.deck.side, "Type", "Resonator");
+          this.additionsSide = this.filterOnText(this.deck.side, "Type", "Addition");
+          this.spellsSide = this.filterOnText(this.deck.side, "Type", "Spell");
+          this.stonesSide = this.filterOnText(this.deck.side, "Type", "Stone");
+
+          this.cardsSideQty = this.countCards(this.deck.side);
+          this.rulersSideQty = this.countCards(this.rulersSide);
+          this.resonatorsSideQty = this.countCards(this.resonatorsSide);
+          this.additionsSideQty = this.countCards(this.additionsSide);
+          this.spellsSideQty = this.countCards(this.spellsSide);
+          this.stonesSideQty = this.countCards(this.stonesSide);
         },
 
         countCards: function(deckCards){
