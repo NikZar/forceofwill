@@ -3345,7 +3345,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <core-media-query query="max-width: 640px" querymatches="{{smallScreen}}">
     </core-media-query>
-
+    
+    <!-- LARGE -->
     <template if="{{!smallScreen}}">
       <div horizontal="" layout="">
         <div flex="">
@@ -3358,6 +3359,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
       </div>
     </template>
+    <!-- SMALL -->
     <template if="{{smallScreen}}">
       <div layout="" vertical="" center="">
         <fow-deck-small-list token="{{token}}" toast="{{toast}}" selecteddeck="{{selectedDeck}}">
@@ -3566,7 +3568,7 @@ how to use a custom icon set.
     </template>
 
   </template>
-  <script>(function(){Polymer("fow-deck-small-list",{rowSelected:function(event){var row=event.target;this.selectedDeck=row.deck},deleteDeck:function(event,detail,sender){if(this.selectedDeck==sender.deck){this.selectedDeck=null}this.$.myDeckService.go()},addNewDeck:function(){var deck={};deck.title="New Deck";deck.privacy="private";deck.cards=[];deck.side=[];this.$.addDeckService.body=JSON.stringify(deck);this.$.addDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck created!";this.toast.show();this.$.myDeckService.go();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem creating a new deck.";this.toast.show()}},decksChanged:function(){if(!this.selectedDeck&&this.decks){this.selectedDeck=this.decks[0]}}})})();</script>
+  <script>(function(){Polymer("fow-deck-small-list",{rowSelected:function(event){var row=event.target;this.selectedDeck=row.deck},deleteDeck:function(event,detail,sender){var objIndex=this.decks.indexOf(sender.deck);this.decks.splice(objIndex,1);if(this.selectedDeck==sender.deck){this.selectedDeck=null}},addNewDeck:function(){var deck={};deck.title="New Deck";deck.privacy="private";deck.cards=[];deck.side=[];this.$.addDeckService.body=JSON.stringify(deck);this.$.addDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck created!";this.toast.show();this.selectedDeck=event.detail.detail.response[0];this.decks.push(this.selectedDeck)}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem creating a new deck.";this.toast.show()}},decksChanged:function(){console.log(this.decks);console.log(this.selectedDeck);if(!this.selectedDeck&&this.decks){this.selectedDeck=this.decks[0]}}})})();</script>
 </polymer-element>
 
 

@@ -16,7 +16,8 @@
 
     <core-media-query query="max-width: 640px" queryMatches="{{smallScreen}}">
     </core-media-query>
-
+    
+    <!-- LARGE -->
     <template if="{{!smallScreen}}">
       <div horizontal layout>
         <div flex>
@@ -37,6 +38,7 @@
         </div>
       </div>
     </template>
+    <!-- SMALL -->
     <template if="{{smallScreen}}">
       <div layout vertical center>
         <fow-deck-small-list 
