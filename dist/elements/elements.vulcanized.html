@@ -3013,7 +3013,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-binder-row" attributes="card qty" assetpath="fow-binder-row/">
   <template>
-    <style>:host{display:block;font-family:Open Sans;background-color:rgba(255,255,255,.1)}.cardRow{margin:1px;padding:4px;width:85%}.delete{border-radius:50%;background-color:red;width:25px;height:25px;text-align:center;margin-left:10px}.qty{width:30px}</style>
+    <style>:host{margin:1px;display:block;font-family:Open Sans;background-color:rgba(255,255,255,.1)}.cardRow{margin:1px;margin-left:4px;padding:4px;width:85%}.delete{border-radius:50%;background-color:red;width:25px;height:25px;text-align:center;margin-left:10px}.qty{width:30px}</style>
 
     <fow-rest-service type="binders/cards">
     </fow-rest-service>
@@ -3030,7 +3030,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-binder" attributes="binder token cards" assetpath="fow-binder/">
   <template>
-    <style>:host{display:block;font-family:Open Sans}.binderTitle{font-size:1.2em;margin:10px}fow-binder-row{width:90%}</style>
+    <style>:host{display:block;font-family:Open Sans;margin-top:5px;margin-left:6%;width:90%;height:100%}.binderTitle{font-size:1.2em}fow-binder-row{width:100%}</style>
 
     <div layout="" vertical="" center="">
       <div class="binderTitle">Cards in your binder:</div>
@@ -3049,126 +3049,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-<polymer-element name="fow-cards" attributes="cards token" assetpath="fow-cards/">
-  <template>
-    <style>:host{display:block}</style>
-
-    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
-    </fow-rest-service>
-
-  </template>
-  <script>(function(){"use strict";Polymer("fow-cards",{})})();</script>
-</polymer-element>
-
-
-
-<polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
-  <template>
-    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:6px;right:6px}core-animated-pages{width:100%;position:relative;height:60%}core-pages-animated transitions{width:100%;height:100%}section{position:relative;width:100%;height:100%}.fillHeight{height:100%;z-index:0}</style>
-
-    <template if="{{user}}">
-      <fow-notification-icon id="notificationIcon" notificationcount="{{notificationCount}}">
-      </fow-notification-icon>
-    </template>
-
-    <paper-toast id="toast" text="There was a problem loading data.">
-    </paper-toast>
-    
-    <div layout="" vertical="" center="" class="fillHeight">
-
-      <fow-login user="{{user}}" userphoto="{{userPhoto}}" class="loginButton" toast="{{$.toast}}" token="{{token}}">
-      </fow-login>
-
-      <template if="{{!user}}">
-        <div class="splashtext">
-          << Please log in with facebook
-        </div>
-      </template>
-
-      <template if="{{user}}">
-        <div id="avatar">
-          <div layout="" horizontal="">
-            <div> {{user.first_name}} {{user.last_name}} </div>
-          </div>
-        </div>
-      </template>
-
-      <img class="header" src="../images/fow.svg">
-      
-
-      <template if="{{userPhoto}}">
-        
-        <img class="roundedImage" src="{{userPhoto.url}}">
-        
-        
-      </template>
-
-      <template if="{{user}}">
-        <flatiron-director route="{{selected}}" autohash="" on-director-route="{{routeChanged}}">
-        </flatiron-director>
-
-        <fow-menu selected="{{selected}}" smallquery="max-width: 1000px"></fow-menu>
-
-        <core-animated-pages selected="{{selected}}" transitions="cross-fade">
-          
-          <section name="cards">
-              <fow-cards cards="{{cards}}" token="{{token}}">
-              </fow-cards>
-              <fow-card-list cross-fade="" cards="{{cards}}" token="{{token}}">
-              </fow-card-list>
-          </section>
-
-          <section name="decks">
-              <div cross-fade="" layout="" vertical="" center="">DECKS</div>
-          </section>
-
-          <section name="myCards">
-            <template if="{{selected === &apos;myCards&apos;}}">
-              <fow-rest-service type="binder/cards" items="{{binder}}" auto="true" token="{{token}}">
-              </fow-rest-service>
-              <fow-binder cross-fade="" binder="{{binder}}" token="{{token}}">
-              </fow-binder>
-            </template>
-          </section>
-
-          <section name="myDecks">
-              <div cross-fade="" layout="" vertical="" center="">MY DECKS</div>
-          </section>
-
-          <section name="friends">
-              <div cross-fade="" layout="" vertical="" center="">FRIENDS</div>
-          </section>
-
-          <section name="messages">
-              <div cross-fade="" layout="" vertical="" center="">MESSAGES</div>
-          </section>
-
-          <section name="trading">
-              <div cross-fade="" layout="" vertical="" center="">TRADING</div>
-          </section>
-
-          <section name="tournaments">
-              <div cross-fade="" layout="" vertical="" center="">TOURNAMENTS</div>
-          </section>
-
-          <section name="ranking">
-              <div cross-fade="" layout="" vertical="" center="">RANKING</div>
-          </section>
-
-          <section name="settings">
-            <fow-settings cross-fade="" token="{{token}}">
-            </fow-settings>
-          </section>
-
-        <core-animated-pages>
-        
-      </core-animated-pages></core-animated-pages></template>
-
-    </div>
-  </template>
-  <script>(function(){"use strict";Polymer("fow-app",{})})();</script>
-</polymer-element>
-</div><div hidden>
 
 
 
@@ -3401,4 +3281,613 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
   <script>(function(){"use strict";Polymer("fow-admin-app",{})})();</script>
 </polymer-element>
-</div><div hidden>undefined</div>
+
+
+
+
+
+
+
+<polymer-element name="fow-my-decks" attributes="token toast" assetpath="fow-my-decks/">
+  <template>
+    <style>:host{display:block;height:100%;width:94%;margin-left:6%}</style>
+
+    <core-media-query query="max-width: 640px" querymatches="{{smallScreen}}">
+    </core-media-query>
+
+    <template if="{{!smallScreen}}">
+      <div horizontal="" layout="">
+        <div flex="">
+          <fow-deck-update smallscreen="{{smallScreen}}" deck="{{selectedDeck}}" toast="{{toast}}" token="{{token}}">
+          </fow-deck-update>
+        </div>
+        <div>
+          <fow-deck-small-list token="{{token}}" toast="{{toast}}" selecteddeck="{{selectedDeck}}">
+          </fow-deck-small-list>
+        </div>
+      </div>
+    </template>
+    <template if="{{smallScreen}}">
+      <div layout="" vertical="" center="">
+        <fow-deck-small-list token="{{token}}" toast="{{toast}}" selecteddeck="{{selectedDeck}}">
+        </fow-deck-small-list>
+        <fow-deck-update smallscreen="{{smallScreen}}" deck="{{selectedDeck}}" toast="{{toast}}" token="{{token}}">
+        </fow-deck-update>
+      </div>
+    </template>
+      
+  </template>
+  <script>(function(){Polymer("fow-my-decks",{})})();</script>
+</polymer-element>
+
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+`core-icon-button` is an icon with button behaviors.
+
+    <core-icon-button src="star.png"></core-icon-button>
+
+`core-icon-button` includes a default icon set.  Use `icon` to specify 
+which icon from the icon set to use.
+
+    <core-icon-button icon="menu"></core-icon-button>
+
+See [`core-iconset`](#core-iconset) for more information about 
+how to use a custom icon set.
+
+@group Polymer Core Elements
+@element core-icon-button
+@homepage github.io
+-->
+
+
+
+
+<polymer-element name="core-icon-button" attributes="src icon active" assetpath="../bower_components/core-icon-button/">
+
+  <template>
+    <style>:host{display:inline-block;box-sizing:border-box;-moz-box-sizing:border-box;user-select:none;-moz-user-select:none;-webkit-user-select:none;border-radius:2px;padding:7px;margin:2px;vertical-align:middle;font-size:1rem;cursor:pointer}:host([disabled]){opacity:.6;pointer-events:none}:host(.outline){box-shadow:0 0 0 1px rgba(0,0,0,.1)}:host(:hover:not([disabled])){box-shadow:0 1px 0 0 rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.1)}:host(.selected:not([disabled])){background-color:rgba(0,0,0,.05);box-shadow:inset 0 1px 0 0 rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.12)}:host(:active:not([disabled]),.selected:active:not([disabled])){background-color:rgba(0,0,0,.05);box-shadow:inset 0 1px 0 0 rgba(0,0,0,.1),0 0 0 1px rgba(0,0,0,.12)}:host(.core-dark-theme.outline){background-color:rgba(200,200,200,.05);box-shadow:0 0 0 1px rgba(200,200,200,.1)}:host(.core-dark-theme:hover){background-color:rgba(200,200,200,.05);box-shadow:0 1px 0 0 rgba(200,200,200,.12),0 0 0 1px rgba(200,200,200,.1)}:host(.core-dark-theme.selected){background-color:rgba(220,220,220,.05);box-shadow:inset 0 1px 0 0 rgba(200,200,200,.05),0 0 0 1px rgba(200,200,200,.12)}:host(.core-dark-theme:active,.core-dark-theme.selected:active){background-color:rgba(200,200,200,.05);box-shadow:inset 0 1px 0 0 rgba(200,200,200,.1),0 0 0 1px rgba(200,200,200,.12)}core-icon{pointer-events:none}:host ::content>:not(core-icon){margin-left:4px}</style>
+    <core-icon src="{{src}}" icon="{{icon}}"></core-icon><content></content>
+  </template>
+
+  <script>Polymer("core-icon-button",{src:"",active:false,icon:"",activeChanged:function(){this.classList.toggle("selected",this.active)}});</script>
+
+</polymer-element>
+
+
+
+<polymer-element name="fow-deck-update" attributes="deck token toast smallScreen" assetpath="fow-deck-update/">
+  <template>
+    <style>:host{display:block;margin-top:14px;margin-right:5px;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;padding-top:15px;padding-bottom:15px;min-height:100%}.titleType{width:100%;max-width:500px;text-align:left;margin-left:-4px;margin-top:10px;color:#aaa}}</style>
+
+    <fow-rest-service id="updateDeckService" type="decks" auto="false" token="{{token}}" method="PUT" on-rest-error="{{errorHandler}}" on-rest-response="{{successHandler}}">
+    </fow-rest-service>
+
+    <template if="{{deck}}">
+
+      <div layout="" vertical="" center=""> 
+
+        <fow-card-picker smallscreen="{{smallScreen}}" toast="{{toast}}" on-add="{{deckChanged}}" deck="{{deck}}">
+        </fow-card-picker>
+
+        <div>
+          <h3>{{deck.title}} ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
+        </div>
+        <div class="privacy" layout="" horizontal="" center="" center-justified="">
+          <paper-radio-group selected="{{deck.privacy}}">
+            <paper-radio-button class="private" name="private" label="private"></paper-radio-button>
+            <paper-radio-button class="password" name="password" label="password"></paper-radio-button>
+            <paper-radio-button class="public" name="public" label="public"></paper-radio-button>
+            <paper-radio-button class="anonimous" name="anonimous" label="anonimous"></paper-radio-button>
+          </paper-radio-group>
+        </div>
+        <div layout="" horizontal="">
+          <div>
+            <core-icon-button icon="create">
+            </core-icon-button>
+             <input class="text-input" value="{{deck.title}}">
+          </div> 
+          <core-icon-button on-tap="{{updateDeck}}" icon="save">
+          </core-icon-button>
+        </div>
+
+        <div class="titleType">
+          {{rulersQty}} Ruler ({{rulers.length}})
+        </div>
+        <template repeat="{{deckCard in rulers}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckcard="{{deckCard}}">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{stonesQty}} Magic Stones ({{stones.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in stones}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckcard="{{deckCard}}">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{resonatorsQty}} Resonators ({{resonators.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in resonators}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckcard="{{deckCard}}">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{additionsQty}} Additions ({{additions.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in additions}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckcard="{{deckCard}}">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
+          {{spellsQty}} Spells ({{spells.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in spells}}">
+          <fow-deck-update-card on-update="{{deckChanged}}" deck="{{deck}}" deckcard="{{deckCard}}">
+          </fow-deck-update-card>
+        </template>
+    </div>
+    </template>
+    <template if="{{!deck}}">
+      <div layout="" vertical="" center=""> 
+        Select a deck >>>
+      </div>
+    </template>
+  </template>
+  <script>(function(){Polymer("fow-deck-update",{rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,deckChanged:function(){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones)},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},updateDeck:function(){if(this.rulers&&this.rulers.length>0){this.deck.ruler=this.rulers[0].card}this.$.updateDeckService.body=JSON.stringify(this.deck);this.$.updateDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck updated!";this.toast.show();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem updating the deck.";this.toast.show()}},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
+</polymer-element>
+
+
+
+
+<polymer-element name="fow-deck-small-list" attributes="selectedDeck token toast" assetpath="fow-deck-small-list/">
+  <template>
+    <style>:host{display:block;margin-top:14px;margin-right:10px;background-color:rgba(255,255,255,.1);border-radius:10px;padding:8px;width:160px;min-height:100%}.button{cursor:pointer;cursor:hand;background-color:#aaa;text-align:center;border-radius:3px;color:#000;height:20px}.button:hover{background-color:#9f9}</style>
+
+    <fow-rest-service id="myDeckService" type="decks/my" items="{{decks}}" auto="true" token="{{token}}">
+    </fow-rest-service>
+
+    <fow-rest-service id="addDeckService" type="decks" auto="false" token="{{token}}" method="POST" on-rest-error="{{errorHandler}}" on-rest-response="{{successHandler}}">
+    </fow-rest-service>
+
+    <div class="button" on-tap="{{addNewDeck}}"> New Deck </div>
+
+    <template repeat="{{deck in decks}}">
+      <fow-deck-small-row on-tap="{{rowSelected}}" deck="{{deck}}" selected="{{deck._id==selectedDeck._id}}">
+      </fow-deck-small-row>
+    </template>
+
+  </template>
+  <script>(function(){Polymer("fow-deck-small-list",{rowSelected:function(event){var row=event.target;this.selectedDeck=row.deck},addNewDeck:function(){var deck={};deck.title="New Deck";deck.privacy="private";deck.cards=[];this.$.addDeckService.body=JSON.stringify(deck);this.$.addDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck created!";this.toast.show();this.$.myDeckService.go();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem creating a new deck.";this.toast.show()}},decksChanged:function(){if(!this.selectedDeck&&this.decks){this.selectedDeck=this.decks[0]}}})})();</script>
+</polymer-element>
+
+
+
+<polymer-element name="fow-deck-small-row" attributes="deck selected" assetpath="fow-deck-small-row/">
+  <template>
+    <style>:host{display:block;height:20px}.deck-row{padding:4px}.deck-row:hover{background-color:#333;padding-left:2px;font-style:italic}.selected-deck-row{padding:4px;font-weight:700;color:#9f9}</style>
+    <div class="{{selected?&apos;selected-deck-row&apos;:&apos;deck-row&apos;}}">
+      {{deck.title}}
+    </div>
+  </template>
+  <script>(function(){Polymer("fow-deck-small-row",{})})();</script>
+</polymer-element>
+
+
+
+
+
+
+
+<polymer-element name="fow-card-picker" on-keydown="{{keydownHandler}}" attributes="deck filteredCards selectedCard selectedQty toast smallScreen" assetpath="fow-card-picker/">
+  <template>
+    <style>:host{display:block;background-color:rgba(255,255,255,.1);border-radius:8px;padding:10px}.scroll{overflow:scroll;background-color:rgba(255,255,255,.1);height:180px;margin-bottom:10px}.button{cursor:pointer;background-color:rgba(255,255,255,.4);padding:2px;padding-left:4px;padding-right:4px;border-radius:10px;text-align:center;margin-left:10px}.button:hover{background-color:#9f9;color:#000}.form-row{margin:4px;min-width:300px}.title-row{min-width:80px}.row-text{min-height:100px;min-width:260px}.text-input{width:99%;height:20px}.qty-input{width:30px;height:20px;text-align:center;margin-left:3px}.qty-container{margin-left:10px}input{background-color:#bbb;color:#000}.filter-row{margin:1;padding:2px;padding-left:5px;cursor:pointer;overflow:hidden;min-width:200px}.filter-row:hover{background-color:#9f9;color:#000}.selected-filter-row{padding:2px;padding-left:5px;margin:1;cursor:pointer;overflow:hidden;background-color:#9f9;font-style:italic;color:#000;min-width:200px}.selected-filter-row{background-color:#9f9;color:#000}.image{margin-top:4px;margin-left:8px;padding:2px;padding-top:3px;padding-bottom:0;border-radius:4px;background-color:#fff}.selectedCardImg{width:120px;height:170px}</style>
+
+    <fow-cards cards="{{cards}}" token="{{token}}">
+    </fow-cards>
+
+    <fow-card-filter cards="{{cards}}" filteredcards="{{filteredCards}}" namefilter="{{nameFilter}}">
+    </fow-card-filter>
+
+    <template if="{{smallScreen}}">
+      <div layout="" vertical="" center="">
+        <div>
+          <input class="text-input" value="{{nameFilter}}">
+          <div class="scroll">
+            <template repeat="{{card in filteredCards}}">
+              <fow-object class="{{card===selectedCard?&apos;selected-filter-row&apos;:&apos;filter-row&apos;}}" on-tap="{{selectCard}}" card="{{card}}">
+                {{card.Name}}
+              </fow-object>
+            </template>
+          </div>
+        </div>
+        <div>
+          <div layout="" horizontal="" center="">
+            Qty: <input type="number" class="qty-input" value="{{selectedQty}}">
+          </div>
+          <div class="image">
+            <img class="selectedCardImg" src="{{ &apos;../images&apos;+ selectedCard[&apos;Image path&apos;] }}">
+          </div>
+        </div>
+        <div class="button" on-tap="{{addCard}}">ADD CARD</div>
+      </div>
+    </template>
+    <template if="{{!smallScreen}}">
+      <div layout="" horizontal="" start="">
+        <div flex="">
+          <input class="text-input" value="{{nameFilter}}">
+          <div class="scroll">
+            <template repeat="{{card in filteredCards}}">
+              <fow-object class="{{card===selectedCard?&apos;selected-filter-row&apos;:&apos;filter-row&apos;}}" on-tap="{{selectCard}}" card="{{card}}">
+                {{card.Name}}
+              </fow-object>
+            </template>
+          </div>
+        </div>
+        <div>
+          <div class="qty-container" layout="" horizontal="" center="">
+            Qty: <input type="number" class="qty-input" value="{{selectedQty}}">
+          </div>
+          <div class="image">
+            <img class="selectedCardImg" src="{{ &apos;../images&apos;+ selectedCard[&apos;Image path&apos;] }}">
+          </div>
+        </div>
+        <div class="button" on-tap="{{addCard}}">ADD CARD</div>
+      </div>
+    </template>
+      
+  </template>
+  <script>(function(){Polymer("fow-card-picker",{ready:function(){this.tabIndex=0;this.currentRow=0},filteredCardsChanged:function(){if(this.filteredCards&&this.filteredCards.length>0){this.selectedCard=this.filteredCards[0];this.selectedQty=1}},selectCard:function(event){this.selectedCard=event.target.card;this.selectedQty=1},addCard:function(){if(this.selectedCard&&this.selectedQty){var found=false;for(var i=this.deck.cards.length-1;i>=0;i--){var deckCard=this.deck.cards[i];if(deckCard.card.code===this.selectedCard.code){deckCard.qty+=this.selectedQty;found=true}}if(!found){this.deck.cards.push({card:this.selectedCard,qty:parseInt(this.selectedQty)})}this.toast.text=this.selectedQty+"x "+this.selectedCard.Name+" Added!";this.toast.show();this.fire("add")}},keydownHandler:function(event,detail,sender){switch(event.keyCode){case 13:this.addCard();return;case 40:this.currentRow++;this.currentRow=this.currentRow<this.filteredCards.length?this.currentRow:this.filteredCards.length-1;break;case 38:this.currentRow--;this.currentRow=this.currentRow>0?this.currentRow:0;break;default:break}if(this.filteredCards[this.currentRow]){this.selectedCard=this.filteredCards[this.currentRow]}}})})();</script>
+</polymer-element>
+
+
+
+<polymer-element name="fow-deck-update-card" attributes="deck deckCard" assetpath="fow-deck-update-card/">
+  <template>
+    <style>:host{display:block;width:100%;margin-top:1px}.deckCard{width:100%;max-width:500px;text-align:left;padding:4px;color:#000;background-color:#646464;border-radius:2px}.cardQty{width:30px;margin:2px;margin-left:10px;text-align:center}.Fire{background-color:#be6464}.Dark{color:#fff;background-color:#0a0a0a}.Light{background-color:#b4aaa0}.Wind{background-color:#0C9}.Water{background-color:#9DCEFF}.FireCircle{color:#fff;background-color:#a01414}.DarkCircle{color:#fff;background-color:#373737}.LightCircle{background-color:#f0e6dc}.WindCircle{color:#fff;background-color:#393}.WaterCircle{color:#fff;background-color:#36C}.VoidCircle{color:#fff;background-color:#8c8c8c}.delete{height:24px;width:24px;cursor:pointer}.circle{text-align:center;font-size:.8em;height:18px;width:18px;border-radius:9px;margin:1px}</style>
+    <div layout="" vertical="" center="">
+      <div class="deckCard {{deckCard.card.Attribute}}">
+        <div layout="" horizontal="" center="">
+          <div flex="">
+            <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
+          </div>
+
+          <template if="{{deckCard.card[&apos;Free Cost&apos;] != 0}}">
+            <div class="circle VoidCircle">{{deckCard.card["Free Cost"]}}</div>
+          </template>
+
+          <template if="{{deckCard.card[&apos;Attribute Cost&apos;] != 0}}">
+            <div class="circle {{deckCard.card.Attribute + &apos;Circle&apos;}}">{{deckCard.card["Attribute Cost"]}}</div>
+          </template>
+
+          <input class="cardQty" type="number" value="{{deckCard.qty}}">
+          <core-icon class="delete" on-tap="{{removeCard}}" icon="cancel">
+          </core-icon>
+        </div>
+      </div>
+    </div>
+  </template>
+  <script>(function(){Polymer("fow-deck-update-card",{observe:{"deckCard.qty":"needsUpdate"},removeCard:function(){var objIndex=this.deck.cards.indexOf(this.deckCard);this.deck.cards.splice(objIndex,1);this.needsUpdate()},needsUpdate:function(){this.fire("update")}})})();</script>
+</polymer-element>
+
+
+
+
+
+<polymer-element name="fow-decks" attributes="decks token" assetpath="fow-decks/">
+  <template>
+    <style>:host{display:block}</style>
+
+    <fow-rest-service type="decks" items="{{decks}}" auto="true" token="{{token}}">
+    </fow-rest-service>
+
+  </template>
+  <script>(function(){Polymer("fow-decks",{})})();</script>
+</polymer-element>
+
+
+
+
+
+<polymer-element name="fow-deck-list" attributes="decks cards token selected" assetpath="fow-deck-list/">
+  <template>
+    <style>:host{display:block;text-align:center;margin-top:12px}.small{width:98%;margin-left:1%}.large{width:93%;margin-left:6%}.deck-list{background-color:rgba(255,255,255,.1);border-radius:10px;padding:4px}.deck-row:hover{background-color:#a7a;cursor:pointer}</style>
+
+    <core-media-query query="max-width: 1000px" querymatches="{{smallScreen}}">
+    </core-media-query>
+    <div class="deck-list {{smallScreen?&apos;small&apos;:&apos;large&apos;}}">
+      <h3>{{decks.length}} Decks</h3>
+      <template repeat="{{deck in decks}}">
+        <fow-deck-row class="deck-row" on-tap="{{deckSelected}}" deck="{{deck}}">
+        </fow-deck-row>
+      </template>
+    </div>
+
+  </template>
+  <script>(function(){Polymer("fow-deck-list",{deckSelected:function(event,detail,sender){this.selected="decks/"+sender.deck._id}})})();</script>
+</polymer-element>
+
+
+
+<polymer-element name="fow-deck-row" attributes="deck" assetpath="fow-deck-row/">
+  <template>
+    <style>:host{display:block;margin:1px;margin-left:3px;margin-right:3px;border-radius:2px;background-color:rgba(255,255,255,.1);padding:4px;text-align:left}.circle{text-align:center;font-size:.8em;height:18px;width:18px;border-radius:9px;margin:1px}.FireCircle{color:#fff;background-color:#a01414}.DarkCircle{color:#fff;background-color:#0b0b0b}.LightCircle{background-color:#f0e6dc}.WindCircle{color:#fff;background-color:#393}.WaterCircle{color:#fff;background-color:#36C}.VoidCircle{color:#fff;background-color:#8c8c8c}.cut{overflow:hidden}</style>
+    <div layout="" horizontal="" center="">
+      <div flex="">{{deck.title}}</div>
+      <div flex="" two="">{{deck.ruler.Name}}</div>
+      <div layout="" horizontal="" flex="" center="" end-justified="">
+        <template repeat="{{deckAttribute in deckAttributes}}">
+          <div class="circle {{deckAttribute}}Circle">
+          </div>
+        </template>
+      </div>
+      <div flex="">{{deck.format}}</div>
+      <div flex="">{{day}}/{{month}}/{{year}}</div>
+      <div flex="">{{deck.privacy==="anonimous"?"":deck.author}}</div>
+    </div>
+  </template>
+  <script>(function(){Array.prototype.unique=function(){var unique=[];for(var i=0;i<this.length;i++){if(unique.indexOf(this[i])==-1){unique.push(this[i])}}return unique};Polymer("fow-deck-row",{attributes:null,day:0,month:0,year:0,created:function(){this.deckAttributes=[]},deckChanged:function(){if(this.deck){this.deckAttributes=this.deck.cards.map(function(deckCard){if(deckCard.card){return deckCard.card.Attribute}return"Void"}).unique();if(this.deck.date){var date=new Date(this.deck.date);this.day=date.getDate();this.month=date.getMonth();this.year=date.getFullYear()}}}})})();</script>
+</polymer-element>
+
+
+
+
+
+
+<polymer-element name="fow-deck" attributes="deck id token" assetpath="fow-deck/">
+  <template>
+    <style>:host{display:block}</style>
+
+    <fow-rest-service type="decks/{{id}}" items="{{deck}}" auto="true" token="{{token}}">
+    </fow-rest-service>
+  </template>
+  <script>(function(){Polymer("fow-deck",{})})();</script>
+</polymer-element>
+
+
+
+
+
+
+<polymer-element name="fow-deck-detail" attributes="deck" assetpath="fow-deck-detail/">
+  <template>
+    <style>:host{display:block;margin-top:14px;margin-right:5px;padding:5px;padding-top:15px;padding-bottom:15px;min-height:100%}.small{width:98%;margin-left:1%}.large{width:93%;margin-left:6%}.detail{background-color:rgba(255,255,255,.1);border-radius:4px;padding:4px}</style>
+
+    <template if="{{deck}}">
+      <core-media-query query="max-width: 1000px" querymatches="{{smallScreen}}">
+      </core-media-query>
+      <div class="detail {{smallScreen?&apos;small&apos;:&apos;large&apos;}}">
+        <div layout="" vertical="" center="">
+          <div>
+            <h3>{{deck.title}} ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
+          </div>
+          <div class="titleType">
+            {{rulersQty}} Ruler ({{rulers.length}})
+          </div>
+          <template repeat="{{deckCard in rulers}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{stonesQty}} Magic Stones ({{stones.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in stones}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{resonatorsQty}} Resonators ({{resonators.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in resonators}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{additionsQty}} Additions ({{additions.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in additions}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{spellsQty}} Spells ({{spells.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in spells}}">
+            <fow-deck-detail-card deckcard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+        </div>
+      </div>
+
+    </template>
+
+    <template if="{{!deck}}">
+      <div layout="" vertical="" center=""> 
+        Searching deck...
+      </div>
+    </template>
+  </template>
+  <script>(function(){Polymer("fow-deck-detail",{rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,deckChanged:function(){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones)},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
+</polymer-element>
+
+
+
+<polymer-element name="fow-deck-detail-card" attributes="deckCard" assetpath="fow-deck-detail-card/">
+  <template>
+    <style>:host{display:block;width:100%;margin-top:1px}.deckCard{width:100%;max-width:500px;text-align:left;padding:4px;color:#000;background-color:#646464;border-radius:2px}.cardQty{width:30px;margin:2px;margin-left:10px;text-align:center}.Fire{background-color:#be6464}.Dark{color:#fff;background-color:#0a0a0a}.Light{background-color:#b4aaa0}.Wind{background-color:#0C9}.Water{background-color:#9DCEFF}.FireCircle{color:#fff;background-color:#a01414}.DarkCircle{color:#fff;background-color:#373737}.LightCircle{background-color:#f0e6dc}.WindCircle{color:#fff;background-color:#393}.WaterCircle{color:#fff;background-color:#36C}.VoidCircle{color:#fff;background-color:#8c8c8c}.delete{height:24px;width:24px;cursor:pointer}.circle{text-align:center;font-size:.8em;height:18px;width:18px;border-radius:9px;margin:1px}</style>
+    <div layout="" vertical="" center="">
+      <div class="deckCard {{deckCard.card.Attribute}}">
+        <div layout="" horizontal="" center="">
+          <div flex="">
+            <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
+          </div>
+
+          <template if="{{deckCard.card[&apos;Free Cost&apos;] != 0}}">
+            <div class="circle VoidCircle">{{deckCard.card["Free Cost"]}}</div>
+          </template>
+
+          <template if="{{deckCard.card[&apos;Attribute Cost&apos;] != 0}}">
+            <div class="circle {{deckCard.card.Attribute + &apos;Circle&apos;}}">{{deckCard.card["Attribute Cost"]}}</div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </template>
+  <script>(function(){Polymer("fow-deck-detail-card",{})})();</script>
+</polymer-element>
+
+
+
+<polymer-element name="fow-cards" attributes="cards token" assetpath="fow-cards/">
+  <template>
+    <style>:host{display:block}</style>
+
+    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
+    </fow-rest-service>
+
+  </template>
+  <script>(function(){"use strict";Polymer("fow-cards",{})})();</script>
+</polymer-element>
+
+
+
+<polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
+  <template>
+    <style>:host{display:block;height:100%;font-family:Open Sans}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:6px;right:6px}core-animated-pages{width:100%;position:relative;height:100%}core-pages-animated transitions{width:100%;height:100%}section{position:relative;width:100%;height:100%}.fillHeight{height:100%;z-index:0}</style>
+
+    <template if="{{user}}">
+      <fow-notification-icon id="notificationIcon" notificationcount="{{notificationCount}}">
+      </fow-notification-icon>
+    </template>
+
+    <paper-toast id="toast" text="There was a problem loading data.">
+    </paper-toast>
+    
+    <div layout="" vertical="" center="" class="fillHeight">
+
+      <fow-login user="{{user}}" userphoto="{{userPhoto}}" class="loginButton" toast="{{$.toast}}" token="{{token}}">
+      </fow-login>
+
+      <template if="{{!user}}">
+        <div class="splashtext">
+          << Please log in with facebook
+        </div>
+      </template>
+
+      <template if="{{user}}">
+        <div id="avatar">
+          <div layout="" horizontal="">
+            <div> {{user.first_name}} {{user.last_name}} </div>
+          </div>
+        </div>
+      </template>
+
+      <img class="header" src="../images/fow.svg">
+      
+
+      <template if="{{userPhoto}}">
+        
+        <img class="roundedImage" src="{{userPhoto.url}}">
+        
+        
+      </template>
+
+      <template if="{{user}}">
+        <flatiron-director route="{{selected}}" autohash="" on-director-route="{{routeChanged}}">
+        </flatiron-director>
+
+        <fow-menu selected="{{section}}" smallquery="max-width: 1000px"></fow-menu>
+
+        <core-animated-pages selected="{{section}}" transitions="cross-fade">
+          
+          <section name="cards">
+              <fow-cards cards="{{cards}}" token="{{token}}">
+              </fow-cards>
+              <fow-card-list cross-fade="" cards="{{cards}}" token="{{token}}">
+              </fow-card-list>
+          </section>
+
+          <section name="decks">
+            <template if="{{section === &apos;decks&apos;}}">
+              <fow-decks decks="{{decks}}" token="{{token}}">
+              </fow-decks>
+              <fow-deck-list cross-fade="" cards="{{cards}}" decks="{{decks}}" token="{{token}}" selected="{{selected}}">
+              </fow-deck-list>
+            </template>
+          </section>
+
+          <section name="deckDetail">
+            <template if="{{section === &apos;deckDetail&apos;}}">
+              <fow-deck deck="{{deck}}" id="{{urlID}}" token="{{token}}">
+              </fow-deck>
+              <fow-deck-detail cross-fade="" deck="{{deck}}" token="{{token}}">
+              </fow-deck-detail>
+            </template>
+          </section>
+
+          <section name="myCards">
+            <template if="{{section === &apos;myCards&apos;}}">
+              <fow-rest-service type="binder/cards" items="{{binder}}" auto="true" token="{{token}}">
+              </fow-rest-service>
+              <fow-binder cross-fade="" binder="{{binder}}" token="{{token}}">
+              </fow-binder>
+            </template>
+          </section>
+
+          <section name="myDecks">
+            <template if="{{section === &apos;myDecks&apos;}}">
+              <fow-my-decks toast="{{$.toast}}" token="{{token}}">
+              </fow-my-decks>
+            </template>
+          </section>
+
+          <section name="friends">
+              <div cross-fade="" layout="" vertical="" center="">FRIENDS</div>
+          </section>
+
+          <section name="messages">
+              <div cross-fade="" layout="" vertical="" center="">MESSAGES</div>
+          </section>
+
+          <section name="trading">
+              <div cross-fade="" layout="" vertical="" center="">TRADING</div>
+          </section>
+
+          <section name="tournaments">
+              <div cross-fade="" layout="" vertical="" center="">TOURNAMENTS</div>
+          </section>
+
+          <section name="ranking">
+              <div cross-fade="" layout="" vertical="" center="">RANKING</div>
+          </section>
+
+          <section name="settings">
+            <fow-settings cross-fade="" token="{{token}}">
+            </fow-settings>
+          </section>
+
+        <core-animated-pages>
+        
+      </core-animated-pages></core-animated-pages></template>
+
+    </div>
+  </template>
+  <script>(function(){"use strict";Polymer("fow-app",{section:"cards",selectedChanged:function(){if(this.selected){if(this.contains(this.selected,"decks/")){this.section="deckDetail";this.urlID=this.selected.substring("decks/".length)}else{this.section=this.selected}}console.log(this.selected);console.log(this.section);console.log(this.urlID)},sectionChanged:function(){if(this.section&&this.section!=this.selected){if(this.section!="deckDetail"){this.selected=this.section}}},contains:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
+</polymer-element>
+</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>

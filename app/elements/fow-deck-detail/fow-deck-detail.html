@@ -1,0 +1,182 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../elements/elements.html">
+
+
+<polymer-element name="fow-deck-detail" attributes="deck">
+  <template>
+    <style>
+      :host {
+        display: block;
+        margin-top: 14px;
+        margin-right: 5px;
+        padding: 5px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        min-height: 100%;
+      }
+      .small{
+        width: 98%;
+        margin-left: 1%;
+      }
+      .large{
+        width: 93%;
+        margin-left: 6%;
+      }
+      .detail{
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 4px;
+        padding: 4px;
+      }
+    </style>
+
+    <template if="{{deck}}">
+      <core-media-query query="max-width: 1000px" queryMatches="{{smallScreen}}">
+      </core-media-query>
+      <div class="detail {{smallScreen?'small':'large'}}">
+        <div layout vertical center>
+          <div>
+            <h3>{{deck.title}} ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
+          </div>
+          <div class="titleType">
+            {{rulersQty}} Ruler ({{rulers.length}})
+          </div>
+          <template repeat="{{deckCard in rulers}}">
+            <fow-deck-detail-card deckCard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{stonesQty}} Magic Stones ({{stones.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in stones}}">
+            <fow-deck-detail-card deckCard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{resonatorsQty}} Resonators ({{resonators.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in resonators}}">
+            <fow-deck-detail-card deckCard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{additionsQty}} Additions ({{additions.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in additions}}">
+            <fow-deck-detail-card deckCard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+
+          <div class="titleType">
+            {{spellsQty}} Spells ({{spells.length}} distinct)
+          </div>
+          <template repeat="{{deckCard in spells}}">
+            <fow-deck-detail-card deckCard="{{deckCard}}">
+            </fow-deck-detail-card>
+          </template>
+        </div>
+      </div>
+
+    </template>
+
+    <template if="{{!deck}}">
+      <div layout vertical center> 
+        Searching deck...
+      </div>
+    </template>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        rulers: null,
+
+        resonators: null,
+
+        additions: null,
+
+        spells: null,
+
+        stones: null,
+
+        rulersQty: 0,
+
+        resonatorsQty: 0,
+
+        additionsQty: 0,
+
+        spellsQty: 0,
+
+        stonesQty: 0,
+
+        cardsQty: 0,
+
+        deckChanged: function(){
+          this.rulers = this.filterOnText(this.deck.cards, "Type", "Ruler");
+          this.resonators = this.filterOnText(this.deck.cards, "Type", "Resonator");
+          this.additions = this.filterOnText(this.deck.cards, "Type", "Addition");
+          this.spells = this.filterOnText(this.deck.cards, "Type", "Spell");
+          this.stones = this.filterOnText(this.deck.cards, "Type", "Stone");
+
+          this.cardsQty = this.countCards(this.deck.cards);
+
+          this.rulersQty = this.countCards(this.rulers);
+
+          this.resonatorsQty = this.countCards(this.resonators);
+
+          this.additionsQty = this.countCards(this.additions);
+
+          this.spellsQty = this.countCards(this.spells);
+
+          this.stonesQty = this.countCards(this.stones);
+        },
+
+        countCards: function(deckCards){
+          var sum = 0;
+          for (var i = deckCards.length - 1; i >= 0; i--) {
+            sum += Math.abs(parseInt(deckCards[i].qty));
+          };
+          return sum;
+        },
+
+        filterOnText: function(cardList, key, filterString, remaining){
+          if(filterString === "" || filterString === "radio_all"){
+            return cardList;
+          } 
+          else if(cardList){
+            var self = this;
+
+            return cardList.filter(
+              
+              function(deckCard){
+                //console.log(card);
+                if(deckCard && deckCard.card && self.strictMatch(deckCard.card[key], filterString) ){
+                  return true;
+                } else if(remaining){ 
+                  remaining.push(deckCard);
+                }
+                
+                return false; 
+              }
+            
+            );
+          } else {
+            return [];
+          }
+        },
+
+        strictMatch:  function(text, textToSearch){
+          if(text && textToSearch){
+            return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
+          } else{
+            return false;
+          }
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>

@@ -1,0 +1,105 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/elements.html">
+
+<polymer-element name="fow-deck-small-list" attributes="selectedDeck token toast">
+  <template>
+    <style>
+      :host {
+        display: block;
+        margin-top: 14px;
+        margin-right: 10px;
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 8px;
+        width: 160px;
+        min-height: 100%;
+      }
+
+      .button{
+        cursor: pointer;
+        cursor: hand;
+        background-color: #aaa;
+        text-align: center;
+        border-radius: 3px;
+        color: black;
+        height: 20px;
+      }
+
+      .button:hover{
+        background-color: #9f9;
+      }
+
+    </style>
+
+    <fow-rest-service id="myDeckService" 
+      type="decks/my"
+      items="{{decks}}"
+      auto="true"
+      token="{{token}}">
+    </fow-rest-service>
+
+    <fow-rest-service id="addDeckService" 
+      type="decks" 
+      auto="false" 
+      token="{{token}}" 
+      method="POST"
+      on-rest-error="{{errorHandler}}"
+      on-rest-response="{{successHandler}}">
+    </fow-rest-service>
+
+    <div class="button" on-tap="{{addNewDeck}}"> New Deck </div>
+
+    <template repeat="{{deck in decks}}">
+      <fow-deck-small-row on-tap="{{rowSelected}}" deck="{{deck}}" selected="{{deck._id==selectedDeck._id}}">
+      </fow-deck-small-row>
+    </template>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer("fow-deck-small-list",{
+
+        rowSelected: function(event){
+          var row = event.target;
+          this.selectedDeck = row.deck;
+        },
+
+        addNewDeck: function(){
+          var deck = {};
+          deck.title = "New Deck";
+          deck.privacy = "private";
+          deck.cards = [];
+          this.$.addDeckService.body = JSON.stringify(deck);
+          this.$.addDeckService.go();
+        },
+
+        successHandler: function(event){
+          if(this.toast){
+            this.toast.text="Deck created!";
+            this.toast.show();
+            this.$.myDeckService.go();
+            this.selectedDeck = event.detail.detail.response[0];
+          }
+        },
+
+        errorHandler: function(event){
+          if(this.toast){
+            this.toast.text="There was a problem creating a new deck.";
+            this.toast.show();
+          }
+        },
+
+        decksChanged: function(){
+          //console.log(this.decks);
+          //console.log(this.selectedDeck);
+          if(!this.selectedDeck && this.decks){
+            this.selectedDeck = this.decks[0];
+          }
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>

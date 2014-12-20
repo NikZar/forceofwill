@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>.: Force Of Will, Deck Tools :.</title>
+  <title>.: Force Of Will Tools :.</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -13,7 +13,20 @@
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild-->
 
-  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+  <script>
+    if('registerElement' in document
+      && 'createShadowRoot' in HTMLElement.prototype
+      && 'import' in document.createElement('link')
+      && 'content' in document.createElement('template')){
+      //Native support in browser
+    } else {
+      document.write(
+        '<script src="bower_components/webcomponentsjs/webcomponents.js"><\/script>'
+      );
+    }
+  </script>
+  <!--<script src="bower_components/webcomponentsjs/webcomponents.js"></script>-->
+  
   <!-- build:vulcanized elements/elements.vulcanized.html -->
  
   <link rel="import" href="elements/elements.html">

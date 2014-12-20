@@ -1,0 +1,65 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-media-query/core-media-query.html">
+<link rel="import" href="../../elements/elements.html">
+
+
+<polymer-element name="fow-my-decks" attributes="token toast">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 100%;
+        width: 94%;
+        margin-left: 6%;
+      }
+    </style>
+
+    <core-media-query query="max-width: 640px" queryMatches="{{smallScreen}}">
+    </core-media-query>
+
+    <template if="{{!smallScreen}}">
+      <div horizontal layout>
+        <div flex>
+          <fow-deck-update 
+            smallScreen = "{{smallScreen}}"
+            deck="{{selectedDeck}}"
+            toast="{{toast}}" 
+            token="{{token}}">
+          </fow-deck-update>
+        </div>
+        <div>
+          <fow-deck-small-list 
+            token="{{token}}"
+            toast="{{toast}}" 
+            selectedDeck="{{selectedDeck}}">
+          </fow-deck-small-list>
+        </div>
+      </div>
+    </template>
+    <template if="{{smallScreen}}">
+      <div layout vertical center>
+        <fow-deck-small-list 
+          token="{{token}}"
+          toast="{{toast}}" 
+          selectedDeck="{{selectedDeck}}">
+        </fow-deck-small-list>
+        <fow-deck-update 
+          smallScreen = "{{smallScreen}}"
+          deck="{{selectedDeck}}"
+          toast="{{toast}}" 
+          token="{{token}}">
+        </fow-deck-update>
+      </div>
+    </template>
+      
+  </template>
+  <script>
+    (function () {
+
+      Polymer("fow-my-decks",{
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>

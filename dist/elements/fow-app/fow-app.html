@@ -71,7 +71,7 @@
       core-animated-pages{
         width: 100%;
         position: relative;
-        height: 60%;
+        height: 100%;
       }
 
       core-pages-animated transitions {
@@ -141,9 +141,9 @@
         <flatiron-director route="{{selected}}" autoHash on-director-route="{{routeChanged}}">
         </flatiron-director>
 
-        <fow-menu selected="{{selected}}" smallQuery="max-width: 1000px"></fow-menu>
+        <fow-menu selected="{{section}}" smallQuery="max-width: 1000px"></fow-menu>
 
-        <core-animated-pages selected="{{selected}}" transitions="cross-fade">
+        <core-animated-pages selected="{{section}}" transitions="cross-fade">
           
           <section name="cards">
               <fow-cards cards="{{cards}}" token="{{token}}">
@@ -153,12 +153,30 @@
           </section>
 
           <section name="decks">
-              <div cross-fade layout vertical center>DECKS</div>
+            <template if="{{section === 'decks'}}">
+              <fow-decks decks="{{decks}}" token="{{token}}">
+              </fow-decks>
+              <fow-deck-list cross-fade cards="{{cards}}" decks="{{decks}}" token="{{token}}" selected="{{selected}}">
+              </fow-deck-list>
+            </template>
+          </section>
+
+          <section name="deckDetail">
+            <template if="{{section === 'deckDetail'}}">
+              <fow-deck deck="{{deck}}" id="{{urlID}}" token="{{token}}">
+              </fow-deck>
+              <fow-deck-detail cross-fade deck="{{deck}}" token="{{token}}">
+              </fow-deck-detail>
+            </template>
           </section>
 
           <section name="myCards">
-            <template if="{{selected === 'myCards'}}">
-              <fow-rest-service type="binder/cards" items="{{binder}}" auto="true" token="{{token}}">
+            <template if="{{section === 'myCards'}}">
+              <fow-rest-service 
+                type="binder/cards" 
+                items="{{binder}}" 
+                auto="true" 
+                token="{{token}}">
               </fow-rest-service>
               <fow-binder cross-fade binder="{{binder}}" token="{{token}}">
               </fow-binder>
@@ -166,7 +184,12 @@
           </section>
 
           <section name="myDecks">
-              <div cross-fade layout vertical center>MY DECKS</div>
+            <template if="{{section === 'myDecks'}}">
+              <fow-my-decks 
+                toast="{{$.toast}}" 
+                token="{{token}}">
+              </fow-my-decks>
+            </template>
           </section>
 
           <section name="friends">
@@ -205,7 +228,39 @@
       'use strict';
 
       Polymer("fow-app",{
-        // define element prototype here
+
+        section: "cards",
+        
+        selectedChanged: function(){
+          if(this.selected){
+            if(this.contains(this.selected, 'decks/')){
+              this.section = "deckDetail";
+              this.urlID = this.selected.substring('decks/'.length)
+            } else{
+              this.section = this.selected;
+            }
+          }
+          console.log(this.selected);
+          console.log(this.section);
+          console.log(this.urlID);
+        },
+
+        sectionChanged: function(){
+          if(this.section && (this.section != this.selected)){
+            if(this.section != 'deckDetail'){
+              this.selected = this.section;
+            }
+          }
+        },
+
+        contains: function (text, textToSearch){
+          if(text && textToSearch){
+            return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
+          } else{
+            return false;
+          }
+        }
+
       });
 
     })();

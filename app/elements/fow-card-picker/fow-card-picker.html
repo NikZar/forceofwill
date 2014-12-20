@@ -1,0 +1,243 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/elements.html">
+
+<polymer-element name="fow-card-picker" on-keydown="{{keydownHandler}}" attributes="deck filteredCards selectedCard selectedQty toast smallScreen">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 10px;
+      }
+
+      .scroll{
+        overflow: scroll;
+        background-color: rgba(255,255,255,0.1);
+        height: 180px;
+        margin-bottom: 10px;
+      }
+
+      .button{
+        cursor: pointer;
+        background-color: rgba(255,255,255,0.4);
+        padding: 2px;
+        padding-left: 4px;
+        padding-right: 4px;
+        border-radius: 10px;
+        text-align: center;
+        margin-left: 10px;
+      }
+      .button:hover{
+        background-color: #9f9;
+        color: black;
+      }
+
+      .form-row{
+        margin: 4px;
+        min-width: 300px;
+      }
+      .title-row{
+        min-width: 80px;
+      }
+      .row-text{
+        min-height: 100px;
+        min-width: 260px;
+      }
+
+      .text-input{
+        width: 99%;
+        height: 20px;
+      }
+      .qty-input{
+        width: 30px;
+        height: 20px;
+        text-align: center;
+        margin-left: 3px;
+      }
+      .qty-container{
+        margin-left: 10px;
+      }
+
+      input{
+        background-color: #bbb;
+        color: black;
+      }
+
+      .filter-row{
+        margin: 1;
+        padding: 2px;
+        padding-left: 5px;
+        cursor: pointer;
+        overflow: hidden;
+        min-width: 200px;
+      }
+      .filter-row:hover{
+        background-color: #9f9;
+        color: black;
+      }
+
+      .selected-filter-row{
+        padding: 2px;
+        padding-left: 5px;
+        margin: 1;
+        cursor: pointer;
+        overflow: hidden;
+        background-color: #9f9;
+        font-style: italic;
+        color: black;
+        min-width: 200px;
+      }
+      .selected-filter-row{
+        background-color: #9f9;
+        color: black;
+      }
+
+      .image{
+        margin-top: 4px;
+        margin-left: 8px;
+        padding: 2px;
+        padding-top: 3px;
+        padding-bottom: 0px;
+        border-radius: 4px;
+        background-color: white;
+      }
+
+      .selectedCardImg{
+        width: 120px;
+        height: 170px;
+      }
+    </style>
+
+    <fow-cards 
+      cards="{{cards}}" 
+      token="{{token}}">
+    </fow-cards>
+
+    <fow-card-filter 
+      cards="{{cards}}" 
+      filteredCards="{{filteredCards}}" 
+      nameFilter="{{nameFilter}}">
+    </fow-card-filter>
+
+    <template if="{{smallScreen}}">
+      <div layout vertical center>
+        <div>
+          <input class="text-input" value="{{nameFilter}}"/>
+          <div class="scroll">
+            <template repeat="{{card in filteredCards}}">
+              <fow-object 
+                class="{{card===selectedCard?'selected-filter-row':'filter-row'}}" 
+                on-tap="{{selectCard}}" 
+                card="{{card}}">
+                {{card.Name}}
+              </fow-object>
+            </template>
+          </div>
+        </div>
+        <div>
+          <div layout horizontal center>
+            Qty: <input type="number" class="qty-input" value="{{selectedQty}}"/>
+          </div>
+          <div class="image">
+            <img class="selectedCardImg" src="{{ '../images'+ selectedCard['Image path'] }}" />
+          </div>
+        </div>
+        <div class="button" on-tap="{{addCard}}">ADD CARD</div>
+      </div>
+    </template>
+    <template if="{{!smallScreen}}">
+      <div layout horizontal start>
+        <div flex>
+          <input class="text-input" value="{{nameFilter}}"/>
+          <div class="scroll">
+            <template repeat="{{card in filteredCards}}">
+              <fow-object 
+                class="{{card===selectedCard?'selected-filter-row':'filter-row'}}" 
+                on-tap="{{selectCard}}" 
+                card="{{card}}">
+                {{card.Name}}
+              </fow-object>
+            </template>
+          </div>
+        </div>
+        <div>
+          <div class="qty-container" layout horizontal center>
+            Qty: <input type="number" class="qty-input" value="{{selectedQty}}"/>
+          </div>
+          <div class="image">
+            <img class="selectedCardImg" src="{{ '../images'+ selectedCard['Image path'] }}" />
+          </div>
+        </div>
+        <div class="button" on-tap="{{addCard}}">ADD CARD</div>
+      </div>
+    </template>
+      
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        // define element prototype here
+        ready: function() { 
+          this.tabIndex = 0; 
+          this.currentRow = 0;
+        },
+
+        filteredCardsChanged: function(){
+          if(this.filteredCards && this.filteredCards.length>0){
+            this.selectedCard = this.filteredCards[0];
+            this.selectedQty = 1;
+          }
+        },
+
+        selectCard: function(event){
+          this.selectedCard = event.target.card;
+          this.selectedQty = 1;
+        },
+
+        addCard: function(){
+          if(this.selectedCard && this.selectedQty){
+            var found = false;
+            for (var i = this.deck.cards.length - 1; i >= 0; i--) {
+              var deckCard = this.deck.cards[i];
+              if(deckCard.card.code === this.selectedCard.code){
+                deckCard.qty += this.selectedQty;
+                found = true;
+              }
+            };
+            if(!found){
+              this.deck.cards.push({card: this.selectedCard, qty: parseInt(this.selectedQty)});
+            }
+            this.toast.text= this.selectedQty +"x "+this.selectedCard.Name+" Added!";
+              this.toast.show();
+            this.fire("add");
+          }
+        },
+
+        keydownHandler: function(event, detail, sender) { 
+          switch(event.keyCode){
+            case 13://ENTER
+              this.addCard();
+              return;
+            case 40://DOWN
+              this.currentRow++;
+              this.currentRow = (this.currentRow < this.filteredCards.length)?this.currentRow:(this.filteredCards.length-1);
+              break;
+            case 38://UP
+              this.currentRow--;
+              this.currentRow = (this.currentRow > 0)?this.currentRow:0;
+              break;
+            default:
+              break;
+          }
+          if(this.filteredCards[this.currentRow]){
+            this.selectedCard = this.filteredCards[this.currentRow];
+          }
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>
