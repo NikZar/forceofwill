@@ -34,7 +34,11 @@
 
     </style>
 
-    <fow-rest-service type="binders/cards">
+    <fow-rest-service
+      id="deleteBinderCardService"
+      auto="false" 
+      method="DELETE"
+      type="binder/cards">
     </fow-rest-service>
     <div layout horizontal center>
       <div class="cardRow">{{card.qty}}x {{card.Name}}</div>

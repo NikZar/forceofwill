@@ -173,6 +173,7 @@
         <core-animated-pages selected="{{section}}" transitions="cross-fade">
           
           <section name="cards">
+            <!--<template if="{{section === 'cards'}}">-->
               <fow-cards 
                 cards="{{cards}}" 
                 token="{{token}}">
@@ -181,6 +182,7 @@
                 cards="{{cards}}" 
                 token="{{token}}">
               </fow-card-list>
+            <!--</template>-->
           </section>
 
           <section name="decks">
@@ -188,7 +190,6 @@
               <fow-decks decks="{{decks}}" token="{{token}}">
               </fow-decks>
               <fow-deck-list cross-fade 
-                cards="{{cards}}" 
                 decks="{{decks}}" 
                 token="{{token}}" 
                 selected="{{selected}}">
@@ -200,7 +201,7 @@
             <template if="{{section === 'deckDetail'}}">
               <fow-deck 
                 deck="{{deck}}" 
-                id="{{urlID}}" 
+                fowId="{{urlID}}" 
                 token="{{token}}">
               </fow-deck>
               <fow-deck-detail cross-fade 
