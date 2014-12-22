@@ -1,0 +1,42 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/elements.html">
+
+<polymer-element name="fow-deck-filter" attributes="filteredDecks decks titleFilter rulerFilter attributeOnly attributeFilters ratingFilter officialFilter formatFilter cardsFilter maxDate minDate" extends="fow-filter">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <shadow></shadow>
+  </template>
+  <script>
+      Polymer("fow-deck-filter",{
+        observe: {
+          "decks titleFilter rulerFilter attributeOnly attributeFilters" : "updateFilteredDecks",
+          "ratingFilter officialFilter formatFilter cardsFilter dateFilter" : "updateFilteredDecks"
+        },
+
+        created: function (){
+          this.super();
+          this.resetFilters();
+        },
+
+        resetFilters: function(){
+          this.titleFilter = "";
+          this.rulerFilter = "";
+          this.containsOnly = false;
+          this.attributeFilters = "radio_all";
+          this.officialFilter = "radio_all";
+          this.formatFilter = "radio_all";
+          this.cardsFilter = [];
+          this.maxDate = "";
+          this.minDate = "";
+        },
+
+        updateFilteredDecks: function(){
+          this.filteredDecks = this.filterOnText(this.decks, "title", this.titleFilter);
+        }
+      });
+  </script>
+</polymer-element>
