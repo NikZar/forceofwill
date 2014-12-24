@@ -2649,11 +2649,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-<polymer-element name="fow-card-filter" attributes="filteredCards cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost minCost maxCost minATK maxATK minDEF maxDEF" assetpath="fow-card-filter/">
+
+<polymer-element name="fow-filter" attributes="" assetpath="fow-filter/">
   <template>
     <style>:host{display:block}</style>
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-filter",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter":"updateFilteredCards","rarityFilter expansionFilter minCost maxCost":"updateFilteredCards","minCost maxCost minATK maxATK minDEF maxDEF":"updateFilteredCards"},created:function(){this.resetFilters()},resetFilters:function(){this.nameFilter="";this.descriptionFilter="";this.attributeFilter="radio_all";this.typeFilter="radio_all";this.rarityFilter="radio_all";this.expansionFilter="radio_all";this.minCost="0";this.maxCost="20";this.minATK="0";this.maxATK="10000";this.minDEF="0";this.maxDEF="10000"},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);if(this.descriptionFilter){this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter)}if(this.attributeFilter){this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter)}if(this.rarityFilter){this.filteredCards=this.filterOnText(this.filteredCards,"Rarity",this.rarityFilter)}if(this.expansionFilter){this.filteredCards=this.filterOnText(this.filteredCards,"Expansion",this.expansionFilter)}if(this.typeFilter==="spell"){var remainingCards=[];var spellCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter,remainingCards);var remainingCards2=[];var chantCards=this.filterOnText(remainingCards,"Type","Chant",remainingCards2);var istantCards=this.filterOnText(remainingCards2,"Type","Instant");this.filteredCards=spellCards.concat(chantCards,istantCards)}else{this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter)}this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost);if(this.typeFilter!=="spell"&&this.typeFilter!=="addition"){this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost);this.filteredCards=this.filterOnRange(this.filteredCards,"ATK",this.minATK,this.maxATK);this.filteredCards=this.filterOnRange(this.filteredCards,"DEF",this.minDEF,this.maxDEF)}},filterOnRange:function(cardList,key,min,max){min=parseInt(min);max=parseInt(max);if(cardList){return cardList.filter(function(card){return card[key]>=min&&card[key]<=max})}else{return[]}},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(card){if(self.strictMatch(card[key],filterString)){return true}else if(remaining){remaining.push(card)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
+  <script>(function(){Polymer("fow-filter",{filterOnRange:function(cardList,key,min,max){min=parseInt(min);max=parseInt(max);if(cardList){return cardList.filter(function(card){return card[key]>=min&&card[key]<=max})}else{return[]}},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(card){if(self.strictMatch(card[key],filterString)){return true}else if(remaining){remaining.push(card)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}},fuzzyMatch:function(text,textToSearch){var search=textToSearch.toUpperCase();var text=text.toUpperCase();var j=-1;for(var i=0;i<search.length;i++){var l=search[i];if(l==" "){continue}j=text.indexOf(l,j+1);if(j==-1){return false}}return true}})})();</script>
+</polymer-element>
+
+
+<polymer-element name="fow-card-filter" extends="fow-filter" attributes="filteredCards cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost minCost maxCost minATK maxATK minDEF maxDEF" assetpath="fow-card-filter/">
+  <template>
+    <style>:host{display:block}</style>
+  </template>
+  <script>(function(){Polymer("fow-card-filter",{observe:{"cards nameFilter descriptionFilter attributeFilter typeFilter":"updateFilteredCards","rarityFilter expansionFilter minCost maxCost":"updateFilteredCards","minCost maxCost minATK maxATK minDEF maxDEF":"updateFilteredCards"},created:function(){this.super();this.resetFilters()},resetFilters:function(){this.nameFilter="";this.descriptionFilter="";this.attributeFilter="radio_all";this.typeFilter="radio_all";this.rarityFilter="radio_all";this.expansionFilter="radio_all";this.minCost="0";this.maxCost="20";this.minATK="0";this.maxATK="10000";this.minDEF="0";this.maxDEF="10000"},updateFilteredCards:function(){this.filteredCards=this.filterOnText(this.cards,"Name",this.nameFilter);if(this.descriptionFilter){this.filteredCards=this.filterOnText(this.filteredCards,"Cardtext",this.descriptionFilter)}if(this.attributeFilter){this.filteredCards=this.filterOnText(this.filteredCards,"Attribute",this.attributeFilter)}if(this.rarityFilter){this.filteredCards=this.filterOnText(this.filteredCards,"Rarity",this.rarityFilter)}if(this.expansionFilter){this.filteredCards=this.filterOnText(this.filteredCards,"Expansion",this.expansionFilter)}if(this.typeFilter==="spell"){var remainingCards=[];var spellCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter,remainingCards);var remainingCards2=[];var chantCards=this.filterOnText(remainingCards,"Type","Chant",remainingCards2);var istantCards=this.filterOnText(remainingCards2,"Type","Instant");this.filteredCards=spellCards.concat(chantCards,istantCards)}else{this.filteredCards=this.filterOnText(this.filteredCards,"Type",this.typeFilter)}this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost);if(this.typeFilter!=="spell"&&this.typeFilter!=="addition"){this.filteredCards=this.filterOnRange(this.filteredCards,"Total Cost",this.minCost,this.maxCost);this.filteredCards=this.filterOnRange(this.filteredCards,"ATK",this.minATK,this.maxATK);this.filteredCards=this.filterOnRange(this.filteredCards,"DEF",this.minDEF,this.maxDEF)}}})})();</script>
 </polymer-element>
 
 
@@ -3570,7 +3579,6 @@ how to use a custom icon set.
 
 
 
-
 <polymer-element name="fow-card-picker" on-keydown="{{keydownHandler}}" attributes="deck filteredCards selectedCard selectedQty toast smallScreen" assetpath="fow-card-picker/">
   <template>
     <style>:host{display:block;background-color:rgba(255,255,255,.1);border-radius:8px;padding:10px}.scroll{overflow:scroll;background-color:rgba(255,255,255,.1);height:180px;margin-bottom:10px}.button{cursor:pointer;background-color:rgba(255,255,255,.4);padding:2px;padding-left:4px;padding-right:4px;border-radius:10px;text-align:center;margin-left:10px}.button:hover{background-color:#9f9;color:#000}.form-row{margin:4px;min-width:300px}.title-row{min-width:80px}.row-text{min-height:100px;min-width:260px}.text-input{width:99%;height:20px}.qty-input{width:30px;height:20px;text-align:center;margin-left:3px}.qty-container{margin-left:10px}input{background-color:#bbb;color:#000}.filter-row{margin:1;padding:2px;padding-left:5px;cursor:pointer;overflow:hidden;min-width:200px}.filter-row:hover{background-color:#9f9;color:#000}.selected-filter-row{padding:2px;padding-left:5px;margin:1;cursor:pointer;overflow:hidden;background-color:#9f9;font-style:italic;color:#000;min-width:200px}.selected-filter-row{background-color:#9f9;color:#000}.image{margin-top:4px;margin-left:8px;padding:2px;padding-top:3px;padding-bottom:0;border-radius:4px;background-color:#fff}.selectedCardImg{width:120px;height:170px}</style>
@@ -3696,8 +3704,10 @@ how to use a custom icon set.
     <core-media-query query="max-width: 1000px" querymatches="{{smallScreen}}">
     </core-media-query>
     <div class="deck-list {{smallScreen?&apos;small&apos;:&apos;large&apos;}}">
+      <fow-deck-filter decks="{{decks}}" filtereddecks="{{filteredDecks}}" titlefilter="{{titleFilter}}">
+      </fow-deck-filter>
       <h3>{{decks.length}} Decks</h3>
-      <template repeat="{{deck in decks}}">
+      <template repeat="{{deck in filteredDecks}}">
         <fow-deck-row class="deck-row" on-tap="{{deckSelected}}" deck="{{deck}}">
         </fow-deck-row>
       </template>
@@ -3707,6 +3717,127 @@ how to use a custom icon set.
   <script>(function(){Polymer("fow-deck-list",{decks:null,created:function(){this.decks=[]},deckSelected:function(event,detail,sender){this.selected="decks/"+sender.deck._id}})})();</script>
 </polymer-element>
 
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+The `core-tooltip` element creates a hover tooltip centered for the content
+it contains. It can be positioned on the top|bottom|left|right of content using
+the `position` attribute.
+
+To include HTML in the tooltip, include the `tip` attribute on the relevant
+content.
+
+<b>Example</b>:
+
+    <core-tooltip label="I'm a tooltip">
+      <span>Hover over me.</span>
+    </core-tooltip>
+
+<b>Example</b> - positioning the tooltip to the right:
+
+    <core-tooltip label="I'm a tooltip to the right" position="right">
+      <core-icon-button icon="drawer"></core-icon-button>
+    </core-tooltip>
+
+<b>Example</b> - no arrow and showing by default:
+
+    <core-tooltip label="Tooltip with no arrow and always on" noarrow show>
+      <img src="image.jpg">
+    </core-tooltip>
+
+<b>Example</b> - disable the tooltip.
+
+    <core-tooltip label="Disabled label never shows" disabled>
+      ...
+    </core-tooltip>
+
+<b>Example</b> - rich tooltip using the `tip` attribute:
+
+    <core-tooltip>
+      <div>Example of a rich information tooltip</div>
+      <div tip>
+        <img src="profile.jpg">Foo <b>Bar</b> - <a href="#">@baz</a>
+      </div>
+    </core-tooltip>
+
+By default, the `tip` attribute specifies the HTML content for a rich tooltip.
+You can customize this attribute with the `tipAttribute` attribute:
+
+    <core-tooltip tipAttribute="htmltooltip">
+      <div>Example of a rich information tooltip</div>
+      <div htmltooltip>
+        ...
+      </div>
+    </core-tooltip>
+
+@group Polymer Core Elements
+@element core-tooltip
+@extends paper-focusable
+@homepage http://www.polymer-project.org/components/core-tooltip/index.html
+-->
+
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+/**
+ * @group Paper Elements
+ *
+ * paper-focusable is a base class for paper elements that can be focused.
+ *
+ * @element paper-focusable
+ * @status beta
+ * @homepage github.io
+ */
+-->
+
+
+
+<polymer-element name="paper-focusable" attributes="active focused disabled isToggle" tabindex="0" on-down="{{downAction}}" on-up="{{upAction}}" on-focus="{{focusAction}}" on-blur="{{blurAction}}" on-contextmenu="{{contextMenuAction}}" assetpath="../bower_components/paper-focusable/">
+
+  <template>
+    <style>:host([disabled]){pointer-events:none}</style>
+    <content></content>
+  </template>
+
+  <script>Polymer("paper-focusable",{publish:{active:{value:false,reflect:true},focused:{value:false,reflect:true},pressed:{value:false,reflect:true},disabled:{value:false,reflect:true},isToggle:{value:false,reflect:false}},disabledChanged:function(){if(this.disabled){this.removeAttribute("tabindex")}else{this.setAttribute("tabindex",0)}},downAction:function(){this.pressed=true;if(this.isToggle){this.active=!this.active}else{this.active=true}},contextMenuAction:function(e){this.upAction(e);this.focusAction()},upAction:function(){this.pressed=false;if(!this.isToggle){this.active=false}},focusAction:function(){if(!this.pressed){this.focused=true}},blurAction:function(){this.focused=false}});</script>
+</polymer-element>
+
+
+<!-- TODO: would be nice to inherit from label to get .htmlFor, and .control,
+           but the latter is readonly. -->
+<!-- TODO: support off center arrows. -->
+<!-- TODO: detect mobile and apply the .large class, instead of manual
+           control. -->
+<!-- TODO: possibly reuse core-overlay. -->
+<polymer-element name="core-tooltip" extends="paper-focusable" attributes="noarrow position label show tipAttribute" role="tooltip" assetpath="../bower_components/core-tooltip/">
+<template>
+
+  <style>:host{box-sizing:border-box;position:relative;display:inline-block;outline:0}:host(:hover:not([disabled])) .core-tooltip{visibility:visible!important}:host([focused]) .core-tooltip{visibility:visible!important}.core-tooltip:not(.show){visibility:hidden}.core-tooltip{position:absolute;font-size:10px;font-family:sans-serif;padding:8px;color:#fff;background-color:rgba(0,0,0,.8);box-sizing:border-box;border-radius:3px;white-space:nowrap;line-height:6px;z-index:1002;-webkit-user-select:none;user-select:none}:host([large]) .core-tooltip{line-height:14px;font-size:14px;padding:16px}.core-tooltip.noarrow::after{display:none}.core-tooltip::after{position:absolute;border:solid transparent;content:'';height:0;width:0;border-width:4px}.top{margin-bottom:10px;bottom:100%}.right{margin-left:10px;left:100%}.bottom{top:100%;margin-top:10px}.left{margin-right:10px;right:100%}.core-tooltip.bottom::after{bottom:100%;left:calc(50% - 4px);border-bottom-color:rgba(0,0,0,.8)}.core-tooltip.left::after{left:100%;top:calc(50% - 4px);border-left-color:rgba(0,0,0,.8)}.core-tooltip.top::after{top:100%;left:calc(50% - 4px);border-top-color:rgba(0,0,0,.8)}.core-tooltip.right::after{right:100%;top:calc(50% - 4px);border-right-color:rgba(0,0,0,.8)}</style>
+  <div id="tooltip" hidden?="{{!hasTooltipContent}}" class="core-tooltip {{position}} {{ {noarrow: noarrow, show: show &amp;&amp; !disabled} | tokenList}}">
+    <content id="c" select="[{{tipAttribute}}]">{{label}}</content>
+  </div>
+
+  <content></content>
+
+</template>
+<script>Polymer("core-tooltip",{label:null,computed:{hasTooltipContent:"label || !!tipElement"},publish:{show:{value:false,reflect:true},position:{value:"bottom",reflect:true},noarrow:{value:false,reflect:true}},tipAttribute:"tip",attached:function(){this.updatedChildren()},updatedChildren:function(){this.tipElement=null;for(var i=0,el;el=this.$.c.getDistributedNodes()[i];++i){if(el.hasAttribute&&el.hasAttribute("tip")){this.tipElement=el;break}}this.job("positionJob",this.setPosition);this.onMutation(this,this.updatedChildren)},labelChanged:function(oldVal,newVal){this.job("positionJob",this.setPosition)},positionChanged:function(oldVal,newVal){this.job("positionJob",this.setPosition)},setPosition:function(){var controlWidth=this.clientWidth;var controlHeight=this.clientHeight;var toolTipWidth=this.$.tooltip.clientWidth;var toolTipHeight=this.$.tooltip.clientHeight;switch(this.position){case"top":case"bottom":this.$.tooltip.style.left=(controlWidth-toolTipWidth)/2+"px";this.$.tooltip.style.top=null;break;case"left":case"right":this.$.tooltip.style.left=null;this.$.tooltip.style.top=(controlHeight-toolTipHeight)/2+"px";break}}});</script>
+</polymer-element>
 
 
 <polymer-element name="fow-deck-row" attributes="deck" assetpath="fow-deck-row/">
@@ -3860,26 +3991,41 @@ how to use a custom icon set.
 
 
 
+
 <polymer-element name="fow-deck-detail-card" attributes="deckCard" assetpath="fow-deck-detail-card/">
   <template>
-    <style>:host{display:block;width:100%;margin-top:1px}.deckCard{width:100%;max-width:500px;text-align:left;padding:4px;color:#000;background-color:#646464;border-radius:2px}.cardQty{width:30px;margin:2px;margin-left:10px;text-align:center}.Fire{background-color:#be6464}.Dark{color:#fff;background-color:#0a0a0a}.Light{background-color:#b4aaa0}.Wind{background-color:#0C9}.Water{background-color:#9DCEFF}.FireCircle{color:#fff;background-color:#a01414}.DarkCircle{color:#fff;background-color:#373737}.LightCircle{background-color:#f0e6dc}.WindCircle{color:#fff;background-color:#393}.WaterCircle{color:#fff;background-color:#36C}.VoidCircle{color:#fff;background-color:#8c8c8c}.delete{height:24px;width:24px;cursor:pointer}.circle{text-align:center;font-size:.8em;height:18px;width:18px;border-radius:9px;margin:1px}</style>
-    <div layout="" vertical="" center="">
-      <div class="deckCard {{deckCard.card.Attribute}}">
-        <div layout="" horizontal="" center="">
-          <div flex="">
-            <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
+    <style>:host{display:block;width:100%;margin-top:1px}.deckCard{width:100%;max-width:500px;text-align:left;padding:4px;color:#000;background-color:#646464;border-radius:2px}.cardQty{width:30px;margin:2px;margin-left:10px;text-align:center}.Fire{background-color:#be6464}.Dark{color:#fff;background-color:#0a0a0a}.Light{background-color:#b4aaa0}.Wind{background-color:#0C9}.Water{background-color:#9DCEFF}.FireCircle{color:#fff;background-color:#a01414}.DarkCircle{color:#fff;background-color:#373737}.LightCircle{background-color:#f0e6dc}.WindCircle{color:#fff;background-color:#393}.WaterCircle{color:#fff;background-color:#36C}.VoidCircle{color:#fff;background-color:#8c8c8c}.delete{height:24px;width:24px;cursor:pointer}.circle{text-align:center;font-size:.8em;height:18px;width:18px;border-radius:9px;margin:1px}.tooltip-image{height:250px;width:180px}.tooltip-container{width:100%;max-width:500px}</style>
+
+    
+
+      <div layout="" vertical="" center="">
+        
+        <core-tooltip class="tooltip-container" position="top">
+          
+          <div class="deckCard {{deckCard.card.Attribute}}">
+            <div layout="" horizontal="" center="">
+              <div flex="">
+                <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
+              </div>
+
+              <template if="{{deckCard.card[&apos;Free Cost&apos;] != 0}}">
+                <div class="circle VoidCircle">{{deckCard.card["Free Cost"]}}</div>
+              </template>
+
+              <template if="{{deckCard.card[&apos;Attribute Cost&apos;] != 0}}">
+                <div class="circle {{deckCard.card.Attribute + &apos;Circle&apos;}}">{{deckCard.card["Attribute Cost"]}}</div>
+              </template>
+            </div>
           </div>
 
-          <template if="{{deckCard.card[&apos;Free Cost&apos;] != 0}}">
-            <div class="circle VoidCircle">{{deckCard.card["Free Cost"]}}</div>
-          </template>
+          <div tip="">
+            <img class="tooltip-image" src="{{ &apos;../images&apos; + deckCard.card[&apos;Image path&apos;] }}">
+          </div>
 
-          <template if="{{deckCard.card[&apos;Attribute Cost&apos;] != 0}}">
-            <div class="circle {{deckCard.card.Attribute + &apos;Circle&apos;}}">{{deckCard.card["Attribute Cost"]}}</div>
-          </template>
-        </div>
+        </core-tooltip>
+
       </div>
-    </div>
+
   </template>
   <script>(function(){Polymer("fow-deck-detail-card",{})})();</script>
 </polymer-element>
@@ -3904,6 +4050,18 @@ how to use a custom icon set.
     </div>    
   </template>
   <script>(function(){"use strict";Polymer("fow-binder-row",{observe:{qty:"sendUpdates"},qtyChanged:function(){this.sendUpdates()},sendUpdates:function(){console.log("Update qty: ",this.qty)},removeCard:function(){this.$.deleteBinderCardService.go()},successHandler:function(event){if(this.toast){this.toast.text="Card deleted!";this.toast.show();this.fire("delete")}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem deleting the card.";this.toast.show()}}})})();</script>
+</polymer-element>
+
+
+
+
+
+<polymer-element name="fow-deck-filter" extends="fow-filter" attributes="filteredDecks decks titleFilter rulerFilter attributeOnly attributeFilters ratingFilter officialFilter formatFilter cardsFilter maxDate minDate" assetpath="fow-deck-filter/">
+  <template>
+    <style>:host{display:block}</style>
+    <shadow></shadow>
+  </template>
+  <script>Polymer("fow-deck-filter",{observe:{"decks titleFilter rulerFilter attributeOnly attributeFilters":"updateFilteredDecks","ratingFilter officialFilter formatFilter cardsFilter dateFilter":"updateFilteredDecks"},created:function(){this.super();this.resetFilters()},resetFilters:function(){this.titleFilter="";this.rulerFilter="";this.containsOnly=false;this.attributeFilters="radio_all";this.officialFilter="radio_all";this.formatFilter="radio_all";this.cardsFilter=[];this.maxDate="";this.minDate=""},updateFilteredDecks:function(){this.filteredDecks=this.filterOnText(this.decks,"title",this.titleFilter)}});</script>
 </polymer-element>
 
 
@@ -4026,10 +4184,10 @@ how to use a custom icon set.
           </section>
 
           <section name="myDecks">
-            <template if="{{section === &apos;myDecks&apos;}}">
+            <!-- <template if="{{section === 'myDecks'}}"> -->
               <fow-my-decks toast="{{$.toast}}" token="{{token}}" selected="{{selected}}">
               </fow-my-decks>
-            </template>
+            <!-- </template> -->
           </section>
 
           <section name="friends">
@@ -4065,4 +4223,4 @@ how to use a custom icon set.
   </template>
   <script>(function(){"use strict";Polymer("fow-app",{section:"cards",selectedChanged:function(){if(this.selected){if(this.contains(this.selected,"decks/")){this.section="deckDetail";this.urlID=this.selected.substring("decks/".length)}else{this.section=this.selected}}},sectionChanged:function(){if(this.section&&this.section!=this.selected){if(this.section!="deckDetail"){this.selected=this.section}}},contains:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
 </polymer-element>
-</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>
+</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>
