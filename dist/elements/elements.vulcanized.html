@@ -3718,6 +3718,86 @@ how to use a custom icon set.
 </polymer-element>
 
 
+
+<polymer-element name="fow-deck-row" attributes="deck" assetpath="fow-deck-row/">
+  <template>
+    <style>:host{display:block;margin:1px;margin-left:3px;margin-right:3px;border-radius:2px;background-color:rgba(255,255,255,.1);padding:4px;text-align:left}.circle{text-align:center;font-size:.8em;height:18px;width:18px;border-radius:9px;margin:1px}.FireCircle{color:#fff;background-color:#a01414}.DarkCircle{color:#fff;background-color:#0b0b0b}.LightCircle{background-color:#f0e6dc}.WindCircle{color:#fff;background-color:#393}.WaterCircle{color:#fff;background-color:#36C}.VoidCircle{color:#fff;background-color:#8c8c8c}.cut{overflow:hidden}</style>
+    <div layout="" horizontal="" center="">
+      <div flex="">{{deck.title}}</div>
+      <div flex="" two="">{{deck.ruler.Name}}</div>
+      <div layout="" horizontal="" flex="" center="" end-justified="">
+        <template repeat="{{deckAttribute in deckAttributes}}">
+          <div class="circle {{deckAttribute}}Circle">
+          </div>
+        </template>
+      </div>
+      <div flex="">{{deck.format}}</div>
+      <div flex="">{{day}}/{{month}}/{{year}}</div>
+      <div flex="">{{deck.privacy==="anonimous"?"":deck.author}}</div>
+    </div>
+  </template>
+  <script>(function(){Polymer("fow-deck-row",{deckAttributes:null,day:0,month:0,year:0,deck:null,created:function(){this.deckAttributes=[]},uniqueArray:function(array){var unique=[];for(var i=0;i<array.length;i++){if(unique.indexOf(array[i])==-1){unique.push(array[i])}}return unique},deckChanged:function(){if(this.deck){this.deckAttributes=this.uniqueArray(this.deck.cards.map(function(deckCard){if(deckCard.card){return deckCard.card.Attribute}return"Void"}));if(this.deck.date){var date=new Date(this.deck.date);this.day=date.getDate();this.month=date.getMonth();this.year=date.getFullYear()}}}})})();</script>
+</polymer-element>
+
+
+
+
+
+
+<polymer-element name="fow-deck" attributes="deck fowId token" assetpath="fow-deck/">
+  <template>
+    <style>:host{display:block}</style>
+
+    <fow-rest-service type="decks/{{fowId}}" items="{{deck}}" auto="true" token="{{token}}">
+    </fow-rest-service>
+  </template>
+  <script>(function(){Polymer("fow-deck",{})})();</script>
+</polymer-element>
+
+
+
+
+
+
+
+<polymer-element name="fow-deck-detail" attributes="deck" assetpath="fow-deck-detail/">
+  <template>
+    <style>:host{display:block;margin-top:14px;margin-right:5px;padding:5px;padding-top:15px;padding-bottom:15px;min-height:100%}.small{width:98%;margin-left:1%}.large{width:93%;margin-left:6%}.detail{background-color:rgba(255,255,255,.1);border-radius:4px;padding:4px}</style>
+
+    <template if="{{deck}}">
+        <core-media-query query="max-width: 1000px" querymatches="{{smallScreen}}">
+        </core-media-query>
+        <div class="detail {{smallScreen?&apos;small&apos;:&apos;large&apos;}}">
+          <div layout="" vertical="" center="">
+            <div layout="" horizontal="" center="">
+              <h3>{{deck.title}} ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
+              <core-icon-button icon="view-module" on-tap="{{toggleShowDeck}}"></core-icon-button>
+            </div>
+
+            <template if="{{showDeck}}">
+              <fow-deck-detail-list rulers="{{rulers}}" stones="{{stones}}" resonators="{{resonators}}" additions="{{additions}}" spells="{{spells}}" rulersqty="{{rulersQty}}" stonesqty="{{stonesQty}}" resonatorsqty="{{resonatorsQty}}" additionsqty="{{additionsQty}}" spellsqty="{{spellsQty}}" rulersside="{{rulersSide}}" stonesside="{{stonesSide}}" resonatorsside="{{resonatorsSide}}" additionsside="{{additionsSide}}" spellsside="{{spellsSide}}" rulerssideqty="{{rulersSideQty}}" stonessideqty="{{stonesSideQty}}" resonatorssideqty="{{resonatorsSideQty}}" additionssideqty="{{additionsSideQty}}" spellssideqty="{{spellsSideQty}}" cardssideqty="{{cardsSideQty}}" cardsqty="{{cardsQty}}">
+              </fow-deck-detail-list>
+            </template>
+            <template if="{{!showDeck}}">
+              <fow-deck-detail-grid rulers="{{rulers}}" stones="{{stones}}" resonators="{{resonators}}" additions="{{additions}}" spells="{{spells}}" rulersqty="{{rulersQty}}" stonesqty="{{stonesQty}}" resonatorsqty="{{resonatorsQty}}" additionsqty="{{additionsQty}}" spellsqty="{{spellsQty}}" rulersside="{{rulersSide}}" stonesside="{{stonesSide}}" resonatorsside="{{resonatorsSide}}" additionsside="{{additionsSide}}" spellsside="{{spellsSide}}" rulerssideqty="{{rulersSideQty}}" stonessideqty="{{stonesSideQty}}" resonatorssideqty="{{resonatorsSideQty}}" additionssideqty="{{additionsSideQty}}" spellssideqty="{{spellsSideQty}}" cardssideqty="{{cardsSideQty}}" cardsqty="{{cardsQty}}">
+              </fow-deck-detail-grid>
+            </template>
+          </div>
+        </div>
+      </template>
+    </template>
+
+    <template if="{{!deck}}">
+      <div layout="" vertical="" center=""> 
+        <img src="../images/loading.gif">
+        <div>Loading deck...</div>
+      </div>
+    </template>
+  
+  <script>(function(){Polymer("fow-deck-detail",{showDeck:true,rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,rulersSide:null,resonatorsSide:null,additionsSide:null,spellsSide:null,stonesSide:null,rulersSideQty:0,resonatorsSideQty:0,additionsSideQty:0,spellsSideQty:0,stonesSideQty:0,cardsSideQty:0,deckChanged:function(){if(this.deck&&this.deck.cards&&this.deck.side){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones);this.rulersSide=this.filterOnText(this.deck.side,"Type","Ruler");this.resonatorsSide=this.filterOnText(this.deck.side,"Type","Resonator");this.additionsSide=this.filterOnText(this.deck.side,"Type","Addition");this.spellsSide=this.filterOnText(this.deck.side,"Type","Spell");this.stonesSide=this.filterOnText(this.deck.side,"Type","Stone");this.cardsSideQty=this.countCards(this.deck.side);this.rulersSideQty=this.countCards(this.rulersSide);this.resonatorsSideQty=this.countCards(this.resonatorsSide);this.additionsSideQty=this.countCards(this.additionsSide);this.spellsSideQty=this.countCards(this.spellsSide);this.stonesSideQty=this.countCards(this.stonesSide)}},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}},toggleShowDeck:function(){this.showDeck=!this.showDeck}})})();</script>
+</polymer-element>
+
+
 <!--
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -3840,158 +3920,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </polymer-element>
 
 
-<polymer-element name="fow-deck-row" attributes="deck" assetpath="fow-deck-row/">
-  <template>
-    <style>:host{display:block;margin:1px;margin-left:3px;margin-right:3px;border-radius:2px;background-color:rgba(255,255,255,.1);padding:4px;text-align:left}.circle{text-align:center;font-size:.8em;height:18px;width:18px;border-radius:9px;margin:1px}.FireCircle{color:#fff;background-color:#a01414}.DarkCircle{color:#fff;background-color:#0b0b0b}.LightCircle{background-color:#f0e6dc}.WindCircle{color:#fff;background-color:#393}.WaterCircle{color:#fff;background-color:#36C}.VoidCircle{color:#fff;background-color:#8c8c8c}.cut{overflow:hidden}</style>
-    <div layout="" horizontal="" center="">
-      <div flex="">{{deck.title}}</div>
-      <div flex="" two="">{{deck.ruler.Name}}</div>
-      <div layout="" horizontal="" flex="" center="" end-justified="">
-        <template repeat="{{deckAttribute in deckAttributes}}">
-          <div class="circle {{deckAttribute}}Circle">
-          </div>
-        </template>
-      </div>
-      <div flex="">{{deck.format}}</div>
-      <div flex="">{{day}}/{{month}}/{{year}}</div>
-      <div flex="">{{deck.privacy==="anonimous"?"":deck.author}}</div>
-    </div>
-  </template>
-  <script>(function(){Polymer("fow-deck-row",{deckAttributes:null,day:0,month:0,year:0,deck:null,created:function(){this.deckAttributes=[]},uniqueArray:function(array){var unique=[];for(var i=0;i<array.length;i++){if(unique.indexOf(array[i])==-1){unique.push(array[i])}}return unique},deckChanged:function(){if(this.deck){this.deckAttributes=this.uniqueArray(this.deck.cards.map(function(deckCard){if(deckCard.card){return deckCard.card.Attribute}return"Void"}));if(this.deck.date){var date=new Date(this.deck.date);this.day=date.getDate();this.month=date.getMonth();this.year=date.getFullYear()}}}})})();</script>
-</polymer-element>
-
-
-
-
-
-
-<polymer-element name="fow-deck" attributes="deck fowId token" assetpath="fow-deck/">
-  <template>
-    <style>:host{display:block}</style>
-
-    <fow-rest-service type="decks/{{fowId}}" items="{{deck}}" auto="true" token="{{token}}">
-    </fow-rest-service>
-  </template>
-  <script>(function(){Polymer("fow-deck",{})})();</script>
-</polymer-element>
-
-
-
-
-
-
-<polymer-element name="fow-deck-detail" attributes="deck" assetpath="fow-deck-detail/">
-  <template>
-    <style>:host{display:block;margin-top:14px;margin-right:5px;padding:5px;padding-top:15px;padding-bottom:15px;min-height:100%}.small{width:98%;margin-left:1%}.large{width:93%;margin-left:6%}.detail{background-color:rgba(255,255,255,.1);border-radius:4px;padding:4px}</style>
-
-    <template if="{{deck}}">
-      <core-media-query query="max-width: 1000px" querymatches="{{smallScreen}}">
-      </core-media-query>
-      <div class="detail {{smallScreen?&apos;small&apos;:&apos;large&apos;}}">
-        <div layout="" vertical="" center="">
-          <div>
-            <h3>{{deck.title}} ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
-          </div>
-          <div class="titleType">
-            {{rulersQty}} Ruler ({{rulers.length}})
-          </div>
-          <template repeat="{{deckCard in rulers}}">
-            <fow-deck-detail-card deckcard="{{deckCard}}">
-            </fow-deck-detail-card>
-          </template>
-
-          <div class="titleType">
-            {{stonesQty}} Magic Stones ({{stones.length}} distinct)
-          </div>
-          <template repeat="{{deckCard in stones}}">
-            <fow-deck-detail-card deckcard="{{deckCard}}">
-            </fow-deck-detail-card>
-          </template>
-
-          <div class="titleType">
-            {{resonatorsQty}} Resonators ({{resonators.length}} distinct)
-          </div>
-          <template repeat="{{deckCard in resonators}}">
-            <fow-deck-detail-card deckcard="{{deckCard}}">
-            </fow-deck-detail-card>
-          </template>
-
-          <div class="titleType">
-            {{additionsQty}} Additions ({{additions.length}} distinct)
-          </div>
-          <template repeat="{{deckCard in additions}}">
-            <fow-deck-detail-card deckcard="{{deckCard}}">
-            </fow-deck-detail-card>
-          </template>
-
-          <div class="titleType">
-            {{spellsQty}} Spells ({{spells.length}} distinct)
-          </div>
-          <template repeat="{{deckCard in spells}}">
-            <fow-deck-detail-card deckcard="{{deckCard}}">
-            </fow-deck-detail-card>
-          </template>
-
-          <!-- SIDE -->
-          <div>
-            <h3>SIDE: ({{cardsSideQty}} cards, {{deck.side.length}} distinct)</h3>
-          </div>
-          <div class="titleType">
-            {{rulersSideQty}} Rulers ({{rulersSide.length}})
-          </div>
-          <template repeat="{{deckCard in rulersSide}}">
-            <fow-deck-detail-card deckcard="{{deckCard}}">
-            </fow-deck-detail-card>
-          </template>
-
-          <div class="titleType">
-            {{stonesSideQty}} Magic Stones ({{stonesSide.length}} distinct)
-          </div>
-          <template repeat="{{deckCard in stonesSide}}">
-            <fow-deck-detail-card deckcard="{{deckCard}}">
-            </fow-deck-detail-card>
-          </template>
-
-          <div class="titleType">
-            {{resonatorsSideQty}} Resonators ({{resonatorsSide.length}} distinct)
-          </div>
-          <template repeat="{{deckCard in resonatorsSide}}">
-            <fow-deck-detail-card deckcard="{{deckCard}}">
-            </fow-deck-detail-card>
-          </template>
-
-          <div class="titleType">
-            {{additionsSideQty}} Additions ({{additionsSide.length}} distinct)
-          </div>
-          <template repeat="{{deckCard in additionsSide}}">
-            <fow-deck-detail-card deckcard="{{deckCard}}">
-            </fow-deck-detail-card>
-          </template>
-
-          <div class="titleType">
-            {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
-          </div>
-          <template repeat="{{deckCard in spellsSide}}">
-            <fow-deck-detail-card deckcard="{{deckCard}}">
-            </fow-deck-detail-card>
-          </template>
-        </div>
-      </div>
-
-    </template>
-
-    <template if="{{!deck}}">
-      <div layout="" vertical="" center=""> 
-        Searching deck...
-      </div>
-    </template>
-  </template>
-  <script>(function(){Polymer("fow-deck-detail",{rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,rulersSide:null,resonatorsSide:null,additionsSide:null,spellsSide:null,stonesSide:null,rulersSideQty:0,resonatorsSideQty:0,additionsSideQty:0,spellsSideQty:0,stonesSideQty:0,cardsSideQty:0,deckChanged:function(){if(this.deck&&this.deck.cards&&this.deck.side){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones);this.rulersSide=this.filterOnText(this.deck.side,"Type","Ruler");this.resonatorsSide=this.filterOnText(this.deck.side,"Type","Resonator");this.additionsSide=this.filterOnText(this.deck.side,"Type","Addition");this.spellsSide=this.filterOnText(this.deck.side,"Type","Spell");this.stonesSide=this.filterOnText(this.deck.side,"Type","Stone");this.cardsSideQty=this.countCards(this.deck.side);this.rulersSideQty=this.countCards(this.rulersSide);this.resonatorsSideQty=this.countCards(this.resonatorsSide);this.additionsSideQty=this.countCards(this.additionsSide);this.spellsSideQty=this.countCards(this.spellsSide);this.stonesSideQty=this.countCards(this.stonesSide)}},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
-</polymer-element>
-
-
-
-
 <polymer-element name="fow-deck-detail-card" attributes="deckCard" assetpath="fow-deck-detail-card/">
   <template>
     <style>:host{display:block;width:100%;margin-top:1px}.deckCard{width:100%;max-width:500px;text-align:left;padding:4px;color:#000;background-color:#646464;border-radius:2px}.cardQty{width:30px;margin:2px;margin-left:10px;text-align:center}.Fire{background-color:#be6464}.Dark{color:#fff;background-color:#0a0a0a}.Light{background-color:#b4aaa0}.Wind{background-color:#0C9}.Water{background-color:#9DCEFF}.FireCircle{color:#fff;background-color:#a01414}.DarkCircle{color:#fff;background-color:#373737}.LightCircle{background-color:#f0e6dc}.WindCircle{color:#fff;background-color:#393}.WaterCircle{color:#fff;background-color:#36C}.VoidCircle{color:#fff;background-color:#8c8c8c}.delete{height:24px;width:24px;cursor:pointer}.circle{text-align:center;font-size:.8em;height:18px;width:18px;border-radius:9px;margin:1px}.tooltip-image{height:250px;width:180px}.tooltip-container{width:100%;max-width:500px}</style>
@@ -4064,6 +3992,235 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>Polymer("fow-deck-filter",{observe:{"decks titleFilter rulerFilter attributeOnly attributeFilters":"updateFilteredDecks","ratingFilter officialFilter formatFilter cardsFilter dateFilter":"updateFilteredDecks"},created:function(){this.super();this.resetFilters()},resetFilters:function(){this.titleFilter="";this.rulerFilter="";this.containsOnly=false;this.attributeFilters="radio_all";this.officialFilter="radio_all";this.formatFilter="radio_all";this.cardsFilter=[];this.maxDate="";this.minDate=""},updateFilteredDecks:function(){this.filteredDecks=this.filterOnText(this.decks,"title",this.titleFilter)}});</script>
 </polymer-element>
 
+
+
+
+
+
+<polymer-element name="fow-deck-detail-grid" attributes="deck rulers stones resonators additions spells 
+  cardsQty rulersQty stonesQty resonatorsQty additionsQty spellsQty
+  rulersSide stonesSide resonatorsSide additionsSide spellsSide 
+  cardsSideQty rulersSideQty stonesSideQty resonatorsSideQty additionsSideQty spellsSideQty" assetpath="fow-deck-detail-grid/">
+  <template>
+    <style>:host{display:block;width:100%}.titleType{width:100%;max-width:500px;text-align:left;margin-left:-4px;margin-top:10px;color:#aaa}</style>
+    <div layout="" vertical="" center="">
+      <div class="titleType">
+        {{rulersQty}} Ruler ({{rulers.length}})
+      </div>   
+      <div>
+        <template repeat="{{deckCard in rulers}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div>
+
+      <div class="titleType">
+        {{stonesQty}} Magic Stones ({{stones.length}} distinct)
+      </div>
+      <div>
+        <template repeat="{{deckCard in stones}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div>
+
+      <div class="titleType">
+        {{resonatorsQty}} Resonators ({{resonators.length}} distinct)
+      </div>
+      <div>
+        <template repeat="{{deckCard in resonators}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div>
+
+      <div class="titleType">
+        {{additionsQty}} Additions ({{additions.length}} distinct)
+      </div>
+      <div>
+        <template repeat="{{deckCard in additions}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div>
+      <div class="titleType">
+        {{spellsQty}} Spells ({{spells.length}} distinct)
+      </div>
+      <div>
+        <template repeat="{{deckCard in spells}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div>
+      <!-- SIDE -->
+      <div class="titleType">
+        <h3>SIDE: ({{cardsSideQty}} cards, {{deck.side.length}} distinct)</h3>
+      </div>
+      <div class="titleType">
+        {{rulersSideQty}} Rulers ({{rulersSide.length}})
+      </div>
+      <div>
+        <template repeat="{{deckCard in rulersSide}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div>
+
+      <div class="titleType">
+        {{stonesSideQty}} Magic Stones ({{stonesSide.length}} distinct)
+      </div>
+      <div>
+        <template repeat="{{deckCard in stonesSide}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div>
+
+      <div class="titleType">
+        {{resonatorsSideQty}} Resonators ({{resonatorsSide.length}} distinct)
+      </div>
+      <div>
+        <template repeat="{{deckCard in resonatorsSide}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div>
+
+      <div class="titleType">
+        {{additionsSideQty}} Additions ({{additionsSide.length}} distinct)
+      </div>
+      <div>
+        <template repeat="{{deckCard in additionsSide}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div>
+
+      <div class="titleType">
+        {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
+      </div>
+      <div>
+        <template repeat="{{deckCard in spellsSide}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div> 
+  </div>
+  </template>
+  <script>(function(){Polymer("fow-deck-detail-grid",{})})();</script>
+</polymer-element>
+
+
+
+
+<polymer-element name="fow-deck-detail-list" attributes="deck rulers stones resonators additions spells 
+  cardsQty rulersQty stonesQty resonatorsQty additionsQty spellsQty
+  rulersSide stonesSide resonatorsSide additionsSide spellsSide 
+  cardsSideQty rulersSideQty stonesSideQty resonatorsSideQty additionsSideQty spellsSideQty" assetpath="fow-deck-detail-list/">
+  <template>
+    <style>:host{display:block;width:100%}.titleType{width:100%;max-width:500px;text-align:left;margin-left:-4px;margin-top:10px;color:#aaa}</style>
+    <div layout="" vertical="" center="">
+      <div class="titleType">
+        {{rulersQty}} Ruler ({{rulers.length}})
+      </div>
+      <template repeat="{{deckCard in rulers}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{stonesQty}} Magic Stones ({{stones.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in stones}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{resonatorsQty}} Resonators ({{resonators.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in resonators}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{additionsQty}} Additions ({{additions.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in additions}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{spellsQty}} Spells ({{spells.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in spells}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <!-- SIDE -->
+      <div class="titleType">
+        <h3>SIDE: ({{cardsSideQty}} cards, {{deck.side.length}} distinct)</h3>
+      </div>
+      <div class="titleType">
+        {{rulersSideQty}} Rulers ({{rulersSide.length}})
+      </div>
+      <template repeat="{{deckCard in rulersSide}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{stonesSideQty}} Magic Stones ({{stonesSide.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in stonesSide}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{resonatorsSideQty}} Resonators ({{resonatorsSide.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in resonatorsSide}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{additionsSideQty}} Additions ({{additionsSide.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in additionsSide}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in spellsSide}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+    </div>
+  </template>
+  <script>(function(){Polymer("fow-deck-detail-list",{})})();</script>
+</polymer-element>
+
+
+
+<polymer-element name="fow-deck-detail-cell" attributes="deckCard" assetpath="fow-deck-detail-cell/">
+  <template>
+    <style>:host{display:inline-block;position:relative;height:250px;width:180px}.cell-image{height:250px;width:180px}.counter{position:absolute;top:6px;right:5px;text-align:center;padding-top:2px;height:22px;width:24px;background-color:rgba(0,0,0,.8);font-size:14px;border-radius:12px}</style>
+    
+    <img class="cell-image" src="{{ &apos;../images&apos; + deckCard.card[&apos;Image path&apos;] }}">
+    
+    <div class="counter">{{deckCard.qty}}x</div>
+
+  </template>
+  <script>(function(){Polymer("fow-deck-detail-cell",{})})();</script>
+</polymer-element>
 
 
 
@@ -4223,4 +4380,4 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
   <script>(function(){"use strict";Polymer("fow-app",{section:"cards",selectedChanged:function(){if(this.selected){if(this.contains(this.selected,"decks/")){this.section="deckDetail";this.urlID=this.selected.substring("decks/".length)}else{this.section=this.selected}}},sectionChanged:function(){if(this.section&&this.section!=this.selected){if(this.section!="deckDetail"){this.selected=this.section}}},contains:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
 </polymer-element>
-</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>
+</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>

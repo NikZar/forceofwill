@@ -1,0 +1,128 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/elements.html">
+
+<polymer-element name="fow-deck-detail-list" 
+  attributes="deck rulers stones resonators additions spells 
+  cardsQty rulersQty stonesQty resonatorsQty additionsQty spellsQty
+  rulersSide stonesSide resonatorsSide additionsSide spellsSide 
+  cardsSideQty rulersSideQty stonesSideQty resonatorsSideQty additionsSideQty spellsSideQty">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+      }
+      .titleType{
+        width: 100%;
+        max-width: 500px;
+        text-align: left;
+        margin-left: -4px;
+        margin-top: 10px;
+        color: #aaa;
+      }
+    </style>
+    <div layout vertical center>
+      <div class="titleType">
+        {{rulersQty}} Ruler ({{rulers.length}})
+      </div>
+      <template repeat="{{deckCard in rulers}}">
+        <fow-deck-detail-card deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{stonesQty}} Magic Stones ({{stones.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in stones}}">
+        <fow-deck-detail-card 
+          deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{resonatorsQty}} Resonators ({{resonators.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in resonators}}">
+        <fow-deck-detail-card 
+          deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{additionsQty}} Additions ({{additions.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in additions}}">
+        <fow-deck-detail-card 
+          deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{spellsQty}} Spells ({{spells.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in spells}}">
+        <fow-deck-detail-card 
+          deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <!-- SIDE -->
+      <div class="titleType">
+        <h3>SIDE: ({{cardsSideQty}} cards, {{deck.side.length}} distinct)</h3>
+      </div>
+      <div class="titleType">
+        {{rulersSideQty}} Rulers ({{rulersSide.length}})
+      </div>
+      <template repeat="{{deckCard in rulersSide}}">
+        <fow-deck-detail-card 
+          deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{stonesSideQty}} Magic Stones ({{stonesSide.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in stonesSide}}">
+        <fow-deck-detail-card 
+          deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{resonatorsSideQty}} Resonators ({{resonatorsSide.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in resonatorsSide}}">
+        <fow-deck-detail-card
+          deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{additionsSideQty}} Additions ({{additionsSide.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in additionsSide}}">
+        <fow-deck-detail-card 
+          deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in spellsSide}}">
+        <fow-deck-detail-card 
+          deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+    </div>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>
