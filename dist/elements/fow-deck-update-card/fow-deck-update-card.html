@@ -1,5 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
+
 <polymer-element name="fow-deck-update-card" attributes="deck deckCard isSide">
   <template>
     <style>
@@ -79,46 +81,61 @@
         border-radius: 9px;
         margin: 1px;
       }
+      .tooltip-image
+      {
+        height: 250px;
+        width: 180px;
+      }
+      .tooltip-container{
+        width: 100%;
+        max-width: 500px;
+      }
     </style>
     <div layout vertical center>
       <div class="deckCard {{deckCard.card.Attribute}}">
-        <div layout horizontal center>
-          <div flex>
-            <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
+        <core-tooltip class="tooltip-container" position="top">
+          <div layout horizontal center>
+            <div flex>
+              <b>{{deckCard.qty}}</b>x {{deckCard.card.Name}} 
+            </div>
+            <template if="{{deckCard.card['Free Cost'] != 0}}">
+              <div class="circle VoidCircle">{{deckCard.card["Free Cost"]}}</div>
+            </template>
+
+            <template if="{{deckCard.card['Attribute Cost'] != 0}}">
+              <div class="circle {{deckCard.card.Attribute + 'Circle'}}">{{deckCard.card["Attribute Cost"]}}</div>
+            </template>
+
+            <input class="cardQty" type="number" value="{{deckCard.qty}}"/>
+            <core-icon
+              class="delete"
+              on-tap="{{removeCard}}" 
+              icon="cancel"
+              title="Remove">
+            </core-icon>
+
+            <template if="{{!isSide}}">
+              <core-icon
+                class="delete"
+                on-tap="{{moveToSide}}" 
+                icon="get-app"
+                title="Move to Side">
+              </core-icon>
+            </template>
+            <template if="{{isSide}}">
+              <core-icon
+                class="delete"
+                on-tap="{{moveToDeck}}" 
+                icon="file-upload"
+                title="Move to Deck">
+              </core-icon>
+            </template>
           </div>
-          <template if="{{deckCard.card['Free Cost'] != 0}}">
-            <div class="circle VoidCircle">{{deckCard.card["Free Cost"]}}</div>
-          </template>
+          <div tip>
+            <img class="tooltip-image" src="{{ '../images' + deckCard.card['Image path'] }}">
+          </div>
 
-          <template if="{{deckCard.card['Attribute Cost'] != 0}}">
-            <div class="circle {{deckCard.card.Attribute + 'Circle'}}">{{deckCard.card["Attribute Cost"]}}</div>
-          </template>
-
-          <input class="cardQty" type="number" value="{{deckCard.qty}}"/>
-          <core-icon
-            class="delete"
-            on-tap="{{removeCard}}" 
-            icon="cancel"
-            title="Remove">
-          </core-icon>
-
-          <template if="{{!isSide}}">
-            <core-icon
-              class="delete"
-              on-tap="{{moveToSide}}" 
-              icon="get-app"
-              title="Move to Side">
-            </core-icon>
-          </template>
-          <template if="{{isSide}}">
-            <core-icon
-              class="delete"
-              on-tap="{{moveToDeck}}" 
-              icon="file-upload"
-              title="Move to Deck">
-            </core-icon>
-          </template>
-        </div>
+        </core-tooltip>
       </div>
     </div>
   </template>
