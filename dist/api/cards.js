@@ -11,7 +11,7 @@ var updateCard = function(req, res, card){
     var userId = req.userId;
 
     console.log("Searching: ", card);
-    db.collection('cards').findOne({code: card.code},function(err, result) {
+    db.collection('cards').findOne({code: card.code, Type: card.Type},function(err, result) {
           if (err) {
             console.log("Error searching cards: ", err, user)
             res.status(500).end();
@@ -60,7 +60,7 @@ var addNewCard = function(req, res, card){
   var userId = req.userId;
 
   console.log("Searching: ", card);
-  db.collection('cards').findOne({code: card.code},function(err, result) {
+  db.collection('cards').findOne({code: card.code, Type: card.Type},function(err, result) {
         if (err) {
           console.log("Error searching cards: ", err, user);
           res.status(500).end();

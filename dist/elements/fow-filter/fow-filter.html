@@ -1,0 +1,92 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-filter" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+  </template>
+  <script>
+    (function () {
+
+      Polymer("fow-filter",{
+        
+        filterOnRange: function(cardList, key, min, max){
+          min = parseInt(min);
+          max = parseInt(max);
+          if(cardList){
+
+            return cardList.filter(
+              
+              function(card){
+                return (card[key] >= min) && (card[key] <= max);
+              }
+            
+            );
+          } else {
+            return [];
+          }
+          
+        },
+
+        filterOnText: function(cardList, key, filterString, remaining){
+          if(filterString === "" || filterString === "radio_all"){
+            return cardList;
+          } 
+          else if(cardList){
+            var self = this;
+
+            return cardList.filter(
+              
+              function(card){
+                //console.log(card);
+                if( self.strictMatch(card[key], filterString) ){
+                  return true;
+                } else if(remaining){ 
+                  remaining.push(card);
+                }
+                
+                return false; 
+              }
+            
+            );
+          } else {
+            return [];
+          }
+        },
+
+        strictMatch:  function(text, textToSearch){
+          if(text && textToSearch){
+            return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
+          } else{
+            return false;
+          }
+        },
+
+        fuzzyMatch: function(text, textToSearch){
+          var search = textToSearch.toUpperCase();
+          var text = text.toUpperCase();
+
+          var j = -1; // remembers position of last found character
+
+          // consider each search character one at a time
+          for (var i = 0; i < search.length; i++) {
+            var l = search[i];
+            if (l == ' ') {
+              continue;     // ignore spaces
+            }
+            
+            j = text.indexOf(l, j+1);     // search for character & update position
+            if (j == -1) {
+              return false;  // if it's not found, exclude this item
+            }
+          }
+          return true;
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>

@@ -1,0 +1,44 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-deck-detail-cell" 
+  attributes="deckCard">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+        height: 250px;
+        width: 180px;
+      }
+      .cell-image{
+        height: 250px;
+        width: 180px;
+      }
+      .counter{
+        position: absolute;
+        top: 6px;
+        right: 5px;
+        text-align: center;
+        padding-top: 2px;
+        height: 22px;
+        width: 24px;
+        background-color: rgba(0,0,0,0.8);
+        font-size: 14px;
+        border-radius: 12px;
+      }
+    </style>
+    
+    <img class="cell-image" src="{{ '../images' + deckCard.card['Image path'] }}">
+    
+    <div class="counter">{{deckCard.qty}}x</div>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+      });
+
+    })();
+  </script>
+</polymer-element>

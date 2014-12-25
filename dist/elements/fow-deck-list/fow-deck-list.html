@@ -32,8 +32,13 @@
     <core-media-query query="max-width: 1000px" queryMatches="{{smallScreen}}">
     </core-media-query>
     <div class="deck-list {{smallScreen?'small':'large'}}">
+      <fow-deck-filter 
+        decks="{{decks}}" 
+        filteredDecks="{{filteredDecks}}" 
+        titleFilter="{{titleFilter}}">
+      </fow-deck-filter>
       <h3>{{decks.length}} Decks</h3>
-      <template repeat="{{deck in decks}}">
+      <template repeat="{{deck in filteredDecks}}">
         <fow-deck-row 
           class="deck-row" 
           on-tap="{{deckSelected}}" 
