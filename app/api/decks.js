@@ -322,7 +322,7 @@ var getDeck = function(req, res, _id){
     var db = req.db;
     _id = new ObjectID(_id);
     var userId = req.userId;
-    db.collection('decks').find({_id: _id, $or: [{privacy: "public"}, {userId: userId}] } ).toArray(function (err, decks) {
+    db.collection('decks').find({_id: _id, $or: [{privacy: "public"}, {privacy: "link"}, {userId: userId}] } ).toArray(function (err, decks) {
         if(err){
             console.log("Error searching deck, id:", _id);
             res.sendStatus(500);
