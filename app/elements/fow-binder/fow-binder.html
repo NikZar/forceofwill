@@ -23,7 +23,24 @@
 
     </style>
 
+    <fow-rest-service id="addCard" 
+      toast="{{toast}}"
+      auto="false" 
+      type="binder/cards" 
+      method="POST" 
+      token="{{token}}"
+      on-rest-error="{{errorHandler}}"
+      on-rest-response="{{successHandler}}">
+    </fow-rest-service>
+
     <div layout vertical center>
+      <fow-card-picker 
+          smallScreen = "{{smallScreen}}"
+          toast="{{toast}}"
+          on-add="{{binderCardAdded}}"
+          deck="{{deck}}">
+      </fow-card-picker>
+
       <div class="binderTitle">{{binderCards.length}} cards in your binder:</div>
       <template repeat="{{binderCard in binderCards}}">
         <fow-binder-row 
@@ -41,6 +58,33 @@
       'use strict';
 
       Polymer({
+
+        successHandler: function(event){
+          if(this.toast){
+            this.toast.text="Binder updated!";
+            this.toast.show();
+            this.selectedDeck = event.detail.detail.response[0];
+          }
+        },
+
+        errorHandler: function(event){
+          if(this.toast){
+            this.toast.text="There was a problem updating your binder.";
+            this.toast.show();
+          }
+        },
+
+        binderCardAdded: function(event, detail, sender){
+          var newBinderCard = detail;
+          this.$.addCard.body = JSON.stringify(newBinderCard);
+          this.$.addCard.go();
+        },
+
+        binderCardsChanged: function(){
+          this.deck = {};
+          this.deck.cards = this.binderCards;
+        },
+
         deleteBinderCard: function(event, detail, sender){
           var objIndex = this.binderCards.indexOf(sender.binderCard);
           this.binderCards.splice(objIndex,1);

@@ -18,7 +18,7 @@ var updateCard = function(req, res, card){
           }
           if(result){
             console.log("Found: ", result);
-            db.collection('cards').update({code: card.code}, card, function(err, result) {
+            db.collection('cards').update({code: card.code, Type: card.Type}, card, function(err, result) {
               if(err){
                 res.status(500).end();
               }

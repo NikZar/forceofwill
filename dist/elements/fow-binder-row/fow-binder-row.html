@@ -8,8 +8,6 @@
       :host {
         margin: 1px;
         display: block;
-        font-family: Open Sans;
-        background-color: rgba(255,255,255,0.1);
       }
 
       .cardRow{
@@ -29,6 +27,17 @@
         width: 30px;
       }
 
+      .tooltip-image
+      {
+        height: 250px;
+        width: 180px;
+      }
+      .tooltip-container{
+        width: 100%;
+        max-width: 500px;
+        font-family: Open Sans;
+        background-color: rgba(255,255,255,0.1);
+      }
     </style>
 
     <fow-rest-service
@@ -40,22 +49,30 @@
       on-rest-error="{{errorHandler}}"
       on-rest-response="{{successHandler}}">
     </fow-rest-service>
-    <div layout horizontal center>
-      <div class="cardRow">{{binderCard.qty}}x {{binderCard.card.Name}}</div>
-      <input class="qty" is="core-input" 
-        committedalue="{{qty}}"
-        value="{{qty}}"
-        placeholder="{{binderCard.qty}}" 
-        type="number"
-        preventInvalidInput>
-      <core-icon
-        class="delete"
-        on-tap="{{removeCard}}" 
-        icon="cancel"
-        title="Remove">
-      </core-icon>
-      {{qty}}
-    </div>    
+
+    <div layout vertical center>
+      <core-tooltip class="tooltip-container" position="top">
+        <div layout horizontal center>
+          <div class="cardRow">{{binderCard.qty}}x {{binderCard.card.Name}}</div>
+          <input class="qty" is="core-input" 
+            committedalue="{{qty}}"
+            value="{{qty}}"
+            placeholder="{{binderCard.qty}}" 
+            type="number"
+            preventInvalidInput>
+          <core-icon
+            class="delete"
+            on-tap="{{removeCard}}" 
+            icon="cancel"
+            title="Remove">
+          </core-icon>
+        </div>    
+        <div tip>
+          <img class="tooltip-image" src="{{ '../images' + binderCard.card['Image path'] }}">
+        </div>
+
+      </core-tooltip>
+    </div>
   </template>
   <script>
     (function () {
