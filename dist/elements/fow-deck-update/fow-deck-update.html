@@ -71,11 +71,11 @@
             </core-icon-button>
              <input class="text-input" value="{{deck.title}}"/>
           </div> 
-          <core-icon-button 
+          <!-- <core-icon-button 
             on-tap="{{updateDeck}}" 
             icon="save"
             title="Save Deck">
-          </core-icon-button>
+          </core-icon-button> -->
         </div>
 
         <div class="titleType">
@@ -290,6 +290,7 @@
             this.spellsSideQty = this.countCards(this.spellsSide);
             this.stonesSideQty = this.countCards(this.stonesSide);
           }
+          this.updateDeck();
         },
 
         countCards: function(deckCards){
