@@ -1,7 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
-<link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
+<link rel="import" href="../../elements/elements/elements.html">
 
 <polymer-element name="fow-card-preview" attributes="card toast token">
   <template>
@@ -64,16 +63,14 @@
         width: 100%;
         height: 100%;
       }
+
+      .tooltip-image
+      {
+        height: 250px;
+        width: 180px;
+      }
       
     </style>
-
-    <fow-rest-service id="addCard" 
-      toast="{{toast}}"
-      auto="false" 
-      type="binder/cards" 
-      method="POST" 
-      token="{{token}}">
-    </fow-rest-service>
 
     <div>
       <img on-tap="{{zoom}}" id="cardImg" align="left" />
@@ -84,7 +81,6 @@
         <template if="{{ (card.Type !== 'Spell') && (card.Type !== 'Chant') && (card.Type !== 'Addition')  && (card.Type !== 'Ruler') }}">
           <div>{{card.ATK}}/{{card.DEF}}</div>
         </template>
-        <core-icon class="cardIcon" icon="add-box" on-tap="{{addCard}}"></core-icon>
       </div>
     </div>
 
@@ -102,16 +98,11 @@
         // define element prototype here
         cardChanged: function(){
           //console.log("Card: ", this.card);
-          if(this.card){
+          if(this.card && this.card["Image path"]){
             this.$.cardImg.src = "../images"+this.card["Image path"];
             this.$.cardImgZoom.src = "../images"+this.card["Image path"];
             this.$.description.innerHTML = this.card.Cardtext;
           }
-        },
-
-        addCard: function(){
-          this.$.addCard.body = JSON.stringify({card: this.card, qty: 1});
-          this.$.addCard.go();
         },
 
         zoom: function (){

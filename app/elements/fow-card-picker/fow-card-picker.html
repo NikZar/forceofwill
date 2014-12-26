@@ -211,7 +211,7 @@
             }
             this.toast.text= this.selectedQty +"x "+this.selectedCard.Name+" Added!";
               this.toast.show();
-            this.fire("add");
+            this.fire("add", {card: this.selectedCard, qty: this.selectedQty} );
           }
         },
 
