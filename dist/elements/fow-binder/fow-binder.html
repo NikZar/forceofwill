@@ -41,7 +41,7 @@
           deck="{{deck}}">
       </fow-card-picker>
 
-      <div class="binderTitle">{{binderCards.length}} cards in your binder:</div>
+      <div class="binderTitle">{{binderCardsQty}} cards ({{binderCards.length}} distinct) in your binder:</div>
       <template repeat="{{binderCard in binderCards}}">
         <fow-binder-row 
           on-delete="{{deleteBinderCard}}"
@@ -58,6 +58,17 @@
       'use strict';
 
       Polymer({
+
+        binderCardsQty: 0,
+
+        binderCards: null,
+
+        deck: null,
+
+        created: function(){
+          this.binderCards = [];
+          this.deck = {};
+        },
 
         successHandler: function(event){
           if(this.toast){
@@ -78,11 +89,22 @@
           var newBinderCard = detail;
           this.$.addCard.body = JSON.stringify(newBinderCard);
           this.$.addCard.go();
+          this.binderCardsChanged();
         },
 
         binderCardsChanged: function(){
-          this.deck = {};
-          this.deck.cards = this.binderCards;
+          if(this.binderCards){
+            this.deck.cards = this.binderCards;
+            this.binderCardsQty = this.countCards(this.binderCards);
+          }
+        },
+
+        countCards: function(deckCards){
+          var sum = 0;
+          for (var i = deckCards.length - 1; i >= 0; i--) {
+            sum += Math.abs(parseInt(deckCards[i].qty));
+          };
+          return sum;
         },
 
         deleteBinderCard: function(event, detail, sender){
