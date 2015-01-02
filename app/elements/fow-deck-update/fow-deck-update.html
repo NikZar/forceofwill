@@ -18,6 +18,12 @@
         padding-bottom: 15px;
         min-height: 100%;
       }
+      .title
+      {
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 1.5em;
+      }
       .titleType{
         width: 100%;
         max-width: 500px;
@@ -60,8 +66,10 @@
           deck="{{deck}}">
         </fow-card-picker>
 
+        <div class="title" on-tap="{{viewDeck}}">{{deck.title}}</div>
+
         <div layout horizontal center>
-          <h3>{{deck.title}}: ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
+          <div>{{cardsQty - stonesQty -rulersQty}} cards, {{stonesQty}} Magic Stones</div>
           <core-icon-button 
             class="view"
             on-tap="{{viewDeck}}" 
@@ -125,7 +133,7 @@
         </div>
 
         <div class="titleType">
-          {{rulersQty}} Ruler ({{rulers.length}})
+          {{rulersQty}} Ruler ({{rulers.length}} distinct)
         </div>
         <template repeat="{{deckCard in rulers}}">
           <fow-deck-update-card 

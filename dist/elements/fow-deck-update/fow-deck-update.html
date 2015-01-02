@@ -1,5 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
+
 <link rel="import" href="../../elements/elements.html">
 
 <polymer-element name="fow-deck-update" attributes="deck token toast smallScreen selected">
@@ -16,6 +18,12 @@
         padding-bottom: 15px;
         min-height: 100%;
       }
+      .title
+      {
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 1.5em;
+      }
       .titleType{
         width: 100%;
         max-width: 500px;
@@ -26,6 +34,15 @@
       }
       .view{
         color: #99e;
+      }
+      .tooltip-privacy
+      {
+        font-size: 12px;
+        margin: 9px;
+      }
+      .selected-privacy
+      {
+        color: #9F9;
       }
     </style>
 
@@ -49,22 +66,59 @@
           deck="{{deck}}">
         </fow-card-picker>
 
+        <div class="title" on-tap="{{viewDeck}}">{{deck.title}}</div>
+
         <div layout horizontal center>
-          <h3>{{deck.title}}: ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
+          <div>{{cardsQty - stonesQty -rulersQty}} cards, {{stonesQty}} Magic Stones</div>
           <core-icon-button 
             class="view"
             on-tap="{{viewDeck}}" 
             icon="visibility"
             title="View Deck"> (share)</core-icon-button> 
         </div>
-        <div class="privacy" layout horizontal center center-justified>
-          <paper-radio-group selected="{{deck.privacy}}">
-            <paper-radio-button class="private" name="private" label="private"></paper-radio-button>
-            <paper-radio-button class="password" name="password" label="password"></paper-radio-button>
-            <paper-radio-button class="public" name="public" label="public"></paper-radio-button>
-            <paper-radio-button class="anonimous" name="anonimous" label="anonimous"></paper-radio-button>
-          </paper-radio-group>
-        </div>
+        <core-tooltip class="tooltip-container" position="bottom">
+          <div class="privacy" layout horizontal center center-justified>
+            <paper-radio-group selected="{{deck.privacy}}">
+              <paper-radio-button class="private" name="private" label="private"></paper-radio-button>
+              <paper-radio-button class="link" name="link" label="link"></paper-radio-button>
+              <paper-radio-button class="public" name="public" label="public"></paper-radio-button>
+              <paper-radio-button class="anonimous" name="anonimous" label="anonimous"></paper-radio-button>
+
+                
+              
+              <!-- <core-tooltip class="tooltip-container" position="bottom">
+                <paper-radio-button class="private" name="private" label="private"></paper-radio-button>
+                <div tip>
+                  Only you can see this Deck
+                </div>
+              </core-tooltip>
+              <core-tooltip class="tooltip-container" position="bottom">
+                <paper-radio-button class="link" name="link" label="link"></paper-radio-button>
+                <div tip>
+                  Only who has the link can see this Deck
+                </div>
+              </core-tooltip>
+              <core-tooltip class="tooltip-container" position="bottom">
+               <paper-radio-button class="public" name="public" label="public"></paper-radio-button>
+                <div tip>
+                  All users can see this Deck
+                </div>
+              </core-tooltip>
+              <core-tooltip class="tooltip-container" position="bottom">
+                <paper-radio-button class="anonimous" name="anonimous" label="anonimous"></paper-radio-button>
+                <div tip>
+                  All users can see this Deck but not your name
+                </div>
+              </core-tooltip> -->
+            </paper-radio-group>
+          </div>
+          <div tip>
+            <div class="tooltip-privacy {{deck.privacy === 'private'?'selected-privacy':''}}">Private: Only you can see this Deck</div>
+            <div class="tooltip-privacy {{deck.privacy === 'link'?'selected-privacy':''}}">Link: Only who has the link can see this Deck</div>
+            <div class="tooltip-privacy {{deck.privacy === 'public'?'selected-privacy':''}}">Public: All users can see this Deck</div>
+            <div class="tooltip-privacy {{deck.privacy === 'anonimous'?'selected-privacy':''}}">Anonimous: All users can see this Deck but not your name</div>
+          </div>
+        </core-tooltip>
         <div layout horizontal>
           <div>
             <core-icon-button icon="create">
@@ -79,7 +133,7 @@
         </div>
 
         <div class="titleType">
-          {{rulersQty}} Ruler ({{rulers.length}})
+          {{rulersQty}} Ruler ({{rulers.length}} distinct)
         </div>
         <template repeat="{{deckCard in rulers}}">
           <fow-deck-update-card 
@@ -259,6 +313,10 @@
         stonesSideQty: 0,
 
         cardsSideQty: 0,
+
+        observe: {
+          "deck.privacy deck.title" : "updateDeck"
+        },
 
         deckChanged: function(){
           if(this.deck){
