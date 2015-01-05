@@ -220,6 +220,7 @@
     </div>
 
     <fow-card-filter 
+      id="cardFilterService"
       cards="{{cards}}" 
       filteredCards="{{filteredCards}}" 
       nameFilter="{{nameFilter}}" 
@@ -252,7 +253,9 @@
       'use strict';
 
       Polymer("fow-card-list",{
-
+        resetFilters: function(){
+          this.$.cardFilterService.resetFilters();
+        }
       });
 
     })();
