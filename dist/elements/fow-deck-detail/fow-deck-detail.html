@@ -46,7 +46,12 @@
             <div class="title" on-tap="{{viewDeck}}">{{deck.title}}</div>
             <div layout horizontal center>
               <div>{{cardsQty - stonesQty -rulersQty}} cards, {{stonesQty}} Magic Stones</div>
-              <core-icon-button icon="view-module" on-tap="{{toggleShowDeck}}"></core-icon-button>
+              <template if="{{showDeck}}">
+                <core-icon-button icon="view-module" on-tap="{{toggleShowDeck}}"></core-icon-button>
+              </template>
+              <template if="{{!showDeck}}">
+                <core-icon-button icon="reorder" on-tap="{{toggleShowDeck}}"></core-icon-button>
+              </template>
             </div>
 
             <template if="{{showDeck}}">
@@ -101,6 +106,10 @@
                 cardsQty= "{{cardsQty}}">
               </fow-deck-detail-grid>
             </template>
+
+            <fow-deck-simulator deck="{{ deck }}">
+            </fow-deck-simulator>
+
           </div>
         </div>
       </template>
