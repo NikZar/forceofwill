@@ -99,8 +99,7 @@ router.post('/:_id/cards/', function(req, res) {
 
 
 var compressDeckCard = function(deckCard) {
-    console.log("Card code:", deckCard.card.code);
-  return {card: {code: deckCard.card.code}, qty: deckCard.qty};
+    return {card: {code: deckCard.card.code, _id: deckCard.card._id}, qty: deckCard.qty};
 }
 
 /*
@@ -210,7 +209,7 @@ var getExpandedDecks = function(cards, decks){
 
     for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
-        cardsDictionary[card.code] = card;
+        cardsDictionary[card._id] = card;
     };
 
     var expandedDecks = [];
@@ -219,12 +218,12 @@ var getExpandedDecks = function(cards, decks){
 
         deck.cards = deck.cards.map(
             function(deckCard){
-                return {card: cardsDictionary[deckCard.card.code], qty: deckCard.qty}
+                return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
             }
         );
         deck.side = deck.side.map(
             function(deckCard){
-                return {card: cardsDictionary[deckCard.card.code], qty: deckCard.qty}
+                return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
             }
         );
 
@@ -235,22 +234,22 @@ var getExpandedDecks = function(cards, decks){
 }
 
 var sendExpandedDecks = function (req, res, db, decks){
-    var allDecksCardCodes = [];
+    var allDecksCardIDs = [];
     for (var i = decks.length - 1; i >= 0; i--) {
         var deck = decks[i];
 
-        var cardsCodes = deck.cards.map(function(deckCard){
-            return deckCard.card.code;
+        var cardsIDs = deck.cards.map(function(deckCard){
+            return new ObjectID(deckCard.card._id);
         });
 
-        var sideCodes = deck.side.map(function(deckCard){
-            return deckCard.card.code;
+        var sideIDs = deck.side.map(function(deckCard){
+            return new ObjectID(deckCard.card._id);
         });
-
-        allDecksCardCodes = allDecksCardCodes.concat(cardsCodes, sideCodes);
+        
+        allDecksCardIDs = allDecksCardIDs.concat(cardsIDs, sideIDs);
     };
 
-    var promiseCards = db.collection('cards').find({code: {$in: allDecksCardCodes} }).toArrayAsync();
+    var promiseCards = db.collection('cards').find({_id: {$in: allDecksCardIDs} }).toArrayAsync();
     promiseCards.then(function(cards){
         var expandedDecks = getExpandedDecks(cards, decks);
         res.status(200).json(expandedDecks).end();
@@ -292,23 +291,22 @@ router.get('/my/', function(req, res) {
  * GET a deck.
  */
 var sendExpandedDeck = function (req, res, db, deck){
-    var allDeckCardCodes = [];
+    var allDeckCardIDs = [];
 
-    var cardsCodes = deck.cards.map(function(deckCard){
-        return deckCard.card.code;
+    var cardsIDs = deck.cards.map(function(deckCard){
+        return new ObjectID(deckCard.card._id);
     });
 
-    var sideCodes = deck.side.map(function(deckCard){
-        return deckCard.card.code;
+    var sideIDs = deck.side.map(function(deckCard){
+        return new ObjectID(deckCard.card._id);
     });
 
-    allDeckCardCodes = allDeckCardCodes.concat(cardsCodes, sideCodes);
+    allDeckCardIDs = allDeckCardIDs.concat(cardsIDs, sideIDs);
 
-    console.log(allDeckCardCodes);
+    console.log("All IDs", allDeckCardIDs);
 
-    var promiseCards = db.collection('cards').find({code: {$in: allDeckCardCodes} }).toArrayAsync();
+    var promiseCards = db.collection('cards').find({_id: {$in: allDeckCardIDs} }).toArrayAsync();
     promiseCards.then(function(cards){
-        console.log("Cards:",cards);
         var decks = [];
         decks.push(deck);
         var expandedDecks = getExpandedDecks(cards, decks);
@@ -322,7 +320,7 @@ var getDeck = function(req, res, _id){
     var db = req.db;
     _id = new ObjectID(_id);
     var userId = req.userId;
-    db.collection('decks').find({_id: _id, $or: [{privacy: "public"}, {userId: userId}] } ).toArray(function (err, decks) {
+    db.collection('decks').find({_id: _id, $or: [{privacy: "public"}, {privacy: "link"}, {userId: userId}] } ).toArray(function (err, decks) {
         if(err){
             console.log("Error searching deck, id:", _id);
             res.sendStatus(500);

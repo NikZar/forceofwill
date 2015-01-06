@@ -19,18 +19,19 @@
         top: 6px;
         right: 5px;
         text-align: center;
-        padding-top: 2px;
-        height: 22px;
-        width: 24px;
+        padding-top: 3px;
+        height: 27px;
+        width: 30px;
         background-color: rgba(0,0,0,0.8);
-        font-size: 14px;
-        border-radius: 12px;
+        font-size: 18px;
+        border-radius: 15px;
+        color: #9d9;
       }
     </style>
     
     <img class="cell-image" src="{{ '../images' + deckCard.card['Image path'] }}">
     
-    <div class="counter">{{deckCard.qty}}x</div>
+    <div class="counter"><b>{{ deckCard.qty }}</b>x</div>
 
   </template>
   <script>

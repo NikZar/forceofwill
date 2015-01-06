@@ -4,6 +4,8 @@
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
 <link rel="import" href="../../bower_components/core-icons/social-icons.html">
 <link rel="import" href="../../bower_components/core-icons/communication-icons.html">
+<link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
+
 
 <polymer-element name="fow-menu" attributes="smallQuery selected">
   <template>
@@ -96,32 +98,53 @@
     <template if="{{smallScreen}}">
       <div class="container toolbar" layout horizontal center center-justified>
 
-        <core-icon 
-          name="cards" 
-          class="menu-icon {{ (selected === 'cards')?'violet':'' }}" 
-          icon="content-copy" 
-          on-tap="{{buttonTapped}}">
-        </core-icon>
-        <core-icon 
-          name="decks" 
-          class="menu-icon {{ (selected === 'decks')?'violet':'' }}" 
-          icon="list" 
-          on-tap="{{buttonTapped}}">
-        </core-icon>
+        <core-tooltip position="bottom">
+          <core-icon 
+            name="cards" 
+            class="menu-icon {{ (selected === 'cards')?'violet':'' }}" 
+            icon="content-copy" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+          <div tip>
+            FOW Cards
+          </div>
+        </core-tooltip>
 
-        <core-icon 
-          name="myCards" 
-          class="menu-icon {{ (selected === 'myCards')?'green':'' }}" 
-          icon="content-copy" 
-          on-tap="{{buttonTapped}}"><div class="my">my</div>
-        </core-icon>
-        <core-icon 
-          name="myDecks" 
-          class="menu-icon {{ (selected === 'myDecks')?'green':'' }}" 
-          icon="list" 
-          on-tap="{{buttonTapped}}"><div class="myd">my</div>
-        </core-icon>
+        <core-tooltip position="bottom">
+          <core-icon 
+            name="decks" 
+            class="menu-icon {{ (selected === 'decks')?'violet':'' }}" 
+            icon="list" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+          <div tip>
+            FOW Decks
+          </div>
+        </core-tooltip>
 
+        <core-tooltip position="bottom">
+          <core-icon 
+            name="myCards" 
+            class="menu-icon {{ (selected === 'myCards')?'green':'' }}" 
+            icon="content-copy" 
+            on-tap="{{buttonTapped}}"><div class="my">my</div>
+          </core-icon>
+          <div tip>
+            My Cards
+          </div>
+        </core-tooltip>
+
+        <core-tooltip position="bottom">
+          <core-icon 
+            name="myDecks" 
+            class="menu-icon {{ (selected === 'myDecks')?'green':'' }}" 
+            icon="list" 
+            on-tap="{{buttonTapped}}"><div class="myd">my</div>
+          </core-icon>
+          <div tip>
+            My Decks
+          </div>
+        </core-tooltip>
         <!--
         <core-icon 
           name="friends" 
@@ -169,32 +192,55 @@
     <template if="{{!smallScreen}}">
       <div class="container menu-bar">
         <div layout vertical center> 
-          
-          <core-icon 
-            name="cards" 
-            class="menu-icon {{ (selected === 'cards')?'violet':'' }}" 
-            icon="content-copy" 
-            on-tap="{{buttonTapped}}">
-          </core-icon>
-          <core-icon 
-            name="decks" 
-            class="menu-icon {{ (selected === 'decks')?'violet':'' }}" 
-            icon="list" 
-            on-tap="{{buttonTapped}}">
-          </core-icon>
+         
+          <core-tooltip position="right"> 
+            <core-icon 
+              name="cards" 
+              class="menu-icon {{ (selected === 'cards')?'violet':'' }}" 
+              icon="content-copy" 
+              on-tap="{{buttonTapped}}">
+            </core-icon>
+            <div tip>
+              FOW Cards
+            </div>
+          </core-tooltip>
 
-          <core-icon 
-            name="myCards" 
-            class="menu-icon {{ (selected === 'myCards')?'green':'' }}" 
-            icon="content-copy" 
-            on-tap="{{buttonTapped}}"><div class="my">my</div>
-          </core-icon>
-          <core-icon 
-            name="myDecks" 
-            class="menu-icon {{ (selected === 'myDecks')?'green':'' }}" 
-            icon="list" 
-            on-tap="{{buttonTapped}}"><div class="myd">my</div>
-          </core-icon>
+          <core-tooltip position="right"> 
+            <core-icon 
+              name="decks" 
+              class="menu-icon {{ (selected === 'decks')?'violet':'' }}" 
+              icon="list" 
+              on-tap="{{buttonTapped}}">
+            </core-icon>
+            <div tip>
+              FOW Decks
+            </div>
+          </core-tooltip>
+
+          <core-tooltip position="right"> 
+            <core-icon 
+              name="myCards" 
+              class="menu-icon {{ (selected === 'myCards')?'green':'' }}" 
+              icon="content-copy" 
+              on-tap="{{buttonTapped}}"><div class="my">my</div>
+            </core-icon>
+            <div tip>
+              My Cards
+            </div>
+          </core-tooltip>
+
+          <core-tooltip position="right"> 
+            <core-icon 
+              name="myDecks" 
+              class="menu-icon {{ (selected === 'myDecks')?'green':'' }}" 
+              icon="list" 
+              on-tap="{{buttonTapped}}"><div class="myd">my</div>
+            </core-icon>
+            <div tip>
+              My Decks
+            </div>
+          </core-tooltip>
+
 
           <!--
           <core-icon 

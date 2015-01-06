@@ -1,0 +1,118 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
+
+
+<link rel="import" href="../../elements/fow-filter/fow-filter.html">
+<link rel="import" href="../../elements/fow-deck-simulator-cell/fow-deck-simulator-cell.html">
+
+<polymer-element name="fow-deck-simulator" extends="fow-filter"attributes="deck">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .simulator{
+        padding-left: 8px;
+      }
+    </style>
+
+    <div layout vertical center>
+
+      <div layout horizontal center>
+        <h3>SIMULATOR</h3>
+
+        <core-icon-button icon="undo" on-tap="{{newSimulation}}">
+        </core-icon-button>
+      </div>
+
+      <div>Stones:</div>
+      <div class="simulator">
+        <template repeat="{{ stone, stoneIndex in stones }}">
+          <fow-deck-simulator-cell 
+            card="{{ stone }}" 
+            index="{{ stoneIndex }}"
+            cellSize="{{ (stoneIndex<3)?'medium':'small' }}">
+          </fow-deck-simulator-cell>
+        </template>
+      </div>
+
+      <div>Cards:</div>
+      <div class="simulator">
+        <template repeat="{{ card, cardIndex in cards }}">
+          <fow-deck-simulator-cell 
+            card="{{ card }}" 
+            index="{{ cardIndex }}"
+            cellSize="{{ (cardIndex<5)?'large': ( (cardIndex<10)?'medium':'small' ) }}">
+        </fow-deck-simulator-cell>
+        </template>
+      </div>
+    </div>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer("fow-deck-simulator",{
+        
+        stones: null,
+
+        cards: null,
+
+        shuffle: function(array) {
+          var currentIndex = array.length, temporaryValue, randomIndex ;
+
+          // While there remain elements to shuffle...
+          while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+          }
+
+          return array;
+        },
+
+        expandDeckCardsArray: function(deckCardsArray){
+          var cardsArray = [];
+          
+          for (var i = deckCardsArray.length - 1; i >= 0; i--) {
+            var deckCard = deckCardsArray[i];
+            for (var j = 0; j < deckCard.qty; j++) {
+              cardsArray.push(deckCard.card);
+            }
+          }
+          return cardsArray;
+        },
+
+        deckChanged: function(){
+          if(this.deck && this.deck.cards.length > 0){
+            var resonators = this.filterDeckCardOnText(this.deck.cards, "Type", "Resonator");
+            var additions = this.filterDeckCardOnText(this.deck.cards, "Type", "Addition");
+            var spells = this.filterDeckCardOnText(this.deck.cards, "Type", "Spell");
+            var stones = this.filterDeckCardOnText(this.deck.cards, "Type", "Stone");
+            var cards = resonators.concat(additions, spells);
+
+            this.stones = this.expandDeckCardsArray(stones);
+
+            this.cards = this.expandDeckCardsArray(cards);
+
+            this.newSimulation();
+          }
+        },
+
+        newSimulation: function(){
+          this.stones = this.shuffle(this.stones);
+          this.cards = this.shuffle(this.cards);
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>

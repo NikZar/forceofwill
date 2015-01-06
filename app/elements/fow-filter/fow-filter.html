@@ -12,6 +12,32 @@
     (function () {
 
       Polymer("fow-filter",{
+
+        filterDeckCardOnText: function(cardList, key, filterString, remaining){
+          if(filterString === "" || filterString === "radio_all"){
+            return cardList;
+          } 
+          else if(cardList){
+            var self = this;
+
+            return cardList.filter(
+              
+              function(deckCard){
+                //console.log(card);
+                if(deckCard && deckCard.card && self.strictMatch(deckCard.card[key], filterString) ){
+                  return true;
+                } else if(remaining){ 
+                  remaining.push(deckCard);
+                }
+                
+                return false; 
+              }
+            
+            );
+          } else {
+            return [];
+          }
+        },
         
         filterOnRange: function(cardList, key, min, max){
           min = parseInt(min);

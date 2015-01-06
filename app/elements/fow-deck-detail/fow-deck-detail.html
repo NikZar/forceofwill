@@ -29,6 +29,12 @@
         border-radius: 4px;
         padding: 4px;
       }
+      .title
+      {
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 1.5em;
+      }
     </style>
 
     <template if="{{deck}}">
@@ -36,9 +42,16 @@
         </core-media-query>
         <div class="detail {{smallScreen?'small':'large'}}">
           <div layout vertical center>
+
+            <div class="title" on-tap="{{viewDeck}}">{{deck.title}}</div>
             <div layout horizontal center>
-              <h3>{{deck.title}} ({{cardsQty}} cards, {{deck.cards.length}} distinct)</h3>
-              <core-icon-button icon="view-module" on-tap="{{toggleShowDeck}}"></core-icon-button>
+              <div>{{cardsQty - stonesQty -rulersQty}} cards, {{stonesQty}} Magic Stones</div>
+              <template if="{{showDeck}}">
+                <core-icon-button icon="view-module" on-tap="{{toggleShowDeck}}"></core-icon-button>
+              </template>
+              <template if="{{!showDeck}}">
+                <core-icon-button icon="reorder" on-tap="{{toggleShowDeck}}"></core-icon-button>
+              </template>
             </div>
 
             <template if="{{showDeck}}">
@@ -93,6 +106,10 @@
                 cardsQty= "{{cardsQty}}">
               </fow-deck-detail-grid>
             </template>
+
+            <fow-deck-simulator deck="{{ deck }}">
+            </fow-deck-simulator>
+
           </div>
         </div>
       </template>
