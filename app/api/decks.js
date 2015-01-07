@@ -221,6 +221,10 @@ var getExpandedDecks = function(cards, decks){
     for (var i = decks.length - 1; i >= 0; i--) {
         var deck = decks[i];
 
+        if(deck.privacy === "anonimous"){
+            delete deck.author;
+        }
+
         deck.cards = deck.cards.map(
             function(deckCard){
                 return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
@@ -316,7 +320,12 @@ var sendExpandedDeck = function (req, res, db, deck){
         var decks = [];
         decks.push(deck);
         var expandedDecks = getExpandedDecks(cards, decks);
-        res.status(200).json(expandedDecks[0]).end();
+        var expandedDeck = expandedDecks[0];
+
+        if(expandedDeck.privacy === "anonimous"){
+            delete expandedDeck.author;
+        }
+        res.status(200).json(expandedDeck).end();
         db.close();
     });
 }
