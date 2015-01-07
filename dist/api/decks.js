@@ -32,6 +32,7 @@ var deleteDeckLogged = function(req, res){
         var _id = req.params._id;
         deleteDeck(req, res, _id);
     } else {
+        console.log("Authentication Error");
         res.sendStatus(500);
     }
 }
@@ -74,6 +75,7 @@ var addCardsToDeck = function(req, res, cards, _id){
 
             updateDeck(req, res, deck);
         } else {
+            console.log("Authentication Error");
             db.close();
             res.sendStatus(404).end();
         }
@@ -86,6 +88,7 @@ var addCardsToDeckLogged = function(req, res){
         var _id = req.params._id;
         addCardsToDeck(req, res, cards, _id)
     } else {
+        console.log("Authentication Error");
         res.sendStatus(500);
     }
 }
@@ -155,6 +158,7 @@ var updateDeckLogged = function(req, res){
         var deck = req.body;
         updateDeck(req, res, deck);
     } else {
+        console.log("Authentication Error");
         res.sendStatus(500);
     }
 }
@@ -193,6 +197,7 @@ var addNewDeckLogged = function(req, res){
         var deck = req.body;
         addNewDeck(req, res, deck);
     } else {
+        console.log("Authentication Error");
         res.sendStatus(500);
     }
 }
@@ -275,6 +280,7 @@ var getAllUserDecksLogged = function(req, res){
     if(req.logged){
         getAllUserDecks(req, res);
     } else {
+        console.log("Authentication Error");
         res.sendStatus(500);
     }
 }
@@ -320,7 +326,7 @@ var getDeck = function(req, res, _id){
     var db = req.db;
     _id = new ObjectID(_id);
     var userId = req.userId;
-    db.collection('decks').find({_id: _id, $or: [{privacy: "public"}, {privacy: "link"}, {userId: userId}] } ).toArray(function (err, decks) {
+    db.collection('decks').find({_id: _id, $or: [{privacy: "public"},{privacy: "anonimous"}, {privacy: "link"}, {userId: userId}] } ).toArray(function (err, decks) {
         if(err){
             console.log("Error searching deck, id:", _id);
             res.sendStatus(500);
@@ -340,6 +346,7 @@ var getDeckLogged = function(req, res,_id){
     if(req.logged){
         getDeck(req, res,_id);
     } else {
+        console.log("Authentication Error");
         res.sendStatus(500);
     }
 }
@@ -362,7 +369,7 @@ router.get('/:_id/', function(req, res) {
 var getAllDecks = function(req, res){
     var db = req.db;
     var userId = req.userId;
-    db.collection('decks').find({$or: [{privacy: "public"}, {userId: userId}]}).toArray(function (err, decks) {
+    db.collection('decks').find({$or: [{privacy: "public"},{privacy: "anonimous"}, {userId: userId}]}).toArray(function (err, decks) {
         if(err){
             console.log("Error Searching Decks");
             res.sendStatus(500);
@@ -376,6 +383,7 @@ var getAllDecksLogged = function(req, res){
     if(req.logged){
         getAllDecks(req, res);
     } else {
+        console.log("Authentication Error");
         res.sendStatus(500);
     }
 }
