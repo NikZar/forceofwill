@@ -364,6 +364,7 @@ var getAllDecks = function(req, res){
     var userId = req.userId;
     db.collection('decks').find({$or: [{privacy: "public"}, {userId: userId}]}).toArray(function (err, decks) {
         if(err){
+            console.log("Error Searching Decks");
             res.sendStatus(500);
         } else {
             sendExpandedDecks(req, res, db, decks);
