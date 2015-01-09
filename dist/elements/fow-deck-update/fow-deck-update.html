@@ -137,7 +137,7 @@
         </div>
         <template repeat="{{deckCard in rulers}}">
           <fow-deck-update-card 
-            on-update="{{deckChanged}}" 
+            on-update="{{deckCardsChanged}}" 
             deck="{{deck}}" 
             deckCard="{{deckCard}}"
             >
@@ -149,7 +149,7 @@
         </div>
         <template repeat="{{deckCard in stones}}">
           <fow-deck-update-card 
-            on-update="{{deckChanged}}" 
+            on-update="{{deckCardsChanged}}" 
             deck="{{deck}}" 
             deckCard="{{deckCard}}"
             >
@@ -161,7 +161,7 @@
         </div>
         <template repeat="{{deckCard in resonators}}">
           <fow-deck-update-card 
-            on-update="{{deckChanged}}" 
+            on-update="{{deckCardsChanged}}" 
             deck="{{deck}}" 
             deckCard="{{deckCard}}"
             >
@@ -173,7 +173,7 @@
         </div>
         <template repeat="{{deckCard in additions}}">
           <fow-deck-update-card 
-            on-update="{{deckChanged}}" 
+            on-update="{{deckCardsChanged}}" 
             deck="{{deck}}" 
             deckCard="{{deckCard}}"
             >
@@ -185,7 +185,7 @@
         </div>
         <template repeat="{{deckCard in spells}}">
           <fow-deck-update-card 
-            on-update="{{deckChanged}}" 
+            on-update="{{deckCardsChanged}}" 
             deck="{{deck}}" 
             deckCard="{{deckCard}}"
             >
@@ -201,7 +201,7 @@
         </div>
         <template repeat="{{deckCard in rulersSide}}">
           <fow-deck-update-card 
-            on-update="{{deckChanged}}" 
+            on-update="{{deckCardsChanged}}" 
             deck="{{deck}}" 
             deckCard="{{deckCard}}"
             isSide="true">
@@ -213,7 +213,7 @@
         </div>
         <template repeat="{{deckCard in stonesSide}}">
           <fow-deck-update-card 
-            on-update="{{deckChanged}}" 
+            on-update="{{deckCardsChanged}}" 
             deck="{{deck}}" 
             deckCard="{{deckCard}}"
             isSide="true">
@@ -225,7 +225,7 @@
         </div>
         <template repeat="{{deckCard in resonatorsSide}}">
           <fow-deck-update-card 
-            on-update="{{deckChanged}}" 
+            on-update="{{deckCardsChanged}}" 
             deck="{{deck}}"
             deckCard="{{deckCard}}"
             isSide="true">
@@ -237,7 +237,7 @@
         </div>
         <template repeat="{{deckCard in additionsSide}}">
           <fow-deck-update-card 
-            on-update="{{deckChanged}}" 
+            on-update="{{deckCardsChanged}}" 
             deck="{{deck}}" 
             deckCard="{{deckCard}}"
             isSide="true">
@@ -249,7 +249,7 @@
         </div>
         <template repeat="{{deckCard in spellsSide}}">
           <fow-deck-update-card 
-            on-update="{{deckChanged}}" 
+            on-update="{{deckCardsChanged}}" 
             deck="{{deck}}" 
             deckCard="{{deckCard}}"
             isSide="true">
@@ -320,12 +320,29 @@
 
         refreshToggle: 0,
 
+        differentDeck: false,
+
+        lastID: null,
+
         observe: {
-          "deck.privacy deck.title" : "updateDeck"
+          "deck.privacy deck.title" : "updateDeckPrivacyTitle"
+        },
+
+        deckCardsChanged: function(){
+          this.differentDeck = true;
+          this.deckChanged();
         },
 
         deckChanged: function(){
           if(this.deck){
+            if(this.lastID){
+              if(this.lastID != this.deck._id){
+                this.differentDeck = false;
+                this.lastID = this.deck._id;
+              }
+            } else{
+              this.lastID = this.deck._id;
+            }
             //DECK
             this.rulers = this.filterOnText(this.deck.cards, "Type", "Ruler");
             this.resonators = this.filterOnText(this.deck.cards, "Type", "Resonator");
@@ -354,7 +371,9 @@
             this.spellsSideQty = this.countCards(this.spellsSide);
             this.stonesSideQty = this.countCards(this.stonesSide);
           }
-          this.updateDeck();
+          if(this.differentDeck){
+            this.updateDeck();
+          }
           this.refreshToggle++;
         },
 
@@ -367,7 +386,6 @@
         },
 
         viewDeck: function(){
-          this.updateDeck();
           this.selected = "decks/"+ this.deck._id;
         },
 
@@ -425,6 +443,19 @@
             return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
           } else{
             return false;
+          }
+        },
+
+        updateDeckPrivacyTitle: function(oldVal, newVal){
+          if(oldVal){
+            if(this.lastID != this.deck._id){
+              this.differentDeck = false;
+            } else {
+              this.differentDeck = true;
+            }
+            if(this.differentDeck){
+              this.updateDeck();
+            }
           }
         }
 
