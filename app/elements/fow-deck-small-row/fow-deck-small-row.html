@@ -6,7 +6,8 @@
     <style>
       :host {
         display: block;
-        height: 20px;
+        min-height: 20px;
+        font-size: 0.85em;
       }
       .deck-row{
         padding: 4px;
@@ -30,9 +31,10 @@
         color: red;
       }
       .deck-title{
-        width: 80%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         height: 20px;
-        overflow: hidden; 
       }
     </style>
 
@@ -46,10 +48,10 @@
     </fow-rest-service>
 
     <div layout horizontal center class="{{selected?'selected-deck-row':'deck-row'}}">
-      <div class="deck-title" on-tap="{{selectDeck}}" >
+      <div flex class="deck-title" on-tap="{{selectDeck}}" >
         {{deck.title}}
       </div>
-      <div flex layout horizontal end-justified>
+      <div layout horizontal end-justified>
         <core-icon
           class="delete"
           on-tap="{{deleteDeck}}" 
