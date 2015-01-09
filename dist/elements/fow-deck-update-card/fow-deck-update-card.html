@@ -200,8 +200,11 @@
           this.needsUpdate();
         },
 
-        needsUpdate: function(){
-          this.fire("update");
+        needsUpdate: function(oldVal, newVal){
+          //console.log(oldVal, newVal);
+          if(oldVal){
+            this.fire("update");
+          }
         }
       });
 

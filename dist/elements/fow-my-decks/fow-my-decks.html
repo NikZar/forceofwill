@@ -33,6 +33,7 @@
           <fow-deck-small-list 
             token="{{token}}"
             toast="{{toast}}" 
+            selected="{{selected}}" 
             selectedDeck="{{selectedDeck}}">
           </fow-deck-small-list>
         </div>
@@ -41,17 +42,21 @@
     <!-- SMALL -->
     <template if="{{smallScreen}}">
       <div layout vertical center>
+
         <fow-deck-small-list 
           token="{{token}}"
-          toast="{{toast}}" 
+          toast="{{toast}}"
+          selected="{{selected}}" 
           selectedDeck="{{selectedDeck}}">
         </fow-deck-small-list>
+
         <fow-deck-update 
           smallScreen = "{{smallScreen}}"
           deck="{{selectedDeck}}"
           toast="{{toast}}" 
           token="{{token}}">
         </fow-deck-update>
+
       </div>
     </template>
       

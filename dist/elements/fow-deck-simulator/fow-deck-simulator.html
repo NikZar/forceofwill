@@ -6,7 +6,7 @@
 <link rel="import" href="../../elements/fow-filter/fow-filter.html">
 <link rel="import" href="../../elements/fow-deck-simulator-cell/fow-deck-simulator-cell.html">
 
-<polymer-element name="fow-deck-simulator" extends="fow-filter"attributes="deck">
+<polymer-element name="fow-deck-simulator" extends="fow-filter"attributes="deck refreshToggle">
   <template>
     <style>
       :host {
@@ -91,7 +91,7 @@
         },
 
         deckChanged: function(){
-          if(this.deck && this.deck.cards.length > 0){
+          if(this.deck && this.deck.cards && this.deck.cards.length > 0){
             var resonators = this.filterDeckCardOnText(this.deck.cards, "Type", "Resonator");
             var additions = this.filterDeckCardOnText(this.deck.cards, "Type", "Addition");
             var spells = this.filterDeckCardOnText(this.deck.cards, "Type", "Spell");
@@ -104,6 +104,10 @@
 
             this.newSimulation();
           }
+        },
+
+        refreshToggleChanged: function(){
+          this.deckChanged();
         },
 
         newSimulation: function(){

@@ -4,7 +4,7 @@
 <link rel="import" href="../../elements/elements.html">
 
 
-<polymer-element name="fow-deck-detail" attributes="deck">
+<polymer-element name="fow-deck-detail" attributes="deck toast token">
   <template>
     <style>
       :host {
@@ -37,6 +37,15 @@
       }
     </style>
 
+    <fow-rest-service id="addDeckService" 
+      type="decks" 
+      auto="false" 
+      token="{{token}}" 
+      method="POST"
+      on-rest-error="{{errorHandler}}"
+      on-rest-response="{{successHandler}}">
+    </fow-rest-service>
+
     <template if="{{deck}}">
         <core-media-query query="max-width: 1000px" queryMatches="{{smallScreen}}">
         </core-media-query>
@@ -47,11 +56,15 @@
             <div layout horizontal center>
               <div>{{cardsQty - stonesQty -rulersQty}} cards, {{stonesQty}} Magic Stones</div>
               <template if="{{showDeck}}">
-                <core-icon-button icon="view-module" on-tap="{{toggleShowDeck}}"></core-icon-button>
+                <core-icon-button icon="view-module" on-tap="{{toggleShowDeck}}">
+                </core-icon-button>
               </template>
               <template if="{{!showDeck}}">
-                <core-icon-button icon="reorder" on-tap="{{toggleShowDeck}}"></core-icon-button>
+                <core-icon-button icon="reorder" on-tap="{{toggleShowDeck}}">
+                </core-icon-button>
               </template>
+              <core-icon-button icon="open-in-new" on-tap="{{copyDeck}}">
+              </core-icon-button>
             </div>
 
             <template if="{{showDeck}}">
@@ -250,6 +263,31 @@
 
         toggleShowDeck: function(){
           this.showDeck = !this.showDeck;
+        },
+
+        copyDeck: function(){
+          var deck = {};
+          deck.title = this.deck.title+" copy";
+          deck.privacy = "private"; 
+          deck.cards = this.deck.cards;
+          deck.side = this.deck.side;
+          this.$.addDeckService.body = JSON.stringify(deck);
+          this.$.addDeckService.go();
+        },
+
+        successHandler: function(event){
+          if(this.toast){
+            this.toast.text="Deck Copied!";
+            this.toast.show();
+//            this.selectedDeck = event.detail.detail.response[0];
+          }
+        },
+
+        errorHandler: function(event){
+          if(this.toast){
+            this.toast.text="There was a problem copying the deck!";
+            this.toast.show();
+          }
         }
       });
 
