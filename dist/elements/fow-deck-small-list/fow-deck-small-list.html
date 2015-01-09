@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-deck-small-list" attributes="selectedDeck token toast">
+<polymer-element name="fow-deck-small-list" attributes="selectedDeck selected token toast">
   <template>
     <style>
       :host {
@@ -109,6 +109,10 @@
           if(!this.selectedDeck && this.decks){
             this.selectedDeck = this.decks[0];
           }
+        },
+
+        selectedChanged: function(){
+          this.$.myDeckService.go();
         }
 
       });

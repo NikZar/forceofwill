@@ -184,6 +184,7 @@ var addNewDeck = function(req, res, deck){
 
     db.collection('decks').insert(deck, function(err, newDeck) {
         if (err) {
+            console.log(err);
             res.sendStatus(500).end();
         } else if (newDeck) {
             res.status(201).json(newDeck).end();

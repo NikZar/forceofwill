@@ -29,6 +29,11 @@
       .delete:hover{
         color: red;
       }
+      .deck-title{
+        width: 80%;
+        height: 20px;
+        overflow: hidden; 
+      }
     </style>
 
     <fow-rest-service id="deleteDeckService" 
@@ -41,7 +46,7 @@
     </fow-rest-service>
 
     <div layout horizontal center class="{{selected?'selected-deck-row':'deck-row'}}">
-      <div on-tap="{{selectDeck}}" >
+      <div class="deck-title" on-tap="{{selectDeck}}" >
         {{deck.title}}
       </div>
       <div flex layout horizontal end-justified>

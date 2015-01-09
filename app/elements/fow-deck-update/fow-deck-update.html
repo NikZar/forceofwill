@@ -255,7 +255,9 @@
             isSide="true">
           </fow-deck-update-card>
         </template>
-        <fow-deck-simulator deck="{{ deck }}">
+        <fow-deck-simulator 
+          deck="{{ deck }}"
+          refreshToggle="{{ refreshToggle }}">
         </fow-deck-simulator>
     </div>
     </template>
@@ -316,6 +318,8 @@
 
         cardsSideQty: 0,
 
+        refreshToggle: 0,
+
         observe: {
           "deck.privacy deck.title" : "updateDeck"
         },
@@ -351,6 +355,7 @@
             this.stonesSideQty = this.countCards(this.stonesSide);
           }
           this.updateDeck();
+          this.refreshToggle++;
         },
 
         countCards: function(deckCards){
