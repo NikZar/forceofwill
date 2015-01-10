@@ -157,7 +157,7 @@
             var objIndex = this.deck.cards.indexOf(this.deckCard);
             this.deck.cards.splice(objIndex,1);
           }
-          this.needsUpdate();
+          this.fire("update");
         },
 
         addCardToCardArray: function(card, deckCardsArray){
