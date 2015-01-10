@@ -192,16 +192,15 @@
 
         moveToDeck: function(){
           this.moveCardFromArrayToArray(this.deck.side, this.deck.cards);
-          this.needsUpdate();
+          this.fire("update");
         },
 
         moveToSide: function(){
           this.moveCardFromArrayToArray(this.deck.cards, this.deck.side);
-          this.needsUpdate();
+          this.fire("update");
         },
 
         needsUpdate: function(oldVal, newVal){
-          //console.log(oldVal, newVal);
           if(oldVal){
             this.fire("update");
           }
