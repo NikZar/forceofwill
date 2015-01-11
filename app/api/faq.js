@@ -1,6 +1,40 @@
 var express = require('express');
 var router = express.Router();
 
+/*
+ * DELETE a FAQ
+ */
+
+var deleteFAQ = function(req, res, _id){
+    var db = req.db;
+    var userId = req.userId;
+    _id = new ObjectID(_id);
+    db.collection('faq').remove({_id: _id}, function(err,result){
+            if (err) {
+                res.sendStatus(500).end();
+            } else {
+                res.sendStatus(200).end();
+            }
+            db.close();
+        }
+    );      
+}
+
+var deleteFAQLoggedAdmin = function(req, res){
+    if(req.logged && req.user.isAdmin){
+        var _id = req.params._id;
+        deleteFAQ(req, res, _id);
+    } else {
+        res.sendStatus(500);
+    }
+}
+
+router.delete('/:_id', function(req, res) {
+    deleteFAQLoggedAdmin(req, res);
+});
+router.delete('/:_id/', function(req, res) {
+    deleteFAQLoggedAdmin(req, res);
+});
 
 /*
  * UPDATE a FAQ.
@@ -53,17 +87,19 @@ router.put('/', function(req, res) {
  */
 
 var addNewFAQ = function(req, res, faq){
-  var db = req.db;
-  var userId = req.userId;
+	var db = req.db;
+	var userId = req.userId;
+	faq.userId = userId;
+	faq.author = req.user.name;
 
-  db.collection('faq').insert(faq, function(err, result) {
-    if (err) {
-      res.status(500).end();
-    }
-    if (result) {
-      res.status(201).end();
-    }
-  });
+	db.collection('faq').insert(faq, function(err, result) {
+		if (err) {
+		  res.status(500).end();
+		}
+		if (result) {
+		  res.status(201).end();
+		}
+	});
 
 }
 

@@ -3,7 +3,9 @@
 
 <link rel="import" href="../../elements/fow-card-add/fow-card-add.html">
 <link rel="import" href="../../elements/fow-card-update/fow-card-update.html">
- <link rel="import" href="../../elements/fow-login/fow-login.html">
+<link rel="import" href="../../elements/fow-faq-add/fow-faq-add.html">
+<link rel="import" href="../../elements/fow-faq-update/fow-faq-update.html">
+<link rel="import" href="../../elements/fow-login/fow-login.html">
 
 <polymer-element name="fow-admin-app" attributes="toast">
   <template>
@@ -29,6 +31,7 @@
       </fow-login>
 
       <template if="{{user}}">
+        <div> CARDS </div>
         <div layout horizontal>
           
           <fow-card-add token="{{token}}" toast="{{$.toast}}">
@@ -36,6 +39,16 @@
 
           <fow-card-update token="{{token}}" toast="{{$.toast}}">
           </fow-card-update>
+
+        </div>
+        <div> FAQ </div>
+        <div layout horizontal>
+          
+          <fow-faq-add token="{{token}}" toast="{{$.toast}}">
+          </fow-faq-add>
+
+          <fow-faq-update token="{{token}}" toast="{{$.toast}}">
+          </fow-faq-update>
 
         </div>
       </template>
