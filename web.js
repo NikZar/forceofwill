@@ -164,6 +164,7 @@ app.use("/api",function(req,res,next){
       next();
     }
 });
+
 // API
 //	CARDS
 var cards = require("" + __dirname +BASEDIR+'/api/cards');
@@ -174,6 +175,9 @@ app.use('/api/decks', decks);
 //  BINDERS
 var binders = require("" + __dirname +BASEDIR+'/api/binders');
 app.use('/api/binder/cards', binders);
+//  CARDS
+var faq = require("" + __dirname +BASEDIR+'/api/faq');
+app.use('/api/faq', faq);
 
 app.use(morgan('dev'));
 app.use(gzippo.staticGzip("" + __dirname + BASEDIR));

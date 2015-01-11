@@ -128,6 +128,32 @@ router.get('/attribute/:attribute', function(req, res) {
 
 
 /*
+ * GET all card FAQ.
+ */
+
+var getCardFAQ = function(req,res,code){
+  var db = req.db;
+  db.collection('faq').find({cards: { $in: [code] } }).toArray(function (err, items) {
+    if (err) {
+      res.status(500).end();
+    } else {
+      res.json(items);
+    }
+    db.close();
+  });
+}
+
+router.get('/:code/faq', function(req, res) {
+  var code = req.params.code;
+  getCardFAQ(req, res, code);
+});
+
+router.get('/:code/faq/', function(req, res) {
+  var code = req.params.code;
+  getCardFAQ(req, res, code);
+});
+
+/*
  * GET a card.
  */
 
