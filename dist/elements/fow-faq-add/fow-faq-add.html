@@ -1,18 +1,91 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-input/core-input.html">
 
-<polymer-element name="fow-faq-add" attributes="">
+<link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
+
+<polymer-element name="fow-faq-add" attributes="token toast">
   <template>
     <style>
       :host {
         display: block;
+        background-color: rgba(255,255,255,0.2);
+        padding: 10px;
+        border-radius: 10px;
+      }
+      .button{
+        cursor: pointer;
+        background-color: rgba(200,255,200,0.3);
+        padding: 5px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 10px;
+      }
+      .title-row{
+        min-width: 80px;
+      }
+      .row-text{
+        min-height: 100px;
+        min-width: 260px;
       }
     </style>
+
+    <fow-rest-service id="addFAQService" 
+      type="faq" 
+      auto="false" 
+      token="{{token}}" 
+      method="POST"
+      on-rest-error="{{errorHandler}}"
+      on-rest-response="{{successHandler}}">
+    </fow-rest-service>
+
+    <div class="form-row" layout horizontal center>
+      <div class="title-row">Question:</div>
+      <input class="row-text" value="{{newQuestion}}"/>
+    </div>
+    <div class="form-row" layout horizontal center>
+      <div class="title-row">Answer:</div>
+      <input class="row-text" value="{{newAnswer}}"/>
+    </div>
+
+    <div class="button" on-tap="{{addCard}}">ADD FAQ</div>
+
   </template>
   <script>
     (function () {
 
-      Polymer({
-        // define element prototype here
+      Polymer("fow-faq-add",{
+        faq: null,
+        cards: null,
+        created: function(){
+          this.faq={};
+
+          this.newQuestion = "";
+          this.newAnswer = "";
+          this.cards = [];
+        },
+        addCard: function(){
+
+          this.faq.newQuestion = this.newQuestion;
+          this.faq.newAnswer = this.newAnswer;
+          this.faq.cards = this.cards;
+
+          this.$.addFAQService.body = JSON.stringify(this.faq);
+          this.$.addFAQService.go();
+        },
+
+        successHandler: function(event){
+          if(this.toast){
+            this.toast.text="FAQ added!";
+            this.toast.show();
+          }
+        },
+
+        errorHandler: function(event){
+          if(this.toast){
+            this.toast.text="There was a problem adding FAQ.";
+            this.toast.show();
+          }
+        }
       });
 
     })();

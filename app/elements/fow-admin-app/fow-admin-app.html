@@ -14,7 +14,11 @@
         display: block;
       }
       .loginButton{
-        margin: 20px;
+        margin: 12px;
+      }
+      .management-title{
+        margin-top: 12px;
+        margin-bottom: 2px;
       }
     </style>
 
@@ -31,7 +35,7 @@
       </fow-login>
 
       <template if="{{user}}">
-        <div> CARDS </div>
+        <div class="management-title"> CARD MANAGEMENT </div>
         <div layout horizontal>
           
           <fow-card-add token="{{token}}" toast="{{$.toast}}">
@@ -41,7 +45,7 @@
           </fow-card-update>
 
         </div>
-        <div> FAQ </div>
+        <div class="management-title"> FAQ MANAGEMENT </div>
         <div layout horizontal>
           
           <fow-faq-add token="{{token}}" toast="{{$.toast}}">
