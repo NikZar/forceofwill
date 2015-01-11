@@ -201,7 +201,10 @@
         },
 
         needsUpdate: function(oldVal, newVal){
-          if(oldVal){
+          if(oldVal !== undefined){
+            if(newVal <= 0){
+              this.removeCard();
+            }
             this.fire("update");
           }
         }
