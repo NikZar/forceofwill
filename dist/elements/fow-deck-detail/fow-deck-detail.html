@@ -38,7 +38,8 @@
     </style>
 
     <meta property="og:image" content="http://www.fowtools.com/images/{{ rulers[0].card['Image path'] }}" />
-    <meta property="og:title" content="{{deck.title}}" />
+    <meta property="og:title" content="{{ deck.title }}" />
+    <meta property="og:url" content="http://www.fowtools.com/#decks/{{ deck._id }}" />
 
     <fow-rest-service id="addDeckService" 
       type="decks" 
