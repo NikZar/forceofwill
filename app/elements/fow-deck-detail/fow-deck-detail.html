@@ -37,9 +37,9 @@
       }
     </style>
 
-    <meta property="og:image" content="http://www.fowtools.com/images/{{ rulers[0].card['Image path'] }}" />
+    <!-- <meta property="og:image" content="http://www.fowtools.com/images/{{ rulers[0].card['Image path'] }}" />
     <meta property="og:title" content="{{ deck.title }}" />
-    <meta property="og:url" content="http://www.fowtools.com/#decks/{{ deck._id }}" />
+    <meta property="og:url" content="http://www.fowtools.com/#decks/{{ deck._id }}" /> -->
 
     <fow-rest-service id="addDeckService" 
       type="decks" 
@@ -51,6 +51,7 @@
     </fow-rest-service>
 
     <template if="{{deck}}">
+        <a href="http://www.facebook.com/share.php?u=http://www.fowtools.com/#decks/{{ deck._id }}&title={{ deck.title }}"> TEST </a>
         <core-media-query query="max-width: 1000px" queryMatches="{{smallScreen}}">
         </core-media-query>
         <div class="detail {{smallScreen?'small':'large'}}">
