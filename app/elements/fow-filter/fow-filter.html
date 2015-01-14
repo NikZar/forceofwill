@@ -83,6 +83,55 @@
           }
         },
 
+        filterOnTextInKey: function(cardList, key, key2, filterString, remaining){
+          if(filterString === "" || filterString === "radio_all"){
+            return cardList;
+          } 
+          else if(cardList){
+            var self = this;
+
+            return cardList.filter(
+              
+              function(card){
+                //console.log(card);
+                if( self.strictMatch(card[key][key2], filterString) ){
+                  return true;
+                } else if(remaining){ 
+                  remaining.push(card);
+                }
+                
+                return false; 
+              }
+            
+            );
+          } else {
+            return [];
+          }
+        },
+
+        filterOnArrayContainsString: function(deckList, key, filterString){
+          if(filterString === "" || filterString === "radio_all"){
+            return deckList;
+          } else if (deckList){
+
+            return deckList.filter(
+              
+              function(deck){
+                if(deck[key]){ 
+                  var index = deck[key].indexOf(filterString);
+                  if(index != -1){
+                    return true;
+                  }
+                }
+                return false;
+              }
+            
+            );
+          } else {
+            return [];
+          }
+        },
+
         strictMatch:  function(text, textToSearch){
           if(text && textToSearch){
             return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );

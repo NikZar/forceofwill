@@ -56,7 +56,7 @@
       <div flex>{{deck.title}}</div>
       <div flex two>{{deck.ruler.Name}}</div>
       <div layout horizontal flex center end-justified>
-        <template repeat="{{deckAttribute in deckAttributes}}">
+        <template repeat="{{deckAttribute in deck.attributes}}">
           <div class="circle {{deckAttribute}}Circle">
           </div>
         </template>
@@ -70,7 +70,6 @@
     (function () {
 
       Polymer("fow-deck-row",{
-        deckAttributes: null,
 
         day: 0,
 
@@ -96,7 +95,7 @@
 
         deckChanged: function(){
           if(this.deck){
-            this.deckAttributes = this.uniqueArray(
+            this.deck.attributes = this.uniqueArray(
               this.deck.cards.map(function(deckCard) {
                 if(deckCard.card){
                   return deckCard.card.Attribute;
@@ -105,7 +104,7 @@
               })
             );
 
-            this.deckAttributes.sort();
+            this.deck.attributes.sort();
 
             if(this.deck.date){
               var date = new Date(this.deck.date);
