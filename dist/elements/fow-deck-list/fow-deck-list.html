@@ -223,8 +223,8 @@
         created: function(){
           this.decks = [];
           this.rulerFilter = "";
-          this.attributeFilter = ["radio_all", "wind", "fire", "water", "dark", "light"];
-          this.oldAttributeFilter = ["radio_all", "wind", "fire", "water", "dark", "light"];
+          this.attributeFilter = [];
+          this.oldAttributeFilter = [];
         },
 
         deckSelected: function(event, detail, sender){
@@ -243,8 +243,8 @@
             this.attributeFilter = [];
             this.oldAttributeFilter = [];
           } else {
-            this.attributeFilter = ["radio_all", "wind", "fire", "water", "dark", "light"];
-            this.oldAttributeFilter = ["radio_all", "wind", "fire", "water", "dark", "light"];
+            this.attributeFilter = [];
+            this.oldAttributeFilter = [];
           }
         },
 

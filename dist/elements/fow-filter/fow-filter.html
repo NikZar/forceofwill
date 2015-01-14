@@ -132,6 +132,34 @@
           }
         },
 
+        filterOnArrayContainsAllString: function(deckList, key, filterStrings){
+          if( !filterStrings || filterStrings.length == 0){
+            return deckList;
+          } else if (deckList){
+
+            return deckList.filter(
+              
+              function(deck){
+                if(deck[key] && deck[key].length === filterStrings.length){ 
+                  var found = true;
+                  for (var i = filterStrings.length - 1; i >= 0; i--) {
+                    var filterString = filterStrings[i];
+                    var index = deck[key].indexOf(filterString);
+                    if(index == -1){
+                      found = false;
+                    }
+                  }
+                  return found;
+                }
+                return false;
+              }
+            
+            );
+          } else {
+            return [];
+          }
+        },
+
         strictMatch:  function(text, textToSearch){
           if(text && textToSearch){
             return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
