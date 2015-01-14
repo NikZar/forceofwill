@@ -82,7 +82,7 @@
         addNewDeck: function(){
           var deck = {};
           deck.title = "New Deck";
-          deck.privacy = "private";
+          deck.privacy = "public";
           deck.cards = [];
           deck.side = [];
           this.$.addDeckService.body = JSON.stringify(deck);
