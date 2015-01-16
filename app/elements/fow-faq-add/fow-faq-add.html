@@ -47,6 +47,15 @@
       <input class="row-text" value="{{newAnswer}}"/>
     </div>
 
+    <div class="form-row" layout horizontal center>
+      <div class="title-row">Domanda:</div>
+      <input class="row-text" value="{{newQuestionITA}}"/>
+    </div>
+    <div class="form-row" layout horizontal center>
+      <div class="title-row">Risposta:</div>
+      <input class="row-text" value="{{newAnswerITA}}"/>
+    </div>
+
     <div class="button" on-tap="{{addCard}}">ADD FAQ</div>
 
   </template>
@@ -61,12 +70,22 @@
 
           this.newQuestion = "";
           this.newAnswer = "";
+
+          this.newQuestionITA = "";
+          this.newAnswerITA = "";
+
           this.cards = [];
         },
         addCard: function(){
+          this.faq.question = {};
+          this.faq.answer = {};
 
-          this.faq.newQuestion = this.newQuestion;
-          this.faq.newAnswer = this.newAnswer;
+          this.faq.question.EN = this.newQuestion;
+          this.faq.answer.EN = this.newAnswer;
+
+          this.faq.question.IT = this.newQuestionITA;
+          this.faq.answer.IT = this.newAnswerITA;
+
           this.faq.cards = this.cards;
 
           this.$.addFAQService.body = JSON.stringify(this.faq);

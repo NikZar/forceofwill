@@ -93,16 +93,41 @@
             return unique;
         },
 
+        strictMatch:  function(text, textToSearch){
+          if(text && textToSearch){
+            return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
+          } else{
+            return false;
+          }
+        },
+
         deckChanged: function(){
           if(this.deck){
+            var self = this;
             this.deck.attributes = this.uniqueArray(
               this.deck.cards.map(function(deckCard) {
-                if(deckCard.card){
+                if(deckCard 
+                  && deckCard.card 
+                  && ! self.strictMatch(deckCard.card.Type, "Ruler")
+                  && ! self.strictMatch(deckCard.card.Type, "Stone")
+                  ){
                   return deckCard.card.Attribute;
                 }
                 return "Void";
               })
             );
+
+            var index = this.deck.attributes.indexOf("");
+            while(index != -1){
+              this.deck.attributes.splice(index,1);
+              index = this.deck.attributes.indexOf("");
+            }
+
+            var indexVoid = this.deck.attributes.indexOf("Void");
+            while(indexVoid != -1){
+              this.deck.attributes.splice(indexVoid,1);
+              indexVoid = this.deck.attributes.indexOf("Void");
+            }
 
             this.deck.attributes.sort();
 

@@ -15,7 +15,7 @@
 <link rel="import" href="../../elements/fow-binder/fow-binder.html">
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
 <link rel="import" href="../../elements/fow-cards/fow-cards.html">
-
+<link rel="import" href="../../elements/elements.html">
 
 <polymer-element name="fow-app" attributes="toast">
   <template>
@@ -237,6 +237,17 @@
               </fow-my-decks>
             <!-- </template> -->
           </section>
+
+          <section name="faq">
+              <fow-faqs faqs="{{faqs}}" 
+                token="{{token}}" 
+                toast="{{toast}}">
+              </fow-faqs>
+              <fow-faq-list cross-fade 
+                faqs="{{faqs}}">
+              </fow-faq-list>
+          </section>
+          
 
           <section name="friends">
               <div cross-fade layout vertical center>FRIENDS</div>

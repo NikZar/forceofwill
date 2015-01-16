@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/elements.html">
+
+
+<polymer-element name="fow-faq-list" attributes="faqs locale">
+  <template>
+    <style>
+      :host {
+        display: block;
+        color: white;
+        margin-top: 18px;
+      }
+    </style>
+    <div layout vertical center>
+      {{faqs.length}} FAQs
+      <template repeat="{{faq in faqs}}">
+        <fow-faq-row faq="{{faq}}" locale="{{locale}}">
+        </fow-faq-row>
+      </template>
+    </div>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        // define element prototype here
+        created: function(){
+          this.locale = "EN";
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>
