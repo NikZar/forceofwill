@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/fow-filter/fow-filter.html">
 
-<polymer-element name="fow-card-filter" extends="fow-filter" attributes="filteredCards cards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost minCost maxCost minATK maxATK minDEF maxDEF">
+<polymer-element name="fow-card-filter" extends="fow-filter" attributes="filteredCards cards nameFilter descriptionFilter subtypeFilter raceFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost minCost maxCost minATK maxATK minDEF maxDEF">
   <template>
     <style>
       :host {
@@ -15,7 +15,7 @@
       Polymer("fow-card-filter",{
 
         observe: {
-          "cards nameFilter descriptionFilter attributeFilter typeFilter" : "updateFilteredCards",
+          "cards nameFilter descriptionFilter subtypeFilter raceFilter attributeFilter typeFilter" : "updateFilteredCards",
           "rarityFilter expansionFilter minCost maxCost" : "updateFilteredCards",
           "minCost maxCost minATK maxATK minDEF maxDEF" : "updateFilteredCards"
         },
@@ -28,6 +28,8 @@
         resetFilters: function(){
           this.nameFilter = "";
           this.descriptionFilter = "";
+          this.subtypeFilter = "";
+          this.raceFilter = "";
           this.attributeFilter = "radio_all";
           this.typeFilter = "radio_all";
           this.rarityFilter = "radio_all";
@@ -41,12 +43,20 @@
         },
 
         updateFilteredCards: function(){
-          
+
           this.filteredCards = this.filterOnText(this.cards, "Name", this.nameFilter);
           
 
           if(this.descriptionFilter){
             this.filteredCards = this.filterOnText(this.filteredCards, "Cardtext", this.descriptionFilter);
+          }
+
+          if(this.subtypeFilter){
+            this.filteredCards = this.filterOnText(this.filteredCards, "Subtype", this.subtypeFilter);
+          }
+
+          if(this.raceFilter){
+            this.filteredCards = this.filterOnText(this.filteredCards, "Race", this.raceFilter);
           }
           
           if(this.attributeFilter){

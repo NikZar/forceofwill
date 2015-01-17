@@ -1,0 +1,36 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-card-detail-cardtext" attributes="card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .title{
+        font-size: 1.5em;
+        width: 80%;
+      }
+      #description{
+        font-size: 0.7em;
+      }
+    </style>
+
+    <div class="title">{{card.Name}}</div>
+    <div id="description"></div>
+    <div>{{card.Type}} : {{card.Subtype}} {{card.Race}}</div>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        cardChanged: function(){
+          if(this.card && this.card["Image path"]){
+            this.$.description.innerHTML = this.card.Cardtext;
+          }
+        },
+      });
+
+    })();
+  </script>
+</polymer-element>

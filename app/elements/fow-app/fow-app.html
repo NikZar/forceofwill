@@ -180,14 +180,32 @@
               </fow-cards>
               <fow-card-list cross-fade 
                 cards="{{cards}}" 
-                token="{{token}}">
+                token="{{token}}"
+                selected="{{selected}}">
               </fow-card-list>
             <!--</template>-->
+          </section>
+          <section name="cardDetail">
+            <template if="{{section === 'cardDetail'}}">
+              <fow-card 
+                codeCards="{{codeCards}}" 
+                code="{{urlID}}" 
+                token="{{token}}"
+                toast="{{$.toast}}">
+              </fow-card>
+              <fow-card-detail cross-fade 
+                codeCards="{{codeCards}}"  
+                token="{{token}}"
+                toast="{{$.toast}}">
+              </fow-card-detail>
+            </template>
           </section>
 
           <section name="decks">
             <template if="{{section === 'decks'}}">
-              <fow-decks decks="{{decks}}" token="{{token}}">
+              <fow-decks 
+                decks="{{decks}}" 
+                token="{{token}}">
               </fow-decks>
               <fow-deck-list cross-fade 
                 decks="{{decks}}" 
@@ -293,6 +311,9 @@
             if(this.contains(this.selected, 'decks/')){
               this.section = "deckDetail";
               this.urlID = this.selected.substring('decks/'.length)
+            } else if(this.contains(this.selected, 'cards/')){
+              this.section = "cardDetail";
+              this.urlID = this.selected.substring('cards/'.length)
             } else{
               this.section = this.selected;
             }
@@ -301,7 +322,7 @@
 
         sectionChanged: function(){
           if(this.section && (this.section != this.selected)){
-            if(this.section != 'deckDetail'){
+            if(this.section != 'deckDetail' && this.section != 'cardDetail'){
               this.selected = this.section;
             }
           }

@@ -12,6 +12,14 @@
         padding: 10px;
         border-radius: 10px;
       }
+
+      .faq-about{
+        background-color: rgba(255,255,255,0.2);
+        padding: 4px;
+        border-radius: 2px;
+        margin-bottom: 4px;
+      }
+
       .button{
         cursor: pointer;
         background-color: rgba(200,255,200,0.3);
@@ -20,12 +28,21 @@
         text-align: center;
         margin: 10px;
       }
+
       .title-row{
         min-width: 80px;
       }
+
       .row-text{
         min-height: 100px;
         min-width: 260px;
+      }
+
+      .scroll{
+        overflow: scroll;
+        background-color: rgba(255,255,255,0.1);
+        height: 100px;
+        margin-bottom: 10px;
       }
     </style>
 
@@ -38,22 +55,56 @@
       on-rest-response="{{successHandler}}">
     </fow-rest-service>
 
+    <fow-cards 
+      cards="{{cards}}" 
+      token="{{token}}">
+    </fow-cards>
+
+    <fow-card-filter cards="{{cards}}" filteredCards="{{filteredCards}}" nameFilter="{{nameFilter}}">
+    </fow-card-filter>
+
+    <input value="{{nameFilter}}"/>
+    <div class="scroll">
+      <template repeat="{{card in filteredCards}}">
+        <fow-object class="filter-row" on-tap="{{selectCard}}" card="{{card}}">{{card.Name}}</fow-object>
+      </template>
+    </div>
+
+    <div>About:</div>
+    <div class="faq-about">
+      <template repeat="{{faqCard in faqCards}}">
+        <fow-object class="filter-row" on-tap="{{deleteFaqCard}}" card="{{faqCard}}">{{faqCard.Name}}</fow-object>
+      </template>
+    </div>
+
     <div class="form-row" layout horizontal center>
       <div class="title-row">Question:</div>
-      <input class="row-text" value="{{newQuestion}}"/>
+      <textarea 
+        class="row-text" 
+        value="{{newQuestion}}">
+      </textarea>
     </div>
     <div class="form-row" layout horizontal center>
       <div class="title-row">Answer:</div>
-      <input class="row-text" value="{{newAnswer}}"/>
+      <textarea 
+        class="row-text" 
+        value="{{newAnswer}}">
+      </textarea>
     </div>
 
     <div class="form-row" layout horizontal center>
       <div class="title-row">Domanda:</div>
-      <input class="row-text" value="{{newQuestionITA}}"/>
+      <textarea 
+        class="row-text" 
+        value="{{newQuestionITA}}">
+      </textarea>
     </div>
     <div class="form-row" layout horizontal center>
       <div class="title-row">Risposta:</div>
-      <input class="row-text" value="{{newAnswerITA}}"/>
+      <textarea 
+        class="row-text" 
+        value="{{newAnswerITA}}">
+      </textarea>
     </div>
 
     <div class="button" on-tap="{{addCard}}">ADD FAQ</div>
@@ -63,8 +114,11 @@
     (function () {
 
       Polymer("fow-faq-add",{
+        
         faq: null,
-        cards: null,
+
+        faqCards: null,
+
         created: function(){
           this.faq={};
 
@@ -74,8 +128,9 @@
           this.newQuestionITA = "";
           this.newAnswerITA = "";
 
-          this.cards = [];
+          this.faqCards = [];
         },
+
         addCard: function(){
           this.faq.question = {};
           this.faq.answer = {};
@@ -86,7 +141,13 @@
           this.faq.question.IT = this.newQuestionITA;
           this.faq.answer.IT = this.newAnswerITA;
 
-          this.faq.cards = this.cards;
+          this.faq.cards = this.faqCards.map(function(card) {
+              return {_id: card._id};
+            });
+
+          this.faq.codes = this.faqCards.map(function(card) {
+              return card.code;
+            });
 
           this.$.addFAQService.body = JSON.stringify(this.faq);
           this.$.addFAQService.go();
@@ -104,6 +165,18 @@
             this.toast.text="There was a problem adding FAQ.";
             this.toast.show();
           }
+        },
+
+        selectCard: function(event){
+          var index = this.faqCards.indexOf(event.target.card);
+          if(index == -1){
+            this.faqCards.push(event.target.card);
+          }
+        },
+
+        deleteFaqCard: function(event){
+          var index = this.faqCards.indexOf(event.target.card);
+          this.faqCards.splice(index,1);
         }
       });
 

@@ -2,25 +2,29 @@
 
 <link rel="import" href="../../elements/elements/elements.html">
 
-<polymer-element name="fow-card-preview" attributes="card toast token">
+<polymer-element name="fow-card-preview" attributes="card selected">
   <template>
     <style type="text/css">
 
       :host {
-        font-family: Open Sans;
         display: block;
+      }
+
+      .preview-container{
+        font-family: Open Sans;
         background-color: rgba(255,255,255,0.9);
         margin: 10px;
         padding: 10px;
         border-radius: 5px;
         color: #222;
         min-height: 142px;
+        cursor: pointer;
       }
+
       #cardImg{
         width: 100px; 
         margin-top: 1px;
         margin-right: 10px;
-        cursor: pointer;
       }
       .preview{
        margin-left: 10px;
@@ -72,8 +76,9 @@
       
     </style>
 
-    <div>
-      <img on-tap="{{zoom}}" id="cardImg" align="left" />
+    <div class="preview-container" on-tap="{{cardSelected}}">
+      <!-- <img on-tap="{{zoom}}" id="cardImg" align="left" /> -->      
+      <img  on-tap="{{zoom}}" id="cardImg" align="left" src="{{ '../images' + card['Image path'] }}" />
       <div class="preview">
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
@@ -86,7 +91,9 @@
 
     
     <div id="shadow" on-tap="{{zoom}}" class="shadow"></div>
-    <div id="modal" class="modal"><img on-tap="{{zoom}}" id="cardImgZoom" class="cardImgZoom" /></div>
+    <div id="modal" class="modal">
+      <img on-tap="{{zoom}}" id="cardImgZoom" class="cardImgZoom" />
+    </div>
     
   </template>
   <script>
@@ -95,20 +102,25 @@
 
       Polymer({
         zoomed: false,
-        // define element prototype here
+        
+        cardSelected: function(event, detail, sender){
+          if(!this.zoomed){
+            this.selected = "cards/"+ this.card.code;
+          }
+        },
+
         cardChanged: function(){
-          //console.log("Card: ", this.card);
           if(this.card && this.card["Image path"]){
-            this.$.cardImg.src = "../images"+this.card["Image path"];
             this.$.cardImgZoom.src = "../images"+this.card["Image path"];
             this.$.description.innerHTML = this.card.Cardtext;
           }
         },
 
-        zoom: function (){
+        zoom: function (event){
           if(this.zoomed){
             this.$.shadow.style.display = "none";
             this.$.modal.style.display = "none";
+            event.preventDefault()
           }
           else {
             this.$.shadow.style.display = "block";

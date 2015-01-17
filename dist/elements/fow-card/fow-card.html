@@ -1,0 +1,51 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-card" attributes="codeCards code token">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <fow-rest-service type="cards/{{code}}" 
+      items="{{codeCards}}" 
+      auto="true" 
+      token="{{token}}">
+    </fow-rest-service>
+
+    <fow-rest-service type="cards/{{code}}/faq" 
+      items="{{faqs}}" 
+      auto="true" 
+      token="{{token}}">
+    </fow-rest-service>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+
+        updateCard: function(){
+          if(this.faqs && this.codeCards && this.codeCards.length > 0){
+            for (var i = this.codeCards.length - 1; i >= 0; i--) {
+              this.codeCards[i].faqs = this.faqs;
+            }
+            // console.log("FC:", this.codeCards);
+          }
+        },
+
+        faqsChanged: function(){
+          // console.log("FAQ", this.faqs);
+          this.updateCard();
+        },
+
+        codeCardsChanged: function(){
+          // console.log("CARDS", this.codeCards);
+          this.updateCard();
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>

@@ -1,3 +1,4 @@
+
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
@@ -13,7 +14,7 @@
 <link rel="import" href="../../elements/fow-card-filter/fow-card-filter.html">
 
 
-<polymer-element name="fow-card-list" attributes="cards token filteredCards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost minCost maxCost minATK maxATK minDEF maxDEF">
+<polymer-element name="fow-card-list" attributes="selected cards token filteredCards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost minCost maxCost minATK maxATK minDEF maxDEF">
   <template>
     <style>
       
@@ -155,6 +156,20 @@
         inputValue="{{descriptionFilter}}">
         </paper-input>
       </div>
+      <div class="textSearch" layout horizontal center center-justified>
+        <paper-input class="textInput"
+        floatinglabel 
+        label="Subtype" 
+        layout vertical 
+        inputValue="{{subtypeFilter}}">
+        </paper-input>
+        <paper-input class="textInput"
+        floatinglabel 
+        label="Race" 
+        layout vertical 
+        inputValue="{{raceFilter}}">
+        </paper-input>
+      </div>
       <div class="attributes" layout horizontal center center-justified>
         <paper-radio-group selected="{{attributeFilter}}">
           <paper-radio-button class="light" name="light" label="Light"></paper-radio-button>
@@ -224,7 +239,9 @@
       cards="{{cards}}" 
       filteredCards="{{filteredCards}}" 
       nameFilter="{{nameFilter}}" 
-      descriptionFilter="{{descriptionFilter}}" 
+      descriptionFilter="{{descriptionFilter}}"
+      subtypeFilter="{{subtypeFilter}}"
+      raceFilter="{{raceFilter}}" 
       attributeFilter="{{attributeFilter}}" 
       typeFilter="{{typeFilter}}" 
       rarityFilter="{{rarityFilter}}" 
@@ -241,7 +258,8 @@
 
     <template repeat="{{card in filteredCards}}">
       <fow-card-preview 
-        card="{{card}}" toast="{{toast}}" token="{{token}}">
+        card="{{card}}" 
+        selected="{{selected}}">
       </fow-card-preview>
     </template>
 
@@ -253,9 +271,11 @@
       'use strict';
 
       Polymer("fow-card-list",{
+
         resetFilters: function(){
           this.$.cardFilterService.resetFilters();
         }
+
       });
 
     })();

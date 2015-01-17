@@ -155,15 +155,59 @@ router.get('/:id/', function(req, res) {
  * GET all FAQ.
  */
 
+var getExpandedFAQs = function(cards, faqs){
+    var cardsDictionary = {};
+
+    for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        cardsDictionary[card._id] = card;
+    };
+
+    var expandedFAQs = [];
+    for (var i = faqs.length - 1; i >= 0; i--) {
+        var faq = faqs[i];
+
+        faq.cards = faq.cards.map(
+            function(card){
+                return cardsDictionary[card._id];
+            }
+        )
+
+        expandedFAQs.push(faq);
+    }
+
+    return expandedFAQs;
+}
+
+var sendExpandedFAQs = function (req, res, db, faqs){
+    var allFAQsCardIDs = [];
+    for (var i = faqs.length - 1; i >= 0; i--) {
+        var faq = faqs[i];
+
+        var cardsIDs = faq.cards.map(function(card){
+            return new ObjectID(card._id);
+        });
+        
+        allFAQsCardIDs = allFAQsCardIDs.concat(cardsIDs);
+    };
+
+    var promiseCards = db.collection('cards').find({_id: {$in: allFAQsCardIDs} }).toArrayAsync();
+    promiseCards.then(function(cards){
+        var expandedFAQs = getExpandedFAQs(cards, faqs);
+        res.status(200).json(expandedFAQs).end();
+        db.close();
+    });
+}
+
 var getAllFAQ = function(req, res){
   var db = req.db;
-  db.collection('faq').find().toArray(function (err, items) {
+  db.collection('faq').find().toArray(function (err, faqs) {
     if (err) {
       res.status(500).end();
+      db.close();
     } else {
-      res.json(items);  
+      sendExpandedFAQs(req, res, db, faqs);  
     }     
-    db.close();
   });
 }
 

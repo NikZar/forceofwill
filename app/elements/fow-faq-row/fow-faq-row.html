@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="fow-faq-row" attributes="faq locale">
+<polymer-element name="fow-faq-row" attributes="faq locale currentCards">
   <template>
     <style>
       :host {
@@ -11,14 +11,42 @@
         margin-right: 3px;
         border-radius: 2px;
         background-color: rgba(255,255,255,0.1);
-        padding: 4px;
+        padding: 10px;
         text-align: left;
+      }
+      .faq-image{
+        height: 100px;
+        width: 70px;
+      }
+      .tooltip-image
+      {
+        height: 330px;
+        width: 230px;
+      }
+      .tooltip-container{
+        width: 100%;
+        max-width: 70px;
       }
     </style>
 
     <div layout vertical left>
-      <div>Q: {{faq.question[locale]}}</div>
-      <div>A: {{faq.answer[locale]}}</div>
+      <div>Q: {{(faq.question[locale]?faq.question[locale]:faq.question["EN"])}}</div>
+      <div>A: {{(faq.answer[locale]?faq.answer[locale]:faq.answer["EN"])}}</div>
+      <div layout horizontal center end-justified>
+        <div>
+          <template repeat="{{card in cardsToShow}}">
+            <span>
+              <core-tooltip class="tooltip-container" position="top">
+                <img class="faq-image" src="{{ '../images' + card['Image path'] }}">
+
+                <div tip>
+                  <img class="tooltip-image" src="{{ '../images' + card['Image path'] }}">
+                </div>
+              </core-tooltip>
+            </span>
+          </template>
+        </div>
+      </div>
     </div>
 
   </template>
@@ -26,7 +54,41 @@
     (function () {
 
       Polymer({
-        // define element prototype here
+
+        cardsToShow: [],
+
+        observe: {
+          "faq currentCards locale":"updateRow"
+        },
+
+        created: function(){
+          this.cardsToShow = [];
+        },
+
+        updateRow: function(){
+          if(this.faq){
+            if(this.currentCards && this.currentCards.length > 0){
+              console.log("SFAQ",this.faq);
+              for (var i = this.faq.cards.length - 1; i >= 0; i--) {
+                var cardFaq = this.faq.cards[i]; 
+                var found = false;
+                for (var j = this.currentCards.length - 1; j >= 0; j--) {
+                  var currentCard = this.currentCards[j];
+                  if(currentCard.code === cardFaq.code){
+                    found = true;
+                  }
+                }
+                if(!found){
+                  this.cardsToShow.push(cardFaq);
+                }  
+              }
+              console.log("CDIFF2",this.cardsToShow);  
+
+            } else {
+              this.cardsToShow = this.faq.cards;
+            }          
+          }
+        }
       });
 
     })();
