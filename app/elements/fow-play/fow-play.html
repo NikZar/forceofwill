@@ -1,12 +1,30 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="fow-play" attributes="">
+<link rel="import" href="../../elements/elements.html">
+
+<polymer-element name="fow-play" attributes="token toast">
   <template>
     <style>
       :host {
         display: block;
       }
     </style>
+
+    <div layout horizontal center>
+
+      <fow-play-board 
+        firstDeck="{{firstDeck}}"
+        secondDeck="{{secondDeck}}">
+      </fow-play-board>
+
+      <fow-play-sidebar
+        token="{{token}}"
+        toast="{{toast}}"
+        firstDeck="{{firstDeck}}"
+        secondDeck="{{secondDeck}}">
+      </fow-play-sidebar>
+      
+    </div>
   </template>
   <script>
     (function () {

@@ -1,18 +1,137 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="fow-play-board" attributes="">
+<link rel="import" href="../../elements/fow-filter/fow-filter.html">
+<link rel="import" href="../../elements/fow-deck-simulator-cell/fow-deck-simulator-cell.html">
+
+<polymer-element name="fow-play-board" extends="fow-filter" attributes="firstDeck secondDeck">
   <template>
     <style>
       :host {
         display: block;
+        min-width: 60%;
+        height: 500px;
+        margin-left: 10%;
+        background-color: rgba(255,255,255,0.1);
       }
     </style>
+
+    <div layout vertical>
+
+      <div>{{firstDeck.title}} ({{firstCardsDeck.length}} Cards)</div>
+
+      <template repeat="{{ stone, stoneIndex in firstStonesDeck }}">
+        <fow-deck-simulator-cell 
+          card="{{ stone }}" 
+          index="{{ stoneIndex }}"
+          cellSize="{{ (stoneIndex<3)?'medium':'small' }}">
+        </fow-deck-simulator-cell>
+      </template>
+
+      <div>{{secondDeck.title}} ({{secondCardsDeck.length}} Cards)</div>
+
+    </div>
   </template>
   <script>
     (function () {
 
       Polymer({
-        // define element prototype here
+
+        //FIRST PLAYER
+
+        firstCardsDeck: null,
+
+        firstStonesDeck: null,
+
+        firstGraveyardDeck: null,
+
+        firstRemovedDeck: null,
+
+        firstHand: null,
+
+        firstRuler: null,
+
+        //SECOND PLAYER
+
+        secondCardsDeck: null,
+
+        secondStonesDeck: null,
+
+        secondGraveyardDeck: null,
+
+        secondRemovedDeck: null,
+
+        secondHand: null,
+
+        secondRuler: null,
+
+        observe: {
+          "firstDeck secondDeck" : "newGame"
+        },
+
+        newGame: function(){
+          if(this.firstDeck && this.secondDeck){
+            var firstResonators = this.filterDeckCardOnText(this.firstDeck.cards, "Type", "Resonator");
+            var firstAdditions = this.filterDeckCardOnText(this.firstDeck.cards, "Type", "Addition");
+            var firstSpells = this.filterDeckCardOnText(this.firstDeck.cards, "Type", "Spell");
+            var firstStones = this.filterDeckCardOnText(this.firstDeck.cards, "Type", "Stone");
+            var firstCards = firstResonators.concat(firstAdditions, firstSpells);
+
+            this.firstStonesDeck = this.expandDeckCardsArray(firstStones);
+
+            this.firstCardsDeck = this.expandDeckCardsArray(firstCards);
+
+            this.firstHand = [];
+
+            this.firstRuler = [];
+
+
+            var secondResonators = this.filterDeckCardOnText(this.secondDeck.cards, "Type", "Resonator");
+            var secondAdditions = this.filterDeckCardOnText(this.secondDeck.cards, "Type", "Addition");
+            var secondSpells = this.filterDeckCardOnText(this.secondDeck.cards, "Type", "Spell");
+            var secondStones = this.filterDeckCardOnText(this.secondDeck.cards, "Type", "Stone");
+            var secondCards = secondResonators.concat(secondAdditions, secondSpells);
+
+            this.secondStonesDeck = this.expandDeckCardsArray(secondStones);
+
+            this.secondCardsDeck = this.expandDeckCardsArray(secondCards);
+
+            this.secondHand = [];
+
+            this.secondRuler = [];
+          }
+        },
+
+        shuffle: function(array) {
+          var currentIndex = array.length, temporaryValue, randomIndex ;
+
+          // While there remain elements to shuffle...
+          while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+          }
+
+          return array;
+        }, 
+
+        expandDeckCardsArray: function(deckCardsArray){
+          var cardsArray = [];
+          
+          for (var i = deckCardsArray.length - 1; i >= 0; i--) {
+            var deckCard = deckCardsArray[i];
+            for (var j = 0; j < deckCard.qty; j++) {
+              cardsArray.push(deckCard.card);
+            }
+          }
+          return cardsArray;
+        }
+
       });
 
     })();

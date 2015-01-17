@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-deck-small-row" attributes="deck selected token toast">
+<polymer-element name="fow-deck-small-row" attributes="deck selected token toast hideDelete">
   <template>
     <style>
       :host {
@@ -51,13 +51,15 @@
       <div flex class="deck-title" on-tap="{{selectDeck}}" >
         {{deck.title}}
       </div>
-      <div layout horizontal end-justified>
-        <core-icon
-          class="delete"
-          on-tap="{{deleteDeck}}" 
-          icon="cancel">
-        </core-icon>
-      </div>
+      <template if="{{!hideDelete}}">
+        <div layout horizontal end-justified>
+          <core-icon
+            class="delete"
+            on-tap="{{deleteDeck}}" 
+            icon="cancel">
+          </core-icon>
+        </div>
+      </template>
     </div>
   </template>
   <script>
