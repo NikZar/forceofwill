@@ -26,6 +26,9 @@
         height: 1px;
         background-color: #333;
       }
+      .toggle{
+        margin: 5px;
+      }
 
     </style>
 
@@ -40,7 +43,7 @@
       <div>{{firstDeck.title}}</div>
 
       <div layout vertical center>
-        <div> 
+        <div class="toggle"> 
           {{ showFirstHand?'Hide':'Show'}} 
           <paper-toggle-button checked="{{showFirstHand}}"></paper-toggle-button>
         </div>
@@ -79,7 +82,8 @@
       <fow-play-board-played
         cards="{{ firstStones }}"
         size="small"
-        show="true">
+        show="true"
+        restable="true">
       </fow-play-board-played>
 
       <fow-play-board-played
@@ -105,7 +109,8 @@
       <fow-play-board-played
         cards="{{ secondStones }}"
         size="small"
-        show="true">
+        show="true"
+        restable="true">
       </fow-play-board-played>
 
       <div class="fill-width">
@@ -134,7 +139,7 @@
       </div>
 
       <div layout vertical center>
-        <div> 
+        <div class="toggle"> 
           {{ showSecondHand?'Hide':'Show'}} 
           <paper-toggle-button checked="{{showSecondHand}}"></paper-toggle-button>
         </div>
