@@ -50,7 +50,9 @@
         <fow-play-board-played
           cards="{{ firstHand }}"
           size="medium"
-          show="{{showFirstHand}}">
+          show="{{showFirstHand}}"
+          playable="true"
+          on-card-played="{{firstCardPlayed}}">
         </fow-play-board-played>
       </div>
 
@@ -89,7 +91,8 @@
       <fow-play-board-played
         cards="{{ firstInPlay }}"
         size="medium"
-        show="true">
+        show="true"
+        restable="true">
       </fow-play-board-played>
 
       <div class="hr fill-width"></div>
@@ -101,9 +104,10 @@
       <div class="hr fill-width"></div>
 
       <fow-play-board-played
-        cards="{{ firstInPlay }}"
+        cards="{{ secondInPlay }}"
         size="medium"
-        show="true">
+        show="true"
+        restable="true">
       </fow-play-board-played>
 
       <fow-play-board-played
@@ -146,7 +150,9 @@
         <fow-play-board-played
           cards="{{ secondHand }}"
           size="medium"
-          show="{{showSecondHand}}">
+          show="{{showSecondHand}}"
+          playable="true"
+          on-card-played="{{secondCardPlayed}}">
         </fow-play-board-played>
       </div>
 
@@ -206,12 +212,21 @@
         },
 
         //FIRST PLAYER
+
+        firstCardPlayed: function(event, detail, target){
+          this.firstInPlay.push(detail);
+        },
+
         firstDrawStone: function(event, detail, target){
           this.firstStones.push(detail);
         },
 
         firstDrawCard: function(event, detail, target){
           this.firstHand.push(detail);
+        },
+
+        secondCardPlayed: function(event, detail, target){
+          this.secondInPlay.push(detail);
         },
 
         secondDrawStone: function(event, detail, target){

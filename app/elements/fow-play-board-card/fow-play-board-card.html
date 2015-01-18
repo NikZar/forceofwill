@@ -4,7 +4,7 @@
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
 
 
-<polymer-element name="fow-play-board-card" attributes="card size show restable">
+<polymer-element name="fow-play-board-card" attributes="card size show restable playable">
   <template>
     <style>
 
@@ -39,6 +39,7 @@
       }
 
       .top-right{
+        z-index: 99;
         cursor: pointer;
         position: absolute;
         top: 0px;
@@ -49,23 +50,48 @@
         background-color: black;
       }
 
+      .hidden{
+        display: none;
+      }
+
+      .block{
+        display: block;
+      }
+
+      .button{
+        margin-top: 5px;
+        cursor: pointer;
+        font-size: 0.8em;
+      }
+
+      .menu{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-color: rgba(0,0,0,0.3);
+      }
+
     </style>
 
     <template if="{{show}}">
-      <core-tooltip show="{{showTooltip}}" position="right">
         
-        <div class="relative">
+      <div class="relative  {{ rested?'rested':''}} ">
 
-          <core-icon on-tap="{{toggleTooltip}}" class="top-right" icon="menu">
-          </core-icon>
+        <core-icon on-tap="{{toggleTooltip}}" class="top-right" icon="menu">
+        </core-icon>
 
-          <img on-tap="{{restCard}}" class="{{ size }} {{ rested?'rested':''}} {{ restable?'restable':''}}" src="{{ '../images' + card['Image path'] }}">
+        <img on-tap="{{restCard}}" class="{{ size }} {{ restable?'restable':''}}" src="{{ '../images' + card['Image path'] }}">
+
+        <div class="{{ size }} {{showTooltip?'block':'hidden'}} menu">
+          <div layout vertical center>
+            <template if="{{ playable }}">
+              <div class="button" on-tap="{{play}}">PLAY</div>
+            </template>
+          </div>
         </div>
-        <div class="{{ size }}" tip>
-          MENU
-        </div>
 
-      </core-tooltip>
+      </div>
+
     </template>
     <template if="{{!show}}">
       <img on-tap="{{restCard}}" class="{{ size }} {{ rested?'rested':''}} {{ restable?'restable':''}}" src="../../images/fow_back.png">
@@ -87,6 +113,10 @@
           if(this.restable){
             this.rested = !this.rested;
           }
+        },
+
+        play: function(){
+          this.fire("play", this.card);
         }
       });
 

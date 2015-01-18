@@ -2,7 +2,7 @@
 
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-play-board-played" attributes="cards size show restable">
+<polymer-element name="fow-play-board-played" attributes="cards size show restable playable">
   <template>
     
     <style>
@@ -17,7 +17,9 @@
         card="{{ card }}"
         size="{{ size }}"
         show="{{ show }}"
-        restable="{{ restable }}">
+        restable="{{ restable }}"
+        playable="{{ playable }}"
+        on-play="{{ cardPlayed }}">
       </fow-play-board-card>
     </template>
 
@@ -26,7 +28,13 @@
     (function () {
 
       Polymer({
-        // define element prototype here
+        cardPlayed: function(event, detail, target){
+          var index = this.cards.indexOf(detail);
+          if(index!=-1){
+            this.cards.splice(index,1)
+            this.fire("card-played", detail);
+          }
+        }
       });
 
     })();
