@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-play-board-card" attributes="card size show">
+  <template>
+    <style>
+
+      :host {
+        display: inline-block;
+      }
+
+      .medium{
+        width: 120px;
+        height: 160px;
+      }
+
+      .small{
+        width: 80px;
+        height: 110px;
+      }
+
+    </style>
+
+    <img class="{{ size }}" src="{{ show ? ('../images' + card['Image path']) : '../../images/fow_back.png' }}">
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>

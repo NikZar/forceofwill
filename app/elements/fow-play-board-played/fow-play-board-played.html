@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../elements/elements.html">
+
+<polymer-element name="fow-play-board-played" attributes="cards size show">
+  <template>
+    
+    <style>
+      :host {
+        display: block;
+        min-height: 100px;
+      }
+    </style>
+
+    <template repeat="{{ card in cards }}">
+      <fow-play-board-card 
+        card="{{ card }}"
+        size="{{ size }}"
+        show="{{ show }}">
+      </fow-play-board-card>
+    </template>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>

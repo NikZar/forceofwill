@@ -1,0 +1,43 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-play-board-deck" attributes="cards">
+  <template>
+    <style>
+      :host {
+        display: block;
+        cursor: pointer;
+        width: 90px;
+        height: 120px;
+      }
+
+      .board-deck{
+        width: 90px;
+        height: 120px;
+      }
+
+      .fade{
+        opacity: 0.2;
+      }
+
+    </style>
+
+    <img on-tap="{{drawCard}}" 
+      class="board-deck {{ (cards.length <= 0)?'fade':'' }}" 
+      src="../../images/fow_back.png" />
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        drawCard: function(){
+          if(this.cards.length > 0){
+            var card = this.cards.pop();
+            this.fire("draw", card);
+          }
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>
