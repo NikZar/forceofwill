@@ -35,6 +35,13 @@
         margin-top: 10px;
         font-size: 1.5em;
       }
+      .about{
+        width: 300px;
+        height: 200px;
+        background-color: #aaa;
+        padding: 5px;
+        color: black;
+      }
     </style>
 
     <fow-rest-service id="addDeckService" 
@@ -119,6 +126,9 @@
                 cardsQty= "{{cardsQty}}">
               </fow-deck-detail-grid>
             </template>
+
+            <div>Notes:</div>
+            <div class="about">{{deck.notes}}</div>
 
             <fow-deck-simulator deck="{{ deck }}">
             </fow-deck-simulator>
