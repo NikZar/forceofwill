@@ -52,7 +52,9 @@
           size="medium"
           show="{{showFirstHand}}"
           playable="true"
-          on-card-played="{{firstCardPlayed}}">
+          discardable="true"
+          on-card-played="{{firstCardPlayed}}"
+          on-card-discarded="{{firstCardDiscarded}}">
         </fow-play-board-played>
       </div>
 
@@ -82,17 +84,37 @@
       </div>
 
       <fow-play-board-played
+        cards="{{ firstStonesGraveyard }}"
+        size="small"
+        show="true"
+        shufflable="true">
+      </fow-play-board-played>
+
+      <fow-play-board-played
+        cards="{{ firstGraveyard }}"
+        size="small"
+        show="true"
+        shufflable="true">
+      </fow-play-board-played>
+
+      <fow-play-board-played
         cards="{{ firstStones }}"
         size="small"
         show="true"
-        restable="true">
+        restable="true"
+        discardable="true"
+        removable="true"
+        discardable="true"
+        on-card-discarded="{{ firstStoneDiscarded }}">
       </fow-play-board-played>
 
       <fow-play-board-played
         cards="{{ firstInPlay }}"
         size="medium"
         show="true"
-        restable="true">
+        restable="true"
+        discardable="true"
+        on-card-discarded="{{firstCardDiscarded}}">
       </fow-play-board-played>
 
       <div class="hr fill-width"></div>
@@ -107,14 +129,32 @@
         cards="{{ secondInPlay }}"
         size="medium"
         show="true"
-        restable="true">
+        restable="true"
+        discardable="true"
+        on-card-discarded="{{secondCardDiscarded}}">
       </fow-play-board-played>
 
       <fow-play-board-played
         cards="{{ secondStones }}"
         size="small"
         show="true"
-        restable="true">
+        restable="true"
+        discardable="true"
+        on-card-discarded="{{ secondStoneDiscarded }}">
+      </fow-play-board-played>
+
+      <fow-play-board-played
+        cards="{{ secondGraveyard }}"
+        size="small"
+        show="true"
+        shufflable="true">
+      </fow-play-board-played>
+
+      <fow-play-board-played
+        cards="{{ secondStonesGraveyard }}"
+        size="small"
+        show="true"
+        shufflable="true">
       </fow-play-board-played>
 
       <div class="fill-width">
@@ -152,7 +192,9 @@
           size="medium"
           show="{{showSecondHand}}"
           playable="true"
-          on-card-played="{{secondCardPlayed}}">
+          discardable="true"
+          on-card-played="{{secondCardPlayed}}"
+          on-card-discarded="{{secondCardDiscarded}}">
         </fow-play-board-played>
       </div>
 
@@ -177,6 +219,8 @@
 
         firstStonesDeck: null,
 
+        firstStonesGraveyard: null,
+
         firstGraveyardDeck: null,
 
         firstRemovedDeck: null,
@@ -199,6 +243,8 @@
 
         secondStonesDeck: null,
 
+        secondStonesGraveyard: null,
+
         secondGraveyardDeck: null,
 
         secondRemovedDeck: null,
@@ -212,6 +258,17 @@
         },
 
         //FIRST PLAYER
+        firstCardRemoved: function(event, detail, target){
+          this.firstRemovedDeck.push(detail);
+        },
+
+        firstCardDiscarded: function(event, detail, target){
+          this.firstGraveyard.push(detail);
+        },
+
+        firstStoneDiscarded: function(event, detail, target){
+          this.firstStonesGraveyard.push(detail);
+        },
 
         firstCardPlayed: function(event, detail, target){
           this.firstInPlay.push(detail);
@@ -223,6 +280,19 @@
 
         firstDrawCard: function(event, detail, target){
           this.firstHand.push(detail);
+        },
+
+        //SECOND PLAYER
+        secondCardRemoved: function(event, detail, target){
+          this.firstRemovedDeck.push(detail);
+        },
+
+        secondCardDiscarded: function(event, detail, target){
+          this.secondGraveyard.push(detail);
+        },
+
+        secondStoneDiscarded: function(event, detail, target){
+          this.secondStonesGraveyard.push(detail);
         },
 
         secondCardPlayed: function(event, detail, target){
@@ -261,6 +331,10 @@
 
             this.firstStones = [];
 
+            this.firstGraveyard = [];
+
+            this.firstStonesGraveyard = [];
+
             //SHARED
             this.chase = [];
 
@@ -284,6 +358,10 @@
             this.secondInPlay = [];
 
             this.secondStones = [];
+
+            this.secondGraveyard = [];
+
+            this.secondStonesGraveyard = [];
 
             this.newGame();
           }

@@ -4,7 +4,7 @@
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
 
 
-<polymer-element name="fow-play-board-card" attributes="card size show restable playable">
+<polymer-element name="fow-play-board-card" attributes="card size show restable playable discardable removable shufflable toppable bottomable">
   <template>
     <style>
 
@@ -50,6 +50,10 @@
         background-color: black;
       }
 
+      .right{
+        right: 28px;
+      }
+
       .hidden{
         display: none;
       }
@@ -77,7 +81,7 @@
         
       <div class="relative  {{ rested?'rested':''}} ">
 
-        <core-icon on-tap="{{toggleTooltip}}" class="top-right" icon="menu">
+        <core-icon on-tap="{{toggleTooltip}}" class="top-right {{restable?'right':''}}" icon="menu">
         </core-icon>
 
         <img on-tap="{{restCard}}" class="{{ size }} {{ restable?'restable':''}}" src="{{ '../images' + card['Image path'] }}">
@@ -86,6 +90,21 @@
           <div layout vertical center>
             <template if="{{ playable }}">
               <div class="button" on-tap="{{play}}">PLAY</div>
+            </template>
+            <template if="{{ discardable }}">
+              <div class="button" on-tap="{{discard}}">DISCARD</div>
+            </template>
+            <template if="{{ removable }}">
+              <div class="button" on-tap="{{remove}}">REMOVE</div>
+            </template>
+            <template if="{{ shufflable }}">
+              <div class="button" on-tap="{{shuffle}}">REMOVE</div>
+            </template>
+            <template if="{{ toppable }}">
+              <div class="button" on-tap="{{top}}">REMOVE</div>
+            </template>
+            <template if="{{ bottomable }}">
+              <div class="button" on-tap="{{bottom}}">REMOVE</div>
             </template>
           </div>
         </div>
@@ -103,6 +122,7 @@
     (function () {
 
       Polymer({
+
         showTooltip: false,
 
         toggleTooltip: function(){
@@ -117,7 +137,28 @@
 
         play: function(){
           this.fire("play", this.card);
+        },
+
+        discard: function(){
+          this.fire("discard", this.card);
+        },
+
+        remove: function(){
+          this.fire("remove", this.card);
+        },
+
+        shuffle: function(){
+          this.fire("shuffle", this.card);
+        },
+
+        top: function(){
+          this.fire("top", this.card);
+        },
+
+        bottom: function(){
+          this.fire("bottom", this.card);
         }
+
       });
 
     })();
