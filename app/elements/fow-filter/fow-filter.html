@@ -94,7 +94,7 @@
               
               function(card){
                 //console.log(card);
-                if( self.strictMatch(card[key][key2], filterString) ){
+                if( card && card[key] && self.strictMatch(card[key][key2], filterString) ){
                   return true;
                 } else if(remaining){ 
                   remaining.push(card);
