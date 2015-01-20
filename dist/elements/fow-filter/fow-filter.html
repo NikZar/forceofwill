@@ -83,6 +83,27 @@
           }
         },
 
+        filterNotEmpty: function(deckList, key){
+          if(deckList && deckList.length > 0){
+            var self = this;
+
+            return deckList.filter(
+              
+              function(deck){
+                //console.log(card);
+                if( deck && deck[key] && deck[key].length > 0 ){
+                  return true;
+                }
+                
+                return false; 
+              }
+            
+            );
+          } else {
+            return [];
+          }
+        },
+
         filterOnTextInKey: function(cardList, key, key2, filterString, remaining){
           if(filterString === "" || filterString === "radio_all"){
             return cardList;

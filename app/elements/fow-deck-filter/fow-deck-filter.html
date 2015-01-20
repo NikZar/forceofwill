@@ -41,7 +41,8 @@
         },
 
         updateFilteredDecks: function(){
-          this.filteredDecks = this.filterOnText(this.decks, "title", this.titleFilter);
+          this.filteredDecks = this.filterNotEmpty(this.decks, "cards");
+          this.filteredDecks = this.filterOnText(this.filteredDecks, "title", this.titleFilter);
           this.filteredDecks = this.filterOnText(this.filteredDecks, "author", this.authorFilter);
           this.filteredDecks = this.filterOnTextInKey(this.filteredDecks, "ruler", "Name", this.rulerFilter);
 
