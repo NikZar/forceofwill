@@ -30,8 +30,8 @@
     </style>
 
     <div layout vertical left>
-      <div>Q: {{(faq.question[locale]?faq.question[locale]:faq.question["EN"])}}</div>
-      <div>A: {{(faq.answer[locale]?faq.answer[locale]:faq.answer["EN"])}}</div>
+      <div>Q: {{(faq.question[FAQlocale]?faq.question[FAQlocale]:faq.question["EN"])}}</div>
+      <div>A: {{(faq.answer[FAQlocale]?faq.answer[FAQlocale]:faq.answer["EN"])}}</div>
       <div layout horizontal center end-justified>
         <div>
           <template repeat="{{card in cardsToShow}}">
@@ -56,6 +56,8 @@
       Polymer({
 
         cardsToShow: [],
+
+        FAQlocale: null,
 
         observe: {
           "faq currentCards locale":"updateRow"
@@ -87,6 +89,23 @@
             } else {
               this.cardsToShow = this.faq.cards;
             }          
+          }
+        },
+
+        localeChanged: function(){
+          switch(this.locale){
+            case "it-IT":
+            case "IT":
+              this.FAQlocale = "IT";
+              break;
+            case "en-US":
+            case "en-EN":
+            case "EN":
+              this.FAQlocale = "EN";
+              break;
+            default:
+              this.FAQlocale = "EN";
+              break;
           }
         }
       });
