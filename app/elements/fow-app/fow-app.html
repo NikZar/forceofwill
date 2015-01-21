@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/flatiron-director/flatiron-director.html">
 <link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
 <link rel="import" href="../../bower_components/core-animated-pages/transitions/cross-fade.html">
+<link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
 
 
 <link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
@@ -104,6 +105,11 @@
 
     </style>
 
+    <core-localstorage id="LSlocale" 
+      name="locale" 
+      value="{{locale}}">
+    </core-localstorage>
+
     <template if="{{user}}">
       <a class="appStore" href="https://itunes.apple.com/us/app/fow-tools/id936234730?mt=8">
         <img 
@@ -196,7 +202,8 @@
               <fow-card-detail cross-fade 
                 codeCards="{{codeCards}}"  
                 token="{{token}}"
-                toast="{{$.toast}}">
+                toast="{{$.toast}}"
+                locale="{{locale}}">
               </fow-card-detail>
             </template>
           </section>
@@ -262,7 +269,8 @@
                 toast="{{toast}}">
               </fow-faqs>
               <fow-faq-list cross-fade 
-                faqs="{{faqs}}">
+                faqs="{{faqs}}"
+                locale="{{locale}}">
               </fow-faq-list>
           </section>
 
@@ -312,6 +320,10 @@
       Polymer("fow-app",{
 
         section: "cards",
+
+        created: function(){
+          this.locale = "EN";
+        },
         
         selectedChanged: function(){
           if(this.selected){
@@ -340,6 +352,23 @@
             return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );
           } else{
             return false;
+          }
+        },
+
+        localeChanged: function(){
+          switch(this.locale){
+            case "it-IT":
+            case "IT":
+              this.locale = "IT";
+              break;
+            case "en-US":
+            case "en-EN":
+            case "EN":
+              this.locale = "EN";
+              break;
+            default:
+              this.locale = "EN";
+              break;
           }
         }
 

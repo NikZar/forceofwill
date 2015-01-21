@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="fow-card-detail" attributes="codeCards">
+<polymer-element name="fow-card-detail" attributes="codeCards locale">
   <template>
 
     <style>
@@ -50,17 +50,17 @@
         </div> 
 
         
-          <template repeat="{{card in codeCards}}">
-            <fow-card-detail-cardtext class="preview" card="{{card}}">
-            </fow-card-detail-cardtext>
-          </template>
+        <template repeat="{{card in codeCards}}">
+          <fow-card-detail-cardtext class="preview" card="{{ card }}">
+          </fow-card-detail-cardtext>
+        </template>
 
         <template if="{{codeCards[0].faqs && codeCards[0].faqs.length>0}}">
           <div class="title">{{codeCards[0].faqs.length}} FAQ</div>
         </template>
         <div class="fill-width" layout vertical center>
-          <template repeat="{{faq in codeCards[0].faqs}}">
-            <fow-faq-row faq="{{faq}}" currentCards="{{codeCards}}">
+          <template repeat="{{ faq in codeCards[0].faqs }}">
+            <fow-faq-row faq="{{ faq }}" currentCards="{{  codeCards }}" locale="{{ locale }}">
             </fow-faq-row>
           </template>
         </div>

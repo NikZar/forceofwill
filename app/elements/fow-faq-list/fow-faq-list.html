@@ -1,6 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/elements.html">
-<link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
 
 
 
@@ -13,11 +12,6 @@
         margin-top: 18px;
       }
     </style>
-
-    <core-localstorage id="LSlocale" 
-      name="locale" 
-      value="{{locale}}">
-    </core-localstorage>
 
     <div layout vertical center>
       {{faqs.length}} FAQs
@@ -32,27 +26,7 @@
     (function () {
 
       Polymer({
-        // define element prototype here
-        created: function(){
-          this.locale = "EN";
-        },
 
-        localeChanged: function(){
-          switch(this.locale){
-            case "it-IT":
-            case "IT":
-              this.locale = "IT";
-              break;
-            case "en-US":
-            case "en-EN":
-            case "EN":
-              this.locale = "EN";
-              break;
-            default:
-              this.locale = "EN";
-              break;
-          }
-        }
       });
 
     })();
