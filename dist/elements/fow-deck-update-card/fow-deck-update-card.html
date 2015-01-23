@@ -157,7 +157,7 @@
             var objIndex = this.deck.cards.indexOf(this.deckCard);
             this.deck.cards.splice(objIndex,1);
           }
-          this.needsUpdate();
+          this.fire("update");
         },
 
         addCardToCardArray: function(card, deckCardsArray){
@@ -192,17 +192,19 @@
 
         moveToDeck: function(){
           this.moveCardFromArrayToArray(this.deck.side, this.deck.cards);
-          this.needsUpdate();
+          this.fire("update");
         },
 
         moveToSide: function(){
           this.moveCardFromArrayToArray(this.deck.cards, this.deck.side);
-          this.needsUpdate();
+          this.fire("update");
         },
 
         needsUpdate: function(oldVal, newVal){
-          //console.log(oldVal, newVal);
-          if(oldVal){
+          if(oldVal !== undefined){
+            if(newVal <= 0){
+              this.removeCard();
+            }
             this.fire("update");
           }
         }

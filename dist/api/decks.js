@@ -54,15 +54,12 @@ var addCardsToDeck = function(req, res, cards, _id){
     var userId = req.userId;
     _id = new ObjectID(_id);
 
-    //console.log("Searching: ", _id);
     db.collection('decks').findOne({_id: _id, userId: deck.userId},function(err, result) {
         if (err) {
-            //console.log("Error searching decks: ", err, user);
+            console.log("Error searching decks: ", err, user);
             res.sendStatus(500).end();
         }
         if(deck){
-            //console.log("Found: ", deck);
-
             var deckDictionary = {};
 
             for (var i = 0; i < cards.length; i++) {
@@ -126,15 +123,13 @@ var updateDeck = function(req, res, deck){
         compressDeckCard
     );
 
-    //console.log("Searching: ", deck);
     db.collection('decks').findOne({_id: deck._id, userId: deck.userId},function(err, result) {
           if (err) {
             db.close();
-            //console.log("Error searching decks: ", err, user);
+            console.log("Error searching decks: ", err, user);
             res.sendStatus(500).end();
           }
           if(result){
-            //console.log("Found: ", result);
             db.collection('decks').update({_id: deck._id, userId: userId}, deck, function(err, result) {
                 if(err){
                     res.sendStatus(500).end();
@@ -313,8 +308,6 @@ var sendExpandedDeck = function (req, res, db, deck){
     });
 
     allDeckCardIDs = allDeckCardIDs.concat(cardsIDs, sideIDs);
-
-    console.log("All IDs", allDeckCardIDs);
 
     var promiseCards = db.collection('cards').find({_id: {$in: allDeckCardIDs} }).toArrayAsync();
     promiseCards.then(function(cards){

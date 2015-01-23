@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-deck-small-list" attributes="selectedDeck selected token toast">
+<polymer-element name="fow-deck-small-list" attributes="selectedDeck selected token toast hideNew">
   <template>
     <style>
       :host {
@@ -47,7 +47,9 @@
       on-rest-response="{{successHandler}}">
     </fow-rest-service>
 
-    <div class="button" on-tap="{{addNewDeck}}"> New Deck </div>
+    <template if="{{!hideNew}}">
+      <div class="button" on-tap="{{addNewDeck}}"> New Deck </div>
+    </template>
 
     <template repeat="{{deck in decks}}">
       <fow-deck-small-row 
@@ -56,6 +58,7 @@
         on-select="{{rowSelected}}" 
         on-delete="{{deleteDeck}}"
         deck="{{deck}}" 
+        hideDelete="{{hideNew}}"
         selected="{{deck._id==selectedDeck._id}}">
       </fow-deck-small-row>
     </template>
@@ -82,9 +85,10 @@
         addNewDeck: function(){
           var deck = {};
           deck.title = "New Deck";
-          deck.privacy = "private";
+          deck.privacy = "public";
           deck.cards = [];
           deck.side = [];
+          deck.notes = "";
           this.$.addDeckService.body = JSON.stringify(deck);
           this.$.addDeckService.go();
         },

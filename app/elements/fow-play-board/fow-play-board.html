@@ -1,0 +1,416 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+
+<link rel="import" href="../../elements/fow-filter/fow-filter.html">
+<link rel="import" href="../../elements/fow-deck-simulator-cell/fow-deck-simulator-cell.html">
+<link rel="import" href="../../elements/elements.html">
+
+
+<polymer-element name="fow-play-board" extends="fow-filter" attributes="firstDeck secondDeck">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 10px;
+        min-width: 65%;
+        min-height: 80%;
+        margin-left: 10%;
+        background-color: rgba(255,255,255,0.1);
+      }
+
+      .fill-width{
+        width: 100%;
+      }
+      .hr{
+        height: 1px;
+        background-color: #333;
+      }
+      .toggle{
+        margin: 5px;
+      }
+
+    </style>
+
+    <div layout vertical center>
+
+      <fow-play-board-played
+        cards="{{ firstRuler }}"
+        size="small"
+        show="true">
+      </fow-play-board-played>
+
+      <div>{{firstDeck.title}}</div>
+
+      <div layout vertical center>
+        <div class="toggle"> 
+          {{ showFirstHand?'Hide':'Show'}} 
+          <paper-toggle-button checked="{{showFirstHand}}"></paper-toggle-button>
+        </div>
+        <fow-play-board-played
+          cards="{{ firstHand }}"
+          size="medium"
+          show="{{showFirstHand}}"
+          playable="true"
+          discardable="true"
+          on-card-played="{{firstCardPlayed}}"
+          on-card-discarded="{{firstCardDiscarded}}">
+        </fow-play-board-played>
+      </div>
+
+      <div class="fill-width">
+        <div layout horizontal center>
+          <div flex>
+            <div layout vertical center>
+              <div> Magic Stones Deck ({{firstStonesDeck.length}} Stones)</div>
+              <fow-play-board-deck
+                cards="{{ firstStonesDeck }}"
+                on-draw="{{ firstDrawStone }}">
+              </fow-play-board-deck>
+            </div>
+          </div>
+
+          <div flex>
+            <div layout vertical center>
+              <div> Deck Cards ({{firstCardsDeck.length}} Cards)</div>
+              <fow-play-board-deck
+                cards="{{ firstCardsDeck }}"
+                on-draw="{{ firstDrawCard }}">
+              </fow-play-board-deck>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <fow-play-board-played
+        cards="{{ firstStonesGraveyard }}"
+        size="small"
+        show="true"
+        shufflable="true">
+      </fow-play-board-played>
+
+      <fow-play-board-played
+        cards="{{ firstGraveyard }}"
+        size="small"
+        show="true"
+        shufflable="true">
+      </fow-play-board-played>
+
+      <fow-play-board-played
+        cards="{{ firstStones }}"
+        size="small"
+        show="true"
+        restable="true"
+        discardable="true"
+        removable="true"
+        discardable="true"
+        on-card-discarded="{{ firstStoneDiscarded }}">
+      </fow-play-board-played>
+
+      <fow-play-board-played
+        cards="{{ firstInPlay }}"
+        size="medium"
+        show="true"
+        restable="true"
+        discardable="true"
+        on-card-discarded="{{firstCardDiscarded}}">
+      </fow-play-board-played>
+
+      <div class="hr fill-width"></div>
+
+      <fow-play-board-stack
+        cards="{{ chase }}">
+      </fow-play-board-stack>
+
+      <div class="hr fill-width"></div>
+
+      <fow-play-board-played
+        cards="{{ secondInPlay }}"
+        size="medium"
+        show="true"
+        restable="true"
+        discardable="true"
+        on-card-discarded="{{secondCardDiscarded}}">
+      </fow-play-board-played>
+
+      <fow-play-board-played
+        cards="{{ secondStones }}"
+        size="small"
+        show="true"
+        restable="true"
+        discardable="true"
+        on-card-discarded="{{ secondStoneDiscarded }}">
+      </fow-play-board-played>
+
+      <fow-play-board-played
+        cards="{{ secondGraveyard }}"
+        size="small"
+        show="true"
+        shufflable="true">
+      </fow-play-board-played>
+
+      <fow-play-board-played
+        cards="{{ secondStonesGraveyard }}"
+        size="small"
+        show="true"
+        shufflable="true">
+      </fow-play-board-played>
+
+      <div class="fill-width">
+        <div layout horizontal center>
+          <div flex>
+            <div layout vertical center>
+              <div> Magic Stones Deck ({{secondStonesDeck.length}} Stones)</div>
+              <fow-play-board-deck
+                cards="{{ secondStonesDeck }}"
+                on-draw="{{ secondDrawStone }}">
+              </fow-play-board-deck>
+            </div>
+          </div>
+
+          <div flex>
+            <div layout vertical center>
+              <div> Deck Cards ({{secondCardsDeck.length}} Cards)</div>
+              <fow-play-board-deck
+                cards="{{ secondCardsDeck }}"
+                on-draw="{{ secondDrawCard }}">
+              </fow-play-board-deck>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div layout vertical center>
+        <div class="toggle"> 
+          {{ showSecondHand?'Hide':'Show'}} 
+          <paper-toggle-button checked="{{showSecondHand}}"></paper-toggle-button>
+        </div>
+        <fow-play-board-played
+          cards="{{ secondHand }}"
+          size="medium"
+          show="{{showSecondHand}}"
+          playable="true"
+          discardable="true"
+          on-card-played="{{secondCardPlayed}}"
+          on-card-discarded="{{secondCardDiscarded}}">
+        </fow-play-board-played>
+      </div>
+
+      <div>{{secondDeck.title}}</div>
+
+      <fow-play-board-played
+        cards="{{ secondRuler }}"
+        size="small"
+        show="true">
+      </fow-play-board-played>
+
+    </div>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+
+        //FIRST PLAYER
+
+        firstCardsDeck: null,
+
+        firstStonesDeck: null,
+
+        firstStonesGraveyard: null,
+
+        firstGraveyardDeck: null,
+
+        firstRemovedDeck: null,
+
+        firstInPlay:null,
+
+        firstStones: null,
+
+        firstHand: null,
+
+        firstRuler: null,
+
+        //SHARED
+
+        chase: null,
+
+        //SECOND PLAYER
+
+        secondCardsDeck: null,
+
+        secondStonesDeck: null,
+
+        secondStonesGraveyard: null,
+
+        secondGraveyardDeck: null,
+
+        secondRemovedDeck: null,
+
+        secondHand: null,
+
+        secondRuler: null,
+
+        observe: {
+          "firstDeck secondDeck" : "prepareBoard"
+        },
+
+        //FIRST PLAYER
+        firstCardRemoved: function(event, detail, target){
+          this.firstRemovedDeck.push(detail);
+        },
+
+        firstCardDiscarded: function(event, detail, target){
+          this.firstGraveyard.push(detail);
+        },
+
+        firstStoneDiscarded: function(event, detail, target){
+          this.firstStonesGraveyard.push(detail);
+        },
+
+        firstCardPlayed: function(event, detail, target){
+          this.firstInPlay.push(detail);
+        },
+
+        firstDrawStone: function(event, detail, target){
+          this.firstStones.push(detail);
+        },
+
+        firstDrawCard: function(event, detail, target){
+          this.firstHand.push(detail);
+        },
+
+        //SECOND PLAYER
+        secondCardRemoved: function(event, detail, target){
+          this.firstRemovedDeck.push(detail);
+        },
+
+        secondCardDiscarded: function(event, detail, target){
+          this.secondGraveyard.push(detail);
+        },
+
+        secondStoneDiscarded: function(event, detail, target){
+          this.secondStonesGraveyard.push(detail);
+        },
+
+        secondCardPlayed: function(event, detail, target){
+          this.secondInPlay.push(detail);
+        },
+
+        secondDrawStone: function(event, detail, target){
+          this.secondStones.push(detail);
+        },
+
+        secondDrawCard: function(event, detail, target){
+          this.secondHand.push(detail);
+        },
+
+        prepareBoard: function(){
+          if(this.firstDeck && this.secondDeck){
+
+            //FIST PLAYER
+            this.firstRuler = this.expandDeckCardsArray(
+                this.filterDeckCardOnText(this.firstDeck.cards, "Type", "Ruler")
+                );
+            
+            var firstResonators = this.filterDeckCardOnText(this.firstDeck.cards, "Type", "Resonator");
+            var firstAdditions = this.filterDeckCardOnText(this.firstDeck.cards, "Type", "Addition");
+            var firstSpells = this.filterDeckCardOnText(this.firstDeck.cards, "Type", "Spell");
+            var firstStones = this.filterDeckCardOnText(this.firstDeck.cards, "Type", "Stone");
+            var firstCards = firstResonators.concat(firstAdditions, firstSpells);
+
+            this.firstStonesDeck = this.expandDeckCardsArray(firstStones);
+
+            this.firstCardsDeck = this.expandDeckCardsArray(firstCards);
+
+            this.firstHand = [];
+
+            this.firstInPlay = [];
+
+            this.firstStones = [];
+
+            this.firstGraveyard = [];
+
+            this.firstStonesGraveyard = [];
+
+            //SHARED
+            this.chase = [];
+
+            //SECOND PLAYER
+            this.secondRuler = this.expandDeckCardsArray(
+                this.filterDeckCardOnText(this.secondDeck.cards, "Type", "Ruler")
+                );
+
+            var secondResonators = this.filterDeckCardOnText(this.secondDeck.cards, "Type", "Resonator");
+            var secondAdditions = this.filterDeckCardOnText(this.secondDeck.cards, "Type", "Addition");
+            var secondSpells = this.filterDeckCardOnText(this.secondDeck.cards, "Type", "Spell");
+            var secondStones = this.filterDeckCardOnText(this.secondDeck.cards, "Type", "Stone");
+            var secondCards = secondResonators.concat(secondAdditions, secondSpells);
+
+            this.secondStonesDeck = this.expandDeckCardsArray(secondStones);
+
+            this.secondCardsDeck = this.expandDeckCardsArray(secondCards);
+
+            this.secondHand = [];
+
+            this.secondInPlay = [];
+
+            this.secondStones = [];
+
+            this.secondGraveyard = [];
+
+            this.secondStonesGraveyard = [];
+
+            this.newGame();
+          }
+        },
+
+        newGame: function(){
+
+          this.firstStonesDeck = this.shuffle(this.firstStonesDeck);
+          this.firstCardsDeck = this.shuffle(this.firstCardsDeck);
+
+          this.secondStonesDeck = this.shuffle(this.secondStonesDeck);
+          this.secondCardsDeck = this.shuffle(this.secondCardsDeck);
+
+        },
+
+        shuffle: function(array) {
+          var currentIndex = array.length, temporaryValue, randomIndex ;
+
+          // While there remain elements to shuffle...
+          while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+          }
+
+          return array;
+        }, 
+
+        expandDeckCardsArray: function(deckCardsArray){
+          var cardsArray = [];
+          
+          for (var i = deckCardsArray.length - 1; i >= 0; i--) {
+            var deckCard = deckCardsArray[i];
+            for (var j = 0; j < deckCard.qty; j++) {
+              deckCard.card.recovered = true;
+              cardsArray.push(deckCard.card);
+            }
+          }
+          return cardsArray;
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>

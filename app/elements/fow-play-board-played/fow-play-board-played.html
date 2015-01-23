@@ -1,0 +1,93 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../elements/elements.html">
+
+<polymer-element name="fow-play-board-played" attributes="cards size show restable playable removable discardable shufflable toppable bottomable">
+  <template>
+    
+    <style>
+      :host {
+        display: block;
+        min-height: 100px;
+      }
+    </style>
+
+    <template repeat="{{ card in cards }}">
+      <fow-play-board-card 
+        card="{{ card }}"
+        size="{{ size }}"
+        show="{{ show }}"
+        restable="{{ restable }}"
+        playable="{{ playable }}"
+        discardable="{{ discardable }}"
+        removable="{{ removable }}"
+        shufflable="{{ shufflable }}"
+        toppable="{{ toppable }}"
+        bottomable="{{ bottomable }}"
+        on-play="{{ cardPlayed }}"
+        on-discard="{{ cardDiscarded }}"
+        on-remove="{{ cardRemoved }}"
+        on-shuffle="{{ cardShuffled }}"
+        on-bottom="{{ cardBottomed }}"
+        on-top="{{ cardTopped }}">
+      </fow-play-board-card>
+    </template>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        cardPlayed: function(event, detail, target){
+          var index = this.cards.indexOf(detail);
+          if(index!=-1){
+            this.cards.splice(index,1)
+            this.fire("card-played", detail);
+          }
+        },
+
+        cardDiscarded: function(event, detail, target){
+          var index = this.cards.indexOf(detail);
+          if(index!=-1){
+            this.cards.splice(index,1)
+            this.fire("card-discarded", detail);
+          }
+        },
+
+        cardRemoved: function(event, detail, target){
+          var index = this.cards.indexOf(detail);
+          if(index!=-1){
+            this.cards.splice(index,1)
+            this.fire("card-removed", detail);
+          }
+        },
+
+        cardShuffled: function(event, detail, target){
+          var index = this.cards.indexOf(detail);
+          if(index!=-1){
+            this.cards.splice(index,1)
+            this.fire("card-shuffled", detail);
+          }
+        },
+
+        cardTopped: function(event, detail, target){
+          var index = this.cards.indexOf(detail);
+          if(index!=-1){
+            this.cards.splice(index,1)
+            this.fire("card-top", detail);
+          }
+        },
+
+        cardBottomed: function(event, detail, target){
+          var index = this.cards.indexOf(detail);
+          if(index!=-1){
+            this.cards.splice(index,1)
+            this.fire("card-bottom", detail);
+          }
+        },
+
+      });
+
+    })();
+  </script>
+</polymer-element>

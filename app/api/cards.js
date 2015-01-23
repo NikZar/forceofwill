@@ -10,14 +10,12 @@ var updateCard = function(req, res, card){
     var db = req.db;
     var userId = req.userId;
 
-    console.log("Searching: ", card);
     db.collection('cards').findOne({code: card.code, Type: card.Type},function(err, result) {
           if (err) {
             console.log("Error searching cards: ", err, user)
             res.status(500).end();
           }
           if(result){
-            console.log("Found: ", result);
             db.collection('cards').update({code: card.code, Type: card.Type}, card, function(err, result) {
               if(err){
                 res.status(500).end();
@@ -59,7 +57,6 @@ var addNewCard = function(req, res, card){
   var db = req.db;
   var userId = req.userId;
 
-  console.log("Searching: ", card);
   db.collection('cards').findOne({code: card.code, Type: card.Type},function(err, result) {
         if (err) {
           console.log("Error searching cards: ", err, user);
@@ -69,14 +66,12 @@ var addNewCard = function(req, res, card){
           console.log("Found: ", result);
           res.status(500).end();
         } else {
-          console.log("Inserting Card: ",card);
           db.collection('cards').insert(card, function(err, result) {
             if (err) {
               console.log("Error inserting new card: ", err, card);
               res.status(500).end();
             }
             if (result) {
-              console.log('Added!');
               res.status(201).end();
             }
           });
@@ -126,6 +121,75 @@ router.get('/attribute/:attribute', function(req, res) {
 	getCardsWithAttribute(req, res);
 });
 
+
+/*
+ * GET all card FAQ.
+ */
+var getExpandedFAQs = function(cards, faqs){
+    var cardsDictionary = {};
+
+    for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        cardsDictionary[card._id] = card;
+    };
+
+    var expandedFAQs = [];
+    for (var i = faqs.length - 1; i >= 0; i--) {
+        var faq = faqs[i];
+
+        faq.cards = faq.cards.map(
+            function(card){
+                return cardsDictionary[card._id];
+            }
+        )
+
+        expandedFAQs.push(faq);
+    }
+
+    return expandedFAQs;
+}
+
+var sendExpandedFAQs = function (req, res, db, faqs){
+    var allFAQsCardIDs = [];
+    for (var i = faqs.length - 1; i >= 0; i--) {
+        var faq = faqs[i];
+
+        var cardsIDs = faq.cards.map(function(card){
+            return new ObjectID(card._id);
+        });
+        
+        allFAQsCardIDs = allFAQsCardIDs.concat(cardsIDs);
+    };
+
+    var promiseCards = db.collection('cards').find({_id: {$in: allFAQsCardIDs} }).toArrayAsync();
+    promiseCards.then(function(cards){
+        var expandedFAQs = getExpandedFAQs(cards, faqs);
+        res.status(200).json(expandedFAQs).end();
+        db.close();
+    });
+}
+
+var getCardFAQ = function(req,res,code){
+  var db = req.db;
+  db.collection('faq').find({codes: { $in: [code] } }).toArray(function (err, faqs) {
+    if (err) {
+      res.status(500).end();
+      db.close();
+    } else {
+      sendExpandedFAQs(req, res, db, faqs);
+    }
+  });
+}
+
+router.get('/:code/faq', function(req, res) {
+  var code = req.params.code;
+  getCardFAQ(req, res, code);
+});
+
+router.get('/:code/faq/', function(req, res) {
+  var code = req.params.code;
+  getCardFAQ(req, res, code);
+});
 
 /*
  * GET a card.

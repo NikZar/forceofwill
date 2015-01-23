@@ -1,0 +1,80 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-card-detail" attributes="codeCards locale">
+  <template>
+
+    <style>
+      :host {
+        display: block;
+        margin-top: 20px;
+      }
+      .card-image{
+        height: 350px;
+        width: 260px;
+        margin: 14px;
+      }
+      .card-box{
+        max-width: 260px;
+        height: 600px;
+      }
+
+      .width80{
+        width: 80%;
+        border-radius: 4px;
+        background-color: rgba(255,255,255,0.1);
+      }
+
+      .fill-width{
+        width: 100%;
+      }
+
+      .preview{
+        background-color: rgba(255,255,255,0.9);
+        margin: 10px;
+        padding: 10px;
+        color: #222;
+        min-height: 120px;
+        width: 80%;
+        border-radius: 4px;
+      }
+    </style>
+
+    <div layout vertical center>
+      <div class="width80" layout vertical center>
+        <div>
+          <template repeat="{{card in codeCards}}">
+            <span>
+              <img class="card-image" src="{{ '../images' + card['Image path'] }}"/>
+            </span>
+          </template>
+        </div> 
+
+        
+        <template repeat="{{card in codeCards}}">
+          <fow-card-detail-cardtext class="preview" card="{{ card }}">
+          </fow-card-detail-cardtext>
+        </template>
+
+        <template if="{{codeCards[0].faqs && codeCards[0].faqs.length>0}}">
+          <div class="title">{{codeCards[0].faqs.length}} FAQ</div>
+        </template>
+        <div class="fill-width" layout vertical center>
+          <template repeat="{{ faq in codeCards[0].faqs }}">
+            <fow-faq-row faq="{{ faq }}" currentCards="{{  codeCards }}" locale="{{ locale }}">
+            </fow-faq-row>
+          </template>
+        </div>
+      </div>
+    </div>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+
+      });
+
+    })();
+  </script>
+</polymer-element>

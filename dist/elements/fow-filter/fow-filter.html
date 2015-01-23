@@ -83,6 +83,104 @@
           }
         },
 
+        filterNotEmpty: function(deckList, key){
+          if(deckList && deckList.length > 0){
+            var self = this;
+
+            return deckList.filter(
+              
+              function(deck){
+                //console.log(card);
+                if( deck && deck[key] && deck[key].length > 0 ){
+                  return true;
+                }
+                
+                return false; 
+              }
+            
+            );
+          } else {
+            return [];
+          }
+        },
+
+        filterOnTextInKey: function(cardList, key, key2, filterString, remaining){
+          if(filterString === "" || filterString === "radio_all"){
+            return cardList;
+          } 
+          else if(cardList){
+            var self = this;
+
+            return cardList.filter(
+              
+              function(card){
+                //console.log(card);
+                if( card && card[key] && self.strictMatch(card[key][key2], filterString) ){
+                  return true;
+                } else if(remaining){ 
+                  remaining.push(card);
+                }
+                
+                return false; 
+              }
+            
+            );
+          } else {
+            return [];
+          }
+        },
+
+        filterOnArrayContainsString: function(deckList, key, filterString){
+          if(filterString === "" || filterString === "radio_all"){
+            return deckList;
+          } else if (deckList){
+
+            return deckList.filter(
+              
+              function(deck){
+                if(deck[key]){ 
+                  var index = deck[key].indexOf(filterString);
+                  if(index != -1){
+                    return true;
+                  }
+                }
+                return false;
+              }
+            
+            );
+          } else {
+            return [];
+          }
+        },
+
+        filterOnArrayContainsAllString: function(deckList, key, filterStrings){
+          if( !filterStrings || filterStrings.length == 0){
+            return deckList;
+          } else if (deckList){
+
+            return deckList.filter(
+              
+              function(deck){
+                if(deck[key] && deck[key].length === filterStrings.length){ 
+                  var found = true;
+                  for (var i = filterStrings.length - 1; i >= 0; i--) {
+                    var filterString = filterStrings[i];
+                    var index = deck[key].indexOf(filterString);
+                    if(index == -1){
+                      found = false;
+                    }
+                  }
+                  return found;
+                }
+                return false;
+              }
+            
+            );
+          } else {
+            return [];
+          }
+        },
+
         strictMatch:  function(text, textToSearch){
           if(text && textToSearch){
             return ( text.toUpperCase().indexOf(textToSearch.toUpperCase()) > -1 );

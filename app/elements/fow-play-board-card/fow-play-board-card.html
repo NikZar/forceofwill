@@ -1,0 +1,166 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+
+
+<polymer-element name="fow-play-board-card" attributes="card size show restable playable discardable removable shufflable toppable bottomable">
+  <template>
+    <style>
+
+      :host {
+        display: inline-block;
+      }
+
+      .restable{
+        margin-right: 28px;
+      }
+
+      .medium{
+        width: 120px;
+        height: 160px;
+      }
+
+      .small{
+        width: 80px;
+        height: 110px;
+      }
+
+      .rested {
+          -webkit-transform: rotate(90deg);
+          -moz-transform: rotate(90deg);
+          -o-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          transform: rotate(90deg);
+      }
+
+      .relative{
+        position: relative;
+      }
+
+      .top-right{
+        z-index: 99;
+        cursor: pointer;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        color: #efe;
+        width: 20px;
+        height: 20px;
+        background-color: black;
+      }
+
+      .right{
+        right: 28px;
+      }
+
+      .hidden{
+        display: none;
+      }
+
+      .block{
+        display: block;
+      }
+
+      .button{
+        margin-top: 5px;
+        cursor: pointer;
+        font-size: 0.8em;
+      }
+
+      .menu{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        background-color: rgba(0,0,0,0.3);
+      }
+
+    </style>
+
+    <template if="{{show}}">
+        
+      <div class="relative  {{ rested?'rested':''}} ">
+
+        <core-icon on-tap="{{toggleTooltip}}" class="top-right {{restable?'right':''}}" icon="menu">
+        </core-icon>
+
+        <img on-tap="{{restCard}}" class="{{ size }} {{ restable?'restable':''}}" src="{{ '../images' + card['Image path'] }}">
+
+        <div class="{{ size }} {{showTooltip?'block':'hidden'}} menu">
+          <div layout vertical center>
+            <template if="{{ playable }}">
+              <div class="button" on-tap="{{play}}">PLAY</div>
+            </template>
+            <template if="{{ discardable }}">
+              <div class="button" on-tap="{{discard}}">DISCARD</div>
+            </template>
+            <template if="{{ removable }}">
+              <div class="button" on-tap="{{remove}}">REMOVE</div>
+            </template>
+            <template if="{{ shufflable }}">
+              <div class="button" on-tap="{{shuffle}}">SHUFFLE</div>
+            </template>
+            <template if="{{ toppable }}">
+              <div class="button" on-tap="{{top}}">ON TOP</div>
+            </template>
+            <template if="{{ bottomable }}">
+              <div class="button" on-tap="{{bottom}}">ON BOTTOM</div>
+            </template>
+          </div>
+        </div>
+
+      </div>
+
+    </template>
+    <template if="{{!show}}">
+      <img on-tap="{{restCard}}" class="{{ size }} {{ rested?'rested':''}} {{ restable?'restable':''}}" src="../../images/fow_back.png">
+    </template>
+    
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+
+        showTooltip: false,
+
+        toggleTooltip: function(){
+          this.showTooltip = !this.showTooltip;
+        },
+
+        restCard: function(){
+          if(this.restable){
+            this.rested = !this.rested;
+          }
+        },
+
+        play: function(){
+          this.fire("play", this.card);
+        },
+
+        discard: function(){
+          this.fire("discard", this.card);
+        },
+
+        remove: function(){
+          this.fire("remove", this.card);
+        },
+
+        shuffle: function(){
+          this.fire("shuffle", this.card);
+        },
+
+        top: function(){
+          this.fire("top", this.card);
+        },
+
+        bottom: function(){
+          this.fire("bottom", this.card);
+        }
+
+      });
+
+    })();
+  </script>
+</polymer-element>

@@ -44,6 +44,13 @@
       {
         color: #9F9;
       }
+      .about{
+        width: 300px;
+        height: 200px;
+        background-color: #aaa;
+        padding: 5px;
+        color: black;
+      }
     </style>
 
     <fow-rest-service id="updateDeckService" 
@@ -255,6 +262,12 @@
             isSide="true">
           </fow-deck-update-card>
         </template>
+
+        <div>Notes:</div>
+        <div>
+          <textarea class="about" value="{{deck.notes}}"></textarea>
+        </div>
+
         <fow-deck-simulator 
           deck="{{ deck }}"
           refreshToggle="{{ refreshToggle }}">
@@ -325,7 +338,7 @@
         lastID: null,
 
         observe: {
-          "deck.privacy deck.title" : "updateDeckPrivacyTitle"
+          "deck.privacy deck.title deck.notes" : "updateDeckPrivacyTitle"
         },
 
         deckCardsChanged: function(){

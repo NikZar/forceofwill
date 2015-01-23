@@ -25,13 +25,13 @@ CARDS
 
     GET cards <--- List of all cards. Res: [ {...card fields...} , ... ]
     GET cards/:code <--- List of all cards with that code (might be more than one: ex. Ruler/J-Ruler). Res: [ {...card fields...} , ... ]
-    GET cards/:code/faqs <--- List all FAQs for the specified card. Res: [ { question: "", answer: "" } , ... ]
-    POST cards/:code/faqs <--- Ask a question about the specified card. Body: { question: "" }
+    GET cards/:code/faq <--- List all FAQs for the specified card. Res: [ { question: "", answer: "" } , ... ]
+    POST cards/:code/faq <--- Ask a question about the specified card. Body: { question: "" }
     
 FAQs
 
-    GET faqs <--- List of all the FAQs <--- Res: [ {question: "...", answer: "..."} ]
-    GET faqs/:faqid <--- Get a single FAQ <--- Res: {question: "...", answer: "..."}
+    GET faq <--- List of all the FAQs <--- Res: [ {question: "...", answer: "...", cards:[code, ...]} ]
+    GET faq/:faqid <--- Get a single FAQ <--- Res: {question: "...", answer: "...", cards:[code, ...]}
 
 DECKS
 

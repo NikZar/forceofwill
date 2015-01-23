@@ -36,6 +36,7 @@ module.exports = function (grunt) {
         },
         files: [
           '<%= yeoman.app %>/*.html',
+          '<%= yeoman.app %>/*.js',
           '<%= yeoman.app %>/elements/{,*/}*.html',
           '{.tmp,<%= yeoman.app %>}/elements/{,*/}*.css',
           '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
@@ -218,6 +219,7 @@ module.exports = function (grunt) {
             '*.{ico,txt}',
             '.htaccess',
             '*.html',
+            '*.js',
             'api/**',
             'elements/**',
             '!elements/**/*.css',

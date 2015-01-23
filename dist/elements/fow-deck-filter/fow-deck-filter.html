@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../elements/fow-filter/fow-filter.html">
 
-<polymer-element name="fow-deck-filter" extends="fow-filter" attributes="filteredDecks decks titleFilter rulerFilter attributeOnly attributeFilters ratingFilter officialFilter formatFilter cardsFilter maxDate minDate">
+<polymer-element name="fow-deck-filter" extends="fow-filter" attributes="filteredDecks decks titleFilter authorFilter rulerFilter attributeOnly attributeFilter ratingFilter officialFilter formatFilter cardsFilter maxDate minDate">
   <template>
     <style>
       :host {
@@ -13,7 +13,7 @@
   <script>
       Polymer("fow-deck-filter",{
         observe: {
-          "decks titleFilter rulerFilter attributeOnly attributeFilters" : "updateFilteredDecks",
+          "decks titleFilter authorFilter rulerFilter attributeOnly attributeFilter" : "updateFilteredDecks",
           "ratingFilter officialFilter formatFilter cardsFilter dateFilter" : "updateFilteredDecks"
         },
 
@@ -24,9 +24,10 @@
 
         resetFilters: function(){
           this.titleFilter = "";
+          this.authorFilter = "";
           this.rulerFilter = "";
           this.containsOnly = false;
-          this.attributeFilters = "radio_all";
+          this.attributeFilter = ["radio_all"];
           this.officialFilter = "radio_all";
           this.formatFilter = "radio_all";
           this.cardsFilter = [];
@@ -34,8 +35,30 @@
           this.minDate = "";
         },
 
+        capitaliseFirstLetter: function(string)
+        {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        },
+
         updateFilteredDecks: function(){
-          this.filteredDecks = this.filterOnText(this.decks, "title", this.titleFilter);
+          this.filteredDecks = this.filterNotEmpty(this.decks, "cards");
+          this.filteredDecks = this.filterOnText(this.filteredDecks, "title", this.titleFilter);
+          this.filteredDecks = this.filterOnText(this.filteredDecks, "author", this.authorFilter);
+          this.filteredDecks = this.filterOnTextInKey(this.filteredDecks, "ruler", "Name", this.rulerFilter);
+
+          if(this.attributeOnly === "contains"){
+            for (var i = this.attributeFilter.length - 1; i >= 0; i--) {
+              var attribute = this.capitaliseFirstLetter(this.attributeFilter[i]);
+              this.filteredDecks = this.filterOnArrayContainsString(this.filteredDecks, "attributes", attribute);
+            };
+          } else {
+            var filterStrings = [];
+            for (var i = this.attributeFilter.length - 1; i >= 0; i--) {
+              var filterString = this.capitaliseFirstLetter(this.attributeFilter[i]);
+              filterStrings.push(filterString);
+            }
+            this.filteredDecks = this.filterOnArrayContainsAllString(this.filteredDecks, "attributes", filterStrings);
+          }
         }
       });
   </script>

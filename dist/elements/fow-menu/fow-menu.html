@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/core-media-query/core-media-query.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../bower_components/core-icons/av-icons.html">
 <link rel="import" href="../../bower_components/core-icons/social-icons.html">
 <link rel="import" href="../../bower_components/core-icons/communication-icons.html">
 <link rel="import" href="../../bower_components/core-tooltip/core-tooltip.html">
@@ -88,6 +89,16 @@
         text-align: center;
         font-size: 55%;
       }
+
+      .faq{
+        position: relative;
+        color: black;
+        top: 14%;
+        left: -5%;
+        width: 90%;
+        text-align: center;
+        font-size: 55%;
+      }
     </style>
 
     <core-media-query
@@ -145,6 +156,30 @@
             My Decks
           </div>
         </core-tooltip>
+
+        <!-- <core-tooltip position="bottom">
+          <core-icon 
+            name="play" 
+            class="menu-icon {{ (selected === 'play')?'green':'' }}" 
+            icon="av:games" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+          <div tip>
+            Play My Decks
+          </div>
+        </core-tooltip> -->
+
+        <core-tooltip position="bottom">
+          <core-icon 
+            name="faq" 
+            class="menu-icon {{ (selected === 'faq')?'blue':'' }}" 
+            icon="question-answer" 
+            on-tap="{{buttonTapped}}"><div class="faq">FAQ</div>
+          </core-icon>
+          <div tip>
+            F.A.Q.
+          </div>
+        </core-tooltip>
         <!--
         <core-icon 
           name="friends" 
@@ -177,14 +212,19 @@
           icon="star-half" 
           on-tap="{{buttonTapped}}">
         </core-icon>
-
-        <core-icon 
-          name="settings" 
-          class="menu-icon {{ (selected === 'settings')?'grey':'' }}" 
-          icon="settings" 
-          on-tap="{{buttonTapped}}">
-        </core-icon>
         -->
+
+        <core-tooltip position="bottom">
+          <core-icon 
+            name="settings" 
+            class="menu-icon {{ (selected === 'settings')?'grey':'' }}" 
+            icon="settings" 
+            on-tap="{{buttonTapped}}">
+          </core-icon>
+          <div tip>
+            Settings
+          </div>
+        </core-tooltip>
 
       </div>
     </template>
@@ -241,6 +281,30 @@
             </div>
           </core-tooltip>
 
+         <!--  <core-tooltip position="bottom">
+            <core-icon 
+              name="play" 
+              class="menu-icon {{ (selected === 'play')?'green':'' }}" 
+              icon="av:games" 
+              on-tap="{{buttonTapped}}">
+            </core-icon>
+            <div tip>
+              Play My Decks
+            </div>
+          </core-tooltip> -->
+
+          <core-tooltip position="right">
+            <core-icon 
+              name="faq" 
+              class="menu-icon {{ (selected === 'faq')?'blue':'' }}" 
+              icon="question-answer" 
+              on-tap="{{buttonTapped}}"><div class="faq">FAQ</div>
+            </core-icon>
+            <div tip>
+              F.A.Q.
+            </div>
+          </core-tooltip>
+
 
           <!--
           <core-icon 
@@ -274,14 +338,20 @@
             icon="star-half" 
             on-tap="{{buttonTapped}}">
           </core-icon>
-
-          <core-icon 
-            name="settings" 
-            class="menu-icon {{ (selected === 'settings')?'grey':'' }}" 
-            icon="settings" 
-            on-tap="{{buttonTapped}}">
-          </core-icon>
           -->
+
+          <core-tooltip position="right">
+            <core-icon 
+              name="settings" 
+              class="menu-icon {{ (selected === 'settings')?'grey':'' }}" 
+              icon="settings" 
+              on-tap="{{buttonTapped}}">
+            </core-icon>
+            <div tip>
+              Settings
+            </div>
+          </core-tooltip>
+
         </div>
       </div>
     </template>

@@ -201,7 +201,7 @@
             var found = false;
             for (var i = this.deck.cards.length - 1; i >= 0; i--) {
               var deckCard = this.deck.cards[i];
-              if(deckCard.card.code === this.selectedCard.code){
+              if(deckCard.card._id === this.selectedCard._id){
                 deckCard.qty += parseInt(this.selectedQty);
                 found = true;
               }

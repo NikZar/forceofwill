@@ -58,7 +58,7 @@
     </style>
 
       <fow-rest-service 
-        id="addCardService" 
+        id="updateCardService" 
         type="cards" 
         auto="false" 
         token="{{token}}" 
@@ -205,8 +205,8 @@
           this.card.Code2 = this.newCode2;
           this.card["Released in"] = this.newReleasedIn;
 
-          this.$.addCardService.body = JSON.stringify(this.card);
-          this.$.addCardService.go();
+          this.$.updateCardService.body = JSON.stringify(this.card);
+          this.$.updateCardService.go();
         },
 
         selectCard: function(event){

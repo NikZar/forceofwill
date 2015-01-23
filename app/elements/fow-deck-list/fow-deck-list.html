@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/core-media-query/core-media-query.html">
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-deck-list" attributes="decks token selected">
+<polymer-element name="fow-deck-list" attributes="decks token selected attributeFilter">
   <template>
     <style>
       :host {
@@ -27,6 +27,110 @@
         background-color: #a7a;
         cursor: pointer;
       }
+      .tools{
+        background-color: rgba(255,255,255,0.3);
+        color: #000;
+        margin: 10px;
+        padding: 9px;
+        border-radius: 5px;
+      }
+
+      .sheader{
+        position: relative;
+        top: 10px;
+      }
+
+      .tools{
+        background-color: rgba(255,255,255,0.3);
+        color: #000;
+        margin: 10px;
+        padding: 9px;
+        border-radius: 5px;
+      }
+
+      .textSearch, .attributes, .type, .rarity, .expansion, .cost{
+        background-color: rgba(255,255,255,0.3);
+        border-radius: 10px;
+        margin: 4px;
+      }
+
+      .cost{
+        padding: 10px;
+      }
+
+      .title{
+        text-transform: uppercase;
+        font-size: 1.3em;
+      }
+
+      .textInput{
+        color: #000;
+        margin: 10px;
+      }
+
+      html /deep/ paper-input[focused] .floated-label {
+          /* floating label color when the input has focus */
+          color: #fff;
+      }
+
+      /* Attribute Radio Button Colors */
+      paper-radio-button.light::shadow #ink[checked] {
+        color: #ff0;
+      }
+      paper-radio-button.light::shadow #onRadio {
+        background-color:  #ff8;
+      }
+
+      paper-radio-button.dark::shadow #ink[checked] {
+        color: #111;
+      }
+      paper-radio-button.dark::shadow #onRadio {
+        background-color:  #111;
+      }
+
+      paper-radio-button.wind::shadow #ink[checked] {
+        color: #2e2;
+      }
+      paper-radio-button.wind::shadow #onRadio {
+        background-color:  #2e2;
+      }
+
+      paper-radio-button.fire::shadow #ink[checked] {
+        color: #f44;
+      }
+      paper-radio-button.fire::shadow #onRadio {
+        background-color:  #f44;
+      }
+
+      paper-radio-button.water::shadow #ink[checked] {
+        color: #57f;
+      }
+      paper-radio-button.water::shadow #onRadio {
+        background-color:  #57f;
+      }
+
+      paper-radio-button.all::shadow #ink[checked] {
+        color: #fff;
+      }
+      paper-radio-button.all::shadow #onRadio {
+        background-color:  #fff;
+      }
+
+      paper-radio-button.default::shadow #ink[checked] {
+        color: #fff;
+      }
+      paper-radio-button.default::shadow #onRadio {
+        background-color:  #fff;
+      }
+
+      core-icon:hover{
+        color: #fff;
+      }
+
+      input{
+        width: 40px;
+        text-align: center;
+      }
     </style>
 
     <core-media-query query="max-width: 1000px" queryMatches="{{smallScreen}}">
@@ -35,8 +139,64 @@
       <fow-deck-filter 
         decks="{{decks}}" 
         filteredDecks="{{filteredDecks}}" 
-        titleFilter="{{titleFilter}}">
+        titleFilter="{{titleFilter}}"
+        authorFilter="{{authorFilter}}"
+        rulerFilter="{{rulerFilter}}"
+        attributeFilter="{{attributeFilter}}"
+        attributeOnly="{{attributeOnly}}">
       </fow-deck-filter>
+
+      <div class="tools">
+        <div class="sheader" layout horizontal center center-justified>
+          <core-icon icon="social:whatshot">
+          </core-icon> 
+          <div class="title">
+            Search Filters
+          </div>
+          <core-icon icon="social:whatshot">
+          </core-icon>
+        </div>
+        <br />
+        <div class="textSearch" layout horizontal center center-justified>
+          <paper-input class="textInput"
+            floatinglabel 
+            label="Title" 
+            layout vertical 
+            inputValue="{{titleFilter}}">
+          </paper-input>
+          <paper-input class="textInput"
+            floatinglabel 
+            label="Author" 
+            layout vertical 
+            inputValue="{{authorFilter}}">
+          </paper-input>
+          <paper-input class="textInput"
+            floatinglabel 
+            label="Ruler" 
+            layout vertical 
+            inputValue="{{rulerFilter}}">
+          </paper-input>
+        </div>
+        <div class="attributes" layout vertical center>
+          <div layout horizontal center center-justified>
+            <paper-radio-group selected="{{attributeOnly}}">
+              <paper-radio-button class="dark" name="contains" label="Contains"></paper-radio-button>
+              <paper-radio-button class="dark" name="only" label="Contains Only"></paper-radio-button>
+            </paper-radio-group>
+          </div>
+          <div layout horizontal center center-justified>
+            <paper-radio-group selected="{{attributeFilter}}" multi>
+              <paper-radio-button on-tap="{{multiAttributeTapped}}" class="light" name="light" label="Light"></paper-radio-button>
+              <paper-radio-button on-tap="{{multiAttributeTapped}}" class="dark" name="dark" label="Dark"></paper-radio-button>
+              <paper-radio-button on-tap="{{multiAttributeTapped}}" class="wind" name="wind" label="Wind"></paper-radio-button>
+              <paper-radio-button on-tap="{{multiAttributeTapped}}" class="water" name="water" label="Water"></paper-radio-button>
+              <paper-radio-button on-tap="{{multiAttributeTapped}}" class="fire" name="fire" label="Fire"></paper-radio-button>
+              <paper-radio-button on-tap="{{multiAttributeTapped}}" class="all" name="radio_all" label="All"></paper-radio-button>
+            </paper-radio-group>
+          </div>
+        </div>
+      </div>
+
       <h3>{{decks.length}} Decks</h3>
       <template repeat="{{deck in filteredDecks}}">
         <fow-deck-row 
@@ -54,12 +214,61 @@
       Polymer({
         decks: null,
 
+        attributeFilter: null,
+
+        oldAttributeFilter: null,
+
+        attributeOnly: "contains",
+
         created: function(){
           this.decks = [];
+          this.rulerFilter = "";
+          this.attributeFilter = [];
+          this.oldAttributeFilter = [];
         },
 
         deckSelected: function(event, detail, sender){
           this.selected = "decks/"+ sender.deck._id;
+        },
+
+        attributeFilterChanged: function() {
+          this.oldAttributeFilter = [];
+          for (var i = 0; i < this.attributeFilter.length; i++) {
+            this.oldAttributeFilter.push(this.attributeFilter[i]);
+          }
+        },
+
+        attributeOnlyChanged: function(){
+          if(this.attributeOnly === "only"){
+            this.attributeFilter = [];
+            this.oldAttributeFilter = [];
+          } else {
+            this.attributeFilter = [];
+            this.oldAttributeFilter = [];
+          }
+        },
+
+        multiAttributeTapped: function(event, detail, sender){
+
+          var attribute = sender.label;
+          attribute = attribute.toLowerCase();
+          if(attribute == "all"){
+            attribute = "radio_all";
+            this.attributeFilter = ["radio_all", "wind", "fire", "water", "dark", "light"];
+          }
+          else{
+            var indexAttribute = this.oldAttributeFilter.indexOf(attribute);
+            if( indexAttribute != -1){
+
+              this.attributeFilter.splice(indexAttribute,1);
+
+              var indexAll = this.oldAttributeFilter.indexOf("radio_all");
+              if( indexAll != -1){
+
+                this.attributeFilter.splice(indexAll,1);
+              }
+            }
+          }
         }
       });
 

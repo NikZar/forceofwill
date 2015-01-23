@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/flatiron-director/flatiron-director.html">
 <link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
 <link rel="import" href="../../bower_components/core-animated-pages/transitions/cross-fade.html">
+<link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
 
 
 <link rel="import" href="../../elements/fow-open-sans/fow-open-sans.html">
@@ -15,7 +16,7 @@
 <link rel="import" href="../../elements/fow-binder/fow-binder.html">
 <link rel="import" href="../../elements/fow-rest-service/fow-rest-service.html">
 <link rel="import" href="../../elements/fow-cards/fow-cards.html">
-
+<link rel="import" href="../../elements/elements.html">
 
 <polymer-element name="fow-app" attributes="toast">
   <template>
@@ -104,6 +105,11 @@
 
     </style>
 
+    <core-localstorage
+      name="locale" 
+      value="{{locale}}">
+    </core-localstorage>
+
     <template if="{{user}}">
       <a class="appStore" href="https://itunes.apple.com/us/app/fow-tools/id936234730?mt=8">
         <img 
@@ -180,14 +186,33 @@
               </fow-cards>
               <fow-card-list cross-fade 
                 cards="{{cards}}" 
-                token="{{token}}">
+                token="{{token}}"
+                selected="{{selected}}">
               </fow-card-list>
             <!--</template>-->
+          </section>
+          <section name="cardDetail">
+            <template if="{{section === 'cardDetail'}}">
+              <fow-card 
+                codeCards="{{codeCards}}" 
+                code="{{urlID}}" 
+                token="{{token}}"
+                toast="{{$.toast}}">
+              </fow-card>
+              <fow-card-detail cross-fade 
+                codeCards="{{codeCards}}"  
+                token="{{token}}"
+                toast="{{$.toast}}"
+                locale="{{locale}}">
+              </fow-card-detail>
+            </template>
           </section>
 
           <section name="decks">
             <template if="{{section === 'decks'}}">
-              <fow-decks decks="{{decks}}" token="{{token}}">
+              <fow-decks 
+                decks="{{decks}}" 
+                token="{{token}}">
               </fow-decks>
               <fow-deck-list cross-fade 
                 decks="{{decks}}" 
@@ -238,6 +263,25 @@
             <!-- </template> -->
           </section>
 
+          <section name="faq">
+              <fow-faqs faqs="{{faqs}}" 
+                token="{{token}}" 
+                toast="{{toast}}">
+              </fow-faqs>
+              <fow-faq-list cross-fade 
+                faqs="{{faqs}}"
+                locale="{{locale}}">
+              </fow-faq-list>
+          </section>
+
+          <section name="play">
+              <fow-play cross-fade 
+                token="{{token}}" 
+                toast="{{toast}}">
+              </fow-play>
+          </section>
+          
+
           <section name="friends">
               <div cross-fade layout vertical center>FRIENDS</div>
           </section>
@@ -282,6 +326,9 @@
             if(this.contains(this.selected, 'decks/')){
               this.section = "deckDetail";
               this.urlID = this.selected.substring('decks/'.length)
+            } else if(this.contains(this.selected, 'cards/')){
+              this.section = "cardDetail";
+              this.urlID = this.selected.substring('cards/'.length)
             } else{
               this.section = this.selected;
             }
@@ -290,7 +337,7 @@
 
         sectionChanged: function(){
           if(this.section && (this.section != this.selected)){
-            if(this.section != 'deckDetail'){
+            if(this.section != 'deckDetail' && this.section != 'cardDetail'){
               this.selected = this.section;
             }
           }
