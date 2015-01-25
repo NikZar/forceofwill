@@ -1,10 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
 
 <link rel="import" href="../../elements/elements.html">
 
-
-<polymer-element name="fow-deck-detail" attributes="deck toast token selected">
+<polymer-element name="fow-deck-print" attributes="deck">
   <template>
     <style>
       :host {
@@ -15,6 +13,7 @@
         padding-top: 15px;
         padding-bottom: 15px;
         min-height: 100%;
+        font-size: 1em;
       }
       .small{
         width: 98%;
@@ -33,7 +32,6 @@
       {
         cursor: pointer;
         margin-top: 10px;
-        font-size: 1.5em;
       }
       .about{
         width: 300px;
@@ -43,15 +41,6 @@
         color: black;
       }
     </style>
-
-    <fow-rest-service id="addDeckService" 
-      type="decks" 
-      auto="false" 
-      token="{{token}}" 
-      method="POST"
-      on-rest-error="{{errorHandler}}"
-      on-rest-response="{{successHandler}}">
-    </fow-rest-service>
 
     <template if="{{deck}}">
         <core-media-query query="max-width: 1000px" queryMatches="{{smallScreen}}">
@@ -70,8 +59,6 @@
                 <core-icon-button icon="reorder" on-tap="{{toggleShowDeck}}">
                 </core-icon-button>
               </template>
-              <core-icon-button icon="open-in-new" on-tap="{{copyDeck}}">
-              </core-icon-button>
               <core-icon-button icon="print" on-tap="{{printDeck}}">
               </core-icon-button>
             </div>
@@ -103,37 +90,13 @@
               </fow-deck-detail-list>
             </template>
             <template if="{{!showDeck}}">
-              <fow-deck-detail-grid 
-                rulers = "{{rulers}}"
-                stones = "{{stones}}"
-                resonators = "{{resonators}}"
-                additions = "{{additions}}"
-                spells = "{{spells}}"
-                rulersQty = "{{rulersQty}}"
-                stonesQty = "{{stonesQty}}"
-                resonatorsQty = "{{resonatorsQty}}"
-                additionsQty = "{{additionsQty}}"
-                spellsQty = "{{spellsQty}}"
-                rulersSide = "{{rulersSide}}"
-                stonesSide = "{{stonesSide}}"
-                resonatorsSide = "{{resonatorsSide}}"
-                additionsSide = "{{additionsSide}}"
-                spellsSide = "{{spellsSide}}"
-                rulersSideQty = "{{rulersSideQty}}"
-                stonesSideQty = "{{stonesSideQty}}"
-                resonatorsSideQty = "{{resonatorsSideQty}}"
-                additionsSideQty = "{{additionsSideQty}}"
-                spellsSideQty= "{{spellsSideQty}}"
-                cardsSideQty= "{{cardsSideQty}}"
-                cardsQty= "{{cardsQty}}">
-              </fow-deck-detail-grid>
+              <fow-deck-print-grid 
+                cards = "{{gridCards}}"
+                side = "{{gridSide}}">
+              </fow-deck-print-grid>
             </template>
 
-            <div>Notes:</div>
-            <div class="about">{{deck.notes}}</div>
-
-            <fow-deck-simulator deck="{{ deck }}">
-            </fow-deck-simulator>
+            <div style="width:100%">Notes: {{deck.notes}}</div>
 
           </div>
         </div>
@@ -146,6 +109,7 @@
         <div>Loading deck...</div>
       </div>
     </template>
+
   </template>
   <script>
     (function () {
@@ -208,6 +172,11 @@
             this.spells = this.filterOnText(this.deck.cards, "Type", "Spell");
             this.stones = this.filterOnText(this.deck.cards, "Type", "Stone");
 
+            //GRID
+            this.gridCards = this.expandDeckCardsArray(this.additions.concat(this.spells).concat(this.resonators).concat(this.stones).concat(this.rulers)); 
+            this.gridSide = this.expandDeckCardsArray(this.deck.side); 
+
+
             this.cardsQty = this.countCards(this.deck.cards);
             this.rulersQty = this.countCards(this.rulers);
             this.resonatorsQty = this.countCards(this.resonators);
@@ -228,7 +197,29 @@
             this.additionsSideQty = this.countCards(this.additionsSide);
             this.spellsSideQty = this.countCards(this.spellsSide);
             this.stonesSideQty = this.countCards(this.stonesSide);
+
+            window.setTimeout(function(){
+              //window.print();
+            }, 2000);
+
           }
+        },
+
+        expandDeckCardsArray: function(deckCardsArray){
+          var cardsArray = [];
+          
+          for (var i = deckCardsArray.length - 1; i >= 0; i--) {
+            var deckCard = deckCardsArray[i];
+            for (var j = 0; j < deckCard.qty; j++) {
+              deckCard.card.recovered = true;
+              cardsArray.push(deckCard.card);
+            }
+          }
+          return cardsArray;
+        },
+
+        printDeck: function(){
+          window.print();
         },
 
         countCards: function(deckCards){
@@ -275,35 +266,6 @@
 
         toggleShowDeck: function(){
           this.showDeck = !this.showDeck;
-        },
-
-        copyDeck: function(){
-          var deck = {};
-          deck.title = this.deck.title+" copy";
-          deck.privacy = "private"; 
-          deck.cards = this.deck.cards;
-          deck.side = this.deck.side;
-          this.$.addDeckService.body = JSON.stringify(deck);
-          this.$.addDeckService.go();
-        },
-
-        printDeck: function(){
-          this.selected = "decks/print/"+this.deck._id;
-        },
-
-        successHandler: function(event){
-          if(this.toast){
-            this.toast.text="Deck Copied!";
-            this.toast.show();
-//            this.selectedDeck = event.detail.detail.response[0];
-          }
-        },
-
-        errorHandler: function(event){
-          if(this.toast){
-            this.toast.text="There was a problem copying the deck!";
-            this.toast.show();
-          }
         }
       });
 

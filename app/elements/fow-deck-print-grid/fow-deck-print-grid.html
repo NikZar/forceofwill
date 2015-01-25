@@ -1,0 +1,60 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../elements/elements.html">
+
+<polymer-element name="fow-deck-print-grid"
+  attributes="cards side">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+      }
+      .titleType{
+        width: 100%;
+        max-width: 500px;
+        text-align: left;
+        margin-left: -4px;
+        margin-top: 10px;
+        color: #aaa;
+      }
+    </style>
+    <div layout vertical center>
+ 
+      <div class="titleType">
+        {{cards.length}} Deck
+        <hr>
+      </div>
+      <div>
+        <template repeat="{{card in cards}}">
+          <fow-deck-print-cell 
+            card="{{card}}">
+          </fow-deck-print-cell>
+        </template>
+      </div>
+
+      <!-- SIDE -->
+      <div class="titleType">
+        {{side.length}} Side
+        <hr>
+      </div>
+      <div>
+        <template repeat="{{card in side}}">
+          <fow-deck-print-cell 
+            card="{{card}}">
+          </fow-deck-print-cell>
+        </template>
+      </div>
+
+  </div>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+
+      });
+
+    })();
+  </script>
+</polymer-element>

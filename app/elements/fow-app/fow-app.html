@@ -25,6 +25,7 @@
         display: block;
         height: 100%;
         font-family: Open Sans;
+        font-size: 0.8em;
       }
 
       .loginButton{
@@ -110,7 +111,7 @@
       value="{{locale}}">
     </core-localstorage>
 
-    <template if="{{user}}">
+    <template if="{{user && section !== 'deckPrint' }}">
       <a class="appStore" href="https://itunes.apple.com/us/app/fow-tools/id936234730?mt=8">
         <img 
         class="appStoreImg" 
@@ -140,7 +141,7 @@
         </div>
       </template>
 
-      <template if="{{user}}">
+      <template if="{{ user }}">
         <div id="avatar">
           <div layout horizontal>
             <div> {{user.first_name}} {{user.last_name}} </div>
@@ -148,10 +149,12 @@
         </div>
       </template>
 
-      <img 
-        class="header" 
-        src="../../images/fow.svg">
-      </img>
+       <template if="{{ section !== 'deckPrint' }}">
+          <img 
+            class="header" 
+            src="../../images/fow.svg">
+          </img>
+      </template>
 
       <template if="{{!user}}">
         <a href="https://itunes.apple.com/us/app/fow-tools/id936234730?mt=8">
@@ -162,7 +165,7 @@
         </a>
       </template>
 
-      <template if="{{userPhoto}}">
+      <template if="{{userPhoto && section !== 'deckPrint'}}">
         
         <img class="roundedImage"
         src="{{userPhoto.url}}">
@@ -174,7 +177,10 @@
         <flatiron-director route="{{selected}}" autoHash on-director-route="{{routeChanged}}">
         </flatiron-director>
 
-        <fow-menu selected="{{section}}" smallQuery="max-width: 1000px"></fow-menu>
+        <template if="{{ section !== 'deckPrint' }}">
+          <fow-menu selected="{{section}}" smallQuery="max-width: 1000px">
+          </fow-menu>
+        </template>
 
         <core-animated-pages selected="{{section}}" transitions="cross-fade">
           
@@ -232,8 +238,24 @@
               <fow-deck-detail cross-fade 
                 deck="{{deck}}" 
                 token="{{token}}"
-                toast="{{$.toast}}">
+                toast="{{$.toast}}"
+                selected="{{selected}}">
               </fow-deck-detail>
+            </template>
+          </section>
+
+          <section name="deckPrint">
+            <template if="{{section === 'deckPrint'}}">
+              <fow-deck 
+                deck="{{deck}}" 
+                fowId="{{urlID}}" 
+                token="{{token}}">
+              </fow-deck>
+              <fow-deck-print cross-fade 
+                deck="{{deck}}" 
+                token="{{token}}"
+                toast="{{$.toast}}">
+              </fow-deck-print>
             </template>
           </section>
 
@@ -323,7 +345,10 @@
         
         selectedChanged: function(){
           if(this.selected){
-            if(this.contains(this.selected, 'decks/')){
+            if(this.contains(this.selected, 'decks/print/')){
+              this.section = "deckPrint";
+              this.urlID = this.selected.substring('decks/print/'.length)
+            } else  if(this.contains(this.selected, 'decks/')){
               this.section = "deckDetail";
               this.urlID = this.selected.substring('decks/'.length)
             } else if(this.contains(this.selected, 'cards/')){
@@ -337,7 +362,7 @@
 
         sectionChanged: function(){
           if(this.section && (this.section != this.selected)){
-            if(this.section != 'deckDetail' && this.section != 'cardDetail'){
+            if(this.section != 'deckDetail' && this.section != 'deckPrint' && this.section != 'cardDetail'){
               this.selected = this.section;
             }
           }

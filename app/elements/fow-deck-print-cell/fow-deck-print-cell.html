@@ -1,0 +1,30 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="fow-deck-print-cell" 
+  attributes="card">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+        height: 8.1cm;
+        width: 5.6cm;
+      }
+      .cell-image{
+        height: 8.2cm;
+        width: 5.7cm;
+      }
+    </style>
+    
+    <img class="cell-image" src="{{ '../images' + card['Image path'] }}">
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+      });
+
+    })();
+  </script>
+</polymer-element>
