@@ -1,14 +1,22 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
+
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+
+
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-play-sidebar" attributes="token toast firstDeck secondDeck">
+<polymer-element name="fow-play-sidebar" attributes="token toast firstDeck secondDeck show3D">
   <template>
     <style>
       :host {
         display: block;
       }
     </style>
+
+    {{ show3D?'3D':'2D'}} 
+    <paper-toggle-button checked="{{show3D}}">
+    </paper-toggle-button>
 
     <fow-deck-small-list
       token="{{token}}"

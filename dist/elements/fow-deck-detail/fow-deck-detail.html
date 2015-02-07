@@ -4,7 +4,7 @@
 <link rel="import" href="../../elements/elements.html">
 
 
-<polymer-element name="fow-deck-detail" attributes="deck toast token">
+<polymer-element name="fow-deck-detail" attributes="deck toast token selected">
   <template>
     <style>
       :host {
@@ -71,6 +71,8 @@
                 </core-icon-button>
               </template>
               <core-icon-button icon="open-in-new" on-tap="{{copyDeck}}">
+              </core-icon-button>
+              <core-icon-button icon="print" on-tap="{{printDeck}}">
               </core-icon-button>
             </div>
 
@@ -283,6 +285,10 @@
           deck.side = this.deck.side;
           this.$.addDeckService.body = JSON.stringify(deck);
           this.$.addDeckService.go();
+        },
+
+        printDeck: function(){
+          this.selected = "decks/print/"+this.deck._id;
         },
 
         successHandler: function(event){
