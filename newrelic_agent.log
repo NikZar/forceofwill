@@ -152,3 +152,6 @@
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":14203,"time":"2015-02-10T18:41:18.919Z","msg":"Error on submission to New Relic (data held for redelivery):","syscall":"getaddrinfo","errno":"ENOTFOUND","code":"ENOTFOUND"}
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":22869,"time":"2015-03-13T16:50:50.154Z","msg":"Starting New Relic for Node.js connection process."}
 {"v":0,"level":40,"name":"newrelic","hostname":"rhaegal.local","pid":22869,"time":"2015-03-13T16:51:50.757Z","msg":"No connection has been established to New Relic after 4 attempts.","component":"collector_api"}
+{"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":12522,"time":"2015-03-31T18:01:01.974Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":12522,"time":"2015-03-31T18:01:04.813Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/869794/applications/5298317","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":12522,"time":"2015-03-31T18:01:04.814Z","msg":"Connected to collector-126.newrelic.com:443 with agent run ID 23280012616073508.","component":"collector_api"}
