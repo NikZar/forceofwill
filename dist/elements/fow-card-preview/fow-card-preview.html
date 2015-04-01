@@ -105,7 +105,7 @@
         
         cardSelected: function(event, detail, sender){
           if(!this.zoomed){
-            this.selected = "cards/"+ this.card.code;
+            this.selected = "cards/"+ this.card.code.replace(" ","%20");
           }
         },
 

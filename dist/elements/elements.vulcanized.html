@@ -4785,7 +4785,7 @@ To change the bar color for unchecked state:
     </div>
     
   </template>
-  <script>(function(){"use strict";Polymer("fow-card-preview",{zoomed:false,cardSelected:function(event,detail,sender){if(!this.zoomed){this.selected="cards/"+this.card.code}},cardChanged:function(){if(this.card&&this.card["Image path"]){this.$.cardImgZoom.src="../images"+this.card["Image path"];this.$.description.innerHTML=this.card.Cardtext}},zoom:function(event){if(this.zoomed){this.$.shadow.style.display="none";this.$.modal.style.display="none";event.preventDefault()}else{this.$.shadow.style.display="block";this.$.modal.style.display="block"}this.zoomed=!this.zoomed}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-card-preview",{zoomed:false,cardSelected:function(event,detail,sender){if(!this.zoomed){this.selected="cards/"+this.card.code.replace(" ","%20")}},cardChanged:function(){if(this.card&&this.card["Image path"]){this.$.cardImgZoom.src="../images"+this.card["Image path"];this.$.description.innerHTML=this.card.Cardtext}},zoom:function(event){if(this.zoomed){this.$.shadow.style.display="none";this.$.modal.style.display="none";event.preventDefault()}else{this.$.shadow.style.display="block";this.$.modal.style.display="block"}this.zoomed=!this.zoomed}})})();</script>
 </polymer-element>
 
 
