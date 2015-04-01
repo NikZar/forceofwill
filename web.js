@@ -180,6 +180,9 @@ app.use('/api/binder/cards', binders);
 var faq = require("" + __dirname +BASEDIR+'/api/faq');
 app.use('/api/faq', faq);
 
+var lackey = require("" + __dirname +BASEDIR+'/api/lackey');
+app.use('/api/lackey', lackey);
+
 app.use(morgan('dev'));
 app.use(gzippo.staticGzip("" + __dirname + BASEDIR));
 app.listen(process.env.PORT || 5000);
