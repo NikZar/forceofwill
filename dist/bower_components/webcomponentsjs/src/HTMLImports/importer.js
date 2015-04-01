@@ -119,6 +119,10 @@ function isLinkRel(elt, rel) {
   return elt.localName === 'link' && elt.getAttribute('rel') === rel;
 }
 
+function hasBaseURIAccessor(doc) {
+  return !! Object.getOwnPropertyDescriptor(doc, 'baseURI');
+}
+
 function makeDocument(resource, url) {
   // create a new HTML document
   var doc = document.implementation.createHTMLDocument(IMPORT_LINK_TYPE);
@@ -128,8 +132,9 @@ function makeDocument(resource, url) {
   var base = doc.createElement('base');
   base.setAttribute('href', url);
   // add baseURI support to browsers (IE) that lack it.
-  if (!doc.baseURI) {
-    doc.baseURI = url;
+  if (!doc.baseURI && !hasBaseURIAccessor(doc)) {
+    // Use defineProperty since Safari throws an exception when using assignment.
+    Object.defineProperty(doc, 'baseURI', {value:url});
   }
   // ensure UTF-8 charset
   var meta = doc.createElement('meta');

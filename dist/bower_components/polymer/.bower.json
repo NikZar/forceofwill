@@ -16,17 +16,17 @@
     "polymer-expressions": "Polymer/polymer-expressions#master",
     "polymer-gestures": "Polymer/polymer-gestures#master",
     "URL": "Polymer/URL#master",
-    "webcomponentsjs": "Polymer/webcomponentsjs#master"
+    "webcomponentsjs": "^0.6.0"
   },
   "devDependencies": {
     "tools": "Polymer/tools#master",
-    "web-component-tester": "Polymer/web-component-tester#^1.4.2"
+    "web-component-tester": "*"
   },
-  "_release": "2d000d10fe",
+  "_release": "35ea8363e6",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "2d000d10fec1b2415fa4edabfed2b8641264deee"
+    "commit": "35ea8363e6bbed97c95ca951a6ec8c629223dde8"
   },
   "_source": "git://github.com/Polymer/polymer.git",
   "_target": "master",

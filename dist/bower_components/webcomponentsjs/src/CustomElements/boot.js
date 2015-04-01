@@ -13,7 +13,28 @@
 var useNative = scope.useNative;
 var initializeModules = scope.initializeModules;
 
-var isIE = /Trident/.test(navigator.userAgent);
+var isIE11OrOlder = /Trident/.test(navigator.userAgent);
+
+// Patch document.importNode to work around IE11 bug that
+// casues children of a document fragment imported while
+// there is a mutation observer to not have a parentNode (!?!)
+if (isIE11OrOlder) {
+  (function() {
+    var importNode = document.importNode;
+    document.importNode = function() {
+      var n = importNode.apply(document, arguments);
+      // Copy all children to a new document fragment since
+      // this one may be broken
+      if (n.nodeType == n.DOCUMENT_FRAGMENT_NODE) {
+        var f = document.createDocumentFragment();
+        f.appendChild(n);
+        return f;
+      } else {
+        return n;
+      }
+    };
+  })();  
+}
 
 // If native, setup stub api and bail.
 // NOTE: we fire `WebComponentsReady` under native for api compatibility
@@ -57,6 +78,7 @@ if (!window.wrap) {
   }
 }
 
+
 // bootstrap parsing
 function bootstrap() {
   // parse document
@@ -87,9 +109,9 @@ function bootstrap() {
   });
 }
 
-// CustomEvent shim for IE
-// NOTE: we explicitly test for IE since Safari has an type `object` CustomEvent
-if (isIE && (typeof window.CustomEvent !== 'function')) {
+// CustomEvent shim for IE <= 11
+// NOTE: we explicitly test for IE since Safari has a type `object` CustomEvent
+if (isIE11OrOlder && (typeof window.CustomEvent !== 'function')) {
   window.CustomEvent = function(inType, params) {
     params = params || {};
     var e = document.createEvent('CustomEvent');

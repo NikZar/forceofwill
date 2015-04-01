@@ -25,6 +25,12 @@
   }
   CharacterData.prototype = Object.create(Node.prototype);
   mixin(CharacterData.prototype, {
+    get nodeValue() {
+      return this.data;
+    },
+    set nodeValue(data) {
+      this.data = data;
+    },
     get textContent() {
       return this.data;
     },

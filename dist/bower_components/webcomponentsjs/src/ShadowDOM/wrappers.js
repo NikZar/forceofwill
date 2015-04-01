@@ -103,6 +103,17 @@ window.ShadowDOMPolyfill = {};
 
   function getWrapperConstructor(node) {
     var nativePrototype = node.__proto__ || Object.getPrototypeOf(node);
+    if (isFirefox) {
+      // HTMLEmbedElements will sometimes be [NS Object wrapper class]
+      // which throws an error when getOwnPropertyNames is called on it.
+      // Mozilla handily includes a second HTMLEmbedElementPrototype in
+      // the chain, so we use that one if available.
+      try {
+        getOwnPropertyNames(nativePrototype);
+      } catch (error) {
+        nativePrototype = nativePrototype.__proto__;
+      }
+    }
     var wrapperConstructor = constructorTable.get(nativePrototype);
     if (wrapperConstructor)
       return wrapperConstructor;
@@ -139,7 +150,7 @@ window.ShadowDOMPolyfill = {};
   }
 
   function isIdentifierName(name) {
-    return /^\w[a-zA-Z_0-9]*$/.test(name);
+    return /^[a-zA-Z_$][a-zA-Z_$0-9]*$/.test(name);
   }
 
   // The name of the implementation property is intentionally hard to
@@ -226,10 +237,13 @@ window.ShadowDOMPolyfill = {};
           setter = getSetter(name);
       }
 
+      // make all descriptors configurable on broken safari
+      var configurable = isBrokenSafari || descriptor.configurable;
+
       defineProperty(target, name, {
         get: getter,
         set: setter,
-        configurable: descriptor.configurable,
+        configurable: configurable,
         enumerable: descriptor.enumerable
       });
     }
@@ -412,6 +426,7 @@ window.ShadowDOMPolyfill = {};
   scope.defineGetter = defineGetter;
   scope.defineWrapGetter = defineWrapGetter;
   scope.forwardMethodsToWrapper = forwardMethodsToWrapper;
+  scope.isIdentifierName = isIdentifierName;
   scope.isWrapper = isWrapper;
   scope.isWrapperFor = isWrapperFor;
   scope.mixin = mixin;

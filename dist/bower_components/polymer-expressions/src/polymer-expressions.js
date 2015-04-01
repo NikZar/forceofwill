@@ -89,7 +89,7 @@
     },
 
     setValue: function(model, newValue) {
-      if (this.path.length == 1);
+      if (this.path.length == 1)
         model = findScope(model, this.path[0]);
 
       return this.path.setValueFrom(model, newValue);
@@ -192,12 +192,11 @@
   Filter.prototype = {
     transform: function(model, observer, filterRegistry, toModelDirection,
                         initialArgs) {
-      var fn = filterRegistry[this.name];
       var context = model;
-      if (fn) {
-        context = undefined;
-      } else {
-        fn = context[this.name];
+      var fn = context[this.name];
+
+      if (!fn) {
+        fn = filterRegistry[this.name];
         if (!fn) {
           console.error('Cannot find function or filter: ' + this.name);
           return;

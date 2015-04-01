@@ -344,11 +344,12 @@
   var originalAppendChild = OriginalNode.prototype.appendChild;
   var originalCompareDocumentPosition =
       OriginalNode.prototype.compareDocumentPosition;
+  var originalIsEqualNode = OriginalNode.prototype.isEqualNode;
   var originalInsertBefore = OriginalNode.prototype.insertBefore;
   var originalRemoveChild = OriginalNode.prototype.removeChild;
   var originalReplaceChild = OriginalNode.prototype.replaceChild;
 
-  var isIe = /Trident/.test(navigator.userAgent);
+  var isIe = /Trident|Edge/.test(navigator.userAgent);
 
   var removeChildOriginalHelper = isIe ?
       function(parent, child) {
@@ -682,6 +683,10 @@
                                                   unwrapIfNeeded(otherNode));
     },
 
+    isEqualNode: function(otherNode){
+      return originalIsEqualNode.call(unsafeUnwrap(this), unwrapIfNeeded(otherNode));
+    },
+
     normalize: function() {
       var nodes = snapshotNodeList(this.childNodes);
       var remNodes = [];
@@ -692,7 +697,7 @@
         n = nodes[i];
         if (n.nodeType === Node.TEXT_NODE) {
           if (!modNode && !n.data.length)
-            this.removeNode(n);
+            this.removeChild(n);
           else if (!modNode)
             modNode = n;
           else {

@@ -163,7 +163,7 @@ function inDocument(element) {
     if (p == doc) {
       return true;
     }
-    p = p.parentNode || p.host;
+    p = p.parentNode || ((p.nodeType === Node.DOCUMENT_FRAGMENT_NODE) && p.host);
   }
 }
 
@@ -289,13 +289,16 @@ function upgradeDocumentTree(doc) {
 }
 
 
-// ensure that all ShadowRoots watch for CustomElements.
+// Patch `createShadowRoot()` if Shadow DOM is available, otherwise leave
+// undefined to aid feature detection of Shadow DOM.
 var originalCreateShadowRoot = Element.prototype.createShadowRoot;
-Element.prototype.createShadowRoot = function() {
-  var root = originalCreateShadowRoot.call(this);
-  CustomElements.watchShadow(this);
-  return root;
-};
+if (originalCreateShadowRoot) {
+  Element.prototype.createShadowRoot = function() {
+    var root = originalCreateShadowRoot.call(this);
+    CustomElements.watchShadow(this);
+    return root;
+  };
+}
 
 // exports
 scope.watchShadow = watchShadow;

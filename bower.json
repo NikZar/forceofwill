@@ -14,6 +14,7 @@
   },
   "resolutions": {
     "polymer": "master",
-    "core-component-page": "master"
+    "core-component-page": "master",
+    "webcomponentsjs": "master"
   }
 }

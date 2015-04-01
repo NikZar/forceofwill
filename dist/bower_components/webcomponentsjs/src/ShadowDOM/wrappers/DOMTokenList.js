@@ -8,49 +8,66 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
+// NOTE: Set the 'ownerElement_' property on a DOMTokenList to make invalidation
+// happen. This is pretty hacky but we only have to do it in one place
+// (Element.js) currently so it seems like the least bad option.
 (function(scope) {
   'use strict';
 
-  var setWrapper = scope.setWrapper;
+  if (!window.DOMTokenList) {
+    console.warn('Missing DOMTokenList prototype, please include a ' +
+        'compatible classList polyfill such as http://goo.gl/uTcepH.');
+    return;
+  }
+
   var unsafeUnwrap = scope.unsafeUnwrap;
+  var enqueueMutation = scope.enqueueMutation;
+
+  function getClass (el) {
+    return unsafeUnwrap(el).getAttribute('class');
+  }
+
+  function enqueueClassAttributeChange(el, oldValue) {
+    enqueueMutation(el, 'attributes', {
+      name: 'class',
+      namespace: null,
+      oldValue: oldValue
+    });
+  }
 
   function invalidateClass(el) {
     scope.invalidateRendererBasedOnAttribute(el, 'class');
   }
 
-  function DOMTokenList(impl, ownerElement) {
-    setWrapper(impl, this);
-    this.ownerElement_ = ownerElement;
+  function changeClass(tokenList, method, args) {
+    var ownerElement = tokenList.ownerElement_;
+    if (ownerElement == null) {
+      return method.apply(tokenList, args);
+    }
+
+    var oldValue = getClass(ownerElement);
+    var retv = method.apply(tokenList, args);
+    if (getClass(ownerElement) !== oldValue) {
+      enqueueClassAttributeChange(ownerElement, oldValue);
+      invalidateClass(ownerElement);
+    }
+
+    return retv;
   }
 
-  DOMTokenList.prototype = {
-    constructor: DOMTokenList,
-    get length() {
-      return unsafeUnwrap(this).length;
-    },
-    item: function(index) {
-      return unsafeUnwrap(this).item(index);
-    },
-    contains: function(token) {
-      return unsafeUnwrap(this).contains(token);
-    },
-    add: function() {
-      unsafeUnwrap(this).add.apply(unsafeUnwrap(this), arguments);
-      invalidateClass(this.ownerElement_);
-    },
-    remove: function() {
-      unsafeUnwrap(this).remove.apply(unsafeUnwrap(this), arguments);
-      invalidateClass(this.ownerElement_);
-    },
-    toggle: function(token) {
-      var rv = unsafeUnwrap(this).toggle.apply(unsafeUnwrap(this), arguments);
-      invalidateClass(this.ownerElement_);
-      return rv;
-    },
-    toString: function() {
-      return unsafeUnwrap(this).toString();
-    }
+  var oldAdd = DOMTokenList.prototype.add;
+  DOMTokenList.prototype.add = function() {
+    changeClass(this, oldAdd, arguments);
   };
 
-  scope.wrappers.DOMTokenList = DOMTokenList;
+  var oldRemove = DOMTokenList.prototype.remove;
+  DOMTokenList.prototype.remove = function() {
+    changeClass(this, oldRemove, arguments);
+  };
+
+  var oldToggle = DOMTokenList.prototype.toggle;
+  DOMTokenList.prototype.toggle = function() {
+    return changeClass(this, oldToggle, arguments);
+  };
+
 })(window.ShadowDOMPolyfill);

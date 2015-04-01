@@ -16,10 +16,11 @@
     "polymer-expressions": "Polymer/polymer-expressions#master",
     "polymer-gestures": "Polymer/polymer-gestures#master",
     "URL": "Polymer/URL#master",
-    "webcomponentsjs": "Polymer/webcomponentsjs#master"
+    "webcomponentsjs": "^0.6.0"
   },
   "devDependencies": {
     "tools": "Polymer/tools#master",
-    "web-component-tester": "Polymer/web-component-tester#^1.4.2"
-  }
+    "web-component-tester": "*"
+  },
+  "version": "0.5.5"
 }
