@@ -250,7 +250,7 @@
             var costTXT = this.deckCard.card.CostTXT;
             for(var i=0; i<costTXT.length; i=i+3){
               var attr = costTXT.charAt(i+1);
-              console.log(attr);
+              //console.log(attr);
               switch(attr){
                 case "R":
                   this.cost.Fire++;
@@ -271,7 +271,7 @@
                   //this.cost.Free += parseInt(attr);
                   break;
               }
-              console.log(this.cost);
+              //console.log(this.cost);
             }
           }
         },
