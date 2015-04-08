@@ -83,9 +83,10 @@
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
         <div>{{card.Type}} : {{card.Subtype}} {{card.Race}}</div>
-        <template if="{{ (card.Type !== 'Spell') && (card.Type !== 'Chant') && (card.Type !== 'Addition')  && (card.Type !== 'Ruler' && (card.Type !== 'Magic Stone') }}">
+        <template if="{{ (card.Type !== 'Spell') && (card.Type !== 'Chant') && (card.Type !== 'Addition')  && (card.Type !== 'Ruler') && (card.Type !== 'Magic Stone') }}">
           <div>{{card.ATK}}/{{card.DEF}}</div>
         </template>
+        <div style="font-size: 10px; font-weight: 300;">{{card.code}}</div>
       </div>
     </div>
 

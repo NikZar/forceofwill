@@ -90,6 +90,14 @@
             this.filteredCards = this.filterOnRange(this.filteredCards, "ATK", this.minATK, this.maxATK);
             this.filteredCards = this.filterOnRange(this.filteredCards, "DEF", this.minDEF, this.maxDEF);
           }
+
+          this.filteredCards.sort( function(cardA, cardB){
+            if(cardA.Set != cardB.Set){
+              return cardA.Set - cardB.Set;
+            } else {
+              return cardA.Num - cardB.Num;
+            }
+          });
         }
 
       });
