@@ -4798,7 +4798,7 @@ To change the bar color for unchecked state:
         <div class="title">{{card.Name}}</div>
         <div id="description"></div>
         <div>{{card.Type}} : {{card.Subtype}} {{card.Race}}</div>
-        <template if="{{ (card.Type !== &apos;Spell&apos;) &amp;&amp; (card.Type !== &apos;Chant&apos;) &amp;&amp; (card.Type !== &apos;Addition&apos;)  &amp;&amp; (card.Type !== &apos;Ruler&apos;) }}">
+        <template if="{{ (card.Type !== &apos;Spell&apos;) &amp;&amp; (card.Type !== &apos;Chant&apos;) &amp;&amp; (card.Type !== &apos;Addition&apos;)  &amp;&amp; (card.Type !== &apos;Ruler&apos; &amp;&amp; (card.Type !== &apos;Magic Stone&apos;) }}">
           <div>{{card.ATK}}/{{card.DEF}}</div>
         </template>
       </div>
