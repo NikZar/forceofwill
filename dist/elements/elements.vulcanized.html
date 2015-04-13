@@ -3264,7 +3264,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style>:host{display:block;margin-top:14px;margin-right:5px;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;padding-top:15px;padding-bottom:15px;min-height:100%}.title{cursor:pointer;margin-top:10px;font-size:1.5em}.titleType{width:100%;max-width:500px;text-align:left;margin-left:-4px;margin-top:10px;color:#aaa}.view{color:#99e}.tooltip-privacy{font-size:12px;margin:9px}.selected-privacy{color:#9F9}.about{width:300px;height:200px;background-color:#aaa;padding:5px;color:#000}</style>
 
-    <fow-rest-service id="updateDeckService" type="decks" auto="false" token="{{token}}" method="PUT" on-rest-error="{{errorHandler}}" on-rest-response="{{successHandler}}">
+    <fow-rest-service id="updateDeckService" type="decks" auto="false" token="{{token}}" method="PUT" on-rest-error="{{errorHandler}}" on-rest-response="{{successHandler}}" globals="{{ globals }}">
     </fow-rest-service>
 
     <template if="{{deck}}">
@@ -3279,6 +3279,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div layout="" horizontal="" center="">
           <div>{{cardsQty - stonesQty -rulersQty}} cards, {{stonesQty}} Magic Stones</div>
           <core-icon-button class="view" on-tap="{{viewDeck}}" icon="visibility" title="View Deck"> (share)</core-icon-button> 
+          <a style="text-decoration: none; color: white;" href="{{ &apos;http://&apos;+ globals.apiurl + &apos;lackey/decks/&apos; + deck._id +&apos;/?token=&apos; + token }}">
+            LACKEY
+          </a>
         </div>
         <core-tooltip class="tooltip-container" position="bottom">
           <div class="privacy" layout="" horizontal="" center="" center-justified="">
@@ -3735,8 +3738,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style>:host{display:block;margin-top:14px;margin-right:5px;padding:5px;padding-top:15px;padding-bottom:15px;min-height:100%}.small{width:98%;margin-left:1%}.large{width:93%;margin-left:6%}.detail{background-color:rgba(255,255,255,.1);border-radius:4px;padding:4px}.title{cursor:pointer;margin-top:10px;font-size:1.5em}.about{width:300px;height:200px;background-color:#aaa;padding:5px;color:#000}</style>
 
-    <fow-rest-service id="addDeckService" type="decks" auto="false" token="{{token}}" method="POST" on-rest-error="{{errorHandler}}" on-rest-response="{{successHandler}}">
+    <fow-rest-service id="addDeckService" type="decks" auto="false" token="{{token}}" method="POST" on-rest-error="{{errorHandler}}" on-rest-response="{{successHandler}}" globals="{{globals}}">
     </fow-rest-service>
+
 
     <template if="{{deck}}">
         <core-media-query query="max-width: 1000px" querymatches="{{smallScreen}}">
@@ -3759,6 +3763,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </core-icon-button>
               <core-icon-button icon="print" on-tap="{{printDeck}}">
               </core-icon-button>
+
+              <a style="text-decoration: none; color: white;" href="{{ &apos;http://&apos;+ globals.apiurl + &apos;lackey/decks/&apos; + deck._id +&apos;/?token=&apos; + token }}">
+                LACKEY
+              </a>
             </div>
 
             <template if="{{showDeck}}">
