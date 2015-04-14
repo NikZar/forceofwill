@@ -465,3 +465,4 @@
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":3512,"time":"2015-04-13T19:31:16.812Z","msg":"Starting New Relic for Node.js connection process."}
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":3512,"time":"2015-04-13T19:31:19.548Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/869794/applications/5298317","component":"new_relic_response"}
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":3512,"time":"2015-04-13T19:31:19.549Z","msg":"Connected to collector-126.newrelic.com:443 with agent run ID 23280012654474199.","component":"collector_api"}
+{"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":4184,"time":"2015-04-13T21:43:38.974Z","msg":"Starting New Relic for Node.js connection process."}

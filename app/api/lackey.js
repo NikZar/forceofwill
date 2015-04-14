@@ -135,6 +135,10 @@ var filterOnText = function(cardList, key, filterString, remaining){
   }
 }
 
+var removeIT = function (str){
+    return str.replace("[IT]", "").replace("[it]", "").trim();
+}
+
 var sendDeckLackey = function(res, deck){
     var filename = deck.title.replace(/ /g,"_") + ".txt";
     res.writeHead(200, {
@@ -150,22 +154,22 @@ var sendDeckLackey = function(res, deck){
     var stones = filterOnText(deck.cards, "Type", "Stone");
 
     rulers.map(function(deckCard){
-      res.write(deckCard.qty +"\t"+deckCard.card.Name+"\n");
+      res.write(deckCard.qty +"\t"+removeIT(deckCard.card.Name)+"\n");
     });
     res.write("Deck:\n");
     resonators.map(function(deckCard){
-      res.write(deckCard.qty +"\t"+deckCard.card.Name+"\n");
+      res.write(deckCard.qty +"\t"+removeIT(deckCard.card.Name)+"\n");
     });
     additions.map(function(deckCard){
-      res.write(deckCard.qty +"\t"+deckCard.card.Name+"\n");
+      res.write(deckCard.qty +"\t"+removeIT(deckCard.card.Name)+"\n");
     });
     spells.map(function(deckCard){
-      res.write(deckCard.qty +"\t"+deckCard.card.Name+"\n");
+      res.write(deckCard.qty +"\t"+removeIT(deckCard.card.Name)+"\n");
     });
 
     res.write("Stone deck:\n");
     stones.map(function(deckCard){
-      res.write(deckCard.qty +"\t"+deckCard.card.Name+"\n");
+      res.write(deckCard.qty +"\t"+removeIT(deckCard.card.Name)+"\n");
     });
     
     
