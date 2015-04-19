@@ -75,7 +75,7 @@ var locale = {
 	
 }
 
-PolymerExpressions.prototype.translate = function(key){
+PolymerExpressions.prototype.i18n = function(key){
 
 	if(key){
 

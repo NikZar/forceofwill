@@ -335,9 +335,10 @@ var getDeck = function(req, res, _id){
             res.sendStatus(500);
             db.close();
         } else {
-            if(decks){
+            if(decks && decks.length > 0){
                 sendExpandedDeck(req, res, db, decks[0]);
             } else{
+                console.log("Deck not found, id:", _id);
                 res.sendStatus(404);
                 db.close();
             }
