@@ -249,7 +249,7 @@ var getDeckLackey = function(req, res, _id){
             res.sendStatus(500);
             db.close();
         } else {
-            if(decks){
+            if(decks && decks.length > 0){
                 sendExpandedLackeyDeck(req, res, db, decks[0]);
             } else{
                 res.sendStatus(404);
