@@ -3,10 +3,16 @@
   "version": "1.0.0",
   "description": "FOW Tools",
   "author": "Niko Zarzani <niko.zarzani@gmail.com> (http://github.com/NikZar)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/NikZar/forceofwill.git"
+  },
   "dependencies": {
+    "apn": "^1.7.3",
     "bluebird": "^2.3.5",
     "body-parser": "^1.9.0",
     "cors": "^2.4.2",
+    "debug": "^2.1.3",
     "express": "^4.9.5",
     "gzippo": "^0.2.0",
     "mongoose": "^3.8.17",

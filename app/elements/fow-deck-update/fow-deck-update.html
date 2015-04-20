@@ -59,7 +59,8 @@
         token="{{token}}" 
         method="PUT"
         on-rest-error="{{errorHandler}}"
-        on-rest-response="{{successHandler}}">
+        on-rest-response="{{successHandler}}"
+        globals="{{ globals }}">
     </fow-rest-service>
 
     <template if="{{deck}}">
@@ -82,6 +83,9 @@
             on-tap="{{viewDeck}}" 
             icon="visibility"
             title="View Deck"> (share)</core-icon-button> 
+          <a style="text-decoration: none; color: white;" href="{{ 'http://'+ globals.apiurl + 'lackey/decks/' + deck._id +'/?token=' + token }}">
+            LACKEY
+          </a>
         </div>
         <core-tooltip class="tooltip-container" position="bottom">
           <div class="privacy" layout horizontal center center-justified>

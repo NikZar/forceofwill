@@ -90,7 +90,10 @@
       </div>
       <div class="form-row" layout horizontal center>
         <div class="title-row">Cardtext:</div>
-        <input type="text" class="row-text" value="{{newText}}"/>
+        <textarea 
+          class="row-text" 
+          value="{{newText}}">
+        </textarea>
       </div>
       <div class="form-row" layout horizontal center>
         <div class="title-row">Rarity:</div>
@@ -111,6 +114,10 @@
       <div class="form-row" layout horizontal center>
         <div class="title-row">DEF:</div>
         <input type="number" value="{{newDEF}}"/>
+      </div>
+      <div class="form-row" layout horizontal center>
+        <div class="title-row">Cost Txt:</div>
+        <input value="{{newCostTXT}}"/>
       </div>
       <div class="form-row" layout horizontal center>
         <div class="title-row">Attr. Cost:</div>
@@ -171,6 +178,7 @@
           this.newAttribute = "";
           this.newATK = 0;
           this.newDEF = 0;
+          this.newCostTXT = "";
           this.newAttrCost = 0;
           this.newFreeCost = 0;
           this.newTotalCost = 0;
@@ -195,6 +203,7 @@
           this.card.Attribute = this.newAttribute;
           this.card.ATK = parseInt(this.newATK);
           this.card.DEF = parseInt(this.newDEF);
+          this.card.CostTXT = this.newCostTXT;
           this.card["Attribute Cost"] = parseInt(this.newAttrCost);
           this.card["Free Cost"] = parseInt(this.newFreeCost);
           this.card["Total Cost"] = parseInt(this.newTotalCost);
@@ -225,6 +234,7 @@
           this.newAttribute = this.selectedCard.Attribute;
           this.newATK = this.selectedCard.ATK;
           this.newDEF = this.selectedCard.DEF;
+          this.newCostTXT = this.selectedCard.CostTXT;
           this.newAttrCost = this.selectedCard["Attribute Cost"];
           this.newFreeCost = this.selectedCard["Free Cost"];
           this.newTotalCost = this.selectedCard["Total Cost"];

@@ -50,8 +50,10 @@
       token="{{token}}" 
       method="POST"
       on-rest-error="{{errorHandler}}"
-      on-rest-response="{{successHandler}}">
+      on-rest-response="{{successHandler}}"
+      globals="{{globals}}">
     </fow-rest-service>
+
 
     <template if="{{deck}}">
         <core-media-query query="max-width: 1000px" queryMatches="{{smallScreen}}">
@@ -74,6 +76,10 @@
               </core-icon-button>
               <core-icon-button icon="print" on-tap="{{printDeck}}">
               </core-icon-button>
+
+              <a style="text-decoration: none; color: white;" href="{{ 'http://'+ globals.apiurl + 'lackey/decks/' + deck._id +'/?token=' + token }}">
+                LACKEY
+              </a>
             </div>
 
             <template if="{{showDeck}}">

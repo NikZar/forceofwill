@@ -201,11 +201,13 @@
       </div>
       <div class="expansion" layout horizontal center center-justified>
         <paper-radio-group selected="{{expansionFilter}}">
+          <paper-radio-button class="default" name="Promo" label="Promo"></paper-radio-button>
           <paper-radio-button class="default" name="Dawn of Valhalla" label="Dawn of Valhalla"></paper-radio-button>
           <paper-radio-button class="default" name="War of Valhalla" label="War of Valhalla"></paper-radio-button>
           <paper-radio-button class="default" name="The Shaft of Light of Valhalla" label="The Shaft of Light of Valhalla"></paper-radio-button>
           <paper-radio-button class="default" name="The Crimson Moon Fairy Tale" label="The Crimson Moon Fairy Tale"></paper-radio-button>
           <paper-radio-button class="default" name="The Castle of Heaven and The Two Tower" label="The Castle of Heaven and The Two Tower"></paper-radio-button>
+          <paper-radio-button class="default" name="The Moon Princess Returns" label="The Moon Princess Returns"></paper-radio-button>
           <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
         </paper-radio-group>
       </div>
@@ -231,6 +233,9 @@
       <div layout vertical center>
         <core-icon icon="undo" on-tap="{{resetFilters}}">
         </core-icon>
+        <div>
+          {{filteredCards.length}} cards
+        </div>
       </div>
     </div>
 

@@ -5,6 +5,7 @@ var morgan = require('morgan');
 var cors = require('cors');
 var https = require('https');
 var Promise = require("bluebird");
+var apn = require('apn');
 var app = express();
 
 var bodyParser = require('body-parser')
@@ -31,13 +32,23 @@ switch(process.env.NODE_ENV){
 
         case 'production':
         	var BASEDIR = "/dist";
+          var apnOptions = { 
+            cert: "certificates/production/production.pem",
+            key: "certificates/production/production_key.pem"
+          };
           break;
         
         default:
           var BASEDIR = "/app";
+          var apnOptions = { 
+            cert: "certificates/development/development.pem",
+            key: "certificates/development/development_key.pem"
+          };
           break;
 			
 }
+
+var apnConnection = new apn.Connection(apnOptions);
 
 var checkToken = function(req,res,next,token){
 
@@ -179,7 +190,11 @@ app.use('/api/binder/cards', binders);
 //  CARDS
 var faq = require("" + __dirname +BASEDIR+'/api/faq');
 app.use('/api/faq', faq);
+//  DEVICES
+var devices = require("" + __dirname +BASEDIR+'/api/devices');
+app.use('/api/devices', devices);
 
+//  LACKEY
 var lackey = require("" + __dirname +BASEDIR+'/api/lackey');
 app.use('/api/lackey', lackey);
 

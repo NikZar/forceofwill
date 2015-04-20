@@ -29,7 +29,7 @@
         color: white;
         background-color: rgb(160,20,20);
       }
-      .DarkCircle{
+      .DarkCircle, .DarknessCircle{
         color: white;
         background-color: rgb(11,11,11);
       }
@@ -116,6 +116,16 @@
                 return "Void";
               })
             );
+
+            for (var i = this.deck.attributes.length - 1; i >= 0; i--) {
+              var attrArray = this.deck.attributes[i].split("-");
+              if(attrArray.length>1){
+                this.deck.attributes.splice(i,1);
+                this.deck.attributes = this.deck.attributes.concat(attrArray);
+              }
+            };
+
+            this.deck.attributes = this.uniqueArray(this.deck.attributes);
 
             var index = this.deck.attributes.indexOf("");
             while(index != -1){

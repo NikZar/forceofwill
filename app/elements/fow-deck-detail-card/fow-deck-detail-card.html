@@ -29,9 +29,9 @@
       .Fire{
         background-color: rgb(190,100,100);
       }
-      .Dark{
+      .Dark, .Darkness{
         color: white;
-        background-color: rgb(10,10,10);
+        background-color: rgb(55,55,55);
       }
       .Light{
         background-color: rgb(180,170,160);
@@ -43,28 +43,102 @@
         background-color: #9DCEFF;
       }
 
+      .Fire-Dark, .Fire-Darkness, .Darkness-Fire, .Dark-Fire {
+        background: -webkit-linear-gradient(rgb(190,100,100), rgb(55,55,55)); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(rgb(190,100,100), rgb(55,55,55)); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(rgb(190,100,100), rgb(55,55,55)); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(rgb(190,100,100), rgb(55,55,55)); /* Standard syntax */
+      }
+
+      .Light-Dark, .Light-Darkness, .Darkness-Light, .Dark-Light {
+        background: -webkit-linear-gradient(rgb(180,170,160), rgb(55,55,55)); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(rgb(180,170,160), rgb(55,55,55)); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(rgb(180,170,160), rgb(55,55,55)); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(rgb(180,170,160), rgb(55,55,55)); /* Standard syntax */
+      }
+
+      .Water-Dark, .Water-Darkness, .Darkness-Water, .Dark-Water {
+        background: -webkit-linear-gradient( #9DCEFF, rgb(55,55,55)); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient( #9DCEFF, rgb(55,55,55)); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient( #9DCEFF, rgb(55,55,55)); /* For Firefox 3.6 to 15 */
+        background: linear-gradient( #9DCEFF, rgb(55,55,55)); /* Standard syntax */
+      }
+
+      .Wind-Dark, .Wind-Darkness, .Darkness-Wind, .Dark-Wind {
+        background: -webkit-linear-gradient( #00CC99, rgb(55,55,55)); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient( #00CC99, rgb(55,55,55)); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient( #00CC99, rgb(55,55,55)); /* For Firefox 3.6 to 15 */
+        background: linear-gradient( #00CC99, rgb(55,55,55)); /* Standard syntax */
+      }
+
+      .Light-Wind, .Light-Wind {
+        background: -webkit-linear-gradient(rgb(180,170,160), #00CC99); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(rgb(180,170,160), #00CC99); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(rgb(180,170,160), #00CC99); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(rgb(180,170,160), #00CC99); /* Standard syntax */
+      }
+
+      .Light-Water, .Light-Water {
+        background: -webkit-linear-gradient(rgb(180,170,160), #9DCEFF); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(rgb(180,170,160), #9DCEFF); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(rgb(180,170,160), #9DCEFF); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(rgb(180,170,160), #9DCEFF); /* Standard syntax */
+      }
+
+      .Light-Fire, .Light-Fire {
+        background: -webkit-linear-gradient(rgb(180,170,160), rgb(190,100,100)); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(rgb(180,170,160), rgb(190,100,100)); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(rgb(180,170,160), rgb(190,100,100)); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(rgb(180,170,160), rgb(190,100,100)); /* Standard syntax */
+      }
+
+      .Wind-Water, .Wind-Water {
+        background: -webkit-linear-gradient(#00CC99, #9DCEFF); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#00CC99, #9DCEFF); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#00CC99, #9DCEFF); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#00CC99, #9DCEFF); /* Standard syntax */
+      }
+
+      .Wind-Fire, .Wind-Fire {
+        background: -webkit-linear-gradient(#00CC99, rgb(190,100,100)); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#00CC99, rgb(190,100,100)); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#00CC99, rgb(190,100,100)); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#00CC99, rgb(190,100,100)); /* Standard syntax */
+      }
+
+      .Water-Fire, .Water-Fire {
+        background: -webkit-linear-gradient(#9DCEFF, rgb(190,100,100)); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#9DCEFF, rgb(190,100,100)); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#9DCEFF, rgb(190,100,100)); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#9DCEFF, rgb(190,100,100)); /* Standard syntax */
+      }
+
       .FireCircle{
         color: white;
-        background-color: rgb(160,20,20);
+        background-color: rgb(160,20,20) !important;
       }
       .DarkCircle{
         color: white;
-        background-color: rgb(55,55,55);
+        background-color: rgb(11,11,11) !important;
+      }
+      .DarknessCircle{
+        color: white;
+        background-color: rgb(11,11,11) !important;
       }
       .LightCircle{
-        background-color: rgb(240,230,220);
+        background-color: rgb(240,230,220) !important;
       }
       .WindCircle{
         color: white;
-        background-color: #393;
+        background-color: #393 !important;
       }
       .WaterCircle{
         color: white;
-        background-color: #36C;
+        background-color: #36C !important;
       }
-      .VoidCircle{
+      .VoidCircle, .Circle{
         color: white;
-        background-color: rgb(140,140,140);
+        background-color: rgb(140,140,140) !important;
       }
 
       .delete{
@@ -73,6 +147,7 @@
         cursor: pointer;
       }
       .circle{
+        background-color: rgb(140,140,140);
         text-align: center;
         font-size: 0.8em;
         height: 18px;
@@ -107,8 +182,16 @@
                 <div class="circle VoidCircle">{{deckCard.card["Free Cost"]}}</div>
               </template>
 
-              <template if="{{deckCard.card['Attribute Cost'] != 0}}">
+              <template if="{{!cost && deckCard.card['Attribute Cost'] != 0}}">
                 <div class="circle {{deckCard.card.Attribute + 'Circle'}}">{{deckCard.card["Attribute Cost"]}}</div>
+              </template>
+              <template if="{{cost}}">
+                <template repeat="{{ attr in cost | getKeys}}">
+                  <template if="{{cost[attr] != 0}}">
+                  <div class="circle {{attr + 'Circle'}}">{{cost[attr]}}</div>
+                  </template>
+                </template>
+                
               </template>
             </div>
           </div>
@@ -126,6 +209,51 @@
     (function () {
 
       Polymer({
+
+        getKeys : function(o){
+          return Object.keys(o);
+        },
+
+        cost: undefined,
+
+        deckCardChanged: function(){
+          if(this.deckCard && this.deckCard.card && this.deckCard.card.CostTXT && this.deckCard.card.CostTXT != ""){
+            this.cost = {
+              Wind: 0,
+              Water: 0,
+              Darkness: 0,
+              Fire: 0,
+              Light: 0,
+              Free: 0
+            };
+            var costTXT = this.deckCard.card.CostTXT;
+            for(var i=0; i<costTXT.length; i=i+3){
+              var attr = costTXT.charAt(i+1);
+              //console.log(attr);
+              switch(attr){
+                case "R":
+                  this.cost.Fire++;
+                  break;
+                case "G":
+                  this.cost.Wind++;
+                  break;
+                case "B":
+                  this.cost.Darkness++;
+                  break;
+                case "U":
+                  this.cost.Water++;
+                  break;
+                case "W":
+                  this.cost.Light++;
+                  break;
+                default:
+                  //this.cost.Free += parseInt(attr);
+                  break;
+              }
+              //console.log(this.cost);
+            }
+          }
+        },
       });
 
     })();

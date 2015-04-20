@@ -347,13 +347,13 @@
           if(this.selected){
             if(this.contains(this.selected, 'decks/print/')){
               this.section = "deckPrint";
-              this.urlID = this.selected.substring('decks/print/'.length)
+              this.urlID = this.selected.substring('decks/print/'.length);
             } else  if(this.contains(this.selected, 'decks/')){
               this.section = "deckDetail";
-              this.urlID = this.selected.substring('decks/'.length)
+              this.urlID = this.selected.substring('decks/'.length);
             } else if(this.contains(this.selected, 'cards/')){
               this.section = "cardDetail";
-              this.urlID = this.selected.substring('cards/'.length)
+              this.urlID = this.selected.substring('cards/'.length);
             } else{
               this.section = this.selected;
             }
