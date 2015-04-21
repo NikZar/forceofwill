@@ -68,7 +68,23 @@
           }
           
           if(this.expansionFilter){
-            this.filteredCards = this.filterOnText(this.filteredCards, "Expansion", this.expansionFilter);
+            if(this.expansionFilter === "Block"){
+              var blockExpansions = [
+                "The Crimson Moon Fairy Tale", 
+                "The Castle of Heaven and The Two Tower", 
+                "The Moon Princess Returns"
+              ];
+              var tempFilteredCards = [];
+              for (var i = blockExpansions.length - 1; i >= 0; i--) {
+                var blockExpansion = blockExpansions[i];
+                tempFilteredCards = tempFilteredCards.concat(
+                  this.filterOnText(this.filteredCards, "Expansion", blockExpansion)
+                );
+              };
+              this.filteredCards = tempFilteredCards;
+            } else {
+              this.filteredCards = this.filterOnText(this.filteredCards, "Expansion", this.expansionFilter);
+            }
           }
 
           if(this.typeFilter === "spell"){
