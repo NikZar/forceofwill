@@ -82,7 +82,10 @@
                 );
               };
               this.filteredCards = tempFilteredCards;
-            } else {
+            } else if(this.expansionFilter === "Origin") {
+              this.filteredCards = this.filterOnText(this.filteredCards, "Expansion", "radio_all");
+            }
+            else {
               this.filteredCards = this.filterOnText(this.filteredCards, "Expansion", this.expansionFilter);
             }
           }
