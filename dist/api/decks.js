@@ -383,12 +383,24 @@ var getAllDecks = function(req, res){
     });
 }
 
+var getAllPublicDecks = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    db.collection('decks').find({$or: [{privacy: "public"},{privacy: "anonimous"}]}).toArray(function (err, decks) {
+        if(err){
+            console.log("Error Searching Decks");
+            res.sendStatus(500);
+        } else {
+            sendExpandedDecks(req, res, db, decks);
+        }
+    });
+}
+
 var getAllDecksLogged = function(req, res){
     if(req.logged){
         getAllDecks(req, res);
     } else {
-        console.log("Authentication Error");
-        res.sendStatus(500);
+        getAllPublicDecks(req, res);
     }
 }
 
