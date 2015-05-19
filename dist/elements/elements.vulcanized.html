@@ -3875,7 +3875,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </core-tooltip>
     </div>
   </template>
-  <script>(function(){"use strict";Polymer("fow-binder-row",{observe:{qty:"sendUpdates"},qtyChanged:function(){this.sendUpdates()},sendUpdates:function(){console.log("Update qty: ",this.qty)},removeCard:function(){this.$.deleteBinderCardService.go()},successHandler:function(event){if(this.toast){this.toast.text="Card deleted!";this.toast.show();this.fire("delete")}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem deleting the card.";this.toast.show()}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-binder-row",{observe:{qty:"sendUpdates"},binderCardChanged:function(){this.qty=this.binderCard.qty},qtyChanged:function(){this.sendUpdates()},sendUpdates:function(){console.log("Update qty: ",this.qty)},removeCard:function(){this.$.deleteBinderCardService.go()},successHandler:function(event){if(this.toast){this.toast.text="Card deleted!";this.toast.show();this.fire("delete")}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem deleting the card.";this.toast.show()}}})})();</script>
 </polymer-element>
 
 
@@ -4816,6 +4816,56 @@ To change the bar color for unchecked state:
 
 
 
+
+<polymer-element name="fow-binder-list" attributes="binderCards token toast" assetpath="fow-binder-list/">
+  <template>
+    <style>:host{display:block;width:100%}</style>
+
+    <template repeat="{{binderCard in binderCards}}">
+      <fow-binder-row bindercard="{{binderCard}}" token="{{token}}" toast="{{toast}}">
+      </fow-binder-row>
+    </template>
+
+  </template>
+  <script>(function(){Polymer("fow-binder-list",{})})();</script>
+</polymer-element>
+
+
+
+
+<polymer-element name="fow-binder-grid" attributes="binderCards token toast" assetpath="fow-binder-grid/">
+  <template>
+    <style>:host{display:block;width:100%}</style>
+    <div layout="" vertical="" center="">
+      <div>
+        <template repeat="{{binderCard in binderCards}}">
+          <fow-binder-cell bindercard="{{binderCard}}" token="{{token}}" toast="{{toast}}">
+          </fow-binder-cell>
+        </template>
+      </div>
+    </div>
+
+  </template>
+  <script>(function(){Polymer("fow-binder-grid",{})})();</script>
+</polymer-element>
+
+
+
+
+<polymer-element name="fow-binder-cell" attributes="binderCard token toast" assetpath="fow-binder-cell/">
+  <template>
+    <style>:host{display:inline-block;position:relative;height:250px;width:180px}</style>
+
+    <fow-deck-detail-cell deckcard="{{binderCard}}">
+    </fow-deck-detail-cell>
+  
+  </template>
+
+  <script>(function(){Polymer("fow-binder-cell",{})})();</script>
+</polymer-element>
+
+
+
 <polymer-element name="fow-card-preview" attributes="card selected" assetpath="fow-card-preview/">
   <template>
     <style type="text/css">:host{display:block}.preview-container{font-family:Open Sans;background-color:rgba(255,255,255,.9);margin:10px;padding:10px;border-radius:5px;color:#222;min-height:142px;cursor:pointer}#cardImg{width:100px;margin-top:1px;margin-right:10px}.preview{margin-left:10px}.title{font-size:1.5em}#description{font-size:.7em}core-icon:hover{color:#5a5;cursor:pointer}.modal{position:fixed;top:10%;left:50%;height:450px;width:310px;margin-left:-145px;z-index:99;display:none}.shadow{position:fixed;top:0;left:0;background-color:rgba(0,0,0,.8);z-index:98;width:100%;height:100%;display:none}.cardImgZoom{width:100%;height:100%}.tooltip-image{height:250px;width:180px}</style>
@@ -5551,6 +5601,8 @@ root if there is one. This implies:
 
 
 
+
+
 <polymer-element name="fow-binder" attributes="binderCards token toast" assetpath="fow-binder/">
   <template>
     <style>:host{display:block;font-family:Open Sans;margin-top:5px;margin-left:6%;width:90%;height:100%}.binderTitle{font-size:1.2em}fow-binder-row{width:100%}</style>
@@ -5563,14 +5615,28 @@ root if there is one. This implies:
       </fow-card-picker>
 
       <div class="binderTitle">{{binderCardsQty}} cards ({{binderCards.length}} distinct) in your binder:</div>
-      <template repeat="{{binderCard in binderCards}}">
-        <fow-binder-row on-delete="{{deleteBinderCard}}" bindercard="{{binderCard}}" token="{{token}}" toast="{{toast}}">
-        </fow-binder-row>
+
+      <template if="{{!showList}}">
+        <core-icon-button icon="view-module" on-tap="{{toggleShowList}}">
+        </core-icon-button>
+
+        <fow-binder-list on-delete="{{deleteBinderCard}}" bindercards="{{binderCards}}" token="{{token}}" toast="{{toast}}">
+        </fow-binder-list>
+
       </template>
+      <template if="{{showList}}">
+        <core-icon-button icon="reorder" on-tap="{{toggleShowList}}">
+        </core-icon-button>
+
+        <fow-binder-grid on-delete="{{deleteBinderCard}}" bindercards="{{binderCards}}" token="{{token}}" toast="{{toast}}">
+        </fow-binder-grid>
+      </template>
+
+      
     </div>
 
   </template>
-  <script>(function(){"use strict";Polymer("fow-binder",{binderCardsQty:0,binderCards:null,deck:null,created:function(){this.binderCards=[];this.deck={}},successHandler:function(event){if(this.toast){this.toast.text="Binder updated!";this.toast.show();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem updating your binder.";this.toast.show()}},binderCardAdded:function(event,detail,sender){var newBinderCard=detail;this.$.addCard.body=JSON.stringify(newBinderCard);this.$.addCard.go();this.binderCardsChanged()},binderCardsChanged:function(){if(this.binderCards){this.deck.cards=this.binderCards;this.binderCardsQty=this.countCards(this.binderCards)}},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},deleteBinderCard:function(event,detail,sender){var objIndex=this.binderCards.indexOf(sender.binderCard);this.binderCards.splice(objIndex,1)}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-binder",{binderCardsQty:0,binderCards:null,deck:null,toggleShowList:function(){this.showList=!this.showList},created:function(){this.binderCards=[];this.deck={}},successHandler:function(event){if(this.toast){this.toast.text="Binder updated!";this.toast.show();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem updating your binder.";this.toast.show()}},binderCardAdded:function(event,detail,sender){var newBinderCard=detail;this.$.addCard.body=JSON.stringify(newBinderCard);this.$.addCard.go();this.binderCardsChanged()},binderCardsChanged:function(){if(this.binderCards){this.deck.cards=this.binderCards;this.binderCardsQty=this.countCards(this.binderCards)}},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},deleteBinderCard:function(event,detail,sender){var objIndex=this.binderCards.indexOf(sender.binderCard);this.binderCards.splice(objIndex,1)}})})();</script>
 </polymer-element>
 
 
@@ -5751,4 +5817,4 @@ root if there is one. This implies:
   </template>
   <script>(function(){"use strict";Polymer("fow-app",{section:"cards",selectedChanged:function(){if(this.selected){if(this.contains(this.selected,"decks/print/")){this.section="deckPrint";this.urlID=this.selected.substring("decks/print/".length)}else if(this.contains(this.selected,"decks/")){this.section="deckDetail";this.urlID=this.selected.substring("decks/".length)}else if(this.contains(this.selected,"cards/")){this.section="cardDetail";this.urlID=this.selected.substring("cards/".length)}else{this.section=this.selected}}},sectionChanged:function(){if(this.section&&this.section!=this.selected){if(this.section!="deckDetail"&&this.section!="deckPrint"&&this.section!="cardDetail"){this.selected=this.section}}},contains:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
 </polymer-element>
-</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>
+</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>
