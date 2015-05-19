@@ -42,7 +42,7 @@
         border-radius: 5px;
       }
 
-      .textSearch, .attributes, .type, .rarity, .expansion, .cost{
+      .textSearch, .attributes, .type, .rarity, .expansion, .cost, .orderby{
         background-color: rgba(255,255,255,0.3);
         border-radius: 10px;
         margin: 4px;
@@ -232,6 +232,18 @@
         </div>
       </template>
 
+      <div layout horizontal center center-justified>
+        <div>Order By</div>
+      </div>
+
+      <div class="orderby" layout horizontal center center-justified>
+        <paper-radio-group selected="{{orderBy}}">
+          <paper-radio-button class="default" name="Set_Num" label="Expansion > Number"></paper-radio-button>
+          <paper-radio-button class="default" name="Attribute_Total Cost_Name" label="Attribute > Total Cost > Name"></paper-radio-button>
+           <paper-radio-button class="default" name="Name" label="Name"></paper-radio-button>
+        </paper-radio-group>
+      </div>
+
       <div layout vertical center>
         <core-icon icon="undo" on-tap="{{resetFilters}}">
         </core-icon>
@@ -260,7 +272,8 @@
       minATK="{{minATK}}" 
       maxATK="{{maxATK}}" 
       minDEF="{{minDEF}}" 
-      maxDEF="{{maxDEF}}">
+      maxDEF="{{maxDEF}}"
+      orderBy="{{orderBy}}">
     </fow-card-filter>
 
     <template repeat="{{card in filteredCards}}">
