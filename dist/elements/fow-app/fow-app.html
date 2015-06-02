@@ -85,6 +85,7 @@
         position: relative;
         width: 100%;
         height: 100%;
+        margin-bottom: 30px;
       }
 
       .fillHeight{
@@ -102,6 +103,17 @@
 
       .appStoreImg{
         width: 100px;
+      }
+
+      .policies
+      {
+        width: 100%;
+        position: fixed;
+        bottom: 0px;
+        background-color: #222;
+        color: #999;
+        text-align: center;
+        cursor: pointer;
       }
 
     </style>
@@ -302,6 +314,11 @@
                 toast="{{toast}}">
               </fow-play>
           </section>
+
+          <section name="policies">
+              <fow-policies>
+              </fow-policies>
+          </section>
           
 
           <section name="friends">
@@ -334,6 +351,9 @@
       </template>
 
     </div>
+    <div class="policies" on-tap="{{policiesSelected}}">
+      This website uses third parties cookies, by continuing navigation on this website you allow their usage
+    </div>
   </template>
   <script>
     (function () {
@@ -342,6 +362,10 @@
       Polymer("fow-app",{
 
         section: "cards",
+
+        policiesSelected: function(){
+          this.selected = "policies";
+        },
         
         selectedChanged: function(){
           if(this.selected){

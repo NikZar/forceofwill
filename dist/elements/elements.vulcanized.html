@@ -3059,7 +3059,7 @@ can be used for API calls.
 
 <polymer-element name="fow-my-decks" attributes="token toast selected" assetpath="fow-my-decks/">
   <template>
-    <style>:host{display:block;height:100%;width:94%;margin-left:6%}</style>
+    <style>:host{display:block;height:100%;width:94%;margin-left:6%;margin-bottom:30px}</style>
 
     <core-media-query query="max-width: 640px" querymatches="{{smallScreen}}">
     </core-media-query>
@@ -3633,7 +3633,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <polymer-element name="fow-deck-list" attributes="decks token selected attributeFilter" assetpath="fow-deck-list/">
   <template>
-    <style>:host{display:block;text-align:center;margin-top:12px}.small{width:98%;margin-left:1%}.large{width:93%;margin-left:6%}.deck-list{background-color:rgba(255,255,255,.1);border-radius:10px;padding:4px}.deck-row:hover{background-color:#a7a;cursor:pointer}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:9px;border-radius:5px}.sheader{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:9px;border-radius:5px}.textSearch,.attributes,.type,.rarity,.expansion,.cost{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.cost{padding:10px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin:10px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}paper-radio-button.default::shadow #ink[checked]{color:#fff}paper-radio-button.default::shadow #onRadio{background-color:#fff}core-icon:hover{color:#fff}input{width:40px;text-align:center}</style>
+    <style>:host{display:block;text-align:center;margin-top:12px;margin-bottom:30px}.small{width:98%;margin-left:1%}.large{width:93%;margin-left:6%}.deck-list{background-color:rgba(255,255,255,.1);border-radius:10px;padding:4px}.deck-row:hover{background-color:#a7a;cursor:pointer}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:9px;border-radius:5px}.sheader{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:9px;border-radius:5px}.textSearch,.attributes,.type,.rarity,.expansion,.cost{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.cost{padding:10px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin:10px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}paper-radio-button.default::shadow #ink[checked]{color:#fff}paper-radio-button.default::shadow #onRadio{background-color:#fff}core-icon:hover{color:#fff}input{width:40px;text-align:center}</style>
 
     <core-media-query query="max-width: 1000px" querymatches="{{smallScreen}}">
     </core-media-query>
@@ -4866,6 +4866,29 @@ To change the bar color for unchecked state:
 
 
 
+<polymer-element name="fow-policies" attributes="" assetpath="fow-policies/">
+  <template>
+    <style>:host{display:block}</style>
+    <div layout="" vertical="" center="">
+
+      <div style="width: 75%;">
+      <br><br>
+      Fow Tools does not uses cookies by itself, however in order to authenticate users with facebook it uses what are called "third parties" cookies. Third-party cookies are stored by a different domain to the visited page's domain (such as facebook.com).
+      <br>
+      Read further to know more.
+      <br><br>
+      <b>What are cookies?</b>
+      <br>
+      When you visit a website for the first time it is likely that one or more cookies will be sent to your computer by that website. A cookie is a small text file that can be used to assign a unique reference number to your computer. That number only makes sense to – and is only readable by – the domain (usually a website) that served it. When you return to that website on another day from the same computer, the website can read your cookie and, in effect, recognise you.
+      This simple technology gives websites a memory. It is possible to set your browser to block all cookies, but doing so will make some websites difficult or impossible to use.
+      </div>
+    </div>
+  </template>
+  <script>(function(){Polymer("fow-policies",{})})();</script>
+</polymer-element>
+
+
+
 <polymer-element name="fow-card-preview" attributes="card selected" assetpath="fow-card-preview/">
   <template>
     <style type="text/css">:host{display:block}.preview-container{font-family:Open Sans;background-color:rgba(255,255,255,.9);margin:10px;padding:10px;border-radius:5px;color:#222;min-height:142px;cursor:pointer}#cardImg{width:100px;margin-top:1px;margin-right:10px}.preview{margin-left:10px}.title{font-size:1.5em}#description{font-size:.7em}core-icon:hover{color:#5a5;cursor:pointer}.modal{position:fixed;top:10%;left:50%;height:450px;width:310px;margin-left:-145px;z-index:99;display:none}.shadow{position:fixed;top:0;left:0;background-color:rgba(0,0,0,.8);z-index:98;width:100%;height:100%;display:none}.cardImgZoom{width:100%;height:100%}.tooltip-image{height:250px;width:180px}</style>
@@ -4900,7 +4923,7 @@ To change the bar color for unchecked state:
 
 <polymer-element name="fow-card-list" attributes="selected cards token filteredCards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost minCost maxCost minATK maxATK minDEF maxDEF" assetpath="fow-card-list/">
   <template>
-    <style>:host{display:block;width:86%;margin-left:7%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans}.sheader{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:9px;border-radius:5px}.textSearch,.attributes,.type,.rarity,.expansion,.cost,.orderby{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.cost{padding:10px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin:10px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}paper-radio-button.default::shadow #ink[checked]{color:#fff}paper-radio-button.default::shadow #onRadio{background-color:#fff}core-icon:hover{color:#fff}input{width:40px;text-align:center}</style>
+    <style>:host{display:block;width:86%;margin-left:7%;text-align:left;background-color:rgba(255,255,255,.1);border-radius:10px;padding:5px;font-family:Open Sans;margin-bottom:30px}.sheader{position:relative;top:10px}.tools{background-color:rgba(255,255,255,.3);color:#000;margin:10px;padding:9px;border-radius:5px}.textSearch,.attributes,.type,.rarity,.expansion,.cost,.orderby{background-color:rgba(255,255,255,.3);border-radius:10px;margin:4px}.cost{padding:10px}.title{text-transform:uppercase;font-size:1.3em}.textInput{color:#000;margin:10px}html /deep/ paper-input[focused] .floated-label{color:#fff}paper-radio-button.light::shadow #ink[checked]{color:#ff0}paper-radio-button.light::shadow #onRadio{background-color:#ff8}paper-radio-button.dark::shadow #ink[checked]{color:#111}paper-radio-button.dark::shadow #onRadio{background-color:#111}paper-radio-button.wind::shadow #ink[checked]{color:#2e2}paper-radio-button.wind::shadow #onRadio{background-color:#2e2}paper-radio-button.fire::shadow #ink[checked]{color:#f44}paper-radio-button.fire::shadow #onRadio{background-color:#f44}paper-radio-button.water::shadow #ink[checked]{color:#57f}paper-radio-button.water::shadow #onRadio{background-color:#57f}paper-radio-button.all::shadow #ink[checked]{color:#fff}paper-radio-button.all::shadow #onRadio{background-color:#fff}paper-radio-button.default::shadow #ink[checked]{color:#fff}paper-radio-button.default::shadow #onRadio{background-color:#fff}core-icon:hover{color:#fff}input{width:40px;text-align:center}</style>
 
     
 
@@ -5605,7 +5628,7 @@ root if there is one. This implies:
 
 <polymer-element name="fow-binder" attributes="binderCards token toast" assetpath="fow-binder/">
   <template>
-    <style>:host{display:block;font-family:Open Sans;margin-top:5px;margin-left:6%;width:90%;height:100%}.binderTitle{font-size:1.2em}fow-binder-row{width:100%}</style>
+    <style>:host{display:block;font-family:Open Sans;margin-top:5px;margin-left:6%;width:90%;height:100%;margin-bottom:30px}.binderTitle{font-size:1.2em}fow-binder-row{width:100%}</style>
 
     <fow-rest-service id="addCard" toast="{{toast}}" auto="false" type="binder/cards" method="POST" token="{{token}}" on-rest-error="{{errorHandler}}" on-rest-response="{{successHandler}}">
     </fow-rest-service>
@@ -5645,7 +5668,7 @@ root if there is one. This implies:
 
 <polymer-element name="fow-app" attributes="toast" assetpath="fow-app/">
   <template>
-    <style>:host{display:block;height:100%;font-family:Open Sans;font-size:.8em}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:8px;right:110px}core-animated-pages{width:100%;position:relative;height:100%}core-pages-animated transitions{width:100%;height:100%}section{position:relative;width:100%;height:100%}.fillHeight{height:100%;z-index:0}.appStore{text-decoration:none;color:#fff;position:absolute;top:6px;right:6px}.appStoreImg{width:100px}</style>
+    <style>:host{display:block;height:100%;font-family:Open Sans;font-size:.8em}.loginButton{position:absolute;top:26px;left:10px;z-index:99}.header{margin-top:60px;width:320px}.splashtext{position:absolute;top:26px;left:80px;font-size:1em;font-weight:lighter;text-align:center}.roundedImage{position:absolute;top:10px;left:90px;border-radius:50%;border:1px solid #fff}#avatar{position:absolute;top:22px;left:146px;font-size:1.2em}#notificationIcon{position:absolute;top:8px;right:110px}core-animated-pages{width:100%;position:relative;height:100%}core-pages-animated transitions{width:100%;height:100%}section{position:relative;width:100%;height:100%;margin-bottom:30px}.fillHeight{height:100%;z-index:0}.appStore{text-decoration:none;color:#fff;position:absolute;top:6px;right:6px}.appStoreImg{width:100px}.policies{width:100%;position:fixed;bottom:0;background-color:#222;color:#999;text-align:center;cursor:pointer}</style>
 
     <core-localstorage name="locale" value="{{locale}}">
     </core-localstorage>
@@ -5782,6 +5805,11 @@ root if there is one. This implies:
               <fow-play cross-fade="" token="{{token}}" toast="{{toast}}">
               </fow-play>
           </section>
+
+          <section name="policies">
+              <fow-policies>
+              </fow-policies>
+          </section>
           
 
           <section name="friends">
@@ -5814,7 +5842,10 @@ root if there is one. This implies:
       </core-animated-pages></core-animated-pages></template>
 
     </div>
+    <div class="policies" on-tap="{{policiesSelected}}">
+      This website uses third parties cookies, by continuing navigation on this website you allow their usage
+    </div>
   </template>
-  <script>(function(){"use strict";Polymer("fow-app",{section:"cards",selectedChanged:function(){if(this.selected){if(this.contains(this.selected,"decks/print/")){this.section="deckPrint";this.urlID=this.selected.substring("decks/print/".length)}else if(this.contains(this.selected,"decks/")){this.section="deckDetail";this.urlID=this.selected.substring("decks/".length)}else if(this.contains(this.selected,"cards/")){this.section="cardDetail";this.urlID=this.selected.substring("cards/".length)}else{this.section=this.selected}}},sectionChanged:function(){if(this.section&&this.section!=this.selected){if(this.section!="deckDetail"&&this.section!="deckPrint"&&this.section!="cardDetail"){this.selected=this.section}}},contains:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-app",{section:"cards",policiesSelected:function(){this.selected="policies"},selectedChanged:function(){if(this.selected){if(this.contains(this.selected,"decks/print/")){this.section="deckPrint";this.urlID=this.selected.substring("decks/print/".length)}else if(this.contains(this.selected,"decks/")){this.section="deckDetail";this.urlID=this.selected.substring("decks/".length)}else if(this.contains(this.selected,"cards/")){this.section="cardDetail";this.urlID=this.selected.substring("cards/".length)}else{this.section=this.selected}}},sectionChanged:function(){if(this.section&&this.section!=this.selected){if(this.section!="deckDetail"&&this.section!="deckPrint"&&this.section!="cardDetail"){this.selected=this.section}}},contains:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
 </polymer-element>
-</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>
+</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>
