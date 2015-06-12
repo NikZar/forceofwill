@@ -487,3 +487,6 @@
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":73208,"time":"2015-06-02T09:05:38.392Z","msg":"Starting New Relic for Node.js connection process."}
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":73208,"time":"2015-06-02T09:05:41.863Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/869794/applications/5298317","component":"new_relic_response"}
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":73208,"time":"2015-06-02T09:05:41.864Z","msg":"Connected to collector-105.newrelic.com:443 with agent run ID 23280012795709493.","component":"collector_api"}
+{"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.homenet.telecomitalia.it","pid":10053,"time":"2015-06-12T23:01:32.403Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.homenet.telecomitalia.it","pid":10053,"time":"2015-06-12T23:01:50.159Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/869794/applications/5298317","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.homenet.telecomitalia.it","pid":10053,"time":"2015-06-12T23:01:50.159Z","msg":"Connected to collector-105.newrelic.com:443 with agent run ID 26883907004978671.","component":"collector_api"}

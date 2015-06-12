@@ -172,6 +172,10 @@ var sendDeckLackey = function(res, deck){
       res.write(deckCard.qty +"\t"+removeIT(deckCard.card.Name)+"\n");
     });
     
+    res.write("Side deck:\n");
+    deck.side.map(function(deckCard){
+      res.write(deckCard.qty +"\t"+removeIT(deckCard.card.Name)+"\n");
+    });
     
     res.end();
 }
