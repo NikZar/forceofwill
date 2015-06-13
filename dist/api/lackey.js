@@ -181,11 +181,19 @@ var sendDeckLackey = function(res, deck){
 }
 
 var getExpandedDecks = function(cards, decks){
-    var cardsDictionary = {};
+    var cardsDictionaryID = {};
 
     for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
-        cardsDictionary[card._id] = card;
+        cardsDictionaryID[card._id] = card;
+    };
+
+    var cardsDictionaryCode = {};
+    for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        if(card.Type !== "J-Ruler"){
+            cardsDictionaryCode[card.code] = card;
+        }
     };
 
     var expandedDecks = [];
@@ -198,35 +206,48 @@ var getExpandedDecks = function(cards, decks){
 
         deck.cards = deck.cards.map(
             function(deckCard){
-                return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
+                return {card: cardsDictionaryID[deckCard.card._id], qty: deckCard.qty}
             }
         );
         deck.side = deck.side.map(
             function(deckCard){
-                return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
+                return {card: cardsDictionaryID[deckCard.card._id], qty: deckCard.qty}
+            }
+        );
+
+        //get the ruler for jrulers
+        deck.cards = deck.cards.map(
+            function(deckCard){
+                return {card: cardsDictionaryCode[deckCard.card.code], qty: deckCard.qty}
+            }
+        );
+        deck.side = deck.side.map(
+            function(deckCard){
+                return {card: cardsDictionaryCode[deckCard.card.code], qty: deckCard.qty}
             }
         );
 
         expandedDecks.push(deck);
     }
+    
 
     return expandedDecks;
 }
 
 var sendExpandedLackeyDeck = function (req, res, db, deck){
-    var allDeckCardIDs = [];
+    var allDeckCardCodes = [];
 
-    var cardsIDs = deck.cards.map(function(deckCard){
-        return new ObjectID(deckCard.card._id);
+    var cardsCodes = deck.cards.map(function(deckCard){
+        return deckCard.card.code;
     });
 
-    var sideIDs = deck.side.map(function(deckCard){
-        return new ObjectID(deckCard.card._id);
+    var sideCodes = deck.side.map(function(deckCard){
+        return deckCard.card.code;
     });
 
-    allDeckCardIDs = allDeckCardIDs.concat(cardsIDs, sideIDs);
+    allDeckCardCodes = allDeckCardCodes.concat(cardsCodes, sideCodes);
 
-    var promiseCards = db.collection('cards').find({_id: {$in: allDeckCardIDs} }).toArrayAsync();
+    var promiseCards = db.collection('cards').find({code: {$in: allDeckCardCodes} }).toArrayAsync();
     promiseCards.then(function(cards){
         var decks = [];
         decks.push(deck);

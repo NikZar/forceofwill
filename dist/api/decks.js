@@ -117,7 +117,7 @@ var updateDeck = function(req, res, deck){
         compressDeckCard
     );
 
-    console.log(deck.cards);
+    // console.log(deck.cards);
 
     deck.side = deck.side.map(
         compressDeckCard
