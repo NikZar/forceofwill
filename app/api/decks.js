@@ -369,6 +369,18 @@ router.get('/:_id/', function(req, res) {
 /*
  * GET all decks.
  */
+var getAllDecksAdmin = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    db.collection('decks').find({}).toArray(function (err, decks) {
+        if(err){
+            console.log("Error Searching Decks");
+            res.sendStatus(500);
+        } else {
+            sendExpandedDecks(req, res, db, decks);
+        }
+    });
+}
 
 var getAllDecks = function(req, res){
     var db = req.db;
@@ -397,7 +409,9 @@ var getAllPublicDecks = function(req, res){
 }
 
 var getAllDecksLogged = function(req, res){
-    if(req.logged){
+    if(req.logged && req.user.isAdmin){
+        getAllDecksAdmin(req, res);
+    } else if(req.logged){
         getAllDecks(req, res);
     } else {
         getAllPublicDecks(req, res);
