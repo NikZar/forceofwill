@@ -316,7 +316,7 @@ var sendExpandedDeck = function (req, res, db, deck){
         var expandedDecks = getExpandedDecks(cards, decks);
         var expandedDeck = expandedDecks[0];
 
-        if(expandedDeck.privacy === "anonimous"){
+        if(expandedDeck.privacy === "anonimous" && !req.user.isAdmin){
             delete expandedDeck.author;
         }
         res.status(200).json(expandedDeck).end();
