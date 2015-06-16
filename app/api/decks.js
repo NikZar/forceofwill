@@ -217,7 +217,7 @@ var getExpandedDecks = function(cards, decks){
     for (var i = decks.length - 1; i >= 0; i--) {
         var deck = decks[i];
 
-        if(deck.privacy === "anonimous"){
+        if(deck.privacy === "anonimous" && !req.user.isAdmin){
             delete deck.author;
         }
 
