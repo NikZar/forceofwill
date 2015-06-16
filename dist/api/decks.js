@@ -205,7 +205,7 @@ router.post('/', function(req, res) {
     addNewDeckLogged(req, res);
 });
 
-var getExpandedDecks = function(cards, decks){
+var getExpandedDecks = function(req, cards, decks){
     var cardsDictionary = {};
 
     for (var i = 0; i < cards.length; i++) {
@@ -256,7 +256,7 @@ var sendExpandedDecks = function (req, res, db, decks){
 
     var promiseCards = db.collection('cards').find({_id: {$in: allDecksCardIDs} }).toArrayAsync();
     promiseCards.then(function(cards){
-        var expandedDecks = getExpandedDecks(cards, decks);
+        var expandedDecks = getExpandedDecks(req, cards, decks);
         res.status(200).json(expandedDecks).end();
         db.close();
     });
@@ -313,7 +313,7 @@ var sendExpandedDeck = function (req, res, db, deck){
     promiseCards.then(function(cards){
         var decks = [];
         decks.push(deck);
-        var expandedDecks = getExpandedDecks(cards, decks);
+        var expandedDecks = getExpandedDecks(req, cards, decks);
         var expandedDeck = expandedDecks[0];
 
         if(expandedDeck.privacy === "anonimous" && !req.user.isAdmin){
