@@ -372,7 +372,7 @@ router.get('/:_id/', function(req, res) {
 var getAllDecksAdmin = function(req, res){
     var db = req.db;
     var userId = req.userId;
-    db.collection('decks').find({}).toArray(function (err, decks) {
+    db.collection('decks').find().toArray(function (err, decks) {
         if(err){
             console.log("Error Searching Decks");
             res.sendStatus(500);
