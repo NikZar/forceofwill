@@ -2632,18 +2632,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </polymer-element>
 
 
-<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType globals token" assetpath="fow-rest-service/">
+<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType globals token itemsXHR" assetpath="fow-rest-service/">
   <template>
     <style>:host{display:none}</style>
 
     <fow-globals values="{{globals}}">
     
 
-    <core-ajax id="ajax" auto="{{auto}}" on-core-error="{{errorHandler}}" on-core-response="{{elementsLoaded}}" response="{{items}}" handleas="json" method="{{method}}" params="{{params}}" body="{{body}}" contenttype="{{contentType}}">
+    <core-ajax id="ajax" auto="{{auto}}" on-core-error="{{errorHandler}}" on-core-response="{{elementsLoaded}}" response="{{itemsXHR}}" handleas="json" method="{{method}}" params="{{params}}" body="{{body}}" contenttype="{{contentType}}">
     </core-ajax>
 
   </fow-globals></template>
-  <script>(function(){"use strict";Polymer("fow-rest-service",{auto:true,contentType:"application/json",items:[],autoChanged:function(){if(this.auto){this.$.ajax.auto=this.auto}},observe:{"apiurl type globals":"reloadUrl"},created:function(){this.items=[]},reloadUrl:function(){if(this.globals.apiurl&&this.type){this.$.ajax.url="http://"+this.globals.apiurl+this.type+"/?token="+this.token}},elementsLoaded:function(event){this.fire("rest-response",event)},errorHandler:function(event){console.log("Error:",event.detail);this.fire("rest-error",event)},go:function(){this.$.ajax.go()}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-rest-service",{auto:true,contentType:"application/json",autoChanged:function(){if(this.auto){this.$.ajax.auto=this.auto}},observe:{"apiurl type globals":"reloadUrl"},itemsXHRChanged:function(){if(this.itemsXHR){console.log(this.type+": ",this.itemsXHR);this.items=this.itemsXHR}},reloadUrl:function(){if(this.globals.apiurl&&this.type){this.$.ajax.url="http://"+this.globals.apiurl+this.type+"/?token="+this.token}},elementsLoaded:function(event){this.fire("rest-response",event)},errorHandler:function(event){console.log("Error:",event.detail);this.fire("rest-error",event)},go:function(){this.$.ajax.go()}})})();</script>
 </polymer-element>
 
 
@@ -2752,15 +2752,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-<polymer-element name="fow-cards" attributes="cards token" assetpath="fow-cards/">
+
+<polymer-element name="fow-cards" attributes="cards cardsDictionary token" assetpath="fow-cards/">
   <template>
     <style>:host{display:block}</style>
 
     <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
     </fow-rest-service>
 
+    <core-localstorage id="LSCards" name="cards" value="{{cards}}">
+    </core-localstorage>
+
+    <core-localstorage id="LSCardDictionary" name="cardsDictionary" value="{{cardsDictionary}}">
+    </core-localstorage>
+
   </template>
-  <script>(function(){"use strict";Polymer("fow-cards",{})})();</script>
+  <script>(function(){"use strict";Polymer("fow-cards",{cardsChanged:function(){if(!this.cardsDictionary){this.cardsDictionary={}}for(var i=this.cards.length-1;i>=0;i--){this.cardsDictionary[this.cards[i]._id]=this.cards[i]}}})})();</script>
 </polymer-element>
 
 
@@ -3616,15 +3623,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-<polymer-element name="fow-decks" attributes="decks token" assetpath="fow-decks/">
+
+<polymer-element name="fow-decks" attributes="decks expandedDecks cardsDictionary token" assetpath="fow-decks/">
   <template>
     <style>:host{display:block}</style>
 
-    <fow-rest-service type="decks" items="{{decks}}" auto="true" token="{{token}}">
+    <fow-rest-service type="decks/light" items="{{decks}}" auto="true" token="{{token}}">
     </fow-rest-service>
 
+    <core-localstorage id="LSDecks" name="decks" value="{{decks}}">
+    </core-localstorage>
+
   </template>
-  <script>(function(){Polymer("fow-decks",{})})();</script>
+  <script>(function(){Polymer("fow-decks",{refreshExpandedDecks:function(){this.expandedDecks=[];var cardsDictionary=this.cardsDictionary;for(var i=this.decks.length-1;i>=0;i--){var deck=JSON.parse(JSON.stringify(this.decks[i]));if(deck){if(deck.privacy==="anonimous"){delete deck.author}deck.cards=deck.cards.map(function(deckCard){if(deckCard.card){return{card:cardsDictionary[deckCard.card._id],qty:deckCard.qty}}return deckCard});deck.side=deck.side.map(function(deckCard){if(deckCard.card){return{card:cardsDictionary[deckCard.card._id],qty:deckCard.qty}}return deckCard});this.expandedDecks.push(deck)}}},decksChanged:function(){if(this.cardsDictionary&&this.decks){this.refreshExpandedDecks()}},cardsDictionaryChanged:function(){if(this.cardsDictionary&&this.decks){this.refreshExpandedDecks()}}})})();</script>
 </polymer-element>
 
 
@@ -5736,7 +5747,7 @@ root if there is one. This implies:
           
           <section name="cards">
             <!--<template if="{{section === 'cards'}}">-->
-              <fow-cards cards="{{cards}}" token="{{token}}">
+              <fow-cards cards="{{cards}}" cardsdictionary="{{cardsDictionary}}" token="{{token}}">
               </fow-cards>
               <fow-card-list cross-fade="" cards="{{cards}}" token="{{token}}" selected="{{selected}}">
               </fow-card-list>
@@ -5753,9 +5764,9 @@ root if there is one. This implies:
 
           <section name="decks">
             <template if="{{section === &apos;decks&apos;}}">
-              <fow-decks decks="{{decks}}" token="{{token}}">
+              <fow-decks decks="{{decks}}" cardsdictionary="{{cardsDictionary}}" token="{{token}}" expandeddecks="{{expandedDecks}}">
               </fow-decks>
-              <fow-deck-list cross-fade="" decks="{{decks}}" token="{{token}}" selected="{{selected}}">
+              <fow-deck-list cross-fade="" decks="{{expandedDecks}}" token="{{token}}" selected="{{selected}}">
               </fow-deck-list>
             </template>
           </section>
@@ -5846,6 +5857,6 @@ root if there is one. This implies:
       This website uses third parties cookies, by continuing navigation on this website you allow their usage
     </div>
   </template>
-  <script>(function(){"use strict";Polymer("fow-app",{section:"cards",policiesSelected:function(){this.selected="policies"},selectedChanged:function(){if(this.selected){if(this.contains(this.selected,"decks/print/")){this.section="deckPrint";this.urlID=this.selected.substring("decks/print/".length)}else if(this.contains(this.selected,"decks/")){this.section="deckDetail";this.urlID=this.selected.substring("decks/".length)}else if(this.contains(this.selected,"cards/")){this.section="cardDetail";this.urlID=this.selected.substring("cards/".length)}else{this.section=this.selected}}},sectionChanged:function(){if(this.section&&this.section!=this.selected){if(this.section!="deckDetail"&&this.section!="deckPrint"&&this.section!="cardDetail"){this.selected=this.section}}},contains:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
+  <script>(function(){"use strict";Polymer("fow-app",{section:"cards",observe:{"cards decks":"lsLOG"},ready:function(){var requestedBytes=1024*1024*1e3;navigator.webkitPersistentStorage.requestQuota(requestedBytes,function(grantedBytes){},function(e){console.log("Error",e)})},lsLOG:function(){if(this.cards&&this.decks){console.log("LS space:",JSON.stringify(localStorage).length);console.log("Cards LS space:",this.cards.length,JSON.stringify(this.cards).length);console.log("Decks LS space:",this.decks.length,JSON.stringify(this.decks).length)}},policiesSelected:function(){this.selected="policies"},selectedChanged:function(){if(this.selected){if(this.contains(this.selected,"decks/print/")){this.section="deckPrint";this.urlID=this.selected.substring("decks/print/".length)}else if(this.contains(this.selected,"decks/")){this.section="deckDetail";this.urlID=this.selected.substring("decks/".length)}else if(this.contains(this.selected,"cards/")){this.section="cardDetail";this.urlID=this.selected.substring("cards/".length)}else{this.section=this.selected}}},sectionChanged:function(){if(this.section&&this.section!=this.selected){if(this.section!="deckDetail"&&this.section!="deckPrint"&&this.section!="cardDetail"){this.selected=this.section}}},contains:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}}})})();</script>
 </polymer-element>
 </div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div><div hidden>undefined</div>

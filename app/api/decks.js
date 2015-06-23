@@ -294,6 +294,69 @@ router.get('/my/', function(req, res) {
 });
 
 /*
+ * GET all decks light.
+ */
+var getAllDecksAdminLight = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    db.collection('decks').find().toArray(function (err, decks) {
+        if(err){
+            console.log("Error Searching Decks");
+            res.sendStatus(500);
+        } else {
+            res.status(200).json(decks).end();
+            db.close();
+        }
+    });
+}
+
+var getAllDecksLight = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    db.collection('decks').find({$or: [{privacy: "public"},{privacy: "anonimous"}, {userId: userId}]}).toArray(function (err, decks) {
+        if(err){
+            console.log("Error Searching Decks");
+            res.sendStatus(500);
+        } else {
+            res.status(200).json(decks).end();
+            db.close();
+        }
+    });
+}
+
+var getAllPublicDecksLight = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    db.collection('decks').find({$or: [{privacy: "public"},{privacy: "anonimous"}]}).toArray(function (err, decks) {
+        if(err){
+            console.log("Error Searching Decks");
+            res.sendStatus(500);
+        } else {
+            res.status(200).json(decks).end();
+            db.close();
+        }
+    });
+}
+
+var getAllDecksLoggedLight = function(req, res){
+    if(req.logged && req.user.isAdmin){
+        getAllDecksAdminLight(req, res);
+    } else if(req.logged){
+        getAllDecksLight(req, res);
+    } else {
+        getAllPublicDecksLight(req, res);
+    }
+}
+
+router.get('/light', function(req, res) {
+    getAllDecksLoggedLight(req, res);
+});
+
+router.get('/light/', function(req, res) {
+    getAllDecksLoggedLight(req, res);
+});
+
+/*
  * GET a deck.
  */
 var sendExpandedDeck = function (req, res, db, deck){
@@ -365,7 +428,6 @@ router.get('/:_id/', function(req, res) {
     getDeckLogged(req, res,_id);
 });
 
-
 /*
  * GET all decks.
  */
@@ -419,11 +481,11 @@ var getAllDecksLogged = function(req, res){
 }
 
 router.get('', function(req, res) {
-	getAllDecksLogged(req, res);
+    getAllDecksLogged(req, res);
 });
 
 router.get('/', function(req, res) {
-	getAllDecksLogged(req, res);
+    getAllDecksLogged(req, res);
 });
 
 module.exports = router;

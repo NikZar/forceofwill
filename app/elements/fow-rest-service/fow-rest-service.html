@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
 <link rel="import" href="../../elements/fow-globals/fow-globals.html">
 
-<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType globals token">
+<polymer-element name="fow-rest-service" attributes="type items method auto params body contentType globals token itemsXHR">
   <template>
     <style>
       :host {
@@ -17,7 +17,7 @@
       auto="{{auto}}"
       on-core-error="{{errorHandler}}"
       on-core-response="{{elementsLoaded}}"
-      response="{{items}}"
+      response="{{itemsXHR}}"
       handleAs="json"
       method="{{method}}"
       params="{{params}}"
@@ -36,8 +36,6 @@
 
         contentType: "application/json",
 
-        items: [],
-
         autoChanged: function(){
           if(this.auto){
             this.$.ajax.auto =  this.auto;
@@ -48,8 +46,11 @@
           "apiurl type globals": "reloadUrl"
         },
 
-        created: function(){
-          this.items = [];
+        itemsXHRChanged: function(){
+          if(this.itemsXHR){
+            console.log(this.type +": ",this.itemsXHR);
+            this.items = this.itemsXHR;
+          }
         },
         
         reloadUrl: function(){

@@ -199,7 +199,8 @@
           <section name="cards">
             <!--<template if="{{section === 'cards'}}">-->
               <fow-cards 
-                cards="{{cards}}" 
+                cards="{{cards}}"
+                cardsDictionary="{{cardsDictionary}}" 
                 token="{{token}}">
               </fow-cards>
               <fow-card-list cross-fade 
@@ -230,10 +231,12 @@
             <template if="{{section === 'decks'}}">
               <fow-decks 
                 decks="{{decks}}" 
-                token="{{token}}">
+                cardsDictionary="{{cardsDictionary}}"
+                token="{{token}}"
+                expandedDecks="{{expandedDecks}}">
               </fow-decks>
               <fow-deck-list cross-fade 
-                decks="{{decks}}" 
+                decks="{{expandedDecks}}" 
                 token="{{token}}" 
                 selected="{{selected}}">
               </fow-deck-list>
@@ -362,6 +365,29 @@
       Polymer("fow-app",{
 
         section: "cards",
+
+        observe: {
+          "cards decks":"lsLOG"
+        },
+
+        ready: function(){
+          // Request Quota (only for File System API)  
+          var requestedBytes = 1024*1024*1000; // 1000MB
+
+          navigator.webkitPersistentStorage.requestQuota (
+              requestedBytes, function(grantedBytes) {  
+
+              }, function(e) { console.log('Error', e); }
+          );
+        },
+
+        lsLOG: function(){
+          if(this.cards && this.decks){
+            console.log("LS space:", JSON.stringify(localStorage).length );
+            console.log("Cards LS space:", this.cards.length, JSON.stringify(this.cards).length );
+            console.log("Decks LS space:", this.decks.length, JSON.stringify(this.decks).length );
+          }
+        },
 
         policiesSelected: function(){
           this.selected = "policies";
