@@ -1050,3 +1050,5 @@
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":28681,"time":"2015-06-23T20:26:15.959Z","msg":"Starting New Relic for Node.js connection process."}
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":28681,"time":"2015-06-23T20:26:18.632Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/869794/applications/5298317","component":"new_relic_response"}
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":28681,"time":"2015-06-23T20:26:18.633Z","msg":"Connected to collector-105.newrelic.com:443 with agent run ID 23280012867028437.","component":"collector_api"}
+{"v":0,"level":50,"name":"newrelic","hostname":"rhaegal.local","pid":28681,"time":"2015-06-23T22:31:35.497Z","msg":"Calling metric_data on New Relic failed unexpectedly. Data will be held until it can be submitted:","component":"collector_api","syscall":"getaddrinfo","errno":"ENOTFOUND","code":"ENOTFOUND"}
+{"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":28681,"time":"2015-06-23T22:31:35.497Z","msg":"Error on submission to New Relic (data held for redelivery):","syscall":"getaddrinfo","errno":"ENOTFOUND","code":"ENOTFOUND"}
