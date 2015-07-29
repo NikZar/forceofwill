@@ -405,9 +405,15 @@
             } else if(this.contains(this.selected, 'cards/')){
               this.section = "cardDetail";
               this.urlID = this.selected.substring('cards/'.length);
-            } else{
+            } else if(this.selected === "")
+            {
+              this.selected = "cards";
+            } else
+            {
               this.section = this.selected;
             }
+          } else {
+            this.selected = "cards";
           }
         },
 
