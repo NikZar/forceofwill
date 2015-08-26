@@ -1,8 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-localstorage/core-localstorage.html">
 
 <link rel="import" href="../../elements/elements.html">
 
-<polymer-element name="fow-cards" attributes="cards token">
+<polymer-element name="fow-cards" attributes="cards cardsDictionary token">
   <template>
     <style>
       :host {
@@ -10,8 +11,22 @@
       }
     </style>
 
-    <fow-rest-service type="cards" items="{{cards}}" auto="true" token="{{token}}">
+    <fow-rest-service 
+      type="cards" 
+      items="{{cards}}" 
+      auto="true" 
+      token="{{token}}">
     </fow-rest-service>
+
+    <core-localstorage id="LSCards"
+      name="cards" 
+      value="{{cards}}">
+    </core-localstorage>
+
+    <core-localstorage id="LSCardDictionary"
+      name="cardsDictionary" 
+      value="{{cardsDictionary}}">
+    </core-localstorage>
 
   </template>
   <script>
@@ -19,7 +34,15 @@
       'use strict';
 
       Polymer({
-        // define element prototype here
+
+        cardsChanged: function(){
+          if(!this.cardsDictionary){
+            this.cardsDictionary = {};
+          }
+          for (var i = this.cards.length - 1; i >= 0; i--) {
+            this.cardsDictionary[this.cards[i]._id] = this.cards[i];
+          };
+        }
       });
 
     })();

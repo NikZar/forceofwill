@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
+
 <link rel="import" href="../../elements/elements.html">
 
 <polymer-element name="fow-binder" attributes="binderCards token toast">
@@ -11,6 +13,7 @@
         margin-left: 6%;
         width: 90%;
         height: 100%;
+        margin-bottom: 30px;
       }
 
       .binderTitle{
@@ -42,14 +45,32 @@
       </fow-card-picker>
 
       <div class="binderTitle">{{binderCardsQty}} cards ({{binderCards.length}} distinct) in your binder:</div>
-      <template repeat="{{binderCard in binderCards}}">
-        <fow-binder-row 
+
+      <template if="{{!showList}}">
+        <core-icon-button icon="view-module" on-tap="{{toggleShowList}}">
+        </core-icon-button>
+
+        <fow-binder-list 
           on-delete="{{deleteBinderCard}}"
-          binderCard="{{binderCard}}"
-          token="{{token}}"
+          binderCards="{{binderCards}}"
+          token="{{token}}" 
           toast="{{toast}}">
-        </fow-binder-row>
+        </fow-binder-list>
+
       </template>
+      <template if="{{showList}}">
+        <core-icon-button icon="reorder" on-tap="{{toggleShowList}}">
+        </core-icon-button>
+
+        <fow-binder-grid 
+          on-delete="{{deleteBinderCard}}"
+          binderCards="{{binderCards}}"
+          token="{{token}}" 
+          toast="{{toast}}">
+        </fow-binder-grid>
+      </template>
+
+      
     </div>
 
   </template>
@@ -64,6 +85,10 @@
         binderCards: null,
 
         deck: null,
+
+        toggleShowList: function(){
+          this.showList = !this.showList;
+        },
 
         created: function(){
           this.binderCards = [];

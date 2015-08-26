@@ -27,6 +27,7 @@
         border-radius: 10px;
         padding: 5px;
         font-family: Open Sans;
+        margin-bottom: 30px;
       }
 
       .sheader{
@@ -42,7 +43,7 @@
         border-radius: 5px;
       }
 
-      .textSearch, .attributes, .type, .rarity, .expansion, .cost{
+      .textSearch, .attributes, .type, .rarity, .expansion, .cost, .orderby{
         background-color: rgba(255,255,255,0.3);
         border-radius: 10px;
         margin: 4px;
@@ -177,6 +178,7 @@
           <paper-radio-button class="wind" name="wind" label="Wind"></paper-radio-button>
           <paper-radio-button class="water" name="water" label="Water"></paper-radio-button>
           <paper-radio-button class="fire" name="fire" label="Fire"></paper-radio-button>
+          <paper-radio-button class="void" name="void" label="Void"></paper-radio-button>
           <paper-radio-button class="all" name="radio_all" label="All"></paper-radio-button>
         </paper-radio-group>
       </div>
@@ -185,6 +187,7 @@
           <paper-radio-button class="default" name="resonator" label="Resonator"></paper-radio-button>
           <paper-radio-button class="default" name="spell" label="Instant/Chant"></paper-radio-button>
           <paper-radio-button class="default" name="addition" label="Addition"></paper-radio-button>
+          <paper-radio-button class="default" name="regalia" label="Regalia"></paper-radio-button>
           <paper-radio-button class="default" name="ruler" label="Ruler / JRuler"></paper-radio-button>
           <paper-radio-button class="default" name="stone" label="Magic Stone"></paper-radio-button>
           <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
@@ -201,14 +204,28 @@
       </div>
       <div class="expansion" layout horizontal center center-justified>
         <paper-radio-group selected="{{expansionFilter}}">
+
           <paper-radio-button class="default" name="Promo" label="Promo"></paper-radio-button>
           <paper-radio-button class="default" name="Dawn of Valhalla" label="Dawn of Valhalla"></paper-radio-button>
           <paper-radio-button class="default" name="War of Valhalla" label="War of Valhalla"></paper-radio-button>
           <paper-radio-button class="default" name="The Shaft of Light of Valhalla" label="The Shaft of Light of Valhalla"></paper-radio-button>
+
           <paper-radio-button class="default" name="The Crimson Moon Fairy Tale" label="The Crimson Moon Fairy Tale"></paper-radio-button>
-          <paper-radio-button class="default" name="The Castle of Heaven and The Two Tower" label="The Castle of Heaven and The Two Tower"></paper-radio-button>
+          <paper-radio-button class="default" name="The Castle of Heaven and The Two Tower" label="The Castle of Heaven and The Two Towers"></paper-radio-button>
           <paper-radio-button class="default" name="The Moon Princess Returns" label="The Moon Princess Returns"></paper-radio-button>
+          <paper-radio-button class="default" name="The Millennia of Ages" label="The Millennia of Ages"></paper-radio-button>
+          <paper-radio-button class="default" name="Vingolf 01" label="Vingolf 01">
+          </paper-radio-button>
+
+          <paper-radio-button class="default" name="Dual Deck Faria vs Melgis" label="Dual Deck Faria vs Melgis">
+          </paper-radio-button>
+          
+          <paper-radio-button class="default" name="Grimm Block" label="Grimm Block"></paper-radio-button>
+          <paper-radio-button class="default" name="Alice Block" label="Alice Block"></paper-radio-button>
+          <paper-radio-button class="default" name="New Frontiers" label="New Frontiers"></paper-radio-button>
+          <paper-radio-button class="default" name="Origin" label="Origin"></paper-radio-button>
           <paper-radio-button class="default" name="radio_all" label="All"></paper-radio-button>
+
         </paper-radio-group>
       </div>
       <div class="cost" layout horizontal center center-justified>
@@ -229,6 +246,18 @@
           <input value="{{maxDEF}}" />
         </div>
       </template>
+
+      <div layout horizontal center center-justified>
+        <div>Order By</div>
+      </div>
+
+      <div class="orderby" layout horizontal center center-justified>
+        <paper-radio-group selected="{{orderBy}}">
+          <paper-radio-button class="default" name="Set_Num" label="Expansion > Number"></paper-radio-button>
+          <paper-radio-button class="default" name="Attribute_Total Cost_Name" label="Attribute > Total Cost > Name"></paper-radio-button>
+           <paper-radio-button class="default" name="Name" label="Name"></paper-radio-button>
+        </paper-radio-group>
+      </div>
 
       <div layout vertical center>
         <core-icon icon="undo" on-tap="{{resetFilters}}">
@@ -258,7 +287,8 @@
       minATK="{{minATK}}" 
       maxATK="{{maxATK}}" 
       minDEF="{{minDEF}}" 
-      maxDEF="{{maxDEF}}">
+      maxDEF="{{maxDEF}}"
+      orderBy="{{orderBy}}">
     </fow-card-filter>
 
     <template repeat="{{card in filteredCards}}">

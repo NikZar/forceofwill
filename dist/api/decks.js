@@ -117,7 +117,7 @@ var updateDeck = function(req, res, deck){
         compressDeckCard
     );
 
-    console.log(deck.cards);
+    // console.log(deck.cards);
 
     deck.side = deck.side.map(
         compressDeckCard
@@ -205,7 +205,7 @@ router.post('/', function(req, res) {
     addNewDeckLogged(req, res);
 });
 
-var getExpandedDecks = function(cards, decks){
+var getExpandedDecks = function(req, cards, decks){
     var cardsDictionary = {};
 
     for (var i = 0; i < cards.length; i++) {
@@ -217,7 +217,7 @@ var getExpandedDecks = function(cards, decks){
     for (var i = decks.length - 1; i >= 0; i--) {
         var deck = decks[i];
 
-        if(deck.privacy === "anonimous"){
+        if(deck.privacy === "anonimous" && !req.user.isAdmin){
             delete deck.author;
         }
 
@@ -256,7 +256,7 @@ var sendExpandedDecks = function (req, res, db, decks){
 
     var promiseCards = db.collection('cards').find({_id: {$in: allDecksCardIDs} }).toArrayAsync();
     promiseCards.then(function(cards){
-        var expandedDecks = getExpandedDecks(cards, decks);
+        var expandedDecks = getExpandedDecks(req, cards, decks);
         res.status(200).json(expandedDecks).end();
         db.close();
     });
@@ -294,6 +294,69 @@ router.get('/my/', function(req, res) {
 });
 
 /*
+ * GET all decks light.
+ */
+var getAllDecksAdminLight = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    db.collection('decks').find().toArray(function (err, decks) {
+        if(err){
+            console.log("Error Searching Decks");
+            res.sendStatus(500);
+        } else {
+            res.status(200).json(decks).end();
+            db.close();
+        }
+    });
+}
+
+var getAllDecksLight = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    db.collection('decks').find({$or: [{privacy: "public"},{privacy: "anonimous"}, {userId: userId}]}).toArray(function (err, decks) {
+        if(err){
+            console.log("Error Searching Decks");
+            res.sendStatus(500);
+        } else {
+            res.status(200).json(decks).end();
+            db.close();
+        }
+    });
+}
+
+var getAllPublicDecksLight = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    db.collection('decks').find({$or: [{privacy: "public"},{privacy: "anonimous"}]}).toArray(function (err, decks) {
+        if(err){
+            console.log("Error Searching Decks");
+            res.sendStatus(500);
+        } else {
+            res.status(200).json(decks).end();
+            db.close();
+        }
+    });
+}
+
+var getAllDecksLoggedLight = function(req, res){
+    if(req.logged && req.user.isAdmin){
+        getAllDecksAdminLight(req, res);
+    } else if(req.logged){
+        getAllDecksLight(req, res);
+    } else {
+        getAllPublicDecksLight(req, res);
+    }
+}
+
+router.get('/light', function(req, res) {
+    getAllDecksLoggedLight(req, res);
+});
+
+router.get('/light/', function(req, res) {
+    getAllDecksLoggedLight(req, res);
+});
+
+/*
  * GET a deck.
  */
 var sendExpandedDeck = function (req, res, db, deck){
@@ -313,10 +376,10 @@ var sendExpandedDeck = function (req, res, db, deck){
     promiseCards.then(function(cards){
         var decks = [];
         decks.push(deck);
-        var expandedDecks = getExpandedDecks(cards, decks);
+        var expandedDecks = getExpandedDecks(req, cards, decks);
         var expandedDeck = expandedDecks[0];
 
-        if(expandedDeck.privacy === "anonimous"){
+        if(expandedDeck.privacy === "anonimous" && !req.user.isAdmin){
             delete expandedDeck.author;
         }
         res.status(200).json(expandedDeck).end();
@@ -365,10 +428,21 @@ router.get('/:_id/', function(req, res) {
     getDeckLogged(req, res,_id);
 });
 
-
 /*
  * GET all decks.
  */
+var getAllDecksAdmin = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    db.collection('decks').find().toArray(function (err, decks) {
+        if(err){
+            console.log("Error Searching Decks");
+            res.sendStatus(500);
+        } else {
+            sendExpandedDecks(req, res, db, decks);
+        }
+    });
+}
 
 var getAllDecks = function(req, res){
     var db = req.db;
@@ -383,21 +457,35 @@ var getAllDecks = function(req, res){
     });
 }
 
+var getAllPublicDecks = function(req, res){
+    var db = req.db;
+    var userId = req.userId;
+    db.collection('decks').find({$or: [{privacy: "public"},{privacy: "anonimous"}]}).toArray(function (err, decks) {
+        if(err){
+            console.log("Error Searching Decks");
+            res.sendStatus(500);
+        } else {
+            sendExpandedDecks(req, res, db, decks);
+        }
+    });
+}
+
 var getAllDecksLogged = function(req, res){
-    if(req.logged){
+    if(req.logged && req.user.isAdmin){
+        getAllDecksAdmin(req, res);
+    } else if(req.logged){
         getAllDecks(req, res);
     } else {
-        console.log("Authentication Error");
-        res.sendStatus(500);
+        getAllPublicDecks(req, res);
     }
 }
 
 router.get('', function(req, res) {
-	getAllDecksLogged(req, res);
+    getAllDecksLogged(req, res);
 });
 
 router.get('/', function(req, res) {
-	getAllDecksLogged(req, res);
+    getAllDecksLogged(req, res);
 });
 
 module.exports = router;

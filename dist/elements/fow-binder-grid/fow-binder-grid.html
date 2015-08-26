@@ -1,0 +1,34 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../elements/elements.html">
+
+<polymer-element name="fow-binder-grid" attributes="binderCards token toast">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+      }
+    </style>
+    <div layout vertical center>
+      <div>
+        <template repeat="{{binderCard in binderCards}}">
+          <fow-binder-cell 
+            binderCard="{{binderCard}}"
+            token="{{token}}"
+            toast="{{toast}}">
+          </fow-binder-cell>
+        </template>
+      </div>
+    </div>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>
