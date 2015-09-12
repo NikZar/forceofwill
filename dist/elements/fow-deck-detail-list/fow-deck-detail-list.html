@@ -2,10 +2,10 @@
 <link rel="import" href="../../elements/elements.html">
 
 <polymer-element name="fow-deck-detail-list" 
-  attributes="deck rulers stones resonators additions spells 
-  cardsQty rulersQty stonesQty resonatorsQty additionsQty spellsQty
-  rulersSide stonesSide resonatorsSide additionsSide spellsSide 
-  cardsSideQty rulersSideQty stonesSideQty resonatorsSideQty additionsSideQty spellsSideQty">
+  attributes="deck rulers stones resonators additions regalias spells 
+  cardsQty rulersQty stonesQty resonatorsQty additionsQty regaliasQty spellsQty
+  rulersSide stonesSide resonatorsSide additionsSide regaliasSide spellsSide 
+  cardsSideQty rulersSideQty stonesSideQty resonatorsSideQty additionsSideQty regaliasSideQty spellsSideQty">
   <template>
     <style>
       :host {
@@ -58,6 +58,15 @@
       </template>
 
       <div class="titleType">
+        {{regaliasQty}} Regalias ({{regalias.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in regalias}}">
+        <fow-deck-detail-card 
+          deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
         {{spellsQty}} Spells ({{spells.length}} distinct)
       </div>
       <template repeat="{{deckCard in spells}}">
@@ -101,6 +110,15 @@
         {{additionsSideQty}} Additions ({{additionsSide.length}} distinct)
       </div>
       <template repeat="{{deckCard in additionsSide}}">
+        <fow-deck-detail-card 
+          deckCard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{regaliasSideQty}} Regalias ({{regaliasSide.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in regaliasSide}}">
         <fow-deck-detail-card 
           deckCard="{{deckCard}}">
         </fow-deck-detail-card>

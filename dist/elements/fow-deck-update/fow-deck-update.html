@@ -192,6 +192,18 @@
         </template>
 
         <div class="titleType">
+          {{regaliasQty}} Regalias ({{regalias.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in regalias}}">
+          <fow-deck-update-card 
+            on-update="{{deckCardsChanged}}" 
+            deck="{{deck}}" 
+            deckCard="{{deckCard}}"
+            >
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
           {{spellsQty}} Spells ({{spells.length}} distinct)
         </div>
         <template repeat="{{deckCard in spells}}">
@@ -202,6 +214,8 @@
             >
           </fow-deck-update-card>
         </template>
+
+        
 
         <!-- SIDE -->
         <div>
@@ -256,6 +270,18 @@
         </template>
 
         <div class="titleType">
+          {{regaliasSideQty}} Regalias ({{regaliasSide.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in regaliasSide}}">
+          <fow-deck-update-card 
+            on-update="{{deckCardsChanged}}" 
+            deck="{{deck}}" 
+            deckCard="{{deckCard}}"
+            isSide="true">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
           {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
         </div>
         <template repeat="{{deckCard in spellsSide}}">
@@ -298,6 +324,8 @@
 
         spells: null,
 
+        regalias: null,
+
         stones: null,
 
         rulersQty: 0,
@@ -307,6 +335,8 @@
         additionsQty: 0,
 
         spellsQty: 0,
+
+        regaliasQty: 0,
 
         stonesQty: 0,
 
@@ -330,6 +360,8 @@
         additionsSideQty: 0,
 
         spellsSideQty: 0,
+
+        regaliasSideQty: 0,
 
         stonesSideQty: 0,
 
@@ -365,6 +397,7 @@
             this.resonators = this.filterOnText(this.deck.cards, "Type", "Resonator");
             this.additions = this.filterOnText(this.deck.cards, "Type", "Addition");
             this.spells = this.filterOnText(this.deck.cards, "Type", "Spell");
+            this.regalias = this.filterOnText(this.deck.cards, "Type", "Regalia");
             this.stones = this.filterOnText(this.deck.cards, "Type", "Stone");
 
             this.cardsQty = this.countCards(this.deck.cards);
@@ -372,6 +405,7 @@
             this.resonatorsQty = this.countCards(this.resonators);
             this.additionsQty = this.countCards(this.additions);
             this.spellsQty = this.countCards(this.spells);
+            this.regaliasQty = this.countCards(this.regalias);
             this.stonesQty = this.countCards(this.stones);
 
             //SIDE
@@ -379,6 +413,7 @@
             this.resonatorsSide = this.filterOnText(this.deck.side, "Type", "Resonator");
             this.additionsSide = this.filterOnText(this.deck.side, "Type", "Addition");
             this.spellsSide = this.filterOnText(this.deck.side, "Type", "Spell");
+            this.regaliasSide = this.filterOnText(this.deck.side, "Type", "Regalia");
             this.stonesSide = this.filterOnText(this.deck.side, "Type", "Stone");
 
             this.cardsSideQty = this.countCards(this.deck.side);
@@ -386,6 +421,7 @@
             this.resonatorsSideQty = this.countCards(this.resonatorsSide);
             this.additionsSideQty = this.countCards(this.additionsSide);
             this.spellsSideQty = this.countCards(this.spellsSide);
+            this.regaliasSideQty = this.countCards(this.regaliasSide);
             this.stonesSideQty = this.countCards(this.stonesSide);
           }
           if(this.differentDeck){

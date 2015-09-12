@@ -89,20 +89,24 @@
               resonators = "{{resonators}}"
               additions = "{{additions}}"
               spells = "{{spells}}"
+              regalias = "{{regalias}}"
               rulersQty = "{{rulersQty}}"
               stonesQty = "{{stonesQty}}"
               resonatorsQty = "{{resonatorsQty}}"
               additionsQty = "{{additionsQty}}"
               spellsQty = "{{spellsQty}}"
+              regaliasQty = "{{regaliasQty}}"
               rulersSide = "{{rulersSide}}"
               stonesSide = "{{stonesSide}}"
               resonatorsSide = "{{resonatorsSide}}"
               additionsSide = "{{additionsSide}}"
               spellsSide = "{{spellsSide}}"
+              regaliasSide = "{{regaliasSide}}"
               rulersSideQty = "{{rulersSideQty}}"
               stonesSideQty = "{{stonesSideQty}}"
               resonatorsSideQty = "{{resonatorsSideQty}}"
               additionsSideQty = "{{additionsSideQty}}"
+              regaliasSideQty = "{{regaliasSideQty}}"
               spellsSideQty= "{{spellsSideQty}}"
               cardsSideQty="{{cardsSideQty}}"
               cardsQty="{{cardsQty}}">
@@ -114,21 +118,26 @@
                 stones = "{{stones}}"
                 resonators = "{{resonators}}"
                 additions = "{{additions}}"
+                regalias = "{{regalias}}"
+                regalias = "{{regalias}}"
                 spells = "{{spells}}"
                 rulersQty = "{{rulersQty}}"
                 stonesQty = "{{stonesQty}}"
                 resonatorsQty = "{{resonatorsQty}}"
                 additionsQty = "{{additionsQty}}"
+                regaliasQty = "{{regaliasQty}}"
                 spellsQty = "{{spellsQty}}"
                 rulersSide = "{{rulersSide}}"
                 stonesSide = "{{stonesSide}}"
                 resonatorsSide = "{{resonatorsSide}}"
                 additionsSide = "{{additionsSide}}"
+                regaliasSide = "{{regaliasSide}}"
                 spellsSide = "{{spellsSide}}"
                 rulersSideQty = "{{rulersSideQty}}"
                 stonesSideQty = "{{stonesSideQty}}"
                 resonatorsSideQty = "{{resonatorsSideQty}}"
                 additionsSideQty = "{{additionsSideQty}}"
+                regaliasSideQty = "{{regaliasSideQty}}"
                 spellsSideQty= "{{spellsSideQty}}"
                 cardsSideQty= "{{cardsSideQty}}"
                 cardsQty= "{{cardsQty}}">
@@ -166,6 +175,8 @@
 
         additions: null,
 
+        regalias: null,
+
         spells: null,
 
         stones: null,
@@ -175,6 +186,8 @@
         resonatorsQty: 0,
 
         additionsQty: 0,
+
+        regaliasQty: 0,
 
         spellsQty: 0,
 
@@ -189,6 +202,8 @@
 
         additionsSide: null,
 
+        regaliasSide: null,
+
         spellsSide: null,
 
         stonesSide: null,
@@ -198,6 +213,8 @@
         resonatorsSideQty: 0,
 
         additionsSideQty: 0,
+
+        regaliasSideQty: 0,
 
         spellsSideQty: 0,
 
@@ -211,6 +228,7 @@
             this.rulers = this.filterOnText(this.deck.cards, "Type", "Ruler");
             this.resonators = this.filterOnText(this.deck.cards, "Type", "Resonator");
             this.additions = this.filterOnText(this.deck.cards, "Type", "Addition");
+            this.regalias = this.filterOnText(this.deck.cards, "Type", "Regalia");
             this.spells = this.filterOnText(this.deck.cards, "Type", "Spell");
             this.stones = this.filterOnText(this.deck.cards, "Type", "Stone");
 
@@ -218,6 +236,7 @@
             this.rulersQty = this.countCards(this.rulers);
             this.resonatorsQty = this.countCards(this.resonators);
             this.additionsQty = this.countCards(this.additions);
+            this.regaliasQty = this.countCards(this.regalias);
             this.spellsQty = this.countCards(this.spells);
             this.stonesQty = this.countCards(this.stones);
 
@@ -225,6 +244,7 @@
             this.rulersSide = this.filterOnText(this.deck.side, "Type", "Ruler");
             this.resonatorsSide = this.filterOnText(this.deck.side, "Type", "Resonator");
             this.additionsSide = this.filterOnText(this.deck.side, "Type", "Addition");
+            this.regaliasSide = this.filterOnText(this.deck.side, "Type", "Regalia");
             this.spellsSide = this.filterOnText(this.deck.side, "Type", "Spell");
             this.stonesSide = this.filterOnText(this.deck.side, "Type", "Stone");
 
@@ -232,6 +252,7 @@
             this.rulersSideQty = this.countCards(this.rulersSide);
             this.resonatorsSideQty = this.countCards(this.resonatorsSide);
             this.additionsSideQty = this.countCards(this.additionsSide);
+            this.regaliasSideQty = this.countCards(this.regaliasSide);
             this.spellsSideQty = this.countCards(this.spellsSide);
             this.stonesSideQty = this.countCards(this.stonesSide);
           }

@@ -3379,12 +3379,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </template>
 
         <div class="titleType">
+          {{regaliasQty}} Regalias ({{regalias.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in regalias}}">
+          <fow-deck-update-card on-update="{{deckCardsChanged}}" deck="{{deck}}" deckcard="{{deckCard}}">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
           {{spellsQty}} Spells ({{spells.length}} distinct)
         </div>
         <template repeat="{{deckCard in spells}}">
           <fow-deck-update-card on-update="{{deckCardsChanged}}" deck="{{deck}}" deckcard="{{deckCard}}">
           </fow-deck-update-card>
         </template>
+
+        
 
         <!-- SIDE -->
         <div>
@@ -3423,6 +3433,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </template>
 
         <div class="titleType">
+          {{regaliasSideQty}} Regalias ({{regaliasSide.length}} distinct)
+        </div>
+        <template repeat="{{deckCard in regaliasSide}}">
+          <fow-deck-update-card on-update="{{deckCardsChanged}}" deck="{{deck}}" deckcard="{{deckCard}}" isside="true">
+          </fow-deck-update-card>
+        </template>
+
+        <div class="titleType">
           {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
         </div>
         <template repeat="{{deckCard in spellsSide}}">
@@ -3445,9 +3463,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </template>
   </template>
-  <script>(function(){Polymer("fow-deck-update",{rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,rulersSide:null,resonatorsSide:null,additionsSide:null,spellsSide:null,stonesSide:null,rulersSideQty:0,resonatorsSideQty:0,additionsSideQty:0,spellsSideQty:0,stonesSideQty:0,cardsSideQty:0,refreshToggle:0,differentDeck:false,lastID:null,observe:{"deck.privacy deck.title deck.notes":"updateDeckPrivacyTitle"},deckCardsChanged:function(){this.differentDeck=true;this.deckChanged()},deckChanged:function(){if(this.deck){if(this.lastID){if(this.lastID!=this.deck._id){this.differentDeck=false;this.lastID=this.deck._id}}else{this.lastID=this.deck._id}this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones);this.rulersSide=this.filterOnText(this.deck.side,"Type","Ruler");this.resonatorsSide=this.filterOnText(this.deck.side,"Type","Resonator");this.additionsSide=this.filterOnText(this.deck.side,"Type","Addition");this.spellsSide=this.filterOnText(this.deck.side,"Type","Spell");this.stonesSide=this.filterOnText(this.deck.side,"Type","Stone");this.cardsSideQty=this.countCards(this.deck.side);this.rulersSideQty=this.countCards(this.rulersSide);this.resonatorsSideQty=this.countCards(this.resonatorsSide);this.additionsSideQty=this.countCards(this.additionsSide);this.spellsSideQty=this.countCards(this.spellsSide);this.stonesSideQty=this.countCards(this.stonesSide)}if(this.differentDeck){this.updateDeck()}this.refreshToggle++},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},viewDeck:function(){this.selected="decks/"+this.deck._id},updateDeck:function(){if(this.rulers&&this.rulers.length>0){this.deck.ruler=this.rulers[0].card}this.$.updateDeckService.body=JSON.stringify(this.deck);this.$.updateDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck updated!";this.toast.show();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem updating the deck.";this.toast.show()}},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}},updateDeckPrivacyTitle:function(oldVal,newVal){if(oldVal){if(this.lastID!=this.deck._id){this.differentDeck=false}else{this.differentDeck=true}if(this.differentDeck){this.updateDeck()}}}})})();</script>
+  <script>(function(){Polymer("fow-deck-update",{rulers:null,resonators:null,additions:null,spells:null,regalias:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,regaliasQty:0,stonesQty:0,cardsQty:0,rulersSide:null,resonatorsSide:null,additionsSide:null,spellsSide:null,stonesSide:null,rulersSideQty:0,resonatorsSideQty:0,additionsSideQty:0,spellsSideQty:0,regaliasSideQty:0,stonesSideQty:0,cardsSideQty:0,refreshToggle:0,differentDeck:false,lastID:null,observe:{"deck.privacy deck.title deck.notes":"updateDeckPrivacyTitle"},deckCardsChanged:function(){this.differentDeck=true;this.deckChanged()},deckChanged:function(){if(this.deck){if(this.lastID){if(this.lastID!=this.deck._id){this.differentDeck=false;this.lastID=this.deck._id}}else{this.lastID=this.deck._id}this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.regalias=this.filterOnText(this.deck.cards,"Type","Regalia");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.regaliasQty=this.countCards(this.regalias);this.stonesQty=this.countCards(this.stones);this.rulersSide=this.filterOnText(this.deck.side,"Type","Ruler");this.resonatorsSide=this.filterOnText(this.deck.side,"Type","Resonator");this.additionsSide=this.filterOnText(this.deck.side,"Type","Addition");this.spellsSide=this.filterOnText(this.deck.side,"Type","Spell");this.regaliasSide=this.filterOnText(this.deck.side,"Type","Regalia");this.stonesSide=this.filterOnText(this.deck.side,"Type","Stone");this.cardsSideQty=this.countCards(this.deck.side);this.rulersSideQty=this.countCards(this.rulersSide);this.resonatorsSideQty=this.countCards(this.resonatorsSide);this.additionsSideQty=this.countCards(this.additionsSide);this.spellsSideQty=this.countCards(this.spellsSide);this.regaliasSideQty=this.countCards(this.regaliasSide);this.stonesSideQty=this.countCards(this.stonesSide)}if(this.differentDeck){this.updateDeck()}this.refreshToggle++},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},viewDeck:function(){this.selected="decks/"+this.deck._id},updateDeck:function(){if(this.rulers&&this.rulers.length>0){this.deck.ruler=this.rulers[0].card}this.$.updateDeckService.body=JSON.stringify(this.deck);this.$.updateDeckService.go()},successHandler:function(event){if(this.toast){this.toast.text="Deck updated!";this.toast.show();this.selectedDeck=event.detail.detail.response[0]}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem updating the deck.";this.toast.show()}},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}},updateDeckPrivacyTitle:function(oldVal,newVal){if(oldVal){if(this.lastID!=this.deck._id){this.differentDeck=false}else{this.differentDeck=true}if(this.differentDeck){this.updateDeck()}}}})})();</script>
 </polymer-element>
-
 
 
 
@@ -3781,11 +3798,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
 
             <template if="{{showDeck}}">
-              <fow-deck-detail-list rulers="{{rulers}}" stones="{{stones}}" resonators="{{resonators}}" additions="{{additions}}" spells="{{spells}}" rulersqty="{{rulersQty}}" stonesqty="{{stonesQty}}" resonatorsqty="{{resonatorsQty}}" additionsqty="{{additionsQty}}" spellsqty="{{spellsQty}}" rulersside="{{rulersSide}}" stonesside="{{stonesSide}}" resonatorsside="{{resonatorsSide}}" additionsside="{{additionsSide}}" spellsside="{{spellsSide}}" rulerssideqty="{{rulersSideQty}}" stonessideqty="{{stonesSideQty}}" resonatorssideqty="{{resonatorsSideQty}}" additionssideqty="{{additionsSideQty}}" spellssideqty="{{spellsSideQty}}" cardssideqty="{{cardsSideQty}}" cardsqty="{{cardsQty}}">
+              <fow-deck-detail-list rulers="{{rulers}}" stones="{{stones}}" resonators="{{resonators}}" additions="{{additions}}" spells="{{spells}}" regalias="{{regalias}}" rulersqty="{{rulersQty}}" stonesqty="{{stonesQty}}" resonatorsqty="{{resonatorsQty}}" additionsqty="{{additionsQty}}" spellsqty="{{spellsQty}}" regaliasqty="{{regaliasQty}}" rulersside="{{rulersSide}}" stonesside="{{stonesSide}}" resonatorsside="{{resonatorsSide}}" additionsside="{{additionsSide}}" spellsside="{{spellsSide}}" regaliasside="{{regaliasSide}}" rulerssideqty="{{rulersSideQty}}" stonessideqty="{{stonesSideQty}}" resonatorssideqty="{{resonatorsSideQty}}" additionssideqty="{{additionsSideQty}}" regaliassideqty="{{regaliasSideQty}}" spellssideqty="{{spellsSideQty}}" cardssideqty="{{cardsSideQty}}" cardsqty="{{cardsQty}}">
               </fow-deck-detail-list>
             </template>
             <template if="{{!showDeck}}">
-              <fow-deck-detail-grid rulers="{{rulers}}" stones="{{stones}}" resonators="{{resonators}}" additions="{{additions}}" spells="{{spells}}" rulersqty="{{rulersQty}}" stonesqty="{{stonesQty}}" resonatorsqty="{{resonatorsQty}}" additionsqty="{{additionsQty}}" spellsqty="{{spellsQty}}" rulersside="{{rulersSide}}" stonesside="{{stonesSide}}" resonatorsside="{{resonatorsSide}}" additionsside="{{additionsSide}}" spellsside="{{spellsSide}}" rulerssideqty="{{rulersSideQty}}" stonessideqty="{{stonesSideQty}}" resonatorssideqty="{{resonatorsSideQty}}" additionssideqty="{{additionsSideQty}}" spellssideqty="{{spellsSideQty}}" cardssideqty="{{cardsSideQty}}" cardsqty="{{cardsQty}}">
+              <fow-deck-detail-grid rulers="{{rulers}}" stones="{{stones}}" resonators="{{resonators}}" additions="{{additions}}" regalias="{{regalias}}" spells="{{spells}}" rulersqty="{{rulersQty}}" stonesqty="{{stonesQty}}" resonatorsqty="{{resonatorsQty}}" additionsqty="{{additionsQty}}" regaliasqty="{{regaliasQty}}" spellsqty="{{spellsQty}}" rulersside="{{rulersSide}}" stonesside="{{stonesSide}}" resonatorsside="{{resonatorsSide}}" additionsside="{{additionsSide}}" regaliasside="{{regaliasSide}}" spellsside="{{spellsSide}}" rulerssideqty="{{rulersSideQty}}" stonessideqty="{{stonesSideQty}}" resonatorssideqty="{{resonatorsSideQty}}" additionssideqty="{{additionsSideQty}}" regaliassideqty="{{regaliasSideQty}}" spellssideqty="{{spellsSideQty}}" cardssideqty="{{cardsSideQty}}" cardsqty="{{cardsQty}}">
               </fow-deck-detail-grid>
             </template>
 
@@ -3807,7 +3824,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </template>
   
-  <script>(function(){Polymer("fow-deck-detail",{showDeck:true,rulers:null,resonators:null,additions:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,spellsQty:0,stonesQty:0,cardsQty:0,rulersSide:null,resonatorsSide:null,additionsSide:null,spellsSide:null,stonesSide:null,rulersSideQty:0,resonatorsSideQty:0,additionsSideQty:0,spellsSideQty:0,stonesSideQty:0,cardsSideQty:0,deckChanged:function(){if(this.deck&&this.deck.cards&&this.deck.side){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones);this.rulersSide=this.filterOnText(this.deck.side,"Type","Ruler");this.resonatorsSide=this.filterOnText(this.deck.side,"Type","Resonator");this.additionsSide=this.filterOnText(this.deck.side,"Type","Addition");this.spellsSide=this.filterOnText(this.deck.side,"Type","Spell");this.stonesSide=this.filterOnText(this.deck.side,"Type","Stone");this.cardsSideQty=this.countCards(this.deck.side);this.rulersSideQty=this.countCards(this.rulersSide);this.resonatorsSideQty=this.countCards(this.resonatorsSide);this.additionsSideQty=this.countCards(this.additionsSide);this.spellsSideQty=this.countCards(this.spellsSide);this.stonesSideQty=this.countCards(this.stonesSide)}},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}},toggleShowDeck:function(){this.showDeck=!this.showDeck},copyDeck:function(){var deck={};deck.title=this.deck.title+" copy";deck.privacy="private";deck.cards=this.deck.cards;deck.side=this.deck.side;this.$.addDeckService.body=JSON.stringify(deck);this.$.addDeckService.go()},printDeck:function(){this.selected="decks/print/"+this.deck._id},successHandler:function(event){if(this.toast){this.toast.text="Deck Copied!";this.toast.show()}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem copying the deck!";this.toast.show()}}})})();</script>
+  <script>(function(){Polymer("fow-deck-detail",{showDeck:true,rulers:null,resonators:null,additions:null,regalias:null,spells:null,stones:null,rulersQty:0,resonatorsQty:0,additionsQty:0,regaliasQty:0,spellsQty:0,stonesQty:0,cardsQty:0,rulersSide:null,resonatorsSide:null,additionsSide:null,regaliasSide:null,spellsSide:null,stonesSide:null,rulersSideQty:0,resonatorsSideQty:0,additionsSideQty:0,regaliasSideQty:0,spellsSideQty:0,stonesSideQty:0,cardsSideQty:0,deckChanged:function(){if(this.deck&&this.deck.cards&&this.deck.side){this.rulers=this.filterOnText(this.deck.cards,"Type","Ruler");this.resonators=this.filterOnText(this.deck.cards,"Type","Resonator");this.additions=this.filterOnText(this.deck.cards,"Type","Addition");this.regalias=this.filterOnText(this.deck.cards,"Type","Regalia");this.spells=this.filterOnText(this.deck.cards,"Type","Spell");this.stones=this.filterOnText(this.deck.cards,"Type","Stone");this.cardsQty=this.countCards(this.deck.cards);this.rulersQty=this.countCards(this.rulers);this.resonatorsQty=this.countCards(this.resonators);this.additionsQty=this.countCards(this.additions);this.regaliasQty=this.countCards(this.regalias);this.spellsQty=this.countCards(this.spells);this.stonesQty=this.countCards(this.stones);this.rulersSide=this.filterOnText(this.deck.side,"Type","Ruler");this.resonatorsSide=this.filterOnText(this.deck.side,"Type","Resonator");this.additionsSide=this.filterOnText(this.deck.side,"Type","Addition");this.regaliasSide=this.filterOnText(this.deck.side,"Type","Regalia");this.spellsSide=this.filterOnText(this.deck.side,"Type","Spell");this.stonesSide=this.filterOnText(this.deck.side,"Type","Stone");this.cardsSideQty=this.countCards(this.deck.side);this.rulersSideQty=this.countCards(this.rulersSide);this.resonatorsSideQty=this.countCards(this.resonatorsSide);this.additionsSideQty=this.countCards(this.additionsSide);this.regaliasSideQty=this.countCards(this.regaliasSide);this.spellsSideQty=this.countCards(this.spellsSide);this.stonesSideQty=this.countCards(this.stonesSide)}},countCards:function(deckCards){var sum=0;for(var i=deckCards.length-1;i>=0;i--){sum+=Math.abs(parseInt(deckCards[i].qty))}return sum},filterOnText:function(cardList,key,filterString,remaining){if(filterString===""||filterString==="radio_all"){return cardList}else if(cardList){var self=this;return cardList.filter(function(deckCard){if(deckCard&&deckCard.card&&self.strictMatch(deckCard.card[key],filterString)){return true}else if(remaining){remaining.push(deckCard)}return false})}else{return[]}},strictMatch:function(text,textToSearch){if(text&&textToSearch){return text.toUpperCase().indexOf(textToSearch.toUpperCase())>-1}else{return false}},toggleShowDeck:function(){this.showDeck=!this.showDeck},copyDeck:function(){var deck={};deck.title=this.deck.title+" copy";deck.privacy="private";deck.cards=this.deck.cards;deck.side=this.deck.side;this.$.addDeckService.body=JSON.stringify(deck);this.$.addDeckService.go()},printDeck:function(){this.selected="decks/print/"+this.deck._id},successHandler:function(event){if(this.toast){this.toast.text="Deck Copied!";this.toast.show()}},errorHandler:function(event){if(this.toast){this.toast.text="There was a problem copying the deck!";this.toast.show()}}})})();</script>
 </polymer-element>
 
 
@@ -3906,10 +3923,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-<polymer-element name="fow-deck-detail-grid" attributes="deck rulers stones resonators additions spells 
-  cardsQty rulersQty stonesQty resonatorsQty additionsQty spellsQty
-  rulersSide stonesSide resonatorsSide additionsSide spellsSide 
-  cardsSideQty rulersSideQty stonesSideQty resonatorsSideQty additionsSideQty spellsSideQty" assetpath="fow-deck-detail-grid/">
+<polymer-element name="fow-deck-detail-grid" attributes="deck rulers stones resonators additions regalias spells 
+  cardsQty rulersQty stonesQty resonatorsQty additionsQty regaliasQty spellsQty
+  rulersSide stonesSide resonatorsSide additionsSide regaliasSide spellsSide 
+  cardsSideQty rulersSideQty stonesSideQty resonatorsSideQty additionsSideQty regaliasSideQty spellsSideQty" assetpath="fow-deck-detail-grid/">
   <template>
     <style>:host{display:block;width:100%}.titleType{width:100%;max-width:500px;text-align:left;margin-left:-4px;margin-top:10px;color:#aaa}</style>
     <div layout="" vertical="" center="">
@@ -3952,6 +3969,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </fow-deck-detail-cell>
         </template>
       </div>
+
+      <div class="titleType">
+        {{regaliasQty}} Regalias ({{regalias.length}} distinct)
+      </div>
+      <div>
+        <template repeat="{{deckCard in regalias}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div>
+
       <div class="titleType">
         {{spellsQty}} Spells ({{spells.length}} distinct)
       </div>
@@ -4006,6 +4034,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
 
       <div class="titleType">
+        {{regaliasSideQty}} Regalias ({{regaliasSide.length}} distinct)
+      </div>
+      <div>
+        <template repeat="{{deckCard in regaliasSide}}">
+          <fow-deck-detail-cell deckcard="{{deckCard}}">
+          </fow-deck-detail-cell>
+        </template>
+      </div>
+
+      <div class="titleType">
         {{spellsSideQty}} Spells ({{spellsSide.length}} distinct)
       </div>
       <div>
@@ -4021,11 +4059,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-
-<polymer-element name="fow-deck-detail-list" attributes="deck rulers stones resonators additions spells 
-  cardsQty rulersQty stonesQty resonatorsQty additionsQty spellsQty
-  rulersSide stonesSide resonatorsSide additionsSide spellsSide 
-  cardsSideQty rulersSideQty stonesSideQty resonatorsSideQty additionsSideQty spellsSideQty" assetpath="fow-deck-detail-list/">
+<polymer-element name="fow-deck-detail-list" attributes="deck rulers stones resonators additions regalias spells 
+  cardsQty rulersQty stonesQty resonatorsQty additionsQty regaliasQty spellsQty
+  rulersSide stonesSide resonatorsSide additionsSide regaliasSide spellsSide 
+  cardsSideQty rulersSideQty stonesSideQty resonatorsSideQty additionsSideQty regaliasSideQty spellsSideQty" assetpath="fow-deck-detail-list/">
   <template>
     <style>:host{display:block;width:100%}.titleType{width:100%;max-width:500px;text-align:left;margin-left:-4px;margin-top:10px;color:#aaa}</style>
     <div layout="" vertical="" center="">
@@ -4057,6 +4094,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         {{additionsQty}} Additions ({{additions.length}} distinct)
       </div>
       <template repeat="{{deckCard in additions}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{regaliasQty}} Regalias ({{regalias.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in regalias}}">
         <fow-deck-detail-card deckcard="{{deckCard}}">
         </fow-deck-detail-card>
       </template>
@@ -4101,6 +4146,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         {{additionsSideQty}} Additions ({{additionsSide.length}} distinct)
       </div>
       <template repeat="{{deckCard in additionsSide}}">
+        <fow-deck-detail-card deckcard="{{deckCard}}">
+        </fow-deck-detail-card>
+      </template>
+
+      <div class="titleType">
+        {{regaliasSideQty}} Regalias ({{regaliasSide.length}} distinct)
+      </div>
+      <template repeat="{{deckCard in regaliasSide}}">
         <fow-deck-detail-card deckcard="{{deckCard}}">
         </fow-deck-detail-card>
       </template>
