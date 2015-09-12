@@ -117,6 +117,17 @@
         cursor: pointer;
       }
 
+      .disclaimer
+      {
+        text-align: center;
+      }
+
+      .no-section
+      {
+        text-align: center;
+        width: 100%;
+      }
+
     </style>
 
     <core-localstorage
@@ -186,15 +197,126 @@
         
       </template>
 
-      <template if="{{user}}">
-        <flatiron-director route="{{selected}}" autoHash on-director-route="{{routeChanged}}">
-        </flatiron-director>
+      <flatiron-director route="{{selected}}" autoHash on-director-route="{{routeChanged}}">
+      </flatiron-director>
 
-        <template if="{{ section !== 'deckPrint' }}">
-          <fow-menu selected="{{section}}" smallQuery="max-width: 1000px">
-          </fow-menu>
-        </template>
+      <template if="{{ section !== 'deckPrint' }}">
+        <fow-menu selected="{{section}}" smallQuery="max-width: 1000px">
+        </fow-menu>
+      </template>
 
+      <template if="{{!user}}">
+        <core-animated-pages selected="{{section}}" transitions="cross-fade">
+          <section name="cards">
+            <!--<template if="{{section === 'cards'}}">-->
+              <fow-cards 
+                cards="{{cards}}"
+                cardsDictionary="{{cardsDictionary}}" 
+                token="{{token}}">
+              </fow-cards>
+              <fow-card-list cross-fade 
+                cards="{{cards}}" 
+                token="{{token}}"
+                selected="{{selected}}">
+              </fow-card-list>
+            <!--</template>-->
+          </section>
+          <section name="cardDetail">
+            <template if="{{section === 'cardDetail'}}">
+              <fow-card 
+                codeCards="{{codeCards}}" 
+                code="{{urlID}}" 
+                token="{{token}}"
+                toast="{{$.toast}}">
+              </fow-card>
+              <fow-card-detail cross-fade 
+                codeCards="{{codeCards}}"  
+                token="{{token}}"
+                toast="{{$.toast}}"
+                locale="{{locale}}">
+              </fow-card-detail>
+            </template>
+          </section>
+
+          <section name="decks">
+            <template if="{{section === 'decks'}}">
+              <div class="no-section"> Please log in to see this section </div>
+            </template>
+          </section>
+
+          <section name="deckDetail">
+            <template if="{{section === 'deckDetail'}}">
+              <div class="no-section"> Please log in to see this section </div>
+            </template>
+          </section>
+
+          <section name="deckPrint">
+            <template if="{{section === 'deckPrint'}}">
+              <div class="no-section"> Please log in to see this section </div>
+            </template>
+          </section>
+
+          <section name="myCards">
+            <template if="{{section === 'myCards'}}">
+              <div class="no-section"> Please log in to see this section </div>
+            </template>
+          </section>
+
+          <section name="myDecks">
+            <!-- <template if="{{section === 'myDecks'}}"> -->
+              <div class="no-section"> Please log in to see this section </div>
+            <!-- </template> -->
+          </section>
+
+          <section name="faq">
+              <fow-faqs faqs="{{faqs}}" 
+                token="{{token}}" 
+                toast="{{toast}}">
+              </fow-faqs>
+              <fow-faq-list cross-fade 
+                faqs="{{faqs}}"
+                locale="{{locale}}">
+              </fow-faq-list>
+          </section>
+
+          <section name="play">
+              <div class="no-section"> Please log in to see this section </div>
+          </section>
+
+          <section name="policies">
+              <fow-policies>
+              </fow-policies>
+          </section>
+          
+
+          <section name="friends">
+              <div cross-fade layout vertical center>FRIENDS</div>
+          </section>
+
+          <section name="messages">
+              <div cross-fade layout vertical center>MESSAGES</div>
+          </section>
+
+          <section name="trading">
+              <div cross-fade layout vertical center>TRADING</div>
+          </section>
+
+          <section name="tournaments">
+              <div cross-fade layout vertical center>TOURNAMENTS</div>
+          </section>
+
+          <section name="ranking">
+              <div cross-fade layout vertical center>RANKING</div>
+          </section>
+
+          <section name="settings">
+            <fow-settings cross-fade token="{{token}}">
+            </fow-settings>
+          </section>
+        </core-animated-pages>      
+      </template>
+
+      <template if="{{user}}"> 
         <core-animated-pages selected="{{section}}" transitions="cross-fade">
           
           <section name="cards">
