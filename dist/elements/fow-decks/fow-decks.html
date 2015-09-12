@@ -35,23 +35,26 @@
                     if(deck.privacy === "anonimous"){
                         delete deck.author;
                     }
-
-                    deck.cards = deck.cards.map(
-                      function(deckCard){
-                        if(deckCard.card){
-                          return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
+                    if(deck.cards){
+                      deck.cards = deck.cards.map(
+                        function(deckCard){
+                          if(deckCard.card){
+                            return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
+                          }
+                          return deckCard;
                         }
-                        return deckCard;
-                      }
-                    );
-                    deck.side = deck.side.map(
-                      function(deckCard){
-                        if(deckCard.card){
-                          return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
+                      );
+                    }
+                    if(deck.side){
+                      deck.side = deck.side.map(
+                        function(deckCard){
+                          if(deckCard.card){
+                            return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
+                          }
+                          return deckCard;
                         }
-                        return deckCard;
-                      }
-                    );
+                      );
+                    }
 
                     this.expandedDecks.push(deck);
                 }

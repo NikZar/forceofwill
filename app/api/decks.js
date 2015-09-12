@@ -113,15 +113,19 @@ var updateDeck = function(req, res, deck){
     deck._id = new ObjectID(deck._id);
     deck.date = new Date();
 
-    deck.cards = deck.cards.map(
-        compressDeckCard
-    );
-
-    // console.log(deck.cards);
-
-    deck.side = deck.side.map(
-        compressDeckCard
-    );
+    deck.cards = [];
+    if(deck.cards){
+        deck.cards = deck.cards.map(
+            compressDeckCard
+        );
+    }
+    
+    deck.side = [];
+    if(deck.side){
+        deck.side = deck.side.map(
+            compressDeckCard
+        );
+    }
 
     db.collection('decks').findOne({_id: deck._id, userId: deck.userId},function(err, result) {
           if (err) {
@@ -220,17 +224,21 @@ var getExpandedDecks = function(req, cards, decks){
         if(deck.privacy === "anonimous" && !req.user.isAdmin){
             delete deck.author;
         }
+        if(deck.cards){
+            deck.cards = deck.cards.map(
+                function(deckCard){
+                    return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
+                }
+            );
+        }
 
-        deck.cards = deck.cards.map(
-            function(deckCard){
-                return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
-            }
-        );
-        deck.side = deck.side.map(
-            function(deckCard){
-                return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
-            }
-        );
+        if(deck.side){
+            deck.side = deck.side.map(
+                function(deckCard){
+                    return {card: cardsDictionary[deckCard.card._id], qty: deckCard.qty}
+                }
+            );
+        }
 
         expandedDecks.push(deck);
     }
@@ -243,13 +251,20 @@ var sendExpandedDecks = function (req, res, db, decks){
     for (var i = decks.length - 1; i >= 0; i--) {
         var deck = decks[i];
 
-        var cardsIDs = deck.cards.map(function(deckCard){
-            return new ObjectID(deckCard.card._id);
-        });
+        var cardsIDs = [];
+        if(deck.cards){
+            cardsIDs = deck.cards.map(function(deckCard){
+                return new ObjectID(deckCard.card._id);
+            });
+        }
+        
 
-        var sideIDs = deck.side.map(function(deckCard){
-            return new ObjectID(deckCard.card._id);
-        });
+        var sideIDs = [];
+        if(deck.side){
+            sideIDs = deck.side.map(function(deckCard){
+                return new ObjectID(deckCard.card._id);
+            });
+        }
         
         allDecksCardIDs = allDecksCardIDs.concat(cardsIDs, sideIDs);
     };
@@ -267,10 +282,14 @@ var sendExpandedDecks = function (req, res, db, decks){
 var getAllUserDecks = function(req, res){
     var db = req.db;
     var userId = req.userId;
+    console.log(JSON.stringify(userId));
     db.collection('decks').find({userId: userId}).toArray(function (err, decks) {
         if(err){
+            console.log(err);
+            console.log(JSON.stringify(decks));
             res.sendStatus(500);
         } else {
+            console.log("Decks: "+JSON.stringify(decks) );
             sendExpandedDecks(req, res, db, decks);
         }
     });
@@ -387,6 +406,26 @@ var sendExpandedDeck = function (req, res, db, deck){
     });
 }
 
+var getDeckAdmin = function(req, res, _id){
+    var db = req.db;
+    _id = new ObjectID(_id);
+    var userId = req.userId;
+    db.collection('decks').find({_id: _id }).toArray(function (err, decks) {
+        if(err){
+            console.log("Error searching deck, id:", _id);
+            res.sendStatus(500);
+            db.close();
+        } else {
+            if(decks && decks.length > 0){
+                sendExpandedDeck(req, res, db, decks[0]);
+            } else{
+                console.log("Deck not found, id:", _id);
+                res.sendStatus(404);
+                db.close();
+            }
+        }
+    });
+}
 
 var getDeck = function(req, res, _id){
     var db = req.db;
@@ -410,7 +449,9 @@ var getDeck = function(req, res, _id){
 }
 
 var getDeckLogged = function(req, res,_id){
-    if(req.logged){
+    if(req.logged && req.user.isAdmin){
+        getDeckAdmin(req, res, _id);
+    } else if(req.logged){
         getDeck(req, res,_id);
     } else {
         console.log("Authentication Error");
