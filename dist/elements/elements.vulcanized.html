@@ -5812,96 +5812,12 @@ root if there is one. This implies:
       </template>
 
       <template if="{{!user}}">
-        <core-animated-pages selected="{{section}}" transitions="cross-fade">
-          <section name="cards">
-            <!--<template if="{{section === 'cards'}}">-->
+        
               <fow-cards cards="{{cards}}" cardsdictionary="{{cardsDictionary}}" token="{{token}}">
               </fow-cards>
               <fow-card-list cross-fade="" cards="{{cards}}" token="{{token}}" selected="{{selected}}">
               </fow-card-list>
-            <!--</template>-->
-          </section>
-          <section name="cardDetail">
-            <template if="{{section === &apos;cardDetail&apos;}}">
-              <fow-card codecards="{{codeCards}}" code="{{urlID}}" token="{{token}}" toast="{{$.toast}}">
-              </fow-card>
-              <fow-card-detail cross-fade="" codecards="{{codeCards}}" token="{{token}}" toast="{{$.toast}}" locale="{{locale}}">
-              </fow-card-detail>
-            </template>
-          </section>
-
-          <section name="decks">
-            <template if="{{section === &apos;decks&apos;}}">
-              <div class="no-section"> Please log in to see this section </div>
-            </template>
-          </section>
-
-          <section name="deckDetail">
-            <template if="{{section === &apos;deckDetail&apos;}}">
-              <div class="no-section"> Please log in to see this section </div>
-            </template>
-          </section>
-
-          <section name="deckPrint">
-            <template if="{{section === &apos;deckPrint&apos;}}">
-              <div class="no-section"> Please log in to see this section </div>
-            </template>
-          </section>
-
-          <section name="myCards">
-            <template if="{{section === &apos;myCards&apos;}}">
-              <div class="no-section"> Please log in to see this section </div>
-            </template>
-          </section>
-
-          <section name="myDecks">
-            <!-- <template if="{{section === 'myDecks'}}"> -->
-              <div class="no-section"> Please log in to see this section </div>
-            <!-- </template> -->
-          </section>
-
-          <section name="faq">
-              <fow-faqs faqs="{{faqs}}" token="{{token}}" toast="{{toast}}">
-              </fow-faqs>
-              <fow-faq-list cross-fade="" faqs="{{faqs}}" locale="{{locale}}">
-              </fow-faq-list>
-          </section>
-
-          <section name="play">
-              <div class="no-section"> Please log in to see this section </div>
-          </section>
-
-          <section name="policies">
-              <fow-policies>
-              </fow-policies>
-          </section>
-          
-
-          <section name="friends">
-              <div cross-fade="" layout="" vertical="" center="">FRIENDS</div>
-          </section>
-
-          <section name="messages">
-              <div cross-fade="" layout="" vertical="" center="">MESSAGES</div>
-          </section>
-
-          <section name="trading">
-              <div cross-fade="" layout="" vertical="" center="">TRADING</div>
-          </section>
-
-          <section name="tournaments">
-              <div cross-fade="" layout="" vertical="" center="">TOURNAMENTS</div>
-          </section>
-
-          <section name="ranking">
-              <div cross-fade="" layout="" vertical="" center="">RANKING</div>
-          </section>
-
-          <section name="settings">
-            <fow-settings cross-fade="" token="{{token}}">
-            </fow-settings>
-          </section>
-        </core-animated-pages>      
+   
       </template>
 
       <template if="{{user}}"> 
