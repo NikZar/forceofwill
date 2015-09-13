@@ -117,17 +117,6 @@
         cursor: pointer;
       }
 
-      .disclaimer
-      {
-        text-align: center;
-      }
-
-      .no-section
-      {
-        text-align: center;
-        width: 100%;
-      }
-
     </style>
 
     <core-localstorage
@@ -205,181 +194,165 @@
         </fow-menu>
       </template>
 
+      <template if="{{user}}"> 
+        <core-animated-pages selected="{{section}}" transitions="cross-fade">
+          
+          <section name="cards">
+            <!--<template if="{{section === 'cards'}}">-->
+              <fow-cards 
+                cards="{{cards}}"
+                cardsDictionary="{{cardsDictionary}}" 
+                token="{{token}}">
+              </fow-cards>
+              <fow-card-list cross-fade 
+                cards="{{cards}}" 
+                token="{{token}}"
+                selected="{{selected}}">
+              </fow-card-list>
+            <!--</template>-->
+          </section>
+          <section name="cardDetail">
+            <template if="{{section === 'cardDetail'}}">
+              <fow-card 
+                codeCards="{{codeCards}}" 
+                code="{{urlID}}" 
+                token="{{token}}"
+                toast="{{$.toast}}">
+              </fow-card>
+              <fow-card-detail cross-fade 
+                codeCards="{{codeCards}}"  
+                token="{{token}}"
+                toast="{{$.toast}}"
+                locale="{{locale}}">
+              </fow-card-detail>
+            </template>
+          </section>
 
+          <section name="decks">
+            <template if="{{section === 'decks'}}">
+              <fow-decks 
+                decks="{{decks}}" 
+                cardsDictionary="{{cardsDictionary}}"
+                token="{{token}}"
+                expandedDecks="{{expandedDecks}}">
+              </fow-decks>
+              <fow-deck-list cross-fade 
+                decks="{{expandedDecks}}" 
+                token="{{token}}" 
+                selected="{{selected}}">
+              </fow-deck-list>
+            </template>
+          </section>
 
-      
-      <core-animated-pages selected="{{section}}" transitions="cross-fade">
+          <section name="deckDetail">
+            <template if="{{section === 'deckDetail'}}">
+              <fow-deck 
+                deck="{{deck}}" 
+                fowId="{{urlID}}" 
+                token="{{token}}">
+              </fow-deck>
+              <fow-deck-detail cross-fade 
+                deck="{{deck}}" 
+                token="{{token}}"
+                toast="{{$.toast}}"
+                selected="{{selected}}">
+              </fow-deck-detail>
+            </template>
+          </section>
+
+          <section name="deckPrint">
+            <template if="{{section === 'deckPrint'}}">
+              <fow-deck 
+                deck="{{deck}}" 
+                fowId="{{urlID}}" 
+                token="{{token}}">
+              </fow-deck>
+              <fow-deck-print cross-fade 
+                deck="{{deck}}" 
+                token="{{token}}"
+                toast="{{$.toast}}">
+              </fow-deck-print>
+            </template>
+          </section>
+
+          <section name="myCards">
+            <template if="{{section === 'myCards'}}">
+              <fow-rest-service 
+                type="binder/cards" 
+                items="{{binderCards}}" 
+                auto="true" 
+                token="{{token}}">
+              </fow-rest-service>
+              <fow-binder cross-fade 
+                binderCards="{{binderCards}}" 
+                token="{{token}}"
+                toast="{{$.toast}}">
+              </fow-binder>
+            </template>
+          </section>
+
+          <section name="myDecks">
+            <!-- <template if="{{section === 'myDecks'}}"> -->
+              <fow-my-decks 
+                toast="{{$.toast}}" 
+                token="{{token}}"
+                selected="{{selected}}">
+              </fow-my-decks>
+            <!-- </template> -->
+          </section>
+
+          <section name="faq">
+              <fow-faqs faqs="{{faqs}}" 
+                token="{{token}}" 
+                toast="{{toast}}">
+              </fow-faqs>
+              <fow-faq-list cross-fade 
+                faqs="{{faqs}}"
+                locale="{{locale}}">
+              </fow-faq-list>
+          </section>
+
+          <section name="play">
+              <fow-play cross-fade 
+                token="{{token}}" 
+                toast="{{toast}}">
+              </fow-play>
+          </section>
+
+          <section name="policies">
+              <fow-policies>
+              </fow-policies>
+          </section>
+          
+
+          <section name="friends">
+              <div cross-fade layout vertical center>FRIENDS</div>
+          </section>
+
+          <section name="messages">
+              <div cross-fade layout vertical center>MESSAGES</div>
+          </section>
+
+          <section name="trading">
+              <div cross-fade layout vertical center>TRADING</div>
+          </section>
+
+          <section name="tournaments">
+              <div cross-fade layout vertical center>TOURNAMENTS</div>
+          </section>
+
+          <section name="ranking">
+              <div cross-fade layout vertical center>RANKING</div>
+          </section>
+
+          <section name="settings">
+            <fow-settings cross-fade token="{{token}}">
+            </fow-settings>
+          </section>
+
+        <core-animated-pages>
         
-        <section name="cards">
-          <!--<template if="{{section === 'cards'}}">-->
-            <fow-cards 
-              cards="{{cards}}"
-              cardsDictionary="{{cardsDictionary}}" 
-              token="{{token}}">
-            </fow-cards>
-            <fow-card-list cross-fade 
-              cards="{{cards}}" 
-              token="{{token}}"
-              selected="{{selected}}">
-            </fow-card-list>
-          <!--</template>-->
-        </section>
-        <section name="cardDetail">
-          <template if="{{section === 'cardDetail'}}">
-            <fow-card 
-              codeCards="{{codeCards}}" 
-              code="{{urlID}}" 
-              token="{{token}}"
-              toast="{{$.toast}}">
-            </fow-card>
-            <fow-card-detail cross-fade 
-              codeCards="{{codeCards}}"  
-              token="{{token}}"
-              toast="{{$.toast}}"
-              locale="{{locale}}">
-            </fow-card-detail>
-          </template>
-        </section>
-
-        <section name="decks">
-          <template if="{{user && section === 'decks'}}">
-            <fow-decks 
-              decks="{{decks}}" 
-              cardsDictionary="{{cardsDictionary}}"
-              token="{{token}}"
-              expandedDecks="{{expandedDecks}}">
-            </fow-decks>
-            <fow-deck-list cross-fade 
-              decks="{{expandedDecks}}" 
-              token="{{token}}" 
-              selected="{{selected}}">
-            </fow-deck-list>
-          </template>
-          <template if="{{!user}}"> 
-            <div class="no-section"> Please log in to see this section </div>
-          </template>
-        </section>
-
-        <section name="deckDetail">
-          <template if="{{user && section === 'deckDetail'}}">
-            <fow-deck 
-              deck="{{deck}}" 
-              fowId="{{urlID}}" 
-              token="{{token}}">
-            </fow-deck>
-            <fow-deck-detail cross-fade 
-              deck="{{deck}}" 
-              token="{{token}}"
-              toast="{{$.toast}}"
-              selected="{{selected}}">
-            </fow-deck-detail>
-          </template>
-          <template if="{{!user}}"> 
-            <div class="no-section"> Please log in to see this section </div>
-          </template>
-        </section>
-
-        <section name="deckPrint">
-          <template if="{{user && section === 'deckPrint'}}">
-            <fow-deck 
-              deck="{{deck}}" 
-              fowId="{{urlID}}" 
-              token="{{token}}">
-            </fow-deck>
-            <fow-deck-print cross-fade 
-              deck="{{deck}}" 
-              token="{{token}}"
-              toast="{{$.toast}}">
-            </fow-deck-print>
-          </template>
-          <template if="{{!user}}"> 
-            <div class="no-section"> Please log in to see this section </div>
-          </template>
-        </section>
-
-        <section name="myCards">
-          <template if="{{user && section === 'myCards'}}">
-            <fow-rest-service 
-              type="binder/cards" 
-              items="{{binderCards}}" 
-              auto="true" 
-              token="{{token}}">
-            </fow-rest-service>
-            <fow-binder cross-fade 
-              binderCards="{{binderCards}}" 
-              token="{{token}}"
-              toast="{{$.toast}}">
-            </fow-binder>
-          </template>
-          <template if="{{!user}}"> 
-            <div class="no-section"> Please log in to see this section </div>
-          </template>
-        </section>
-
-        <section name="myDecks">
-          <template if="{{user}}"> 
-            <fow-my-decks 
-              toast="{{$.toast}}" 
-              token="{{token}}"
-              selected="{{selected}}">
-            </fow-my-decks>
-          </template>
-          <template if="{{!user}}"> 
-            <div class="no-section"> Please log in to see this section </div>
-          </template>
-        </section>
-
-        <section name="faq">
-            <fow-faqs faqs="{{faqs}}" 
-              token="{{token}}" 
-              toast="{{toast}}">
-            </fow-faqs>
-            <fow-faq-list cross-fade 
-              faqs="{{faqs}}"
-              locale="{{locale}}">
-            </fow-faq-list>
-        </section>
-
-        <section name="play">
-            <fow-play cross-fade 
-              token="{{token}}" 
-              toast="{{toast}}">
-            </fow-play>
-        </section>
-
-        <section name="policies">
-            <fow-policies>
-            </fow-policies>
-        </section>
-        
-
-        <section name="friends">
-            <div cross-fade layout vertical center>FRIENDS</div>
-        </section>
-
-        <section name="messages">
-            <div cross-fade layout vertical center>MESSAGES</div>
-        </section>
-
-        <section name="trading">
-            <div cross-fade layout vertical center>TRADING</div>
-        </section>
-
-        <section name="tournaments">
-            <div cross-fade layout vertical center>TOURNAMENTS</div>
-        </section>
-
-        <section name="ranking">
-            <div cross-fade layout vertical center>RANKING</div>
-        </section>
-
-        <section name="settings">
-          <fow-settings cross-fade token="{{token}}">
-          </fow-settings>
-        </section>
-
-      <core-animated-pages>
-        
+      </template>
 
     </div>
     <div class="policies" on-tap="{{policiesSelected}}">
