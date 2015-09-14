@@ -41,8 +41,10 @@
 
         reloadAppID: function(){
           //console.log("Globals APP ID: ", this.globals.appid);
-          this.appID = this.globals.appid;
-          this.$.facebook.ready();
+          if(this.globals && this.globals.appid){
+            this.appID = this.globals.appid;
+            this.$.facebook.ready();
+          }
         },
 
         // define element prototype here
