@@ -113,18 +113,20 @@ var updateDeck = function(req, res, deck){
     deck._id = new ObjectID(deck._id);
     deck.date = new Date();
 
-    deck.cards = [];
     if(deck.cards){
         deck.cards = deck.cards.map(
             compressDeckCard
         );
+    } else {
+        deck.cards = [];
     }
     
-    deck.side = [];
     if(deck.side){
         deck.side = deck.side.map(
             compressDeckCard
         );
+    } else { 
+        deck.side = [];
     }
 
     db.collection('decks').findOne({_id: deck._id, userId: deck.userId},function(err, result) {
