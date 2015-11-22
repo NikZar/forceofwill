@@ -1448,3 +1448,11 @@
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":53729,"time":"2015-09-23T19:20:21.348Z","msg":"Starting New Relic for Node.js connection process."}
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":53729,"time":"2015-09-23T19:20:25.438Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/869794/applications/5298317","component":"new_relic_response"}
 {"v":0,"level":30,"name":"newrelic","hostname":"rhaegal.local","pid":53729,"time":"2015-09-23T19:20:25.439Z","msg":"Connected to collector-189.newrelic.com:443 with agent run ID 23280013166219029.","component":"collector_api"}
+{"v":0,"level":50,"name":"newrelic","hostname":"rhaegal.homenet.telecomitalia.it","pid":39324,"time":"2015-10-04T12:37:48.821Z","msg":"New Relic for Node.js requires a version of Node equal to or\ngreater than 0.6.0. Not starting!"}
+{"v":0,"level":50,"name":"newrelic","hostname":"rhaegal.homenet.telecomitalia.it","pid":39324,"time":"2015-10-04T12:37:48.823Z","msg":"New Relic for Node.js was unable to bootstrap itself due to an error:"}
+{"v":0,"level":50,"name":"newrelic","hostname":"rhaegal.homenet.telecomitalia.it","pid":39580,"time":"2015-10-04T12:41:50.495Z","msg":"New Relic for Node.js requires a version of Node equal to or\ngreater than 0.6.0. Not starting!"}
+{"v":0,"level":50,"name":"newrelic","hostname":"rhaegal.homenet.telecomitalia.it","pid":39580,"time":"2015-10-04T12:41:50.497Z","msg":"New Relic for Node.js was unable to bootstrap itself due to an error:"}
+{"v":0,"level":50,"name":"newrelic","hostname":"rhaegal.local","pid":43894,"time":"2015-10-04T14:20:18.069Z","msg":"New Relic for Node.js requires a version of Node equal to or\ngreater than 0.6.0. Not starting!"}
+{"v":0,"level":50,"name":"newrelic","hostname":"rhaegal.local","pid":43894,"time":"2015-10-04T14:20:18.071Z","msg":"New Relic for Node.js was unable to bootstrap itself due to an error:"}
+{"v":0,"level":50,"name":"newrelic","hostname":"rhaegal.homenet.telecomitalia.it","pid":13038,"time":"2015-11-22T11:30:38.494Z","msg":"New Relic for Node.js requires a version of Node equal to or\ngreater than 0.6.0. Not starting!"}
+{"v":0,"level":50,"name":"newrelic","hostname":"rhaegal.homenet.telecomitalia.it","pid":13038,"time":"2015-11-22T11:30:38.496Z","msg":"New Relic for Node.js was unable to bootstrap itself due to an error:"}
