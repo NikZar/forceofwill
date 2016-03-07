@@ -17,7 +17,7 @@
 <polymer-element name="fow-card-list" attributes="selected cards token filteredCards nameFilter descriptionFilter attributeFilter typeFilter rarityFilter expansionFilter minCost maxCost minCost maxCost minATK maxATK minDEF maxDEF">
   <template>
     <style>
-      
+
       :host {
         display: block;
         width: 86%;
@@ -127,16 +127,16 @@
         text-align: center;
       }
 
-      .no-select{ 
-        /*user-select: none; 
-        -ms-user-select: none; 
-        -moz-user-select: none; 
+      .no-select{
+        /*user-select: none;
+        -ms-user-select: none;
+        -moz-user-select: none;
         -webkit-user-select: none; */
       }
 
     </style>
 
-    
+
 
     <div class="tools no-select">
       <div class="sheader" layout horizontal center center-justified>
@@ -145,29 +145,29 @@
       <br />
       <div class="textSearch" layout horizontal center center-justified>
         <paper-input class="textInput"
-        floatinglabel 
-        label="Name" 
-        layout vertical 
+        floatinglabel
+        label="Name"
+        layout vertical
         inputValue="{{nameFilter}}">
         </paper-input>
         <paper-input class="textInput"
-        floatinglabel 
-        label="Card Text" 
-        layout vertical 
+        floatinglabel
+        label="Card Text"
+        layout vertical
         inputValue="{{descriptionFilter}}">
         </paper-input>
       </div>
       <div class="textSearch" layout horizontal center center-justified>
         <paper-input class="textInput"
-        floatinglabel 
-        label="Subtype" 
-        layout vertical 
+        floatinglabel
+        label="Subtype"
+        layout vertical
         inputValue="{{subtypeFilter}}">
         </paper-input>
         <paper-input class="textInput"
-        floatinglabel 
-        label="Race" 
-        layout vertical 
+        floatinglabel
+        label="Race"
+        layout vertical
         inputValue="{{raceFilter}}">
         </paper-input>
       </div>
@@ -222,8 +222,14 @@
           <paper-radio-button class="default" name="The Seven Kings of the Lands" label="The Seven Kings of the Lands">
           </paper-radio-button>
           <paper-radio-button class="default" name="The Twilight Wanderer" label="The Twilight Wanderer">
-          </paper-radio-button> 
-          
+          </paper-radio-button>
+          <paper-radio-button class="default" name="The Twilight Wanderer" label="The Moonlit Savior">
+          </paper-radio-button>
+          <paper-radio-button class="default" name="The Twilight Wanderer" label="Battle for Attoractia">
+          </paper-radio-button>
+          <paper-radio-button class="default" name="The Twilight Wanderer" label="Vingolf 02">
+          </paper-radio-button>
+
           <paper-radio-button class="default" name="Grimm Block" label="Grimm Block"></paper-radio-button>
           <paper-radio-button class="default" name="Alice Block" label="Alice Block"></paper-radio-button>
           <paper-radio-button class="default" name="New Frontiers" label="New Frontiers"></paper-radio-button>
@@ -272,32 +278,32 @@
       </div>
     </div>
 
-    <fow-card-filter 
+    <fow-card-filter
       id="cardFilterService"
-      cards="{{cards}}" 
-      filteredCards="{{filteredCards}}" 
-      nameFilter="{{nameFilter}}" 
+      cards="{{cards}}"
+      filteredCards="{{filteredCards}}"
+      nameFilter="{{nameFilter}}"
       descriptionFilter="{{descriptionFilter}}"
       subtypeFilter="{{subtypeFilter}}"
-      raceFilter="{{raceFilter}}" 
-      attributeFilter="{{attributeFilter}}" 
-      typeFilter="{{typeFilter}}" 
-      rarityFilter="{{rarityFilter}}" 
-      expansionFilter="{{expansionFilter}}" 
-      minCost="{{minCost}}" 
-      maxCost="{{maxCost}}" 
-      minCost="{{minCost}}" 
-      maxCost="{{maxCost}}" 
-      minATK="{{minATK}}" 
-      maxATK="{{maxATK}}" 
-      minDEF="{{minDEF}}" 
+      raceFilter="{{raceFilter}}"
+      attributeFilter="{{attributeFilter}}"
+      typeFilter="{{typeFilter}}"
+      rarityFilter="{{rarityFilter}}"
+      expansionFilter="{{expansionFilter}}"
+      minCost="{{minCost}}"
+      maxCost="{{maxCost}}"
+      minCost="{{minCost}}"
+      maxCost="{{maxCost}}"
+      minATK="{{minATK}}"
+      maxATK="{{maxATK}}"
+      minDEF="{{minDEF}}"
       maxDEF="{{maxDEF}}"
       orderBy="{{orderBy}}">
     </fow-card-filter>
 
     <template repeat="{{card in filteredCards}}">
-      <fow-card-preview 
-        card="{{card}}" 
+      <fow-card-preview
+        card="{{card}}"
         selected="{{selected}}">
       </fow-card-preview>
     </template>

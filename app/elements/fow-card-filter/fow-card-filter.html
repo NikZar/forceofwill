@@ -46,7 +46,7 @@
         updateFilteredCards: function(){
 
           this.filteredCards = this.filterOnText(this.cards, "Name", this.nameFilter);
-          
+
 
           if(this.descriptionFilter){
             this.filteredCards = this.filterOnText(this.filteredCards, "Cardtext", this.descriptionFilter);
@@ -59,20 +59,20 @@
           if(this.raceFilter){
             this.filteredCards = this.filterOnText(this.filteredCards, "Race", this.raceFilter);
           }
-          
+
           if(this.attributeFilter){
             this.filteredCards = this.filterOnText(this.filteredCards, "Attribute", this.attributeFilter);
           }
-          
+
           if(this.rarityFilter){
             this.filteredCards = this.filterOnText(this.filteredCards, "Rarity", this.rarityFilter);
           }
-          
+
           if(this.expansionFilter){
             if(this.expansionFilter === "Grimm Block"){
               var blockExpansions = [
-                "The Crimson Moon Fairy Tale", 
-                "The Castle of Heaven and The Two Tower", 
+                "The Crimson Moon Fairy Tale",
+                "The Castle of Heaven and The Two Tower",
                 "The Moon Princess Returns",
                 "The Millennia of Ages",
                 "Vingolf 01"
@@ -85,12 +85,15 @@
                 );
               };
               this.filteredCards = tempFilteredCards;
-            } 
+            }
             else if(this.expansionFilter === "Alice Block"){
               var blockExpansions = [
                 "Dual Deck Faria vs Melgis",
                 "The Seven Kings of the Lands",
-                "The Twilight Wanderer"
+                "The Twilight Wanderer",
+                "The Moonlit Savior",
+                "Battle for Attoractia",
+                "Vingolf 02"
               ];
               var tempFilteredCards = [];
               for (var i = blockExpansions.length - 1; i >= 0; i--) {
@@ -103,14 +106,17 @@
             }
             else if(this.expansionFilter === "New Frontiers"){
               var blockExpansions = [
-                "The Crimson Moon Fairy Tale", 
-                "The Castle of Heaven and The Two Tower", 
+                "The Crimson Moon Fairy Tale",
+                "The Castle of Heaven and The Two Tower",
                 "The Moon Princess Returns",
                 "The Millennia of Ages",
                 "Vingolf 01",
                 "Dual Deck Faria vs Melgis",
                 "The Seven Kings of the Lands",
-                "The Twilight Wanderer"
+                "The Twilight Wanderer",
+                "The Moonlit Savior",
+                "Battle for Attoractia",
+                "Vingolf 02"
               ];
               var tempFilteredCards = [];
               for (var i = blockExpansions.length - 1; i >= 0; i--) {
